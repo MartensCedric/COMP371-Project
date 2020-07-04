@@ -113,7 +113,7 @@ int compileAndLinkShaders()
 }
 
 
-int createVertexBufferObject()
+int createVertexArrayObject()
 {
     // Upload geometry to GPU and return the Vertex Buffer Object ID
 
@@ -205,7 +205,7 @@ int createVertexBufferObject()
 	glEnableVertexAttribArray(1);
 
 
-	return vertexBufferObject;
+	return vertexArrayObject;
 }
 
 int createAxesVAO()
@@ -229,8 +229,6 @@ int createAxesVAO()
 	glGenVertexArrays(1, &axesVAO); //Create array in memory for our object, parameters:(# of arrays, memory location)
 	glBindVertexArray(axesVAO);  //Tell openGL to use this VAO until I decide to change it (openGL is state machine)
 
-
-										   // Upload Vertex Buffer to the GPU, keep a reference to it (vertexBufferObject)
 	GLuint axesVBO;  //Create a VBO  (VBO's connect to a single VAO)
 	glGenBuffers(1, &axesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, axesVBO);
@@ -332,12 +330,9 @@ int main(int argc, char*argv[])
 
 	GLfloat cameraSpeed = 0.1f; //Set camera speed
 
-
-
-
     // Define and upload geometry to the GPU here ...
-    int vbo = createVertexBufferObject();
-	//int axesVAO = createAxesVAO();
+    int vao = createVertexArrayObject();
+	int axesVAO = createAxesVAO();
 
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
 							//Therefore the back of a surface will not render (more efficient)
@@ -355,7 +350,7 @@ int main(int argc, char*argv[])
 
 
 		glUseProgram(shaderProgram); //Use shader program from compileAndLinkShaders()
-		glBindBuffer(GL_ARRAY_BUFFER, vbo); //the type of data we are using and the vbo
+		glBindVertexArray(vao); //the type of data we are using and the vbo
 
 
 		// Draw the 100x100 square grid on the ground
@@ -378,8 +373,12 @@ int main(int argc, char*argv[])
 
 		}
 
-		//glBindBuffer(GL_ARRAY_BUFFER, axesVAO);
-		//glDrawArrays(GL_LINES, 0, 6);
+
+		glBindVertexArray(axesVAO);
+		glm::mat4 identity = glm::mat4(1.0f);
+		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		glDrawArrays(GL_LINES, 0, 6);
 
         // End frame
         glfwSwapBuffers(window);
