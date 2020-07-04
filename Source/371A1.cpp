@@ -18,44 +18,47 @@
 
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 
-
-
-const char* getVertexShaderSource()
+int compileShader(const char * path, int shaderType)
 {
-    return 
-		"#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;"
-		"layout (location = 1) in vec3 aColor;"
-		""
-		"uniform mat4 worldMatrix;"
-		"uniform mat4 viewMatrix = mat4(1.0);"
-		"uniform mat4 projectionMatrix = mat4(1.0);"
-		""
-		"out vec3 vertexColor;"
-		"void main()"
-		"{"
-		"   vertexColor = aColor;"
-		"	mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;"
-		"   gl_Position = modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);"
-		"}";
+	std::ifstream file;
+	file.open(path, std::ios::in);
+	if (!file.is_open())
+	{
+		std::cout << "Failed to open shader : " << path << std::endl;
+		return -1;
+	}
 
+	std::string contents;
+	std::string line = "";
+	while (!file.eof()) {
+		std::getline(file, line);
+		contents.append(line + "\n");
+	}
+
+	file.close();
+
+	const char * source = contents.c_str();
+	int shaderId = glCreateShader(shaderType);
+	glShaderSource(shaderId, 1, &source, NULL);
+	glCompileShader(shaderId);
+
+	int success;
+	char infoLog[512];
+	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
+		std::cerr << "Compilation failed for " << path << "\n" << infoLog << std::endl;
+		return -1;
+	}
+
+	return shaderId;
 }
-
-
-const char* getFragmentShaderSource()
-{
-    return 
-		"#version 330 core\n"
-		"in vec3 vertexColor;"
-		"out vec4 FragColor;"
-		"void main()"
-		"{"
-		"   FragColor = vec4(vertexColor.r, vertexColor.g, vertexColor.b, 1.0f);"
-		"}";
-
-}
-
 
 int compileAndLinkShaders()
 {
@@ -64,34 +67,15 @@ int compileAndLinkShaders()
 	 // ------------------------------------
 
 	 // vertex shader
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	const char* vertexShaderSource = getVertexShaderSource();
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
+	int vertexShader = compileShader("../Shaders/passthrough.vshader", GL_VERTEX_SHADER);
 
-	// check for shader compile errors
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
+	if (vertexShader == -1)
+		exit(EXIT_FAILURE);
 
-	// fragment shader
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	const char* fragmentShaderSource = getFragmentShaderSource();
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
+	int fragmentShader = compileShader("../Shaders/passthrough.fshader", GL_FRAGMENT_SHADER);
 
-	// check for shader compile errors
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
+	if (fragmentShader == -1)
+		exit(EXIT_FAILURE);
 
 	// link shaders
 	int shaderProgram = glCreateProgram();
@@ -100,10 +84,13 @@ int compileAndLinkShaders()
 	glLinkProgram(shaderProgram);
 
 	// check for linking errors
+	int success;
+	char infoLog[512];
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
 		std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+		exit(EXIT_FAILURE);
 	}
 
 	glDeleteShader(vertexShader);
