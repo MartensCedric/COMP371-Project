@@ -378,8 +378,9 @@ int main(int argc, char*argv[])
 		glm::mat4 identity = glm::mat4(1.0f);
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		glLineWidth(3);
 		glDrawArrays(GL_LINES, 0, 6);
-
+		glLineWidth(1);
         // End frame
         glfwSwapBuffers(window);
 
