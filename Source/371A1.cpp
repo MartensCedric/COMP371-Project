@@ -100,7 +100,7 @@ int compileAndLinkShaders()
 }
 
 
-int createVertexBufferObject()
+int createVertexArrayObject()
 {
     // Upload geometry to GPU and return the Vertex Buffer Object ID
 
@@ -192,7 +192,56 @@ int createVertexBufferObject()
 	glEnableVertexAttribArray(1);
 
 
-	return vertexBufferObject;
+	return vertexArrayObject;
+}
+
+int createAxesVAO()
+{
+	// Upload geometry to GPU and return the Vertex Buffer Object ID
+
+	glm::vec3 vertexArray[] = {
+
+		glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+		glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+		glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+		glm::vec3(0.0f, 5.0f, 0.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+		glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f , 0.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f , 0.0f, 1.0f)
+	};
+
+	// Create a vertex array
+	GLuint axesVAO;   //Create a VAO 
+	glGenVertexArrays(1, &axesVAO); //Create array in memory for our object, parameters:(# of arrays, memory location)
+	glBindVertexArray(axesVAO);  //Tell openGL to use this VAO until I decide to change it (openGL is state machine)
+
+	GLuint axesVBO;  //Create a VBO  (VBO's connect to a single VAO)
+	glGenBuffers(1, &axesVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, axesVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexArray), vertexArray, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0,                   // attribute 0 matches aPos in Vertex Shader
+		3,                   // size
+		GL_FLOAT,            // type
+		GL_FALSE,            // normalized?
+		2 * sizeof(glm::vec3), // stride - each vertex contain 2 vec3 (position, color)
+		(void*)0             // array buffer offset (how far from the start it starts)
+	);
+	glEnableVertexAttribArray(0);
+
+
+	glVertexAttribPointer(1,                            // attribute 1 matches aColor in Vertex Shader
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		2 * sizeof(glm::vec3),
+		(void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
+	);
+	glEnableVertexAttribArray(1);
+
+
+	return axesVAO;
 }
 
 
@@ -209,9 +258,10 @@ int main(int argc, char*argv[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #else
-	// On windows, we set OpenGL version to 3.1
+	// On windows, we set OpenGL version to 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
     // Create Window and rendering context using GLFW
@@ -267,16 +317,15 @@ int main(int argc, char*argv[])
 
 	GLfloat cameraSpeed = 0.1f; //Set camera speed
 
-
-
-
     // Define and upload geometry to the GPU here ...
-    int vbo = createVertexBufferObject();
-    
+    int vao = createVertexArrayObject();
+	int axesVAO = createAxesVAO();
+
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
 							//Therefore the back of a surface will not render (more efficient)
 
 	glEnable(GL_DEPTH_TEST); //With this enabled, object behind other objects will not be rendered
+
 
 
     // Entering Main Loop (this loop runs every frame)
@@ -288,7 +337,7 @@ int main(int argc, char*argv[])
 
 
 		glUseProgram(shaderProgram); //Use shader program from compileAndLinkShaders()
-		glBindBuffer(GL_ARRAY_BUFFER, vbo); //the type of data we are using and the vbo
+		glBindVertexArray(vao); //the type of data we are using and the vbo
 
 
 		// Draw the 100x100 square grid on the ground
@@ -311,6 +360,14 @@ int main(int argc, char*argv[])
 
 		}
 
+
+		glBindVertexArray(axesVAO);
+		glm::mat4 identity = glm::mat4(1.0f);
+		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		glLineWidth(3);
+		glDrawArrays(GL_LINES, 0, 6);
+		glLineWidth(1);
         // End frame
         glfwSwapBuffers(window);
 
