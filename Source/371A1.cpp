@@ -42,6 +42,12 @@
 #include <fstream>
 #include <string>
 
+#include "includes/shader.hpp"
+#include "model8.cpp"
+#include "modelE.cpp"
+#include "axes.cpp"
+#include "grid.cpp"
+
 int main(int argc, char*argv[])
 {
     // Initialize GLFW and OpenGL version
@@ -113,6 +119,7 @@ int main(int argc, char*argv[])
 	int model8VAO = create8VAO();
 	int model3VAO = create3VAO();
 	int modeliVAO = createiVAO();
+	int modelEVAO = createEVAO();
 
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
 							//Therefore the back of a surface will not render (more efficient)
