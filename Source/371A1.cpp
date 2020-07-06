@@ -11,21 +11,27 @@
 
 #define OS_Windows 0
 #include "includes/shader.hpp"
-#include "model8.cpp"
 #include "axes.cpp"
 #include "grid.cpp"
+#include "model8.cpp"
+#include "model3.cpp"
+#include "modeli.cpp"
+#include "modelE.cpp"
+#include "model5.cpp"
 
-#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or 64 bit Windows systems */
 
 #define OS_Windows 1
 #define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/shader.hpp"
 
-#include "../Source/model8.cpp"
+#include "../Source/shader.cpp"
 #include "../Source/axes.cpp"
 #include "../Source/grid.cpp"
-#include "../Source/shader.cpp"
+#include "../Source/model8.cpp"
 #include "../Source/model3.cpp"
 #include "../Source/modeli.cpp"
+#include "../Source/modelE.cpp"
+#include "../Source/model5.cpp"
 
 #endif
 
@@ -41,12 +47,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
-#include "includes/shader.hpp"
-#include "model8.cpp"
-#include "modelE.cpp"
-#include "axes.cpp"
-#include "grid.cpp"
 
 int main(int argc, char*argv[])
 {
@@ -93,9 +93,9 @@ int main(int argc, char*argv[])
 	//----------Camera setup----------
 
 	// Camera parameters for view transform
-	glm::vec3 cameraPosition(0.0f, 5.0f, 15.0f); //Where camera is positioned in 3d world
-	glm::vec3 cameraLookAt(0.0f, 0.0f, -1.0f); //What position is the camera looking at in 3d world
-	glm::vec3 cameraUp(0.0f, 1.0f, 0.0f); //which direction is the top of the camera
+	glm::vec3 cameraPosition(0.0f, 5.0f, 15.0f); // Where camera is positioned in 3d world
+	glm::vec3 cameraLookAt(0.0f, 0.0f, -1.0f); // What position is the camera looking at in 3d world
+	glm::vec3 cameraUp(0.0f, 1.0f, 0.0f); // which direction is the top of the camera
 
 	// Set projection matrix for the shader (in this case we use perspective projection)
 	glm::mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
@@ -120,6 +120,7 @@ int main(int argc, char*argv[])
 	int model3VAO = create3VAO();
 	int modeliVAO = createiVAO();
 	int modelEVAO = createEVAO();
+	int model5VAO = create5VAO();
 
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
 							//Therefore the back of a surface will not render (more efficient)
@@ -148,9 +149,6 @@ int main(int argc, char*argv[])
 		//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
 		//glDrawArrays(GL_TRIANGLES, 0, 120);
 
-
-
-
 		//Letter I model
 		//glBindVertexArray(modeliVAO);
 		//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
@@ -158,6 +156,12 @@ int main(int argc, char*argv[])
 
 		//Number 3 model
 		glBindVertexArray(model3VAO);
+		
+		//glBindVertexArray(modelEVAO);
+		//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		//glDrawArrays(GL_TRIANGLES, 0, 120);
+
+		//glBindVertexArray(model5VAO);
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, 120);
 		

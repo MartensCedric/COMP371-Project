@@ -30,6 +30,16 @@ If the above steps do not result in a new window popping up to render the graphi
 
 ## Linux
 
+### To install on Ubuntu
+// Install glm
+sudo apt install libglm-dev
+
+// Install glfw
+sudo apt-get install libglfw3-dev libglfw3
+
+// Install glew
+sudo apt-get install libglew-dev
+
 ### To compile from the CLI
 `g++ 371A1.cpp shader.cpp -lGL -lGLEW -lglfw`
 
