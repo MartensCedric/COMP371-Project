@@ -7,23 +7,38 @@
 // - https://learnopengl.com/Getting-started/Hello-Window
 // - https://learnopengl.com/Getting-started/Hello-Triangle
 
-#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
+#ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-                        // initializing OpenGL and binding inputs
-
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
-#include <stdlib.h>
-#include <iostream>
-#include <fstream>
-#include <string>
-
+#define OS_Windows 0
 #include "includes/shader.hpp"
 #include "model8.cpp"
 #include "axes.cpp"
 #include "grid.cpp"
+
+#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+
+#define OS_Windows 1
+#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/shader.hpp"
+
+#include "../Source/model8.cpp"
+#include "../Source/axes.cpp"
+#include "../Source/grid.cpp"
+#include "../Source/shader.cpp"
+
+#endif
+
+#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
+
+#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
+// initializing OpenGL and binding inputs
+
+#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
+#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
+
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 int main(int argc, char*argv[])
 {
