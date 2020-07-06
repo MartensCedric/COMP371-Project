@@ -22,7 +22,6 @@
 
 #include "includes/shader.hpp"
 #include "model8.cpp"
-#include "model5.cpp"
 #include "modelE.cpp"
 #include "axes.cpp"
 #include "grid.cpp"
@@ -72,7 +71,7 @@ int main(int argc, char*argv[])
 	//----------Camera setup----------
 
 	// Camera parameters for view transform
-	glm::vec3 cameraPosition(0.0f, 5.0f, 20.0f); //Where camera is positioned in 3d world
+	glm::vec3 cameraPosition(0.0f, 5.0f, 15.0f); //Where camera is positioned in 3d world
 	glm::vec3 cameraLookAt(0.0f, 0.0f, -1.0f); //What position is the camera looking at in 3d world
 	glm::vec3 cameraUp(0.0f, 1.0f, 0.0f); //which direction is the top of the camera
 
@@ -96,7 +95,6 @@ int main(int argc, char*argv[])
     int vao = createCubeGrid();
 	int axesVAO = createAxesVAO();
 	int model8VAO = create8VAO();
-	int model5VAO = create5VAO();
 	int modelEVAO = createEVAO();
 
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
