@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-SimpleModel::SimpleModel(glm::vec3 * vertexArray, void(*drawFunc)()) : Model::Model(vertexArray, drawFunc)
+SimpleModel::SimpleModel(glm::vec3 * vertexArray, void(*drawFunc)(int vertexCount)) : Model::Model(vertexArray, drawFunc)
 {
 	vertexCount /= 2;
 }

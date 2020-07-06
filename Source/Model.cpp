@@ -2,11 +2,10 @@
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
-
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-Model::Model(glm::vec3* vertexArray, void(*drawFunc)())
+Model::Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount))
 {
 	drawFunction = drawFunc;
 	// Create a vertex array
@@ -26,7 +25,7 @@ Model::Model(glm::vec3* vertexArray, void(*drawFunc)())
 void Model::draw()
 {
 	glBindVertexArray(vaoId);
-	drawFunction();
+	drawFunction(vertexCount);
 }
 
 Model::~Model()

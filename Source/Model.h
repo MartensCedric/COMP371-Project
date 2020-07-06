@@ -10,10 +10,10 @@ class Model
 	protected:
 		int vaoId;
 		int vertexCount;
-		void(*drawFunction)();
+		void(*drawFunction)(int vertexCount);
 
 	public:
-		Model(glm::vec3* vertexArray, void(*drawFunc)());
+		Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount));
 		virtual void setupAttribPointer() = 0;
 		virtual void draw();
 		virtual ~Model();
