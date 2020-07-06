@@ -9,7 +9,6 @@
 
 #include <iostream>
 
-
 #define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 
@@ -22,7 +21,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../Source/SimpleModel.h"
+#include "SimpleModel.h"
 
 int compileShader(const char * path, int shaderType)
 {
@@ -606,7 +605,6 @@ int main(int argc, char*argv[])
 		glDrawArrays(GL_TRIANGLES, 0, 120);
         // End frame
         glfwSwapBuffers(window);
-
 
         // Detect inputs
         glfwPollEvents();

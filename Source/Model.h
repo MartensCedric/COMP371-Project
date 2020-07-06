@@ -18,4 +18,3 @@ class Model
 		virtual void draw();
 		virtual ~Model();
 };
-

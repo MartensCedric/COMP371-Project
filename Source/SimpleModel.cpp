@@ -1,5 +1,5 @@
-#include "../Source/SimpleModel.h"
-#include "../Source/Model.h"
+#include "SimpleModel.h"
+
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
@@ -9,6 +9,7 @@
 
 SimpleModel::SimpleModel(glm::vec3 * vertexArray, void(*drawFunc)()) : Model::Model(vertexArray, drawFunc)
 {
+	vertexCount /= 2;
 }
 
 void SimpleModel::setupAttribPointer()

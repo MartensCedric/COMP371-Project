@@ -1,4 +1,4 @@
-#include "../Source/Model.h"
+#include "Model.h"
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
@@ -21,11 +21,11 @@ Model::Model(glm::vec3* vertexArray, void(*drawFunc)())
 
 	vaoId = modelVAO;
 	vertexCount = sizeof(vertexArray)/sizeof(vertexArray[0]); // if we use pos + color attribute we must divide by two
-	setupAttribPointer();
 }
 
 void Model::draw()
 {
+	glBindVertexArray(vaoId);
 	drawFunction();
 }
 
