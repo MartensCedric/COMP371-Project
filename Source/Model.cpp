@@ -6,8 +6,9 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-Model::Model(glm::vec3* vertexArray)
+Model::Model(glm::vec3* vertexArray, void(*drawFunc)())
 {
+	drawFunction = drawFunc;
 	// Create a vertex array
 	GLuint modelVAO;   //Create a VAO 
 	glGenVertexArrays(1, &modelVAO); //Create array in memory for our object, parameters:(# of arrays, memory location)
@@ -21,6 +22,11 @@ Model::Model(glm::vec3* vertexArray)
 	vaoId = modelVAO;
 	vertexCount = sizeof(vertexArray)/sizeof(vertexArray[0]); // if we use pos + color attribute we must divide by two
 	setupAttribPointer();
+}
+
+void Model::draw()
+{
+	drawFunction();
 }
 
 Model::~Model()

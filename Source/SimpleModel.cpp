@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-SimpleModel::SimpleModel(glm::vec3 * vertexArray) : Model::Model(vertexArray)
+SimpleModel::SimpleModel(glm::vec3 * vertexArray, void(*drawFunc)()) : Model::Model(vertexArray, drawFunc)
 {
 }
 
@@ -33,10 +33,6 @@ void SimpleModel::setupAttribPointer()
 		(void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
 	);
 	glEnableVertexAttribArray(1);
-}
-
-void SimpleModel::draw()
-{
 }
 
 SimpleModel::~SimpleModel()

@@ -12,8 +12,7 @@ class SimpleModel :
 	public Model
 {
 	public:
-		SimpleModel(glm::vec3* vertexArray);
+		SimpleModel(glm::vec3* vertexArray, void(*drawFunc)());
 		virtual void setupAttribPointer() override;
-		virtual void draw() override;
 		virtual ~SimpleModel();
 };
