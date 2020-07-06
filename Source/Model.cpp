@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram))
+Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT))
 {
 	drawFunction = drawFunc;
 	// Create a vertex array
@@ -29,9 +29,25 @@ void Model::setShader(int shaderProgram)
 
 void Model::draw()
 {
+	this->objTransMat = glm::translate(objTransMat, glm::vec3(16, 0, 0));// Please remove when actually implementing rot, trans and scaling
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
-	drawFunction(vertexCount, shaderId);
+	drawFunction(vertexCount, shaderId, objTransMat * objRotMat);
+}
+
+void Model::scale(float scaleFactor)
+{
+	//Implement by modifying objRotMat
+}
+
+void Model::rotate(float thetaX, float thetaY, float thetaZ)
+{
+	//Implement by modifying objRotMat
+}
+
+void Model::translate(float x, float y, float z)
+{
+	//Implement by modifying objTransMat
 }
 
 Model::~Model()

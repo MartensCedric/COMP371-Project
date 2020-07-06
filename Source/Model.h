@@ -11,12 +11,17 @@ protected:
 	int vaoId;
 	int vertexCount;
 	int shaderId;
-	void(*drawFunction)(int vertexCount, int shaderProgram);
+	glm::mat4 objTransMat = glm::mat4(1.0f);
+	glm::mat4 objRotMat = glm::mat4(1.0f);
+	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT);
 
 public:
-	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram));
+	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4* objRBT));
 	virtual void setupAttribPointer() = 0;
 	void setShader(int shaderProgram);
 	virtual void draw();
+	void scale(float scaleFactor);
+	void rotate(float thetaX, float thetaY, float thetaZ);
+	void translate(float x, float y, float z);
 	virtual ~Model();
 };

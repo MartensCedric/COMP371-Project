@@ -428,7 +428,7 @@ int main(int argc, char*argv[])
 	GLfloat cameraSpeed = 0.1f; //Set camera speed
 
     // Define and upload geometry to the GPU here ...
-	SimpleModel modelGridCube(verticesGridCube, sizeof(verticesGridCube) / sizeof(verticesGridCube[0]), [](int vertexCount, int shaderProgram) {
+	SimpleModel modelGridCube(verticesGridCube, sizeof(verticesGridCube) / sizeof(verticesGridCube[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		for (int i = 0; i < 100; i++)
 		{
 			//draw rectangles in the x direction
@@ -451,7 +451,7 @@ int main(int argc, char*argv[])
 
 	modelGridCube.setupAttribPointer();
 
-	SimpleModel modelAxes(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram) {
+	SimpleModel modelAxes(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		glm::mat4 identity = glm::mat4(1.0f);
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
@@ -462,7 +462,7 @@ int main(int argc, char*argv[])
 	});
 
 	modelAxes.setupAttribPointer();
-	SimpleModel model8(vertices8, sizeof(vertices8)/sizeof(vertices8[0]), [](int vertexCount, int shaderProgram) {
+	SimpleModel model8(vertices8, sizeof(vertices8)/sizeof(vertices8[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		glm::mat4 identity = glm::mat4(1.0f);
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
