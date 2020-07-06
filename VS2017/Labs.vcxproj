@@ -117,6 +117,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\371A1.cpp" />
+    <ClCompile Include="..\Source\Model.cpp" />
+    <ClCompile Include="..\Source\SimpleModel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\Model.h" />
+    <ClInclude Include="..\Source\SimpleModel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

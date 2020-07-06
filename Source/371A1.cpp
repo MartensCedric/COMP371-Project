@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "../Source/SimpleModel.h"
 
 int compileShader(const char * path, int shaderType)
 {
