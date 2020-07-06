@@ -14,7 +14,7 @@ protected:
 	void(*drawFunction)(int vertexCount, int shaderProgram);
 
 public:
-	Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount, int shaderProgram));
+	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram));
 	virtual void setupAttribPointer() = 0;
 	void setShader(int shaderProgram);
 	virtual void draw();

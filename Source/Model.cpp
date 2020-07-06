@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-Model::Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount, int shaderProgram))
+Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram))
 {
 	drawFunction = drawFunc;
 	// Create a vertex array
@@ -19,7 +19,7 @@ Model::Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount, int shader
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexArray), vertexArray, GL_STATIC_DRAW);
 
 	vaoId = modelVAO;
-	vertexCount = sizeof(vertexArray)/sizeof(vertexArray[0]); // if we use pos + color attribute we must divide by two
+	this->vertexCount = vertexCount;
 }
 
 void Model::setShader(int shaderProgram)
@@ -29,6 +29,7 @@ void Model::setShader(int shaderProgram)
 
 void Model::draw()
 {
+	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
 	drawFunction(vertexCount, shaderId);
 }
