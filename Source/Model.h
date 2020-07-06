@@ -7,14 +7,16 @@
 // initializing OpenGL and binding inputs
 class Model
 {
-	protected:
-		int vaoId;
-		int vertexCount;
-		void(*drawFunction)(int vertexCount);
+protected:
+	int vaoId;
+	int vertexCount;
+	int shaderId;
+	void(*drawFunction)(int vertexCount, int shaderProgram);
 
-	public:
-		Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount));
-		virtual void setupAttribPointer() = 0;
-		virtual void draw();
-		virtual ~Model();
+public:
+	Model(glm::vec3* vertexArray, void(*drawFunc)(int vertexCount, int shaderProgram));
+	virtual void setupAttribPointer() = 0;
+	void setShader(int shaderProgram);
+	virtual void draw();
+	virtual ~Model();
 };
