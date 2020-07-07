@@ -24,6 +24,8 @@
 #include "../Source/axes.cpp"
 #include "../Source/grid.cpp"
 #include "../Source/shader.cpp"
+#include "../Source/model3.cpp"
+#include "../Source/modeli.cpp"
 
 #endif
 
@@ -109,6 +111,8 @@ int main(int argc, char*argv[])
     int vao = createCubeGrid();
 	int axesVAO = createAxesVAO();
 	int model8VAO = create8VAO();
+	int model3VAO = create3VAO();
+	int modeliVAO = createiVAO();
 
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
 							//Therefore the back of a surface will not render (more efficient)
@@ -133,9 +137,27 @@ int main(int argc, char*argv[])
 		glDrawArrays(GL_LINES, 0, 6);
 		glLineWidth(1);
 
-		glBindVertexArray(model8VAO);
+		//glBindVertexArray(model8VAO);
+		//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		//glDrawArrays(GL_TRIANGLES, 0, 120);
+
+
+
+
+		//Letter I model
+		//glBindVertexArray(modeliVAO);
+		//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		//glDrawArrays(GL_TRIANGLES, 0, 96);
+
+		//Number 3 model
+		glBindVertexArray(model3VAO);
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, 120);
+		
+
+
+
+
 
         // End frame
         glfwSwapBuffers(window);
