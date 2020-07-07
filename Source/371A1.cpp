@@ -452,7 +452,7 @@ int main(int argc, char*argv[])
 	modelGridCube.setupAttribPointer();
 
 	SimpleModel modelAxes(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
-		glm::mat4 identity = glm::mat4(1.0f);
+		glm::mat4 identity = glm::mat4(1.0f); //use objRBT once the Rot,Trans,Scale has been implemented
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
 		glLineWidth(3);
@@ -463,9 +463,8 @@ int main(int argc, char*argv[])
 
 	modelAxes.setupAttribPointer();
 	SimpleModel model8(vertices8, sizeof(vertices8)/sizeof(vertices8[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
-		glm::mat4 identity = glm::mat4(1.0f);
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 
 	});

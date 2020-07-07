@@ -20,6 +20,7 @@ Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertex
 
 	vaoId = modelVAO;
 	this->vertexCount = vertexCount;
+	this->objTransMat = glm::translate(objTransMat, glm::vec3(2, 3, 0));// Please remove when actually implementing rot, trans and scaling
 }
 
 void Model::setShader(int shaderProgram)
@@ -29,7 +30,6 @@ void Model::setShader(int shaderProgram)
 
 void Model::draw()
 {
-	this->objTransMat = glm::translate(objTransMat, glm::vec3(16, 0, 0));// Please remove when actually implementing rot, trans and scaling
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
 	drawFunction(vertexCount, shaderId, objTransMat * objRotMat);

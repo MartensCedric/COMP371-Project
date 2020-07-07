@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 
-SimpleModel::SimpleModel(glm::vec3 * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT)) : Model::Model(vertexArray, vertexCount, drawFunc, objRBT)
+SimpleModel::SimpleModel(glm::vec3 * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT)) : Model::Model(vertexArray, vertexCount, drawFunc)
 {
 	this->vertexCount = vertexCount / 2; // if we use pos + color attribute we must divide by two
 }
