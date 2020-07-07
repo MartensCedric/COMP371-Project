@@ -72,6 +72,9 @@
     <ClCompile Include="..\Source\SimpleModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Model.h">
@@ -80,5 +83,6 @@
     <ClInclude Include="..\Source\SimpleModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\includes\shader.hpp" />
   </ItemGroup>
 </Project>

@@ -7,16 +7,27 @@
 // - https://learnopengl.com/Getting-started/Hello-Window
 // - https://learnopengl.com/Getting-started/Hello-Triangle
 
-#include <iostream>
+#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
+#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 
-#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL
+#ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
+
+#define OS_Windows 0
+#include "includes/shader.hpp"
+
+#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+
+#define OS_Windows 1
+#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/shader.hpp"
+
+#include "../Source/includes/shader.hpp"
+#endif
+
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-                        // initializing OpenGL and binding inputs
+// initializing OpenGL and binding inputs
 
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -24,7 +35,192 @@
 #include "SimpleModel.h"
 
 
-glm::vec3 vertices8 [] = {
+glm::vec3 vertices3[] = {
+
+	// Position, Color
+
+	// Left face
+	glm::vec3(-1.0f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-1.0f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, 1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	//Left face bottom
+	glm::vec3(-1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, -1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, -1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, -1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	//left face middle
+	glm::vec3(-0.5f, -0.25f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.5f, 0.25f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.5f, 0.25f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-0.5f, -0.25f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.5f, -0.25f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.5f, 0.25f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Right side
+	glm::vec3(1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Top side
+	glm::vec3(-1.0f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Bottom side
+	glm::vec3(-1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-1.0f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-1.0f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Front face right
+	glm::vec3(0.5f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(0.5f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Front face top
+	glm::vec3(-1.0f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-1.0f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-1.0f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Front face middle
+	glm::vec3(-0.5f, 0.25f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-0.5f, -0.25f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5, 0.25f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.5f, -0.25f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, -0.25f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 0.25f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Front face bottom
+	glm::vec3(-1.0f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-1.0f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-1.0f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Back face top
+	glm::vec3(-1.0f, 2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-1.0f, 1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-1.0f, 1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Back face left
+	glm::vec3(1.0f, 2.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.5f, 2.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+
+	glm::vec3(0.5f, -2.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.5f, 2.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(1.0f, -2.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+
+	// Back face middle
+	glm::vec3(-0.5f, 0.25f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5, 0.25f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-0.5f, -0.25f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.5f, -0.25f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, 0.25f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, -0.25f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Back face bottom
+	glm::vec3(-1.0f, -1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(-1.0f, -2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-1.0f, -2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.5f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.5f, -2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Top hole right
+	glm::vec3(0.5f, 1.5f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5, 1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5f, 0.25f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+
+	glm::vec3(0.5f, 0.25f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5, 1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5f, 0.25f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+
+	// Top hole top
+	glm::vec3(-1.0f, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(-1.0f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	glm::vec3(-1.0f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	// Top hole bottom
+	glm::vec3(-0.5f, 0.25f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(-0.5f, 0.25f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, 0.25f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	glm::vec3(-0.5f, 0.25f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5f, 0.25f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, 0.25f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	// Bottom hole right
+	glm::vec3(0.5f, -0.25f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5, -0.25f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5f, -1.5f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+
+	glm::vec3(0.5f, -1.5f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5, -0.25f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+	glm::vec3(0.5f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 1.0f),
+
+	// Bottom hole top
+	glm::vec3(-0.5f, -0.25f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, -0.25f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(-0.5f, -0.25f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	glm::vec3(-0.5f, -0.25f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, -0.25f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5f, -0.25f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	// Bottom hole bottom
+	glm::vec3(-1.0f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(-1.0f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	glm::vec3(-1.0f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.5, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+};
+
+glm::vec3 vertices8[] = {
 
 	// Position, Color
 
@@ -212,6 +408,155 @@ glm::vec3 vertices8 [] = {
 	glm::vec3(0.5, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
 };
 
+glm::vec3 verticesI[] = {
+
+	// Position, Color
+
+	// Left side top
+	glm::vec3(-0.75f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-0.75f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, 1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	//Left side bottom
+	glm::vec3(-0.75f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, -1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, -1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-0.75f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, -1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	//left side middle
+	glm::vec3(-0.25f, -1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.25f, 1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.25f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-0.25f, -1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.25f, -1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.25f, 1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	//Right side top
+	glm::vec3(0.75f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(0.75f, 1.5f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 1.5f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Top side
+	glm::vec3(-0.75f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Bottom side
+	glm::vec3(-0.75f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(-0.75f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	glm::vec3(-0.75f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, -1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, 1.0f), glm::vec3(1.0f , 0.0f, 0.0f),
+
+	// Front face right
+	glm::vec3(-0.25f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.25f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-0.25f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.25f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.25f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.25f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Front face top
+	glm::vec3(-0.75f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-0.75f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.75f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, 1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Front face bottom
+	glm::vec3(-0.75f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-0.75f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.75f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, -1.5f, 1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Back face top
+	glm::vec3(-0.75f, 2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(-0.75f, 1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.75f, 1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, 2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, 1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// Back face middle
+	glm::vec3(0.25f, 1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.25f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(-0.25f, 1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+
+	glm::vec3(-0.25f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(-0.25f, 1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.25f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+
+	// Back face bottom
+	glm::vec3(-0.75f, -1.5f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(-0.75f, -2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	glm::vec3(-0.75f, -2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+	glm::vec3(0.75f, -1.5f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, -1.0f), glm::vec3(0.0f , 1.0f, 0.0f),
+
+	// right side middle
+	glm::vec3(0.25f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.25f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.25f, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+
+	glm::vec3(0.25f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.25f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.25f, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+
+	// Top hole top
+	glm::vec3(-0.75f, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.75, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(-0.75f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	glm::vec3(-0.75f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.75f, 1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.75f, 1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	// right side bottom
+	glm::vec3(0.75f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.75f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+
+	glm::vec3(0.75f, -2.0f, 1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.75f, -2.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+	glm::vec3(0.75f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f),
+
+	// Bottom hole bottom
+	glm::vec3(-0.75f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(-0.75f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.75f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+
+	glm::vec3(-0.75f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.75f, -1.5f, 1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+	glm::vec3(0.75f, -1.5f, -1.0f), glm::vec3(1.0f, 0.0f, 1.0f),
+};
+
 glm::vec3 verticesGridCube[] = {
 	// Cube model
 
@@ -268,7 +613,6 @@ glm::vec3 verticesGridCube[] = {
 
 };
 
-
 glm::vec3 verticesAxes[] = {
 
 	glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f , 0.0f, 0.0f),
@@ -280,85 +624,6 @@ glm::vec3 verticesAxes[] = {
 	glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f , 0.0f, 1.0f),
 	glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f , 0.0f, 1.0f)
 };
-
-
-
-
-int compileShader(const char * path, int shaderType)
-{
-	std::ifstream file;
-	file.open(path, std::ios::in);
-	if (!file.is_open())
-	{
-		std::cout << "Failed to open shader : " << path << std::endl;
-		return -1;
-	}
-
-	std::string contents;
-	std::string line = "";
-	while (!file.eof()) {
-		std::getline(file, line);
-		contents.append(line + "\n");
-	}
-
-	file.close();
-
-	const char * source = contents.c_str();
-	int shaderId = glCreateShader(shaderType);
-	glShaderSource(shaderId, 1, &source, NULL);
-	glCompileShader(shaderId);
-
-	int success;
-	char infoLog[512];
-	glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
-		std::cerr << "Compilation failed for " << path << "\n" << infoLog << std::endl;
-		return -1;
-	}
-
-	return shaderId;
-}
-
-int compileAndLinkShaders()
-{
-	// compile and link shader program
-	 // return shader program id
-	 // ------------------------------------
-
-	 // vertex shader
-	int vertexShader = compileShader("../Shaders/passthrough.vshader", GL_VERTEX_SHADER);
-
-	if (vertexShader == -1)
-		exit(EXIT_FAILURE);
-
-	int fragmentShader = compileShader("../Shaders/passthrough.fshader", GL_FRAGMENT_SHADER);
-
-	if (fragmentShader == -1)
-		exit(EXIT_FAILURE);
-
-	// link shaders
-	int shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
-	// check for linking errors
-	int success;
-	char infoLog[512];
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	return shaderProgram;
-}
 
 int main(int argc, char*argv[])
 {
@@ -379,14 +644,12 @@ int main(int argc, char*argv[])
 
     // Create Window and rendering context using GLFW
     GLFWwindow* window = glfwCreateWindow(1024, 768, "Comp371 - Assignment 1", NULL, NULL);
-    if (window == NULL)
-    {
+    if (window == NULL) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
     glfwMakeContextCurrent(window);
-    
 
     // Initialize GLEW
     glewExperimental = true; // Needed for core profile
@@ -398,8 +661,7 @@ int main(int argc, char*argv[])
 
     // greyish background color
     glClearColor(0.2f, 0.29f, 0.29f, 1.0f);
-    
-    
+
     // Compile and link shaders here ...
     int shaderProgram = compileAndLinkShaders();
 	glUseProgram(shaderProgram);
@@ -428,6 +690,7 @@ int main(int argc, char*argv[])
 	GLfloat cameraSpeed = 0.1f; //Set camera speed
 
     // Define and upload geometry to the GPU here ...
+
 	SimpleModel modelGridCube(verticesGridCube, sizeof(verticesGridCube) / sizeof(verticesGridCube[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		for (int i = 0; i < 100; i++)
 		{
@@ -475,17 +738,12 @@ int main(int argc, char*argv[])
 
 	glEnable(GL_DEPTH_TEST); //With this enabled, object behind other objects will not be rendered
 
-
-
     // Entering Main Loop (this loop runs every frame)
-    while(!glfwWindowShouldClose(window))
-    {
-
+    while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor and reset the depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
-
-		 //Use shader program from compileAndLinkShaders()
+	    //Use shader program from compileAndLinkShaders()
 
 		// Draw the 100x100 square grid on the ground
 		modelGridCube.setShader(shaderProgram);
@@ -498,7 +756,6 @@ int main(int argc, char*argv[])
 		model8.setShader(shaderProgram);
 		model8.draw();
 
-		
         // End frame
         glfwSwapBuffers(window);
 
@@ -509,7 +766,6 @@ int main(int argc, char*argv[])
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) //Terminate program
             glfwSetWindowShouldClose(window, true);
 		
-
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) //move forward
 			cameraPosition += cameraSpeed * cameraLookAt;
 
@@ -521,7 +777,6 @@ int main(int argc, char*argv[])
 
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) //move right
 			cameraPosition += glm::normalize(glm::cross(cameraLookAt, cameraUp)) * cameraSpeed;
-
 
 		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) //Switch to lines rendering mode
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

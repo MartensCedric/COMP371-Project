@@ -118,9 +118,11 @@
   <ItemGroup>
     <ClCompile Include="..\Source\371A1.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
+    <ClCompile Include="..\Source\shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\includes\shader.hpp" />
     <ClInclude Include="..\Source\Model.h" />
     <ClInclude Include="..\Source\SimpleModel.h" />
   </ItemGroup>
