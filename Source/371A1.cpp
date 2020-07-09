@@ -34,6 +34,62 @@
 #include <string>
 #include "SimpleModel.h"
 
+glm::vec3 verticesUnitCube[] = {
+	// Front face
+	glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	// Back face
+	glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	// Left face
+	glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	// Right face
+	glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	// Top face
+	glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	// Bottom face
+	glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+
+	glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+	glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
+};
+
 
 glm::vec3 vertices3[] = {
 
@@ -725,14 +781,14 @@ int main(int argc, char*argv[])
 	});
 
 	modelAxes.setupAttribPointer();
-	SimpleModel model8(vertices8, sizeof(vertices8)/sizeof(vertices8[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
+	SimpleModel modelUnitCube(verticesUnitCube, sizeof(verticesUnitCube)/sizeof(verticesUnitCube[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 
 	});
 
-	model8.setupAttribPointer();
+	modelUnitCube.setupAttribPointer();
 	glEnable(GL_CULL_FACE); //With this enabled (surfaces with vertices in counter clockwise direction will render)
 							//Therefore the back of a surface will not render (more efficient)
 
@@ -753,8 +809,8 @@ int main(int argc, char*argv[])
 		modelAxes.draw();
 
 
-		model8.setShader(shaderProgram);
-		model8.draw();
+		modelUnitCube.setShader(shaderProgram);
+		modelUnitCube.draw();
 
         // End frame
         glfwSwapBuffers(window);
