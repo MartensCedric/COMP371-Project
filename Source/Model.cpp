@@ -20,7 +20,7 @@ Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertex
 
 	vaoId = modelVAO;
 	this->vertexCount = vertexCount;
-	this->objTransMat = glm::translate(objTransMat, glm::vec3(2, 3, 0));// Please remove when actually implementing rot, trans and scaling
+	//this->objTransMat = glm::translate(objTransMat, glm::vec3(2, 3, 0));// Please remove when actually implementing rot, trans and scaling
 }
 
 void Model::setShader(int shaderProgram)
@@ -37,7 +37,8 @@ void Model::draw()
 
 void Model::scale(float scaleFactor)
 {
-	//Implement by modifying objRotMat
+	//Implement by modifying objScaleMat
+	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 }
 
 void Model::rotate(float thetaX, float thetaY, float thetaZ)
@@ -60,9 +61,9 @@ void Model::addChild(Model * child)
 glm::mat4 Model::getModelMatrix()
 {
 	if (this->parent == nullptr)
-		return objTransMat * objRotMat; 
+		return objScaleMat * objTransMat * objRotMat; 
 
-	return objTransMat * objRotMat * this->parent->getModelMatrix();
+	return objScaleMat * objTransMat * objRotMat * this->parent->getModelMatrix();
 }
 
 Model::~Model()
