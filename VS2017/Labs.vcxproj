@@ -122,7 +122,6 @@
     <ClCompile Include="..\Source\SimpleModel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\includes\shader.hpp" />
     <ClInclude Include="..\Source\Model.h" />
     <ClInclude Include="..\Source\SimpleModel.h" />
   </ItemGroup>

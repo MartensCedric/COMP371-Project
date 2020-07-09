@@ -32,7 +32,7 @@ void Model::draw()
 {
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
-	drawFunction(vertexCount, shaderId, objTransMat * objRotMat);
+	drawFunction(vertexCount, shaderId, this->getModelMatrix());
 }
 
 void Model::scale(float scaleFactor)
@@ -48,6 +48,21 @@ void Model::rotate(float thetaX, float thetaY, float thetaZ)
 void Model::translate(float x, float y, float z)
 {
 	//Implement by modifying objTransMat
+}
+
+
+void Model::addChild(Model * child)
+{
+	child->parent = this;
+	children.push_back(child);
+}
+
+glm::mat4 Model::getModelMatrix()
+{
+	if (this->parent == nullptr)
+		return objTransMat * objRotMat; 
+
+	return objTransMat * objRotMat * this->parent->getModelMatrix();
 }
 
 Model::~Model()
