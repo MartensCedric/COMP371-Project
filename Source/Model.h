@@ -18,7 +18,7 @@ protected:
 	glm::mat4 objRotMat = glm::mat4(1.0f);
 	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT);
 	std::vector<Model*> children;
-	Model * parent;
+	Model * parent = nullptr;
 
 public:
 	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT));
