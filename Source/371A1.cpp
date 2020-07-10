@@ -151,7 +151,7 @@ int main(int argc, char*argv[])
             glfwSetWindowShouldClose(window, true);
 		
 		//move forward
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
@@ -159,7 +159,7 @@ int main(int argc, char*argv[])
 		}
 
 		//move back
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
@@ -167,7 +167,7 @@ int main(int argc, char*argv[])
 		}
 
 		//move left
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
@@ -175,13 +175,27 @@ int main(int argc, char*argv[])
 		}
 
 		//move right
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
 		}
 
+		//move up
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->translate(0, 1, 0);
+			}
+
+		//move down
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->translate(0, -1, 0);
+			}
+			
 		//Switch to lines rendering mode
 		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
