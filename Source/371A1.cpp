@@ -85,39 +85,46 @@ int main(int argc, char*argv[])
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
 	grid.setShader(shaderProgram);
+
+	//----------Models----------
+	std::vector<Model*> models;
 	
 	// Draw an E
-	UnitCubeModel eLeft;
-	eLeft.setShader(shaderProgram);
-	eLeft.scale(0.5, 2.5, 0.5);
-	eLeft.translate(0, 2.5, 0);
+	// vertical bar
+	UnitCubeModel e;
+	e.scale(0.5, 2.5, 0.5);
+	e.translate(0, 2.5, 0);
 
 	UnitCubeModel eTop;
-	eTop.setShader(shaderProgram);
 	eTop.scale(2.5, 0.5, 0.5);
 	eTop.translate(1.5, 0, 0);
 
 	//UnitCubeModel eMiddle;
-	//eMiddle.setShader(shaderProgram);
 	//eMiddle.scale(2.5, 0.5, 0.5);
 
 	//UnitCubeModel eBottom;
-	//eBottom.setShader(shaderProgram);
 	//eBottom.scale(2,5, 0.5, 0.5);
 
-	eLeft.addChild(&eTop);
+	e.addChild(&eTop);
 	//eLeft.addChild(&eMiddle);
 	//eLeft.addChild(&eBottom);
+
+	e.setShader(shaderProgram);
 	
+	models.push_back(&e);
 	
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor and reset the depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
-		// Draw the 100x100 square grid on the ground
+		// Draw the 100x100 square grid and axes on the ground
 		grid.draw();
-		eLeft.draw();
+		
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->draw();
+		}
 
         // End frame
         glfwSwapBuffers(window);
@@ -132,20 +139,36 @@ int main(int argc, char*argv[])
             glfwSetWindowShouldClose(window, true);
 		
 		//move forward
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
-			eLeft.translate(0, 0, -1);
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->translate(0, 0, -1);
+			}
+		}
 
 		//move back
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
-			eLeft.translate(0, 0, 1);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->translate(0, 0, 1);
+			}
+		}
 
 		//move left
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
-			eLeft.translate(-1, 0, 0);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->translate(-1, 0, 0);
+			}
+		}
 
 		//move right
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
-			eLeft.translate(1, 0, 0);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->translate(1, 0, 0);
+			}
+		}
 
 		//Switch to lines rendering mode
 		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
@@ -160,12 +183,20 @@ int main(int argc, char*argv[])
 			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 
 		// Scale Up
-		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
-			eLeft.scale(1.05, 1.05, 1.05);
+		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->scale(1.05, 1.05, 1.05);
+			}
+		}
 		
 		// Scale Down
-		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
-			eLeft.scale(0.95, 0.95, 0.95);
+		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->scale(0.95, 0.95, 0.95);
+			}
+		}
 
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
 		camera.reset();

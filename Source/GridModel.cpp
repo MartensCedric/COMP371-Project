@@ -1,4 +1,5 @@
 #include "includes/GridModel.hpp"
+#include <iostream>
 
 GridModel::GridModel() {
     glm::vec3 colorBg = glm::vec3(0.52f, 0.58f, 0.18f);
@@ -95,23 +96,29 @@ GridModel::GridModel() {
 			glDrawArrays(GL_LINES, 0, vertexCount); // 36 vertices, starting at index 0 (for some reason only "GL_LINE_LOOP" shows all lines)
 		}	
 	});
-
 	setupAttribPointer();
 
-	SimpleModel axes(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
-		glm::mat4 identity = glm::mat4(1.0f); //use objRBT once the Rot,Trans,Scale has been implemented
+	axes = SimpleModel(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
 		glLineWidth(3);
 		glDrawArrays(GL_LINES, 0, vertexCount);
 		glLineWidth(1);
-	
 	});
-
 	axes.setupAttribPointer();
-    //addChild(&axes);
 }
 
 GridModel::GridModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT)) 
 : SimpleModel(vertexArray, vertexCount, drawFunc) 
 {}
+
+void GridModel::draw() {
+    SimpleModel::draw();
+    axes.draw();
+}
+
+void GridModel::setShader(int shaderProgram)
+{
+	SimpleModel::setShader(shaderProgram);
+    axes.setShader(shaderProgram);
+};

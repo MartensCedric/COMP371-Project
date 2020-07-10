@@ -5,7 +5,6 @@
 
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
-
 #include <vector>
 
 class Model
@@ -19,7 +18,7 @@ protected:
 	glm::mat4 objRotMat = glm::mat4(1.0f);
 	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT);
 	std::vector<Model*> children;
-	Model * parent = nullptr;
+	Model* parent = nullptr;
 
 public:
 	Model();

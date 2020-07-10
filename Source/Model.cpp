@@ -10,7 +10,6 @@ Model::Model() {}
 
 Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT))
 {
-	printf("called");
 	drawFunction = drawFunc;
 	// Create a vertex array
 	GLuint modelVAO;   //Create a VAO 
@@ -63,7 +62,7 @@ void Model::translate(float x, float y, float z)
 	this->objTransMat = glm::translate(objTransMat, glm::vec3(x, y, z));
 }
 
-void Model::addChild(Model * child)
+void Model::addChild(Model* child)
 {
 	child->parent = this;
 	children.push_back(child);
