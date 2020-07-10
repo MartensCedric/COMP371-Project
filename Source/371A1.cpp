@@ -33,6 +33,7 @@
 #include <fstream>
 #include <string>
 #include "SimpleModel.h"
+#include "camera.cpp"
 
 glm::vec3 verticesUnitCube[] = {
 	// Front face
@@ -89,7 +90,6 @@ glm::vec3 verticesUnitCube[] = {
 	glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
 	glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(0.75f, 0.75f, 0.75f),
 };
-
 
 glm::vec3 vertices3[] = {
 
@@ -723,25 +723,10 @@ int main(int argc, char*argv[])
 	glUseProgram(shaderProgram);
 
 	//----------Camera setup----------
+	Camera camera = Camera(shaderProgram);
 
-	// Camera parameters for view transform
-	glm::vec3 cameraPosition(0.0f, 5.0f, 15.0f); //Where camera is positioned in 3d world
-	glm::vec3 cameraLookAt(0.0f, 0.0f, -1.0f); //What position is the camera looking at in 3d world
-	glm::vec3 cameraUp(0.0f, 1.0f, 0.0f); //which direction is the top of the camera
-
-	// Set projection matrix for the shader (in this case we use perspective projection)
-	glm::mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
-												  1024.0f / 768.0f,  // aspect ratio
-												  0.01f, 100.0f);   // near and far (near > 0)
-	GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
-	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
-    
 	// Set the initial view matrix     					
-	glm::mat4 viewMatrix = lookAt(cameraPosition,  // eye
-								  cameraLookAt ,  // center
-								  cameraUp); // up
-	GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+	camera.reset();
 
 	GLfloat cameraSpeed = 0.1f; //Set camera speed
 
@@ -758,7 +743,7 @@ int main(int argc, char*argv[])
 			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]); //send worldMatrix data to that memory location
 			glDrawArrays(GL_LINES, 0, vertexCount); // 36 vertices, starting at index 0 (for some reason only "GL_LINE_LOOP" shows all lines)
 
-										   //draw rectangles in the z direction
+			//draw rectangles in the z direction
 			glm::mat4 scalingMatrix1 = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.0f, 50.0f));   //scale
 			glm::mat4 translationMatrix1 = glm::translate(glm::mat4(1.0f), glm::vec3(-25.0f + i * 0.5f, 0.0f, -0.25f));   //translate
 			glm::mat4 worldMatrix1 = translationMatrix1 * scalingMatrix1; //combine
@@ -819,34 +804,53 @@ int main(int argc, char*argv[])
         glfwPollEvents();
 
 		//Handle Inputs
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) //Terminate program
+
+		//Terminate program
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
 		
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) //move forward
-			cameraPosition += cameraSpeed * cameraLookAt;
+		//move forward
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+			//cameraPosition += cameraSpeed * cameraLookAt;
+			modelUnitCube.translate(0, 0, -1);
 
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) //move back
-			cameraPosition -= cameraSpeed * cameraLookAt;
+		//move back
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+			//cameraPosition -= cameraSpeed * cameraLookAt;
+			modelUnitCube.translate(0, 0, 1);
 
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) //move left
-			cameraPosition -= glm::normalize(glm::cross(cameraLookAt, cameraUp)) * cameraSpeed;
+		//move left
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+			//cameraPosition -= glm::normalize(glm::cross(cameraLookAt, cameraUp)) * cameraSpeed;
+			modelUnitCube.translate(-1, 0, 0);
 
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) //move right
-			cameraPosition += glm::normalize(glm::cross(cameraLookAt, cameraUp)) * cameraSpeed;
+		//move right
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+			//cameraPosition += glm::normalize(glm::cross(cameraLookAt, cameraUp)) * cameraSpeed;
+			modelUnitCube.translate(1, 0, 0);
 
-		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) //Switch to lines rendering mode
+		//Switch to lines rendering mode
+		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-		if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) //Switch to triangle rendering mode
+		//Switch to triangle rendering mode
+		if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) 
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) //Switch to points rendering mode
+		//Switch to points rendering mode
+		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
 			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 
+		// Scale Up
+		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+			modelUnitCube.scale(1.05);
+		
+		// Scale Down
+		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+			modelUnitCube.scale(0.95);
+
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
-		glm::mat4 viewMatrix = lookAt(cameraPosition, cameraLookAt+cameraPosition,  cameraUp); 
-		GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-		glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+		camera.reset();
     }
     
     // Shutdown GLFW
