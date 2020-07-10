@@ -29,6 +29,11 @@ Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertex
 void Model::setShader(int shaderProgram)
 {
 	shaderId = shaderProgram;
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->shaderId = shaderProgram;
+	}
 };
 
 void Model::draw()

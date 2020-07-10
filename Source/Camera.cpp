@@ -25,6 +25,9 @@ Camera::Camera(int shaderProgram) :
     );
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+
+    // Set the initial view matrix     					
+    reset();
 }
 
 void Camera::moveForward() {

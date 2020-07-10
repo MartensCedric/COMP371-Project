@@ -67,7 +67,6 @@ UnitCubeModel::UnitCubeModel() {
             glDrawArrays(GL_TRIANGLES, 0, vertexCount);
         }
     );
-
     setupAttribPointer();
 }
 
