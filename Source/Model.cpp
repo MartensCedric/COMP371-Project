@@ -32,11 +32,15 @@ void Model::draw()
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
 	drawFunction(vertexCount, shaderId, this->getModelMatrix());
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->draw();
+	}
 }
 
 void Model::scale(float scaleFactor)
 {
-	//Implement by modifying objScaleMat
 	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 }
 
@@ -47,7 +51,6 @@ void Model::rotate(float thetaX, float thetaY, float thetaZ)
 
 void Model::translate(float x, float y, float z)
 {
-	//Implement by modifying objTransMat
 	this->objTransMat = glm::translate(objTransMat, glm::vec3(x, y, z));
 }
 
@@ -61,7 +64,7 @@ void Model::addChild(Model * child)
 glm::mat4 Model::getModelMatrix()
 {
 	if (this->parent == nullptr)
-		return objScaleMat * objTransMat * objRotMat; 
+		return  objTransMat * objRotMat * objScaleMat;
 
 	return objTransMat * objRotMat * objScaleMat * this->parent->getModelMatrix();
 }
