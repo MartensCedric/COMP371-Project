@@ -224,6 +224,46 @@ int main(int argc, char*argv[])
 			}
 		}
 
+		// Rotate model about left about Y
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			modelUnitCube.rotate(0, 1, 0, 5);
+
+		// Rotate model about left about Y
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			modelUnitCube.rotate(0, 1, 0, -5);
+
+		// Rotate model about left about X
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			modelUnitCube.rotate(1, 0, 0, 5);
+
+		// Rotate model about left about X
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			modelUnitCube.rotate(1, 0, 0, -5);
+
+		// Rotate model about left about Z
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+			modelUnitCube.rotate(0, 0, 1, 5);
+
+		// Rotate model about left about Z
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+			modelUnitCube.rotate(0, 0, 1, -5);
+
+		// Rotate World Orientation Left
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+			//@TODO: rotate world
+
+		// Rotate World Orientation Right
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+			//@TODO: rotate world
+
+		// Rotate World Orientation UP
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+			//@TODO: rotate world
+
+		// Rotate World Orientation Down
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+			//@TODO: rotate world
+
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
 		camera.reset();
     }
