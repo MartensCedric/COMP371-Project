@@ -726,7 +726,7 @@ int main(int argc, char*argv[])
 	Camera camera = Camera(shaderProgram);
 
 	// Set the initial view matrix     					
-	camera.reset();
+	camera.update();
 
 	GLfloat cameraSpeed = 0.1f; //Set camera speed
 
@@ -779,10 +779,18 @@ int main(int argc, char*argv[])
 
 	glEnable(GL_DEPTH_TEST); //With this enabled, object behind other objects will not be rendered
 
+	float panInitCurPosX = -1;
+	bool isPanning = true;
+	glm::vec3 panInitialLookAt = glm::vec3(1.0f);
+
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor and reset the depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+		
+		double xCursorPos;
+		double yCursorPos;
+		glfwGetCursorPos(window, &xCursorPos, &yCursorPos);
 
 	    //Use shader program from compileAndLinkShaders()
 
@@ -849,8 +857,47 @@ int main(int argc, char*argv[])
 		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
 			modelUnitCube.scale(0.95);
 
+		// Pan X
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+		{
+			if (!isPanning)
+			{
+				panInitCurPosX = xCursorPos;
+				isPanning = true;
+				panInitialLookAt = camera.lookAtPos - camera.position;
+			}
+			else {
+				glm::mat4 panMat(1.0f);
+
+				std::cout << (xCursorPos - panInitCurPosX) / 3.0f << std::endl;
+				glm::rotate(panMat, (float) 45.0f, glm::vec3(0.0, 0.0, 1.0));
+				camera.lookAtPos = glm::vec3(panMat * glm::vec4(panInitialLookAt, 1.0f)) + camera.position;
+			}
+		}
+
+		// Pan X
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+		{
+			isPanning = false;
+			panInitCurPosX = -1;
+			panInitialLookAt = glm::vec3(1.0f);
+		}
+
+		// Tilt Y
+		if (glfwGetKey(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
+		{
+
+		}
+
+		// Tilt Y
+		if (glfwGetKey(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE)
+		{
+
+		}
+
+
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
-		camera.reset();
+		camera.update();
     }
     
     // Shutdown GLFW

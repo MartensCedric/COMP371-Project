@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>  
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
-
+#include <iostream>
 class Camera {
     public:
         GLfloat speed;
@@ -57,7 +57,10 @@ class Camera {
     		position += glm::normalize(glm::cross(lookAtPos, up)) * speed;
         }
 
-        void reset() {
+        void update() {
+			std::cout << "x " << lookAtPos.x << std::endl;
+			std::cout << "y " << lookAtPos.y << std::endl;
+			std::cout << "z " << lookAtPos.z << std::endl;
             // Set initial view matrix (because this is running in the "main while loop", it will update every frame)
             glm::mat4 viewMatrix = lookAt(
                 position, // eye
