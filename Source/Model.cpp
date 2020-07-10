@@ -1,12 +1,16 @@
-#include "Model.h"
+#include "includes/Model.hpp"
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
+#include <iostream>
+
+Model::Model() {}
 
 Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT))
 {
+	printf("called");
 	drawFunction = drawFunc;
 	// Create a vertex array
 	GLuint modelVAO;   //Create a VAO 
@@ -39,9 +43,9 @@ void Model::draw()
 	}
 }
 
-void Model::scale(float scaleFactor)
+void Model::scale(float x, float y, float z)
 {
-	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(x, y, z));
 }
 
 void Model::rotate(float thetaX, float thetaY, float thetaZ)
@@ -54,7 +58,6 @@ void Model::translate(float x, float y, float z)
 	this->objTransMat = glm::translate(objTransMat, glm::vec3(x, y, z));
 }
 
-
 void Model::addChild(Model * child)
 {
 	child->parent = this;
@@ -64,9 +67,9 @@ void Model::addChild(Model * child)
 glm::mat4 Model::getModelMatrix()
 {
 	if (this->parent == nullptr)
-		return  objTransMat * objRotMat * objScaleMat;
+		return objTransMat * objRotMat * objScaleMat;
 
-	return objTransMat * objRotMat * objScaleMat * this->parent->getModelMatrix();
+	return this->parent->getModelMatrix() * objTransMat * objRotMat * objScaleMat;
 }
 
 Model::~Model()

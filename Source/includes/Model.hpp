@@ -22,11 +22,12 @@ protected:
 	Model * parent = nullptr;
 
 public:
+	Model();
 	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT));
 	virtual void setupAttribPointer() = 0;
 	void setShader(int shaderProgram);
 	virtual void draw();
-	void scale(float scaleFactor);
+	void scale(float x, float y, float z);
 	void rotate(float thetaX, float thetaY, float thetaZ);
 	void translate(float x, float y, float z);
 	void addChild(Model* child);

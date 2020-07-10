@@ -31,5 +31,5 @@ If the above steps do not result in a new window popping up to render the graphi
 ## Linux
 
 ### To compile from the CLI
-`g++ -g 371A1.cpp SimpleModel.cpp Model.cpp shader.cpp -lGL -lGLEW -lglfw`
+`make`
 

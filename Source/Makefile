@@ -1,0 +1,22 @@
+default: exec
+
+exec: 371A1.cpp UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
+	g++ -g -Wall -o exec 371A1.cpp SimpleModel.o UnitCubeModel.o Model.o Shader.o Camera.o -lGL -lGLEW -lglfw
+
+UnitCubeModel.o: UnitCubeModel.cpp
+	g++ -c -g -Wall UnitCubeModel.cpp -lGL -lGLEW -lglfw
+
+SimpleModel.o: SimpleModel.cpp
+	g++ -c -g -Wall SimpleModel.cpp -lGL -lGLEW -lglfw
+
+Model.o: Model.cpp
+	g++ -c -g -Wall Model.cpp -lGL -lGLEW -lglfw
+	
+Shader.o: Shader.cpp
+	g++ -c -g -Wall Shader.cpp -lGL -lGLEW -lglfw
+
+Camera.o: Camera.cpp
+	g++ -c -g -Wall Camera.cpp -lGL -lGLEW -lglfw
+
+clean :
+	rm *.o

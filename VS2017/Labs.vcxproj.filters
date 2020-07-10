@@ -77,10 +77,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\Model.h">
+    <ClInclude Include="..\Source\includes\Model.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\SimpleModel.h">
+    <ClInclude Include="..\Source\includes\SimpleModel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
