@@ -53,9 +53,11 @@ void Model::scale(float x, float y, float z)
 	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(x, y, z));
 }
 
-void Model::rotate(float thetaX, float thetaY, float thetaZ)
+void Model::rotate(float x, float y, float z, float angle)
 {
 	//Implement by modifying objRotMat
+	glm::vec3 myRotationAxis(x, y, z);
+	this->objRotMat = glm::rotate(objRotMat, angle, myRotationAxis);
 }
 
 void Model::translate(float x, float y, float z)

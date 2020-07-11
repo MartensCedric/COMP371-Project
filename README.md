@@ -33,3 +33,20 @@ If the above steps do not result in a new window popping up to render the graphi
 ### To compile from the CLI
 `make`
 
+## Controls
+
+### Keyboard inputs
+
+- `Lshift + w` --> move model forward
+- `Lshift + a` --> move model left
+- `Lshift + s` --> move model backward
+- `u` --> scale up model
+- `j` --> scale down model
+- `Lshift + d` --> move model right
+- `a` --> rotate left about Y axis
+- `d` --> rotate right about Y axis
+- `q` --> rotate left about X axis
+- `e` --> rotate right about X axis
+- `z` --> rotate left about Z axis
+- `c` --> rotate right about Z axis
+- `Esc` --> terminate program
