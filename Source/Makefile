@@ -1,10 +1,13 @@
 default: exec
 
-exec: 371A1.cpp GridModel.o UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
-	g++ -g -Wall -o exec 371A1.cpp GridModel.o SimpleModel.o UnitCubeModel.o Model.o Shader.o Camera.o -lGL -lGLEW -lglfw
+exec: 371A1.cpp GridModel.o GroupModel.o UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
+	g++ -g -Wall -o exec 371A1.cpp GridModel.o GroupModel.o SimpleModel.o UnitCubeModel.o Model.o Shader.o Camera.o -lGL -lGLEW -lglfw
 
 UnitCubeModel.o: UnitCubeModel.cpp
 	g++ -c -g -Wall UnitCubeModel.cpp -lGL -lGLEW -lglfw
+
+GroupModel.o: GroupModel.cpp
+	g++ -c -g -Wall GroupModel.cpp -lGL -lGLEW -lglfw
 
 GridModel.o: GridModel.cpp
 	g++ -c -g -Wall GridModel.cpp -lGL -lGLEW -lglfw
