@@ -93,12 +93,11 @@ int main(int argc, char*argv[])
 	std::vector<Model*> models;
 	
 	// Draw an E
-
 	// Empty parent
 	SimpleModel e;
 	e.setupAttribPointer();
-	
-	// vertical bar
+
+
 	UnitCubeModel eLeft;
 	eLeft.scale(0.5, 2.5, 0.5);
 	eLeft.translate(0, 2.5, 0);
@@ -116,7 +115,6 @@ int main(int argc, char*argv[])
 	eBottom.scale(1.5, 0.5, 0.5);
 	eBottom.translate(2, 0.5, 0);
 
-	
 	e.addChild(&eLeft);
 	e.addChild(&eTop);
 	e.addChild(&eMiddle);
@@ -136,6 +134,7 @@ int main(int argc, char*argv[])
 		
 		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
+			(*it)->setShader(shaderProgram);
 			(*it)->draw();
 		}
 
