@@ -100,20 +100,20 @@ int main(int argc, char*argv[])
 
 	UnitCubeModel eLeft;
 	eLeft.scale(0.5, 2.5, 0.5);
-	eLeft.translate(0, 2.5, 0);
+	eLeft.translate(0, 0, 0);
 
 	UnitCubeModel eTop;
 	eTop.scale(1.5, 0.5, 0.5);
-	eTop.translate(2, 4.5, 0);
+	eTop.translate(1, 3, 0);
 
 	UnitCubeModel eMiddle;
 	eMiddle.scale(1.5, 0.5, 0.5);
-	eMiddle.translate(2, 2.5, 0);
+	eMiddle.translate(1, 0, 0);
 
 	
 	UnitCubeModel eBottom;
 	eBottom.scale(1.5, 0.5, 0.5);
-	eBottom.translate(2, 0.5, 0);
+	eBottom.translate(1, -3, 0);
 
 	e.addChild(&eLeft);
 	e.addChild(&eTop);

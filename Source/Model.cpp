@@ -68,18 +68,19 @@ void Model::addChild(Model* child)
 	child->parent = this;
 	children.push_back(child);
 }
+\
+
 
 glm::mat4 Model::getModelMatrix()
 {
 	if (this->parent == nullptr)
 		return objTransMat * objRotMat * objScaleMat;
-	
+
 	glm::mat4 pRotMat = this->parent->objRotMat;
 	glm::mat4 pScaleMat = this->parent->objScaleMat;
 	glm::mat4 pTransMat = this->parent->objTransMat;
-	
 
-	return pScaleMat * objTransMat * objScaleMat * pTransMat;
+	return this->parent->getModelMatrix() * objTransMat * objRotMat * objScaleMat;
+
 }
-
 Model::~Model() {}
