@@ -44,6 +44,73 @@
 #include <fstream>
 #include <string>
 
+std::vector<Model*> models;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    // Rotate model about left about Y
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->rotate(0, 1, 0, 5);
+		}
+	}
+
+	// Rotate model about left about Y
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->rotate(0, 1, 0, -5);
+		}
+	}
+
+	// Rotate model about left about X
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->rotate(1, 0, 0, 5);
+		}
+	}
+
+	// Rotate model about left about X
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->rotate(1, 0, 0, -5);
+		}
+	}
+
+	// Rotate model about left about Z
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->rotate(0, 0, 1, 5);
+		}
+	}
+
+	// Rotate model about left about Z
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->rotate(0, 0, 1, -5);
+		}
+	}
+
+	//Switch to lines rendering mode
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	//Switch to triangle rendering mode
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	//Switch to points rendering mode
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+		glPointSize(5);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	}
+}
+
 int main(int argc, char*argv[])
 {
     // Initialize GLFW and OpenGL version
@@ -69,6 +136,7 @@ int main(int argc, char*argv[])
         return -1;
     }
     glfwMakeContextCurrent(window);
+	glfwSetKeyCallback(window, key_callback);
 
     // Initialize GLEW
     glewExperimental = true; // Needed for core profile
@@ -90,29 +158,25 @@ int main(int argc, char*argv[])
 	grid.setShader(shaderProgram);
 
 	//----------Models----------
-	std::vector<Model*> models;
 	
 	// Draw an E
-	// Empty parent
 	SimpleModel e;
 	e.setupAttribPointer();
 
-
 	UnitCubeModel eLeft;
-	eLeft.scale(0.5, 2.5, 0.5);
+	eLeft.scale(1, 5, 1);
 	eLeft.translate(0, 0, 0);
 
 	UnitCubeModel eTop;
-	eTop.scale(1.5, 0.5, 0.5);
+	eTop.scale(3, 1, 1);
 	eTop.translate(1, 3, 0);
 
 	UnitCubeModel eMiddle;
-	eMiddle.scale(1.5, 0.5, 0.5);
+	eMiddle.scale(3, 1, 1);
 	eMiddle.translate(1, 0, 0);
-
 	
 	UnitCubeModel eBottom;
-	eBottom.scale(1.5, 0.5, 0.5);
+	eBottom.scale(3, 1, 1);
 	eBottom.translate(1, -3, 0);
 
 	e.addChild(&eLeft);
@@ -123,7 +187,7 @@ int main(int argc, char*argv[])
 	e.setShader(shaderProgram);
 	
 	models.push_back(&e);
-	
+	    
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor and reset the depth
@@ -196,18 +260,6 @@ int main(int argc, char*argv[])
 				(*it)->translate(0, -1, 0);
 			}
 			
-		//Switch to lines rendering mode
-		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-		//Switch to triangle rendering mode
-		if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-		//Switch to points rendering mode
-		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-
 		// Scale Up
 		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
@@ -221,54 +273,6 @@ int main(int argc, char*argv[])
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->scale(0.95, 0.95, 0.95);
-			}
-		}
-
-		// Rotate model about left about Y
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
-			{
-				(*it)->rotate(0, 1, 0, 5);
-			}
-		}
-
-		// Rotate model about left about Y
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
-			{
-				(*it)->rotate(0, 1, 0, -5);
-			}
-		}
-
-		// Rotate model about left about X
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
-			{
-				(*it)->rotate(1, 0, 0, 5);
-			}
-		}
-
-		// Rotate model about left about X
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
-			{
-				(*it)->rotate(1, 0, 0, -5);
-			}
-		}
-
-		// Rotate model about left about Z
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
-			{
-				(*it)->rotate(0, 0, 1, 5);
-			}
-		}
-
-		// Rotate model about left about Z
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
-			{
-				(*it)->rotate(0, 0, 1, -5);
 			}
 		}
 

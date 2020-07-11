@@ -56,8 +56,9 @@ void Model::scale(float x, float y, float z)
 void Model::rotate(float x, float y, float z, float angle)
 {
 	//Implement by modifying objRotMat
+	float radianAngle = (angle * M_PI) / 180;
 	glm::vec3 myRotationAxis(x, y, z);
-	this->objRotMat = glm::rotate(objRotMat, angle, myRotationAxis);
+	this->objRotMat = glm::rotate(objRotMat, radianAngle, myRotationAxis);
 }
 
 void Model::translate(float x, float y, float z)
@@ -78,9 +79,9 @@ glm::mat4 Model::getModelMatrix()
 	if (this->parent == nullptr)
 		return objTransMat * objRotMat * objScaleMat;
 
-	glm::mat4 pRotMat = this->parent->objRotMat;
-	glm::mat4 pScaleMat = this->parent->objScaleMat;
-	glm::mat4 pTransMat = this->parent->objTransMat;
+	//glm::mat4 pRotMat = this->parent->objRotMat;
+	//glm::mat4 pScaleMat = this->parent->objScaleMat;
+	//glm::mat4 pTransMat = this->parent->objTransMat;
 
 	return this->parent->getModelMatrix() * objTransMat * objRotMat * objScaleMat;
 

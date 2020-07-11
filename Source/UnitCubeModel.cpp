@@ -4,58 +4,58 @@ UnitCubeModel::UnitCubeModel() {
     glm::vec3 color = glm::vec3(0.75f, 0.75f, 0.75f);
     glm::vec3 verticesUnitCube[] = {
         // Front face
-        glm::vec3(-1.0f, -1.0f, 1.0f), color,
-        glm::vec3(1.0f, -1.0f, 1.0f), color,
-        glm::vec3(1.0f, 1.0f, 1.0f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), color,
+        glm::vec3(0.5f, 0.5f, 0.5f), color,
 
-        glm::vec3(-1.0f, -1.0f, 1.0f), color,
-        glm::vec3(1.0f, 1.0f, 1.0f), color,
-        glm::vec3(-1.0f, 1.0f, 1.0f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), color,
+        glm::vec3(0.5f, 0.5f, 0.5f), color,
+        glm::vec3(-0.5f, 0.5f, 0.5f), color,
 
         // Back face
-        glm::vec3(-1.0f, -1.0f, -1.0f), color,
-        glm::vec3(1.0f, 1.0f, -1.0f), color,
-        glm::vec3(1.0f, -1.0f, -1.0f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), color,
+        glm::vec3(0.5f, 0.5f, -0.5f), color,
+        glm::vec3(0.5f, -0.5f, -0.5f), color,
 
-        glm::vec3(-1.0f, -1.0f, -1.0f), color,
-        glm::vec3(-1.0f, 1.0f, -1.0f), color,
-        glm::vec3(1.0f, 1.0f, -1.0f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), color,
+        glm::vec3(-0.5f, 0.5f, -0.5f), color,
+        glm::vec3(0.5f, 0.5f, -0.5f), color,
 
         // Left face
-        glm::vec3(-1.0f, -1.0f, -1.0f), color,
-        glm::vec3(-1.0f, -1.0f, 1.0f), color,
-        glm::vec3(-1.0f, 1.0f, -1.0f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), color,
+        glm::vec3(-0.5f, 0.5f, -0.5f), color,
 
-        glm::vec3(-1.0f, -1.0f, 1.0f), color,
-        glm::vec3(-1.0f, 1.0f, 1.0f), color,
-        glm::vec3(-1.0f, 1.0f, -1.0f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), color,
+        glm::vec3(-0.5f, 0.5f, 0.5f), color,
+        glm::vec3(-0.5f, 0.5f, -0.5f), color,
 
         // Right face
-        glm::vec3(1.0f, -1.0f, -1.0f), color,
-        glm::vec3(1.0f, 1.0f, -1.0f), color,
-        glm::vec3(1.0f, -1.0f, 1.0f), color,
+        glm::vec3(0.5f, -0.5f, -0.5f), color,
+        glm::vec3(0.5f, 0.5f, -0.5f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), color,
 
-        glm::vec3(1.0f, -1.0f, 1.0f), color,
-        glm::vec3(1.0f, 1.0f, -1.0f), color,
-        glm::vec3(1.0f, 1.0f, 1.0f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), color,
+        glm::vec3(0.5f, 0.5f, -0.5f), color,
+        glm::vec3(0.5f, 0.5f, 0.5f), color,
 
         // Top face
-        glm::vec3(-1.0f, 1.0f, -1.0f), color,
-        glm::vec3(-1.0f, 1.0f, 1.0f), color,
-        glm::vec3(1.0f, 1.0f, 1.0f), color,
+        glm::vec3(-0.5f, 0.5f, -0.5f), color,
+        glm::vec3(-0.5f, 0.5f, 0.5f), color,
+        glm::vec3(0.5f, 0.5f, 0.5f), color,
 
-        glm::vec3(1.0f, 1.0f, 1.0f), color,
-        glm::vec3(1.0f, 1.0f, -1.0f), color,
-        glm::vec3(-1.0f, 1.0f, -1.0f), color,
+        glm::vec3(0.5f, 0.5f, 0.5f), color,
+        glm::vec3(0.5f, 0.5f, -0.5f), color,
+        glm::vec3(-0.5f, 0.5f, -0.5f), color,
 
         // Bottom face
-        glm::vec3(-1.0f, -1.0f, -1.0f), color,
-        glm::vec3(1.0f, -1.0f, 1.0f), color,
-        glm::vec3(-1.0f, -1.0f, 1.0f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), color,
 
-        glm::vec3(1.0f, -1.0f, 1.0f), color,
-        glm::vec3(-1.0f, -1.0f, -1.0f), color,
-        glm::vec3(1.0f, -1.0f, -1.0f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), color,
+        glm::vec3(0.5f, -0.5f, -0.5f), color,
     };
     
     *this = UnitCubeModel(
