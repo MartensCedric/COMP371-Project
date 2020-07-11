@@ -84,6 +84,9 @@
     <ClCompile Include="..\Source\UnitCubeModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\GroupModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\Model.hpp">
