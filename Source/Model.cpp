@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 #include <iostream>
+#include <glm/gtx/string_cast.hpp>
 
 Model::Model() {}
 
@@ -72,10 +73,8 @@ glm::mat4 Model::getModelMatrix()
 {
 	if (this->parent == nullptr)
 		return objTransMat * objRotMat * objScaleMat;
-
-	return this->parent->getModelMatrix() * objTransMat * objRotMat * objScaleMat;
+	
+	return objTransMat * objRotMat * objScaleMat * this->parent->getModelMatrix();
 }
 
-Model::~Model()
-{
-}
+Model::~Model() {}

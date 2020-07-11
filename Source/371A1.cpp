@@ -18,6 +18,7 @@
 #include "includes/Camera.hpp"
 #include "includes/GridModel.hpp"
 #include "includes/UnitCubeModel.hpp"
+#include "includes/GroupModel.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -29,6 +30,8 @@
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/GridModel.hpp"
 #include "../Source/includes/UnitCubeModel.hpp"
+#include "../Source/includes/GroupModel.hpp"
+
 #endif
 
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
@@ -90,24 +93,33 @@ int main(int argc, char*argv[])
 	std::vector<Model*> models;
 	
 	// Draw an E
+
+	// Empty parent
+	GroupModel e;
+	
 	// vertical bar
-	UnitCubeModel e;
-	e.scale(0.5, 2.5, 0.5);
-	e.translate(0, 2.5, 0);
+	UnitCubeModel eLeft;
+	eLeft.scale(0.5, 2.5, 0.5);
+	eLeft.translate(0, 2.5, 0);
 
 	UnitCubeModel eTop;
-	eTop.scale(2.5, 0.5, 0.5);
-	eTop.translate(1.5, 0, 0);
+	eTop.scale(1.5, 0.5, 0.5);
+	eTop.translate(2, 4.5, 0);
 
-	//UnitCubeModel eMiddle;
-	//eMiddle.scale(2.5, 0.5, 0.5);
+	UnitCubeModel eMiddle;
+	eMiddle.scale(1.5, 0.5, 0.5);
+	eMiddle.translate(2, 2.5, 0);
 
-	//UnitCubeModel eBottom;
-	//eBottom.scale(2,5, 0.5, 0.5);
+	
+	UnitCubeModel eBottom;
+	eBottom.scale(1.5, 0.5, 0.5);
+	eBottom.translate(2, 0.5, 0);
 
+	
+	e.addChild(&eLeft);
 	e.addChild(&eTop);
-	//eLeft.addChild(&eMiddle);
-	//eLeft.addChild(&eBottom);
+	e.addChild(&eMiddle);
+	e.addChild(&eBottom);
 
 	e.setShader(shaderProgram);
 	
