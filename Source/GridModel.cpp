@@ -62,21 +62,6 @@ GridModel::GridModel() {
         glm::vec3(-0.5f, 0.5f, 0.5f), colorBg
     };
 
-    glm::vec3 red = glm::vec3(1.0f , 0.0f, 0.0f);
-    glm::vec3 green = glm::vec3(0.0f , 1.0f, 0.0f);
-    glm::vec3 blue = glm::vec3(0.0f , 0.0f, 1.0f);
-
-    glm::vec3 verticesAxes[] = {
-        glm::vec3(0.0f, 0.0f, 0.0f), red,
-        glm::vec3(5.0f, 0.0f, 0.0f), red,
-
-        glm::vec3(0.0f, 0.0f, 0.0f), green,
-        glm::vec3(0.0f, 5.0f, 0.0f), green,
-
-        glm::vec3(0.0f, 0.0f, 0.0f), blue,
-        glm::vec3(0.0f, 0.0f, 5.0f), blue
-    };
-
     *this = GridModel(verticesGridCubes, sizeof(verticesGridCubes) / sizeof(verticesGridCubes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 		for (int i = 0; i < 100; i++) 
         {
@@ -102,14 +87,3 @@ GridModel::GridModel() {
 GridModel::GridModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT)) 
 : SimpleModel(vertexArray, vertexCount, drawFunc) 
 {}
-
-void GridModel::draw() {
-    SimpleModel::draw();
-    axes.draw();
-}
-
-void GridModel::setShader(int shaderProgram)
-{
-	SimpleModel::setShader(shaderProgram);
-    axes.setShader(shaderProgram);
-};
