@@ -17,6 +17,7 @@
 #include "includes/SimpleModel.hpp"
 #include "includes/Camera.hpp"
 #include "includes/GridModel.hpp"
+#include "includes/AxesModel.hpp"
 #include "includes/UnitCubeModel.hpp"
 #include "includes/GroupModel.hpp"
 
@@ -29,6 +30,7 @@
 #include "../Source/includes/SimpleModel.hpp"
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/GridModel.hpp"
+#include "../Source/includes/AxesModel.hpp"
 #include "../Source/includes/UnitCubeModel.hpp"
 #include "../Source/includes/GroupModel.hpp"
 
@@ -44,13 +46,14 @@
 #include <fstream>
 #include <string>
 
-SimpleModel model;
+SimpleModel world;
+std::vector<Model*> models;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     // Rotate model about left about Y
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->rotate(0, 1, 0, 5);
 		}
@@ -58,7 +61,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate model about left about Y
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->rotate(0, 1, 0, -5);
 		}
@@ -66,7 +69,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate model about left about X
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->rotate(1, 0, 0, 5);
 		}
@@ -74,7 +77,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate model about left about X
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->rotate(1, 0, 0, -5);
 		}
@@ -82,7 +85,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate model about left about Z
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) {
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->rotate(0, 0, 1, 5);
 		}
@@ -90,7 +93,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate model about left about Z
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS) {
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->rotate(0, 0, 1, -5);
 		}
@@ -98,20 +101,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate World Orientation Left
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		
+		world.rotate(0, 0, 1, -5);
 	}
 
 	// Rotate World Orientation Right
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		//@TODO: rotate world
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		world.rotate(0, 0, 1, 5);
+	}
 
 	// Rotate World Orientation UP
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		//@TODO: rotate world
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		world.rotate(1, 0, 0, -5);
+	}
 
 	// Rotate World Orientation Down
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		//@TODO: rotate world
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		world.rotate(1, 0, 0, 5);
+	}
 
 	//Switch to lines rendering mode
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
@@ -173,9 +179,12 @@ int main(int argc, char*argv[])
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
 	grid.setShader(shaderProgram);
-
-	//----------Models----------
+	world.addChild(&grid);
 	
+	AxesModel axes;
+	axes.setShader(shaderProgram);
+	world.addChild(&axes);
+
 	SimpleModel E5;
 
 	// Draw an E
@@ -243,7 +252,14 @@ int main(int argc, char*argv[])
 	
 	E5.addChild(&five);
 
-	model.addChild(&E5);
+	models.push_back(&E5);
+
+
+	//----------Models----------
+	for (auto it = models.begin(); it != models.end(); it++)
+	{
+		world.addChild(*it);
+	}
 	    
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -251,13 +267,7 @@ int main(int argc, char*argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
 		// Draw the 100x100 square grid and axes on the ground
-		grid.draw();
-		
-		for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
-		{
-			(*it)->setShader(shaderProgram);
-			(*it)->draw();
-		}
+		world.draw();
 
         // End frame
         glfwSwapBuffers(window);
@@ -273,7 +283,7 @@ int main(int argc, char*argv[])
 		
 		//move forward
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
 			}
@@ -281,7 +291,7 @@ int main(int argc, char*argv[])
 
 		//move back
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
 			}
@@ -289,7 +299,7 @@ int main(int argc, char*argv[])
 
 		//move left
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
 			}
@@ -297,7 +307,7 @@ int main(int argc, char*argv[])
 
 		//move right
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
@@ -305,21 +315,21 @@ int main(int argc, char*argv[])
 
 		//move up
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(0, 1, 0);
 			}
 
 		//move down
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->translate(0, -1, 0);
 			}
 			
 		// Scale Up
 		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->scale(1.05, 1.05, 1.05);
 			}
@@ -327,7 +337,7 @@ int main(int argc, char*argv[])
 		
 		// Scale Down
 		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = model.children.begin(); it != model.children.end(); it++)
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->scale(0.95, 0.95, 0.95);
 			}
