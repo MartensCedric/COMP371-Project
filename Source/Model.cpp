@@ -74,7 +74,9 @@ glm::mat4 Model::getModelMatrix()
 	if (this->parent == nullptr)
 		return objTransMat * objRotMat * objScaleMat;
 	
-	return objTransMat * objRotMat * objScaleMat * this->parent->getModelMatrix();
+	glm::mat4 parentMatrix = this->parent->getModelMatrix();
+	
+	return objTransMat * this->parent->objTransMat * objRotMat * objScaleMat * glm::inverse(this->parent->objTransMat) * parentMatrix;
 }
 
 Model::~Model() {}

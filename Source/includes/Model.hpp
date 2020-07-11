@@ -16,7 +16,7 @@ public:
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
-	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT);
+	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT) = [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {};
 	std::vector<Model*> children;
 	Model* parent = nullptr;
 

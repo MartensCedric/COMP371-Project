@@ -95,7 +95,8 @@ int main(int argc, char*argv[])
 	// Draw an E
 
 	// Empty parent
-	GroupModel e;
+	SimpleModel e;
+	e.setupAttribPointer();
 	
 	// vertical bar
 	UnitCubeModel eLeft;
