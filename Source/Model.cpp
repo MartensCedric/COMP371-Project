@@ -1,9 +1,13 @@
-#include "Model.h"
+#include "includes/Model.hpp"
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
+#include <iostream>
+#include <glm/gtx/string_cast.hpp>
+
+Model::Model() {}
 
 Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT))
 {
@@ -25,6 +29,11 @@ Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertex
 void Model::setShader(int shaderProgram)
 {
 	shaderId = shaderProgram;
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->shaderId = shaderProgram;
+	}
 };
 
 void Model::draw()
@@ -39,9 +48,9 @@ void Model::draw()
 	}
 }
 
-void Model::scale(float scaleFactor)
+void Model::scale(float x, float y, float z)
 {
-	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	this->objScaleMat = glm::scale(objScaleMat, glm::vec3(x, y, z));
 }
 
 void Model::rotate(float thetaX, float thetaY, float thetaZ)
@@ -54,21 +63,24 @@ void Model::translate(float x, float y, float z)
 	this->objTransMat = glm::translate(objTransMat, glm::vec3(x, y, z));
 }
 
-
-void Model::addChild(Model * child)
+void Model::addChild(Model* child)
 {
 	child->parent = this;
 	children.push_back(child);
 }
+\
+
 
 glm::mat4 Model::getModelMatrix()
 {
 	if (this->parent == nullptr)
-		return  objTransMat * objRotMat * objScaleMat;
+		return objTransMat * objRotMat * objScaleMat;
 
-	return objTransMat * objRotMat * objScaleMat * this->parent->getModelMatrix();
-}
+	glm::mat4 pRotMat = this->parent->objRotMat;
+	glm::mat4 pScaleMat = this->parent->objScaleMat;
+	glm::mat4 pTransMat = this->parent->objTransMat;
 
-Model::~Model()
-{
+	return this->parent->getModelMatrix() * objTransMat * objRotMat * objScaleMat;
+
 }
+Model::~Model() {}

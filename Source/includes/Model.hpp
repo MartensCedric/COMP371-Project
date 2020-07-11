@@ -5,28 +5,27 @@
 
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
-
 #include <vector>
 
 class Model
 {
-protected:
+public:
 	int vaoId;
-	int vertexCount;
 	int shaderId;
+	int vertexCount;
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
-	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT);
+	void(*drawFunction)(int vertexCount, int shaderProgram, glm::mat4 objRBT) = [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {};
 	std::vector<Model*> children;
-	Model * parent = nullptr;
+	Model* parent = nullptr;
 
-public:
+	Model();
 	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT));
 	virtual void setupAttribPointer() = 0;
 	void setShader(int shaderProgram);
 	virtual void draw();
-	void scale(float scaleFactor);
+	void scale(float x, float y, float z);
 	void rotate(float thetaX, float thetaY, float thetaZ);
 	void translate(float x, float y, float z);
 	void addChild(Model* child);
