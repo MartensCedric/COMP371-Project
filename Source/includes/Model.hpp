@@ -6,6 +6,10 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
 #include <vector>
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+#include <cmath>
 
 class Model
 {
