@@ -17,6 +17,7 @@
 #include "includes/SimpleModel.hpp"
 #include "includes/Camera.hpp"
 #include "includes/GridModel.hpp"
+#include "includes/AxesModel.hpp"
 #include "includes/UnitCubeModel.hpp"
 #include "includes/GroupModel.hpp"
 
@@ -29,6 +30,7 @@
 #include "../Source/includes/SimpleModel.hpp"
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/GridModel.hpp"
+#include "../Source/includes/AxesModel.hpp"
 #include "../Source/includes/UnitCubeModel.hpp"
 #include "../Source/includes/GroupModel.hpp"
 
@@ -44,6 +46,7 @@
 #include <fstream>
 #include <string>
 
+SimpleModel world;
 SimpleModel model;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -98,20 +101,35 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate World Orientation Left
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		
+		for (std::vector<Model*>::iterator it = world.children.begin(); it != world.children.end(); it++)
+		{
+			(*it)->rotate(0, 0, 1, -5);
+		}
 	}
 
 	// Rotate World Orientation Right
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		//@TODO: rotate world
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = world.children.begin(); it != world.children.end(); it++)
+		{
+			(*it)->rotate(0, 0, 1, 5);
+		}
+	}
 
 	// Rotate World Orientation UP
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		//@TODO: rotate world
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = world.children.begin(); it != world.children.end(); it++)
+		{
+			(*it)->rotate(1, 0, 0, -5);
+		}
+	}
 
 	// Rotate World Orientation Down
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		//@TODO: rotate world
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = world.children.begin(); it != world.children.end(); it++)
+		{
+			(*it)->rotate(1, 0, 0, 5);
+		}
+	}
 
 	//Switch to lines rendering mode
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
@@ -173,9 +191,15 @@ int main(int argc, char*argv[])
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
 	grid.setShader(shaderProgram);
+	world.addChild(&grid);
+	
+	AxesModel axes;
+	axes.setShader(shaderProgram);
+	world.addChild(&axes);
 
 	//----------Models----------
-	
+	world.addChild(&model);
+
 	SimpleModel E5;
 
 	// Draw an E
