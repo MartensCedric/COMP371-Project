@@ -254,11 +254,6 @@ int main(int argc, char*argv[])
 
 	models.push_back(&E5);
 
-	//----------Models----------
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		world.addChild(*it);
-	}
 
 	SimpleModel I3;
 
@@ -317,6 +312,12 @@ int main(int argc, char*argv[])
 	I3.addChild(&three);
 
 	models.push_back(&I3);
+
+	//----------Models----------
+	for (auto it = models.begin(); it != models.end(); it++)
+	{
+		world.addChild(*it);
+	}
 	    
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -399,19 +400,6 @@ int main(int argc, char*argv[])
 				(*it)->scale(0.95, 0.95, 0.95);
 			}
 		}
-
-		//Temporary camera controls for modeling purposes
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) //move forward
-			camera.moveForward();
-
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) //move back
-			camera.moveBack();
-
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) //move left
-			camera.moveLeft();
-
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) //move right
-			camera.moveRight();
 
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
 		camera.reset();
