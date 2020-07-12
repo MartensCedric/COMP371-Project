@@ -121,9 +121,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_HOME)) {
-		world.rotate(1, 0, 0, (-1)*world.xAngle);
-		world.rotate(0, 1, 0, (-1)*world.yAngle);
-		world.rotate(0, 0, 1, (-1)*world.zAngle);
+		world.reset();
 	}
 
 	//Switch to lines rendering mode

@@ -17,7 +17,6 @@ public:
 	int vaoId;
 	int shaderId;
 	int vertexCount;
-	int xAngle = 0, yAngle = 0, zAngle = 0; // in degrees
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
@@ -35,5 +34,6 @@ public:
 	void translate(float x, float y, float z);
 	void addChild(Model* child);
 	glm::mat4 getModelMatrix();
+	void reset();
 	virtual ~Model();
 };
