@@ -102,22 +102,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate World Orientation Left
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		world.rotate(0, 0, 1, -5);
+		world.rotate(1, 0, 0, -5);
 	}
 
 	// Rotate World Orientation Right
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		world.rotate(0, 0, 1, 5);
+		world.rotate(1, 0, 0, 5);
 	}
 
 	// Rotate World Orientation UP
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		world.rotate(1, 0, 0, -5);
+		world.rotate(0, 1, 0, 5);
 	}
 
 	// Rotate World Orientation Down
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		world.rotate(1, 0, 0, 5);
+		world.rotate(0, 1, 0, -5);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_HOME)) {
