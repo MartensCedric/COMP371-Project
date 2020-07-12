@@ -297,7 +297,7 @@ int main(int argc, char*argv[])
 			{
 				double dx = xCursor - xPanStart;
 				double angleDegrees = dx / 10000.0;
-				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::vec3(0.0, 0.0, 1.0));
+				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), -camera->up);
 				
 				glm::vec3 newDirection = panRotation * glm::vec4(panDirection, 1.0f);
 
@@ -328,7 +328,7 @@ int main(int argc, char*argv[])
 			{
 				double dy = yTiltStart - yCursor;
 				double angleDegrees = dy / 50000.0;
-				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::vec3(1.0, 0.0, 0.0));
+				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::cross(tiltDirection, camera->up));
 
 				glm::vec3 newDirection = tiltRotation * glm::vec4(tiltDirection, 1.0f);
 
