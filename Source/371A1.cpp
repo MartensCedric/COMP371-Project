@@ -296,19 +296,19 @@ int main(int argc, char*argv[])
 			if (isPanning)
 			{
 				double dx = xCursor - xPanStart;
+				std::cout << "dx : " << dx << std::endl;
 				double angleDegrees = dx / 10000.0;
 				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), -camera->up);
-				
-				glm::vec3 newDirection = panRotation * glm::vec4(panDirection, 1.0f);
+
+				glm::vec3 newDirection = glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 70.0f;
 
 				glm::vec3 newLookAt = newDirection + camera->position;
 				camera->lookAtPos = newLookAt;
-				
 			}
 			else {
 				isPanning = true;
 				xPanStart = xCursor;
-				panDirection = camera->lookAtPos - camera->position;
+				panDirection = glm::normalize(camera->lookAtPos - camera->position);
 			}
 		}
 
@@ -327,13 +327,15 @@ int main(int argc, char*argv[])
 			if (isTilting)
 			{
 				double dy = yTiltStart - yCursor;
+				std::cout << "dy :" << dy << std::endl;
 				double angleDegrees = dy / 50000.0;
 				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::cross(tiltDirection, camera->up));
 
-				glm::vec3 newDirection = tiltRotation * glm::vec4(tiltDirection, 1.0f);
+				glm::vec3 newDirection = glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 70.0f;
 
-				glm::vec3 newLookAt = newDirection + camera->position;
+				glm::vec3 newLookAt = glm::normalize(newDirection + camera->position);
 				camera->lookAtPos = newLookAt;
+
 			}
 			else {
 				isTilting = true;
