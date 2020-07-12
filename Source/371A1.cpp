@@ -397,6 +397,7 @@ int main(int argc, char*argv[])
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
 
 	float angleY = 0;
+	float angleX = 0;
     
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -424,9 +425,9 @@ int main(int argc, char*argv[])
 		{
 			if (isPanning) {
 				double dx = xCursor - xPanStart;
-				//std::cout << "dx : " << dx << std::endl;
-				double angleDegrees = dx / 1000.0;
-				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)angleDegrees, -camera->up);
+				float angle = dx / 10000.0;
+				angleX += angle;
+				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), angleX, -camera->up);
 				glm::vec3 newDirection(glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 70.0f);
 				glm::vec3 newLookAt = newDirection + camera->position;
 				camera->lookAtPos = newLookAt;
@@ -452,11 +453,9 @@ int main(int argc, char*argv[])
 			if (isTilting)
 			{
 				double dy = yTiltStart - yCursor;
-				std::cout << "dy :" << dy << std::endl;
-				float angle = dy / 10000;
+				float angle = dy / 10000.0;
 				angleY += angle;
 				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), angleY, glm::cross(tiltDirection, camera->up));
-
 				glm::vec3 newDirection(glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 70.0f);
 				glm::vec3 newLookAt = glm::normalize(newDirection + camera->position);
 				camera->lookAtPos = newLookAt;
