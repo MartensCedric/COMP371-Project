@@ -17,7 +17,7 @@ public:
 	int vaoId;
 	int shaderId;
 	int vertexCount;
-	int xAngle, yAngle, zAngle; // in degrees
+	int xAngle = 0, yAngle = 0, zAngle = 0; // in degrees
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
@@ -28,7 +28,7 @@ public:
 	Model();
 	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT));
 	virtual void setupAttribPointer() = 0;
-	void setShader(int shaderProgram);
+	virtual void setShader(int shaderProgram);
 	virtual void draw();
 	void scale(float x, float y, float z);
 	void rotate(float y, float x, float z, float angle);
