@@ -226,7 +226,7 @@ int main(int argc, char*argv[])
 	world.addChild(&axes);
 
 	// Alpha numerical models
-	SimpleModel E5, I31, I32, T5;
+	SimpleModel E5, I31, I32, T5, D8;
 
 	// Draw an E
 	SimpleModel E;
@@ -415,6 +415,77 @@ int main(int argc, char*argv[])
 
 	models.push_back(&I32);
 
+	//Draw a D
+	SimpleModel D;
+	D.setupAttribPointer();
+
+
+	UnitCubeModel dLeft;
+	dLeft.scale(1, 7.1, 1);
+
+	UnitCubeModel dRight;
+	dRight.scale(1, 5.5, 1);
+	dRight.translate(2.3, 0, 0);
+
+	UnitCubeModel dTop;
+	dTop.scale(3, 1, 1);
+	dTop.translate(1.2, 2.83, 0);
+	dTop.rotate(0, 0, 1, -11);
+
+
+	UnitCubeModel dBottom;
+	dBottom.scale(3, 1, 1);
+	dBottom.translate(1.2, -2.83, 0);
+	dBottom.rotate(0, 0, 1, 11);
+
+	D.addChild(&dLeft);
+	D.addChild(&dTop);
+	D.addChild(&dBottom);
+	D.addChild(&dRight);
+
+	D.setShader(shaderProgram);
+
+	D.translate(-3.5, 0, 0);
+	D8.addChild(&D);
+
+	// Draw a 8
+	SimpleModel eight;
+	eight.setupAttribPointer();
+
+	UnitCubeModel eightRight;
+	eightRight.scale(1, 5, 1);
+	eightRight.translate(2, 0, 0);
+
+	UnitCubeModel eightLeft;
+	eightLeft.scale(1, 5, 1);
+	eightLeft.translate(0, 0, 0);
+
+	UnitCubeModel eightTop;
+	eightTop.scale(3, 1, 1);
+	eightTop.translate(1, 3, 0);
+
+	UnitCubeModel eightMiddle;
+	eightMiddle.scale(3, 1, 1);
+	eightMiddle.translate(1, 0, 0);
+
+	UnitCubeModel eightBottom;
+	eightBottom.scale(3, 1, 1);
+	eightBottom.translate(1, -3, 0);
+
+	eight.addChild(&eightLeft);
+	eight.addChild(&eightRight);
+	eight.addChild(&eightTop);
+	eight.addChild(&eightMiddle);
+	eight.addChild(&eightBottom);
+
+	eight.setShader(shaderProgram);
+	eight.translate(1.5, 0, 0);
+
+	D8.addChild(&eight);
+	D8.translate(-25, 3.5, 25);
+	D8.rotate(0, 1, 0, 175);
+	models.push_back(&D8);
+
 	//Draw a T
 	SimpleModel T;
 	T.setupAttribPointer();
@@ -520,8 +591,7 @@ int main(int argc, char*argv[])
 			{
 				// If the mouse is paning (left/right) move the camera around the axis -Camera-up 
 				double dx = xCursor - xPanStart;
-				std::cout << "dx : " << dx << std::endl;
-				double angleDegrees = dx/25.f;
+				double angleDegrees = dx/10.f;
 				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), -camera->up);
 				glm::vec3 newDirection(glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 70.0f);
 				glm::vec3 newLookAt = newDirection + camera->position;
@@ -550,8 +620,7 @@ int main(int argc, char*argv[])
 			{
 				// If the mouse is tilting (up/down) move the camera around the axis LookAt-Direction X Camera-up 
 				double dy = yTiltStart - yCursor;
-				std::cout << "dy :" << dy << std::endl;
-				double angleDegrees = dy / 25.f;
+				double angleDegrees = dy / 10.f;
 				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), glm::cross(tiltDirection, camera->up));
 
 				glm::vec3 newDirection(glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 70.0f);
