@@ -57,6 +57,7 @@ If the above steps do not result in a new window popping up to render the graphi
 
 - `home` --> set world orientation to home position
 
+- `Left Mouse Click + Move Mouse up/down` --> Zoom out/in
 - `Right Mouse Click + Move Mouse left/right` --> Pan
 - `Middle Mouse Click + Move Mouse up/down` --> Tilt
 
