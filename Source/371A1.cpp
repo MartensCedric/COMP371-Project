@@ -48,12 +48,11 @@
 
 SimpleModel world;
 std::vector<Model*> models;
-Camera *cam;
 double currentYPos;
 double previousYPos = -1;
 double currentVariation = 0;
 bool leftMouseClick = false;
-
+Camera* camera = nullptr;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -107,22 +106,26 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate World Orientation Left
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		world.rotate(0, 0, 1, -5);
+		world.rotate(1, 0, 0, -5);
 	}
 
 	// Rotate World Orientation Right
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		world.rotate(0, 0, 1, 5);
+		world.rotate(1, 0, 0, 5);
 	}
 
 	// Rotate World Orientation UP
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		world.rotate(1, 0, 0, -5);
+		world.rotate(0, 1, 0, 5);
 	}
 
 	// Rotate World Orientation Down
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		world.rotate(1, 0, 0, 5);
+		world.rotate(0, 1, 0, -5);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_HOME)) {
+		world.reset();
 	}
 
 	//Switch to lines rendering mode
@@ -148,7 +151,7 @@ static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos)
 	}
 
 	if (leftMouseClick == true) {
-		cam->setFOV((cam->getFOV())- currentVariation/1000);
+		camera->setFOV((camera->getFOV())- currentVariation/1000);
 	}
 }
 
@@ -210,8 +213,8 @@ int main(int argc, char*argv[])
 	glUseProgram(shaderProgram);
 
 	//----------Camera setup----------
-	Camera camera(shaderProgram);
-	cam = &camera;
+	camera = new Camera(shaderProgram);
+
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
@@ -222,7 +225,8 @@ int main(int argc, char*argv[])
 	axes.setShader(shaderProgram);
 	world.addChild(&axes);
 
-	SimpleModel E5;
+	// Alpha numerical models
+	SimpleModel E5, I3, T5;
 
 	// Draw an E
 	SimpleModel E;
@@ -291,6 +295,125 @@ int main(int argc, char*argv[])
 
 	models.push_back(&E5);
 
+	//Draw an I
+	SimpleModel I;
+	I.setupAttribPointer();
+	I.translate(-2, 0, 0);
+
+	UnitCubeModel iTop;
+	iTop.scale(2, 1, 1);
+	iTop.translate(0, 3, 0);
+
+	UnitCubeModel iMiddle;
+	iMiddle.scale(1, 5, 1);
+	iMiddle.translate(0, 0, 0);
+
+	UnitCubeModel iBottom;
+	iBottom.scale(2, 1, 1);
+	iBottom.translate(0, -3, 0);
+
+	I.addChild(&iTop);
+	I.addChild(&iMiddle);
+	I.addChild(&iBottom);
+
+	I.setShader(shaderProgram);
+
+	I3.addChild(&I);
+
+	//Draw a 3
+	SimpleModel three;
+	three.setupAttribPointer();
+
+	UnitCubeModel threeRight;
+	threeRight.scale(1, 5, 1);
+	threeRight.translate(2, 0, 0);
+
+	UnitCubeModel threeTop;
+	threeTop.scale(3, 1, 1);
+	threeTop.translate(1, 3, 0);
+
+	UnitCubeModel threeMiddle;
+	threeMiddle.scale(3, 1, 1);
+	threeMiddle.translate(1, 0, 0);
+
+	UnitCubeModel threeBottom;
+	threeBottom.scale(3, 1, 1);
+	threeBottom.translate(1, -3, 0);
+
+	three.addChild(&threeRight);
+	three.addChild(&threeTop);
+	three.addChild(&threeMiddle);
+	three.addChild(&threeBottom);
+
+	three.setShader(shaderProgram);
+	three.translate(2, 0, 0);
+
+	I3.addChild(&three);
+	I3.translate(21, 3.5, -25);
+
+	models.push_back(&I3);
+
+	//Draw a T
+	SimpleModel T;
+	T.setupAttribPointer();
+	T.translate(-2, 0, 0);
+
+	UnitCubeModel tTop;
+	tTop.scale(4, 1, 1);
+	tTop.translate(0, 3, 0);
+
+	UnitCubeModel tMiddle;
+	tMiddle.scale(1, 5, 1);
+	tMiddle.translate(0, 0, 0);
+
+	UnitCubeModel tBottom;
+	tBottom.scale(1, 1, 1);
+	tBottom.translate(0, -3, 0);
+
+	T.addChild(&tTop);
+	T.addChild(&tMiddle);
+	T.addChild(&tBottom);
+
+	T.setShader(shaderProgram);
+	T5.addChild(&T);
+	
+	// Draw a 5
+	SimpleModel tFive;
+	tFive.setupAttribPointer();
+	tFive.translate(2, 0, 0);
+
+	UnitCubeModel tFiveLeft;
+	tFiveLeft.scale(1, 2.5, 1);
+	tFiveLeft.translate(0, 1.25, 0);
+
+	UnitCubeModel tFiveRight;
+	tFiveRight.scale(1, 2.5, 1);
+	tFiveRight.translate(2, -1.25, 0);
+
+	UnitCubeModel tFiveTop;
+	tFiveTop.scale(3, 1, 1);
+	tFiveTop.translate(1, 3, 0);
+
+	UnitCubeModel tFiveMiddle;
+	tFiveMiddle.scale(3, 1, 1);
+	tFiveMiddle.translate(1, 0, 0);
+
+	UnitCubeModel tFiveBottom;
+	tFiveBottom.scale(3, 1, 1);
+	tFiveBottom.translate(1, -3, 0);
+
+	tFive.addChild(&tFiveLeft);
+	tFive.addChild(&tFiveRight);
+	tFive.addChild(&tFiveTop);
+	tFive.addChild(&tFiveMiddle);
+	tFive.addChild(&tFiveBottom);
+
+	tFive.setShader(shaderProgram);
+
+	T5.addChild(&tFive);
+	T5.translate(-17, 3.5, -25);
+	
+	models.push_back(&T5);
 
 	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
@@ -298,10 +421,19 @@ int main(int argc, char*argv[])
 		world.addChild(*it);
 	}
 	    
+	double xCursor, yCursor;
+	double xPanStart = -1;
+	double yTiltStart = -1;
+	bool isPanning = false;
+	bool isTilting = false;
+	glm::vec3 panDirection = glm::vec3(1.0f);
+	glm::vec3 tiltDirection = glm::vec3(1.0f);
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor and reset the depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+		glfwGetCursorPos(window, &xCursor, &yCursor);
 
 		// Draw the 100x100 square grid and axes on the ground
 		world.draw();
@@ -317,7 +449,68 @@ int main(int argc, char*argv[])
 		//Terminate program
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-		
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+		{
+			if (isPanning)
+			{
+				double dx = xCursor - xPanStart;
+				std::cout << "dx : " << dx << std::endl;
+				double angleDegrees = dx / 10000.0;
+				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), -camera->up);
+				glm::vec3 newDirection(glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 70.0f);
+				glm::vec3 newLookAt = newDirection + camera->position;
+				camera->lookAtPos = newLookAt;
+			}
+			else {
+				isPanning = true;
+				xPanStart = xCursor;
+				panDirection = glm::normalize(camera->lookAtPos - camera->position);
+			}
+		}
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+		{
+			if (isPanning)
+			{
+				isPanning = false;
+				xPanStart = -1;
+				panDirection = glm::vec3(1.0f);
+			}
+		}
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
+		{
+			if (isTilting)
+			{
+				double dy = yTiltStart - yCursor;
+				std::cout << "dy :" << dy << std::endl;
+				double angleDegrees = dy / 50000.0;
+				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::cross(tiltDirection, camera->up));
+
+				glm::vec3 newDirection(glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 70.0f);
+				glm::vec3 newLookAt = glm::normalize(newDirection + camera->position);
+				camera->lookAtPos = newLookAt;
+
+			}
+			else {
+				isTilting = true;
+				yTiltStart = yCursor;
+				tiltDirection = camera->lookAtPos - camera->position;
+			}
+		}
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE)
+		{
+			if (isTilting)
+			{
+				isTilting = false;
+				yTiltStart = -1;
+				tiltDirection = glm::vec3(1.0f);
+			}
+		}
+
+
 		//move forward
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
@@ -380,8 +573,9 @@ int main(int argc, char*argv[])
 			}
 		}
 
+		
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
-		camera.reset();
+		camera->reset();
     }
     
     // Shutdown GLFW

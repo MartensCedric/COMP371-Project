@@ -40,13 +40,24 @@ If the above steps do not result in a new window popping up to render the graphi
 - `Lshift + w` --> move model forward
 - `Lshift + a` --> move model left
 - `Lshift + s` --> move model backward
+- `Lshift + d` --> move model right
+
 - `u` --> scale up model
 - `j` --> scale down model
-- `Lshift + d` --> move model right
+
+- `Lshift + q` --> move model up
+- `Lshift + e` --> move model down
+
 - `a` --> rotate left about Y axis
 - `d` --> rotate right about Y axis
 - `q` --> rotate left about X axis
 - `e` --> rotate right about X axis
 - `z` --> rotate left about Z axis
 - `c` --> rotate right about Z axis
+
+- `home` --> set world orientation to home position
+
+- `Right Mouse Click + Move Mouse left/right` --> Pan
+- `Middle Mouse Click + Move Mouse up/down` --> Tilt
+
 - `Esc` --> terminate program
