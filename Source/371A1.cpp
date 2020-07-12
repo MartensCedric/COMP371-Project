@@ -255,6 +255,64 @@ int main(int argc, char*argv[])
 	models.push_back(&E5);
 
 
+	SimpleModel I3;
+
+	//Draw an I
+	SimpleModel I;
+	I.setupAttribPointer();
+
+	UnitCubeModel iTop;
+	iTop.scale(2, 1, 1);
+	iTop.translate(0, 3, 0);
+
+	UnitCubeModel iMiddle;
+	iMiddle.scale(1, 5, 1);
+	iMiddle.translate(0, 0, 0);
+
+	UnitCubeModel iBottom;
+	iBottom.scale(2, 1, 1);
+	iBottom.translate(0, -3, 0);
+
+	I.addChild(&iTop);
+	I.addChild(&iMiddle);
+	I.addChild(&iBottom);
+
+	I.setShader(shaderProgram);
+	I.translate(17, 3.5, -25);
+	I3.addChild(&I);
+
+	//Draw a 3
+	SimpleModel three;
+	three.setupAttribPointer();
+
+	UnitCubeModel threeRight;
+	threeRight.scale(1, 5, 1);
+	threeRight.translate(2, 0, 0);
+
+	UnitCubeModel threeTop;
+	threeTop.scale(3, 1, 1);
+	threeTop.translate(1, 3, 0);
+
+	UnitCubeModel threeMiddle;
+	threeMiddle.scale(3, 1, 1);
+	threeMiddle.translate(1, 0, 0);
+
+	UnitCubeModel threeBottom;
+	threeBottom.scale(3, 1, 1);
+	threeBottom.translate(1, -3, 0);
+
+	three.addChild(&threeRight);
+	three.addChild(&threeTop);
+	three.addChild(&threeMiddle);
+	three.addChild(&threeBottom);
+
+	three.setShader(shaderProgram);
+	three.translate(21, 3.5, -25);
+
+	I3.addChild(&three);
+
+	models.push_back(&I3);
+
 	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
