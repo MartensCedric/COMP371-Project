@@ -50,6 +50,7 @@ SimpleModel world;
 std::vector<Model*> models;
 Camera* camera = nullptr;
 
+// Callbacks for keys
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     // Rotate model about left about Y
@@ -385,7 +386,9 @@ int main(int argc, char*argv[])
 	{
 		world.addChild(*it);
 	}
-	    
+	 
+
+	// Variables for Tilt/Pan
 	double xCursor, yCursor;
 	double xPanStart = -1;
 	double yTiltStart = -1;
@@ -419,6 +422,7 @@ int main(int argc, char*argv[])
 		{
 			if (isPanning)
 			{
+				// If the mouse is paning (left/right) move the camera around the axis -Camera-up 
 				double dx = xCursor - xPanStart;
 				std::cout << "dx : " << dx << std::endl;
 				double angleDegrees = dx / 10000.0;
@@ -448,6 +452,7 @@ int main(int argc, char*argv[])
 		{
 			if (isTilting)
 			{
+				// If the mouse is tilting (up/down) move the camera around the axis LookAt-Direction X Camera-up 
 				double dy = yTiltStart - yCursor;
 				std::cout << "dy :" << dy << std::endl;
 				double angleDegrees = dy / 50000.0;
