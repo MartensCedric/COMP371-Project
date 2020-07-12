@@ -55,4 +55,7 @@ If the above steps do not result in a new window popping up to render the graphi
 - `z` --> rotate left about Z axis
 - `c` --> rotate right about Z axis
 
+- `Right-Click + move mouse left/right` --> Pan
+- `Middle Mouse Click + move mouse up/down` -->Tilt
+
 - `Esc` --> terminate program
