@@ -1,6 +1,7 @@
 #include "includes/Camera.hpp"
 
-
+GLuint projectionMatrixLocation;
+float defaultFOV = 0.785f;
 /**
 * This class instantiates a camera. It has some utility functions that manipulates it.
 */
@@ -23,11 +24,11 @@ Camera::Camera(int shaderProgram) :
 
     // Set projection matrix for the shader (in this case we use perspective projection)
     glm::mat4 projectionMatrix = glm::perspective(
-        70.0f,            // field of view in degrees
+        defaultFOV,            // field of view in degrees
         1024.0f / 768.0f, // aspect ratio
         0.01f, 100.0f     // near and far (near > 0)
     );
-    GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
+    projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
     // Set the initial view matrix     					
@@ -60,3 +61,29 @@ void Camera::reset() {
     GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);	
 }
+
+//Replaces the values of the projection matrix within the projectionMatrixLocation
+void Camera::setFOV(float fov) {
+	if (fov > 1.8f) {
+		defaultFOV = 1.8f;
+	}
+	else if (fov < 0.4f) {
+		defaultFOV = 0.4f;
+	}
+	else {
+		defaultFOV = fov;
+	}
+	// Set projection matrix for the shader (in this case we use perspective projection)
+	glm::mat4 projectionMatrix = glm::perspective(
+		defaultFOV,            // field of view in degrees
+		1024.0f / 768.0f, // aspect ratio
+		0.01f, 100.0f     // near and far (near > 0)
+	);
+	projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
+	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+}
+
+float Camera::getFOV() {
+	return defaultFOV;
+}
+

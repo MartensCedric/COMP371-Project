@@ -48,6 +48,10 @@
 
 SimpleModel world;
 std::vector<Model*> models;
+double currentYPos;
+double previousYPos = -1;
+double currentVariation = 0;
+bool leftMouseClick = false;
 Camera* camera = nullptr;
 
 // Callbacks for keys
@@ -139,6 +143,33 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 }
+//The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
+static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) {
+	currentYPos = yPos;
+
+	if (previousYPos != -1) {
+		currentVariation = currentYPos - previousYPos;
+	}
+
+	if (leftMouseClick == true) {
+		camera->setFOV((camera->getFOV())- currentVariation/1000);
+	}
+}
+
+//The purpose of the mouseButtonCallback method is to detect a left click and signal the initial y position of the cursor through the use of the cursor callback method
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		previousYPos = currentYPos;
+		leftMouseClick = true;
+	}
+
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		previousYPos = -1;
+		leftMouseClick = false;
+	}
+}
+
 
 int main(int argc, char*argv[])
 {
@@ -164,6 +195,9 @@ int main(int argc, char*argv[])
         glfwTerminate();
         return -1;
     }
+
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
     glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
 
@@ -176,11 +210,12 @@ int main(int argc, char*argv[])
     }
 
     // Compile and link shaders here ...
-    int shaderProgram = compileAndLinkShaders();
+	int shaderProgram = compileAndLinkShaders();
 	glUseProgram(shaderProgram);
 
 	//----------Camera setup----------
 	camera = new Camera(shaderProgram);
+
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
@@ -192,7 +227,7 @@ int main(int argc, char*argv[])
 	world.addChild(&axes);
 
 	// Alpha numerical models
-	SimpleModel E5, I3, T5;
+	SimpleModel E5, I31, I32, T5;
 
 	// Draw an E
 	SimpleModel E;
@@ -200,7 +235,7 @@ int main(int argc, char*argv[])
 
 	UnitCubeModel eLeft;
 	eLeft.scale(1, 5, 1);
-	eLeft.translate(0, 0, 0);
+
 
 	UnitCubeModel eTop;
 	eTop.scale(3, 1, 1);
@@ -221,7 +256,7 @@ int main(int argc, char*argv[])
 
 	E.setShader(shaderProgram);
 
-	E.translate(-3.5, 3.5, 0);
+	E.translate(-3.5, 0, 0);
 	E5.addChild(&E);
 
 	// Draw a 5
@@ -255,12 +290,14 @@ int main(int argc, char*argv[])
 	five.addChild(&fiveBottom);
 
 	five.setShader(shaderProgram);
-	five.translate(1.5, 3.5, 0);
+	five.translate(1.5, 0, 0);
 	
 	E5.addChild(&five);
-
+	E5.translate(0, 3.5, 0);
 	models.push_back(&E5);
 
+
+	// First I3
 	//Draw an I
 	SimpleModel I;
 	I.setupAttribPointer();
@@ -284,7 +321,7 @@ int main(int argc, char*argv[])
 
 	I.setShader(shaderProgram);
 
-	I3.addChild(&I);
+	I31.addChild(&I);
 
 	//Draw a 3
 	SimpleModel three;
@@ -314,10 +351,70 @@ int main(int argc, char*argv[])
 	three.setShader(shaderProgram);
 	three.translate(2, 0, 0);
 
-	I3.addChild(&three);
-	I3.translate(21, 3.5, -25);
+	I31.addChild(&three);
+	I31.translate(25, 3.5, -25);
 
-	models.push_back(&I3);
+	models.push_back(&I31);
+
+	//Second I3
+	//Draw an I
+	SimpleModel I2;
+	I2.setupAttribPointer();
+	I2.translate(-2, 0, 0);
+
+	UnitCubeModel iTop2;
+	iTop2.scale(2, 1, 1);
+	iTop2.translate(0, 3, 0);
+
+	UnitCubeModel iMiddle2;
+	iMiddle2.scale(1, 5, 1);
+	iMiddle2.translate(0, 0, 0);
+
+	UnitCubeModel iBottom2;
+	iBottom2.scale(2, 1, 1);
+	iBottom2.translate(0, -3, 0);
+
+	I2.addChild(&iTop2);
+	I2.addChild(&iMiddle2);
+	I2.addChild(&iBottom2);
+
+	I2.setShader(shaderProgram);
+
+	I32.addChild(&I2);
+
+	//Draw a 3
+	SimpleModel three2;
+	three2.setupAttribPointer();
+
+	UnitCubeModel threeRight2;
+	threeRight2.scale(1, 5, 1);
+	threeRight2.translate(2, 0, 0);
+
+	UnitCubeModel threeTop2;
+	threeTop2.scale(3, 1, 1);
+	threeTop2.translate(1, 3, 0);
+
+	UnitCubeModel threeMiddle2;
+	threeMiddle2.scale(3, 1, 1);
+	threeMiddle2.translate(1, 0, 0);
+
+	UnitCubeModel threeBottom2;
+	threeBottom2.scale(3, 1, 1);
+	threeBottom2.translate(1, -3, 0);
+
+	three2.addChild(&threeRight2);
+	three2.addChild(&threeTop2);
+	three2.addChild(&threeMiddle2);
+	three2.addChild(&threeBottom2);
+
+	three2.setShader(shaderProgram);
+	three2.translate(2, 0, 0);
+
+	I32.addChild(&three2);
+	I32.translate(25, 3.5, 25);
+	I32.rotate(0, 0, 1, 180.0f);
+
+	models.push_back(&I32);
 
 	//Draw a T
 	SimpleModel T;
@@ -377,7 +474,7 @@ int main(int argc, char*argv[])
 	tFive.setShader(shaderProgram);
 
 	T5.addChild(&tFive);
-	T5.translate(-17, 3.5, -25);
+	T5.translate(-25, 3.5, -25);
 	
 	models.push_back(&T5);
 

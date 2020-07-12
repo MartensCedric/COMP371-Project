@@ -17,4 +17,6 @@ class Camera {
         void moveLeft();
         void moveRight();
         void reset();
+		void setFOV(float fov);
+		float getFOV();
 };
