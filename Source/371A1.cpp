@@ -378,6 +378,7 @@ int main(int argc, char*argv[])
 
 	I32.addChild(&three2);
 	I32.translate(25, 3.5, 25);
+	I32.rotate(0, 0, 1, 180.0f);
 
 	models.push_back(&I32);
 
