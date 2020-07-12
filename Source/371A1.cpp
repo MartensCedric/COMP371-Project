@@ -48,6 +48,7 @@
 
 SimpleModel world;
 std::vector<Model*> models;
+Camera* camera = nullptr;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -174,7 +175,7 @@ int main(int argc, char*argv[])
 	glUseProgram(shaderProgram);
 
 	//----------Camera setup----------
-	Camera camera(shaderProgram);
+	camera = new Camera(shaderProgram);
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
@@ -261,10 +262,19 @@ int main(int argc, char*argv[])
 		world.addChild(*it);
 	}
 	    
+	double xCursor, yCursor;
+	double xPanStart = -1;
+	double yTiltStart = -1;
+	bool isPanning = false;
+	bool isTilting = false;
+	glm::vec3 panDirection = glm::vec3(1.0f);
+	glm::vec3 tiltDirection = glm::vec3(1.0f);
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor and reset the depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+		glfwGetCursorPos(window, &xCursor, &yCursor);
 
 		// Draw the 100x100 square grid and axes on the ground
 		world.draw();
@@ -280,7 +290,38 @@ int main(int argc, char*argv[])
 		//Terminate program
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-		
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+		{
+			if (isPanning)
+			{
+				double dx = xCursor - xPanStart;
+				double angleDegrees = dx / 10000.0;
+				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::vec3(0.0, 0.0, 1.0));
+				
+				glm::vec3 newDirection = panRotation * glm::vec4(panDirection, 1.0f);
+
+				glm::vec3 newLookAt = newDirection + camera->position;
+				camera->lookAtPos = newLookAt;
+				
+			}
+			else {
+				isPanning = true;
+				xPanStart = xCursor;
+				panDirection = camera->lookAtPos - camera->position;
+			}
+		}
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+		{
+			if (isPanning)
+			{
+				isPanning = false;
+				xPanStart = -1;
+				panDirection = glm::vec3(1.0f);
+			}
+		}
+
 		//move forward
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
@@ -343,8 +384,9 @@ int main(int argc, char*argv[])
 			}
 		}
 
+		
 		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
-		camera.reset();
+		camera->reset();
     }
     
     // Shutdown GLFW
