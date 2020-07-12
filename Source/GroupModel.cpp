@@ -1,5 +1,9 @@
 #include "includes/GroupModel.hpp"
 
+
+/**
+* This class is to group some models together. Not used in PA1
+*/
 GroupModel::GroupModel() {}
 
 void GroupModel::setupAttribPointer() {}

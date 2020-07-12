@@ -54,6 +54,7 @@ double currentVariation = 0;
 bool leftMouseClick = false;
 Camera* camera = nullptr;
 
+// Callbacks for keys
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     // Rotate model about left about Y
@@ -214,7 +215,6 @@ int main(int argc, char*argv[])
 
 	//----------Camera setup----------
 	camera = new Camera(shaderProgram);
-
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
@@ -553,7 +553,9 @@ int main(int argc, char*argv[])
 	{
 		world.addChild(*it);
 	}
-	    
+	 
+
+	// Variables for Tilt/Pan
 	double xCursor, yCursor;
 	double xPanStart = -1;
 	double yTiltStart = -1;
@@ -587,10 +589,11 @@ int main(int argc, char*argv[])
 		{
 			if (isPanning)
 			{
+				// If the mouse is paning (left/right) move the camera around the axis -Camera-up 
 				double dx = xCursor - xPanStart;
 				std::cout << "dx : " << dx << std::endl;
-				double angleDegrees = dx / 10000.0;
-				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), -camera->up);
+				double angleDegrees = dx/25.f;
+				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), -camera->up);
 				glm::vec3 newDirection(glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 70.0f);
 				glm::vec3 newLookAt = newDirection + camera->position;
 				camera->lookAtPos = newLookAt;
@@ -616,13 +619,14 @@ int main(int argc, char*argv[])
 		{
 			if (isTilting)
 			{
+				// If the mouse is tilting (up/down) move the camera around the axis LookAt-Direction X Camera-up 
 				double dy = yTiltStart - yCursor;
 				std::cout << "dy :" << dy << std::endl;
-				double angleDegrees = dy / 50000.0;
-				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::cross(tiltDirection, camera->up));
+				double angleDegrees = dy / 25.f;
+				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), glm::cross(tiltDirection, camera->up));
 
 				glm::vec3 newDirection(glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 70.0f);
-				glm::vec3 newLookAt = glm::normalize(newDirection + camera->position);
+				glm::vec3 newLookAt = newDirection + camera->position;
 				camera->lookAtPos = newLookAt;
 
 			}

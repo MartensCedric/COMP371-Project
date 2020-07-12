@@ -2,12 +2,14 @@
 
 GLuint projectionMatrixLocation;
 float defaultFOV = 0.785f;
-
-Camera::Camera(int shaderProgram) : 
-    speed(0.1f), 
-    position(0.0f, 5.0f, 15.0f),
-    lookAtPos(0.0f, 0.0f, -1.0f),
-    up(0.0f, 1.0f, 0.0f),
+/**
+* This class instantiates a camera. It has some utility functions that manipulates it.
+*/
+Camera::Camera(int shaderProgram) :
+	speed(0.1f),
+	position(0.0f, 5.0f, 15.0f),
+	lookAtPos(0, 2, 0),
+	up(0.0f, 1.0f, 0.0f),
     shaderProgram(shaderProgram)
 {
     // With this enabled (surfaces with vertices in counter clockwise direction will render)
@@ -53,7 +55,7 @@ void Camera::reset() {
     // Set initial view matrix (because this is running in the "main while loop", it will update every frame)
     glm::mat4 viewMatrix = lookAt(
         position, // eye
-        lookAtPos + position, // center
+        lookAtPos, // center
         up // up
     ); 
     GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
