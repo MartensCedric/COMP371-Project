@@ -17,6 +17,7 @@ public:
 	int vaoId;
 	int shaderId;
 	int vertexCount;
+	int xAngle, yAngle, zAngle; // in degrees
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
