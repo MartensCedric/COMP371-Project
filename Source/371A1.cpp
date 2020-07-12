@@ -185,7 +185,8 @@ int main(int argc, char*argv[])
 	axes.setShader(shaderProgram);
 	world.addChild(&axes);
 
-	SimpleModel E5;
+	// Alpha numerical models
+	SimpleModel E5, I3, T5;
 
 	// Draw an E
 	SimpleModel E;
@@ -254,9 +255,6 @@ int main(int argc, char*argv[])
 
 	models.push_back(&E5);
 
-
-	SimpleModel I3;
-
 	//Draw an I
 	SimpleModel I;
 	I.setupAttribPointer();
@@ -312,6 +310,67 @@ int main(int argc, char*argv[])
 	I3.addChild(&three);
 
 	models.push_back(&I3);
+
+	//Draw a T
+	SimpleModel T;
+	T.setupAttribPointer();
+
+	UnitCubeModel tTop;
+	tTop.scale(4, 1, 1);
+	tTop.translate(0, 3, 0);
+
+	UnitCubeModel tMiddle;
+	tMiddle.scale(1, 5, 1);
+	tMiddle.translate(0, 0, 0);
+
+	UnitCubeModel tBottom;
+	tBottom.scale(1, 1, 1);
+	tBottom.translate(0, -3, 0);
+
+	T.addChild(&tTop);
+	T.addChild(&tMiddle);
+	T.addChild(&tBottom);
+
+	T.setShader(shaderProgram);
+	T.translate(-17, 3.5, -25);
+	T5.addChild(&T);
+	
+	// Draw a 5
+	SimpleModel tFive;
+	tFive.setupAttribPointer();
+
+	UnitCubeModel tFiveLeft;
+	tFiveLeft.scale(1, 2.5, 1);
+	tFiveLeft.translate(0, 1.25, 0);
+
+	UnitCubeModel tFiveRight;
+	tFiveRight.scale(1, 2.5, 1);
+	tFiveRight.translate(2, -1.25, 0);
+
+	UnitCubeModel tFiveTop;
+	tFiveTop.scale(3, 1, 1);
+	tFiveTop.translate(1, 3, 0);
+
+	UnitCubeModel tFiveMiddle;
+	tFiveMiddle.scale(3, 1, 1);
+	tFiveMiddle.translate(1, 0, 0);
+
+	UnitCubeModel tFiveBottom;
+	tFiveBottom.scale(3, 1, 1);
+	tFiveBottom.translate(1, -3, 0);
+
+	tFive.addChild(&tFiveLeft);
+	tFive.addChild(&tFiveRight);
+	tFive.addChild(&tFiveTop);
+	tFive.addChild(&tFiveMiddle);
+	tFive.addChild(&tFiveBottom);
+
+	tFive.setShader(shaderProgram);
+	tFive.translate(-13, 3.5, -25);
+
+	T5.addChild(&tFive);
+	
+	models.push_back(&T5);
 
 	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
