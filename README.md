@@ -55,4 +55,6 @@ If the above steps do not result in a new window popping up to render the graphi
 - `z` --> rotate left about Z axis
 - `c` --> rotate right about Z axis
 
+- `home` --> set world orientation to home position
+
 - `Esc` --> terminate program
