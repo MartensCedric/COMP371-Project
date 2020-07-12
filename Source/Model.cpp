@@ -59,21 +59,6 @@ void Model::rotate(float x, float y, float z, float angle)
 	float radianAngle = (angle * M_PI) / 180;
 	glm::vec3 myRotationAxis(x, y, z);
 	this->objRotMat = glm::rotate(objRotMat, radianAngle, myRotationAxis);
-
-	// keep track of angle away from origin axis for homing function
-	if (x == 1) {
-		this->xAngle += angle;
-		this->xAngle = this->xAngle % 360;
-	}
-	if (y == 1) {
-		this->yAngle += angle;
-		this->yAngle = this->yAngle % 360;
-	}
-
-	if (z == 1 && this->zAngle < 360) {
-		this->zAngle += angle;
-		this->zAngle = this->zAngle % 360;
-	}
 }
 
 void Model::translate(float x, float y, float z)
@@ -96,4 +81,10 @@ glm::mat4 Model::getModelMatrix()
 	return this->parent->getModelMatrix() * objTransMat * objRotMat * objScaleMat;
 
 }
+
+void Model::reset()
+{
+	this->objRotMat = glm::mat4(1);
+}
+
 Model::~Model() {}
