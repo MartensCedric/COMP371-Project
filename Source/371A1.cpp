@@ -265,6 +265,7 @@ int main(int argc, char*argv[])
 	//Draw an I
 	SimpleModel I;
 	I.setupAttribPointer();
+	I.translate(-2, 0, 0);
 
 	UnitCubeModel iTop;
 	iTop.scale(2, 1, 1);
@@ -283,7 +284,7 @@ int main(int argc, char*argv[])
 	I.addChild(&iBottom);
 
 	I.setShader(shaderProgram);
-	I.translate(17, 3.5, -25);
+
 	I3.addChild(&I);
 
 	//Draw a 3
@@ -312,15 +313,17 @@ int main(int argc, char*argv[])
 	three.addChild(&threeBottom);
 
 	three.setShader(shaderProgram);
-	three.translate(21, 3.5, -25);
+	three.translate(2, 0, 0);
 
 	I3.addChild(&three);
+	I3.translate(21, 3.5, -25);
 
 	models.push_back(&I3);
 
 	//Draw a T
 	SimpleModel T;
 	T.setupAttribPointer();
+	T.translate(-2, 0, 0);
 
 	UnitCubeModel tTop;
 	tTop.scale(4, 1, 1);
@@ -339,12 +342,12 @@ int main(int argc, char*argv[])
 	T.addChild(&tBottom);
 
 	T.setShader(shaderProgram);
-	T.translate(-17, 3.5, -25);
 	T5.addChild(&T);
 	
 	// Draw a 5
 	SimpleModel tFive;
 	tFive.setupAttribPointer();
+	tFive.translate(2, 0, 0);
 
 	UnitCubeModel tFiveLeft;
 	tFiveLeft.scale(1, 2.5, 1);
@@ -373,9 +376,9 @@ int main(int argc, char*argv[])
 	tFive.addChild(&tFiveBottom);
 
 	tFive.setShader(shaderProgram);
-	tFive.translate(-13, 3.5, -25);
 
 	T5.addChild(&tFive);
+	T5.translate(-17, 3.5, -25);
 	
 	models.push_back(&T5);
 
