@@ -591,8 +591,7 @@ int main(int argc, char*argv[])
 			{
 				// If the mouse is paning (left/right) move the camera around the axis -Camera-up 
 				double dx = xCursor - xPanStart;
-				std::cout << "dx : " << dx << std::endl;
-				double angleDegrees = dx/25.f;
+				double angleDegrees = dx/10.f;
 				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), -camera->up);
 				glm::vec3 newDirection(glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 70.0f);
 				glm::vec3 newLookAt = newDirection + camera->position;
@@ -621,8 +620,7 @@ int main(int argc, char*argv[])
 			{
 				// If the mouse is tilting (up/down) move the camera around the axis LookAt-Direction X Camera-up 
 				double dy = yTiltStart - yCursor;
-				std::cout << "dy :" << dy << std::endl;
-				double angleDegrees = dy / 25.f;
+				double angleDegrees = dy / 10.f;
 				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), glm::cross(tiltDirection, camera->up));
 
 				glm::vec3 newDirection(glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 70.0f);
