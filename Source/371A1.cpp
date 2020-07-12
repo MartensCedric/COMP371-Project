@@ -48,6 +48,10 @@
 
 SimpleModel world;
 std::vector<Model*> models;
+double currentYPos;
+double previousYPos = -1;
+double currentVariation = 0;
+bool leftMouseClick = false;
 Camera* camera = nullptr;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -138,6 +142,33 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 }
+//The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
+static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) {
+	currentYPos = yPos;
+
+	if (previousYPos != -1) {
+		currentVariation = currentYPos - previousYPos;
+	}
+
+	if (leftMouseClick == true) {
+		camera->setFOV((camera->getFOV())- currentVariation/1000);
+	}
+}
+
+//The purpose of the mouseButtonCallback method is to detect a left click and signal the initial y position of the cursor through the use of the cursor callback method
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		previousYPos = currentYPos;
+		leftMouseClick = true;
+	}
+
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		previousYPos = -1;
+		leftMouseClick = false;
+	}
+}
+
 
 int main(int argc, char*argv[])
 {
@@ -163,6 +194,9 @@ int main(int argc, char*argv[])
         glfwTerminate();
         return -1;
     }
+
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
     glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
 
@@ -175,11 +209,12 @@ int main(int argc, char*argv[])
     }
 
     // Compile and link shaders here ...
-    int shaderProgram = compileAndLinkShaders();
+	int shaderProgram = compileAndLinkShaders();
 	glUseProgram(shaderProgram);
 
 	//----------Camera setup----------
 	camera = new Camera(shaderProgram);
+
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
