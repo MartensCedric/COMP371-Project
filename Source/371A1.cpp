@@ -193,7 +193,7 @@ int main(int argc, char*argv[])
 	world.addChild(&axes);
 
 	// Alpha numerical models
-	SimpleModel E5, I3, T5;
+	SimpleModel E5, I31, I32, T5;
 
 	// Draw an E
 	SimpleModel E;
@@ -201,7 +201,6 @@ int main(int argc, char*argv[])
 
 	UnitCubeModel eLeft;
 	eLeft.scale(1, 5, 1);
-	eLeft.translate(0, 0, 0);
 
 	UnitCubeModel eTop;
 	eTop.scale(3, 1, 1);
