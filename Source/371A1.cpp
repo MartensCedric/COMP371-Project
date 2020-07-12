@@ -322,6 +322,37 @@ int main(int argc, char*argv[])
 			}
 		}
 
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
+		{
+			if (isTilting)
+			{
+				double dy = yTiltStart - yCursor;
+				double angleDegrees = dy / 50000.0;
+				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::degrees(angleDegrees), glm::vec3(1.0, 0.0, 0.0));
+
+				glm::vec3 newDirection = tiltRotation * glm::vec4(tiltDirection, 1.0f);
+
+				glm::vec3 newLookAt = newDirection + camera->position;
+				camera->lookAtPos = newLookAt;
+			}
+			else {
+				isTilting = true;
+				yTiltStart = yCursor;
+				tiltDirection = camera->lookAtPos - camera->position;
+			}
+		}
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_RELEASE)
+		{
+			if (isTilting)
+			{
+				isTilting = false;
+				yTiltStart = -1;
+				tiltDirection = glm::vec3(1.0f);
+			}
+		}
+
+
 		//move forward
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
