@@ -1,5 +1,9 @@
 #include "includes/Camera.hpp"
 
+
+/**
+* This class instantiates a camera. It has some utility functions that manipulates it.
+*/
 Camera::Camera(int shaderProgram) : 
     speed(0.1f), 
     position(0.0f, 5.0f, 15.0f),

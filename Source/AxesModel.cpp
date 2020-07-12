@@ -1,6 +1,12 @@
 #include "includes/AxesModel.hpp"
 #include <iostream>
 
+/**
+* This class spawns three orthonormal axes, red green and blue.
+* Red : X
+* Green : Y
+* Blue : Z
+*/
 AxesModel::AxesModel() {
     glm::vec3 red = glm::vec3(1.0f , 0.0f, 0.0f);
     glm::vec3 green = glm::vec3(0.0f , 1.0f, 0.0f);

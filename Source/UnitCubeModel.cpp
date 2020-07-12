@@ -1,5 +1,9 @@
 #include "includes/UnitCubeModel.hpp"
 
+
+/**
+* A subclass for an easy implementation of a 1x1x1 unit cube.
+*/
 UnitCubeModel::UnitCubeModel() {
     glm::vec3 color = glm::vec3(0.75f, 0.75f, 0.75f);
     glm::vec3 verticesUnitCube[] = {
