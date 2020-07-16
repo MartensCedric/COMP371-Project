@@ -351,7 +351,7 @@ int main(int argc, char*argv[])
 	three.translate(2, 0, 0);
 
 	I31.addChild(&three);
-	I31.translate(25, 3.5, -25);
+	I31.translate(35, 3.5, -35);
 
 	models.push_back(&I31);
 
@@ -410,7 +410,7 @@ int main(int argc, char*argv[])
 	three2.translate(2, 0, 0);
 
 	I32.addChild(&three2);
-	I32.translate(25, 3.5, 25);
+	I32.translate(35, 3.5, 35);
 	I32.rotate(0, 0, 1, 180.0f);
 
 	models.push_back(&I32);
@@ -482,7 +482,7 @@ int main(int argc, char*argv[])
 	eight.translate(1.5, 0, 0);
 
 	D8.addChild(&eight);
-	D8.translate(-25, 3.5, 25);
+	D8.translate(-35, 3.5, 35);
 	D8.rotate(0, 1, 0, 175);
 	models.push_back(&D8);
 
@@ -544,7 +544,7 @@ int main(int argc, char*argv[])
 	tFive.setShader(shaderProgram);
 
 	T5.addChild(&tFive);
-	T5.translate(-25, 3.5, -25);
+	T5.translate(-35, 3.5, -35);
 	
 	models.push_back(&T5);
 

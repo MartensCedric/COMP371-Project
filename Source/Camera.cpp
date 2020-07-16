@@ -7,7 +7,7 @@ float defaultFOV = 0.785f;
 */
 Camera::Camera(int shaderProgram) :
 	speed(0.1f),
-	position(0.0f, 5.0f, 15.0f),
+	position(0.0f, 5.0f, 30.0f),
 	lookAtPos(0, 2, 0),
 	up(0.0f, 1.0f, 0.0f),
     shaderProgram(shaderProgram)
