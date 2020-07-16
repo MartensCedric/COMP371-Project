@@ -214,7 +214,7 @@ int main(int argc, char*argv[])
 	glUseProgram(shaderProgram);
 
 	//----------Camera setup----------
-	camera = new Camera(shaderProgram);
+	camera = new Camera();
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
@@ -554,6 +554,7 @@ int main(int argc, char*argv[])
 		world.addChild(*it);
 	}
 	 
+	world.setCamera(camera);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -707,10 +708,6 @@ int main(int argc, char*argv[])
 				(*it)->scale(0.95, 0.95, 0.95);
 			}
 		}
-
-		
-		// Set initial view matrix again (because this is running in the "main while loop", it will update every frame)
-		camera->reset();
     }
     
     // Shutdown GLFW

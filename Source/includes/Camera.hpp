@@ -1,3 +1,4 @@
+#pragma once
 #include <GL/glew.h>
 #include <glm/glm.hpp>  
 #include <glm/gtc/matrix_transform.hpp>
@@ -8,15 +9,15 @@ class Camera {
         glm::vec3 position;
         glm::vec3 lookAtPos;
         glm::vec3 up;
-        int shaderProgram;
+		GLfloat fov = 1.0f;
 
         Camera();
-        Camera(int shaderProgram);
         void moveForward();
         void moveBack();
         void moveLeft();
         void moveRight();
-        void reset();
 		void setFOV(float fov);
+		void setViewMatrix(int shader);
+		void setProjectionMatrix(int shader);
 		float getFOV();
 };

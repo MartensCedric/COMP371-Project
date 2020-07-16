@@ -65,6 +65,8 @@ void Model::draw()
 {
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
+	this->camera->setProjectionMatrix(shaderId);
+	this->camera->setViewMatrix(shaderId);
 	drawFunction(vertexCount, shaderId, this->getModelMatrix());
 
 	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
