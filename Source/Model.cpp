@@ -33,6 +33,19 @@ Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertex
 }
 
 /**
+* Sets the camera that renders this model. Useful to get the view matrix
+*/
+void Model::setCamera(Camera* camera)
+{
+	this->camera = camera;
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setCamera(camera);
+	}
+}
+
+/**
 * Sets the shader for the model and its children
 */
 void Model::setShader(int shaderProgram)
@@ -52,6 +65,8 @@ void Model::draw()
 {
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
+	this->camera->setProjectionMatrix(shaderId);
+	this->camera->setViewMatrix(shaderId);
 	drawFunction(vertexCount, shaderId, this->getModelMatrix());
 
 	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
@@ -74,7 +89,7 @@ void Model::scale(float x, float y, float z)
 void Model::rotate(float x, float y, float z, float angle)
 {
 	//Implement by modifying objRotMat
-	float radianAngle = (angle * M_PI) / 180;
+	float radianAngle = glm::radians(angle);
 	glm::vec3 myRotationAxis(x, y, z);
 	this->objRotMat = glm::rotate(objRotMat, radianAngle, myRotationAxis);
 }
