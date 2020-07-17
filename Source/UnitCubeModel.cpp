@@ -5,61 +5,60 @@
 * A subclass for an easy implementation of a 1x1x1 unit cube.
 */
 UnitCubeModel::UnitCubeModel() {
-    glm::vec3 color = glm::vec3(0.75f, 0.75f, 0.75f);
     glm::vec3 verticesUnitCube[] = {
         // Front face
-        glm::vec3(-0.5f, -0.5f, 0.5f), color,
-        glm::vec3(0.5f, -0.5f, 0.5f), color,
-        glm::vec3(0.5f, 0.5f, 0.5f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1),
+        glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1),
+        glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1),
 
-        glm::vec3(-0.5f, -0.5f, 0.5f), color,
-        glm::vec3(0.5f, 0.5f, 0.5f), color,
-        glm::vec3(-0.5f, 0.5f, 0.5f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1),
+        glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1),
+        glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 0, 1),
 
         // Back face
-        glm::vec3(-0.5f, -0.5f, -0.5f), color,
-        glm::vec3(0.5f, 0.5f, -0.5f), color,
-        glm::vec3(0.5f, -0.5f, -0.5f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0, 0, -1),
+        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0, 0, -1),
+        glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0, 0, -1),
 
-        glm::vec3(-0.5f, -0.5f, -0.5f), color,
-        glm::vec3(-0.5f, 0.5f, -0.5f), color,
-        glm::vec3(0.5f, 0.5f, -0.5f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0, 0, -1),
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0, 0, -1),
+        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0, 0, -1),
 
         // Left face
-        glm::vec3(-0.5f, -0.5f, -0.5f), color,
-        glm::vec3(-0.5f, -0.5f, 0.5f), color,
-        glm::vec3(-0.5f, 0.5f, -0.5f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1, 0, 0),
+        glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-1, 0, 0),
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-1, 0, 0),
 
-        glm::vec3(-0.5f, -0.5f, 0.5f), color,
-        glm::vec3(-0.5f, 0.5f, 0.5f), color,
-        glm::vec3(-0.5f, 0.5f, -0.5f), color,
+        glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(-1, 0, 0),
+        glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(-1, 0, 0),
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(-1, 0, 0),
 
         // Right face
-        glm::vec3(0.5f, -0.5f, -0.5f), color,
-        glm::vec3(0.5f, 0.5f, -0.5f), color,
-        glm::vec3(0.5f, -0.5f, 0.5f), color,
+        glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1, 0, 0),
+        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(1, 0, 0),
+        glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0),
 
-        glm::vec3(0.5f, -0.5f, 0.5f), color,
-        glm::vec3(0.5f, 0.5f, -0.5f), color,
-        glm::vec3(0.5f, 0.5f, 0.5f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1, 0, 0),
+        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(1, 0, 0),
+        glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1, 0, 0),
 
         // Top face
-        glm::vec3(-0.5f, 0.5f, -0.5f), color,
-        glm::vec3(-0.5f, 0.5f, 0.5f), color,
-        glm::vec3(0.5f, 0.5f, 0.5f), color,
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0, 1, 0),
+        glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0),
+        glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0),
 
-        glm::vec3(0.5f, 0.5f, 0.5f), color,
-        glm::vec3(0.5f, 0.5f, -0.5f), color,
-        glm::vec3(-0.5f, 0.5f, -0.5f), color,
+        glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0, 1, 0),
+        glm::vec3(0.5f, 0.5f, -0.5f), glm::vec3(0, 1, 0),
+        glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec3(0, 1, 0),
 
         // Bottom face
-        glm::vec3(-0.5f, -0.5f, -0.5f), color,
-        glm::vec3(0.5f, -0.5f, 0.5f), color,
-        glm::vec3(-0.5f, -0.5f, 0.5f), color,
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0, -1, 0),
+        glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0, -1, 0),
+        glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0, -1, 0),
 
-        glm::vec3(0.5f, -0.5f, 0.5f), color,
-        glm::vec3(-0.5f, -0.5f, -0.5f), color,
-        glm::vec3(0.5f, -0.5f, -0.5f), color,
+        glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0, -1, 0),
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0, -1, 0),
+        glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0, -1, 0),
     };
     
     *this = UnitCubeModel(
