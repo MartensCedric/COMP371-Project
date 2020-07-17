@@ -210,19 +210,20 @@ int main(int argc, char*argv[])
     }
 
     // Compile and link shaders here ...
-	int shaderProgram = compileAndLinkShaders();
-	glUseProgram(shaderProgram);
+	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
+	glUseProgram(passthroughShader);
 
 	//----------Camera setup----------
 	camera = new Camera();
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
-	grid.setShader(shaderProgram);
+	grid.setShader(passthroughShader);
 	world.addChild(&grid);
 	
 	AxesModel axes;
-	axes.setShader(shaderProgram);
+	axes.setShader(passthroughShader);
 	world.addChild(&axes);
 
 	// Alpha numerical models
@@ -253,7 +254,7 @@ int main(int argc, char*argv[])
 	E.addChild(&eMiddle);
 	E.addChild(&eBottom);
 
-	E.setShader(shaderProgram);
+	E.setShader(passthroughShader);
 
 	E.translate(-3.5, 0, 0);
 	E5.addChild(&E);
@@ -288,7 +289,7 @@ int main(int argc, char*argv[])
 	five.addChild(&fiveMiddle);
 	five.addChild(&fiveBottom);
 
-	five.setShader(shaderProgram);
+	five.setShader(passthroughShader);
 	five.translate(1.5, 0, 0);
 	
 	E5.addChild(&five);
@@ -318,7 +319,7 @@ int main(int argc, char*argv[])
 	I.addChild(&iMiddle);
 	I.addChild(&iBottom);
 
-	I.setShader(shaderProgram);
+	I.setShader(passthroughShader);
 
 	I31.addChild(&I);
 
@@ -347,7 +348,7 @@ int main(int argc, char*argv[])
 	three.addChild(&threeMiddle);
 	three.addChild(&threeBottom);
 
-	three.setShader(shaderProgram);
+	three.setShader(passthroughShader);
 	three.translate(2, 0, 0);
 
 	I31.addChild(&three);
@@ -377,7 +378,7 @@ int main(int argc, char*argv[])
 	I2.addChild(&iMiddle2);
 	I2.addChild(&iBottom2);
 
-	I2.setShader(shaderProgram);
+	I2.setShader(passthroughShader);
 
 	I32.addChild(&I2);
 
@@ -406,7 +407,7 @@ int main(int argc, char*argv[])
 	three2.addChild(&threeMiddle2);
 	three2.addChild(&threeBottom2);
 
-	three2.setShader(shaderProgram);
+	three2.setShader(passthroughShader);
 	three2.translate(2, 0, 0);
 
 	I32.addChild(&three2);
@@ -443,7 +444,7 @@ int main(int argc, char*argv[])
 	D.addChild(&dBottom);
 	D.addChild(&dRight);
 
-	D.setShader(shaderProgram);
+	D.setShader(passthroughShader);
 
 	D.translate(-3.5, 0, 0);
 	D8.addChild(&D);
@@ -478,7 +479,7 @@ int main(int argc, char*argv[])
 	eight.addChild(&eightMiddle);
 	eight.addChild(&eightBottom);
 
-	eight.setShader(shaderProgram);
+	eight.setShader(passthroughShader);
 	eight.translate(1.5, 0, 0);
 
 	D8.addChild(&eight);
@@ -507,7 +508,7 @@ int main(int argc, char*argv[])
 	T.addChild(&tMiddle);
 	T.addChild(&tBottom);
 
-	T.setShader(shaderProgram);
+	T.setShader(passthroughShader);
 	T5.addChild(&T);
 	
 	// Draw a 5
@@ -541,7 +542,7 @@ int main(int argc, char*argv[])
 	tFive.addChild(&tFiveMiddle);
 	tFive.addChild(&tFiveBottom);
 
-	tFive.setShader(shaderProgram);
+	tFive.setShader(passthroughShader);
 
 	T5.addChild(&tFive);
 	T5.translate(-25, 3.5, -25);
@@ -552,6 +553,7 @@ int main(int argc, char*argv[])
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
 		world.addChild(*it);
+		(*it)->setShader(lightAffectedShader);
 	}
 	 
 	world.setCamera(camera);
