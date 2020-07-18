@@ -1,7 +1,7 @@
 default: exec
 
-exec: 371A1.cpp GridModel.o AxesModel.o GroupModel.o UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
-	g++ -g -Wall -o exec 371A1.cpp GridModel.o AxesModel.o GroupModel.o SimpleModel.o UnitCubeModel.o Model.o Shader.o Camera.o -lGL -lGLEW -lglfw
+exec: 371A1.cpp GridModel.o AxesModel.o GroupModel.o NormalsModel.o UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
+	g++ -g -Wall -o exec 371A1.cpp GridModel.o AxesModel.o NormalsModel.o GroupModel.o SimpleModel.o UnitCubeModel.o Model.o Shader.o Camera.o -lGL -lGLEW -lglfw
 
 UnitCubeModel.o: UnitCubeModel.cpp
 	g++ -c -g -Wall UnitCubeModel.cpp -lGL -lGLEW -lglfw
@@ -21,6 +21,9 @@ SimpleModel.o: SimpleModel.cpp
 Model.o: Model.cpp
 	g++ -c -g -Wall Model.cpp -lGL -lGLEW -lglfw
 	
+NormalsModel.o : NormalsModel.cpp
+	g++ -c -g -Wall NormalsModel.cpp -lGL -lGLEW -lglfw
+
 Shader.o: Shader.cpp
 	g++ -c -g -Wall Shader.cpp -lGL -lGLEW -lglfw
 
