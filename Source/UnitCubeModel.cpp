@@ -60,12 +60,17 @@ UnitCubeModel::UnitCubeModel() {
         glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0, -1, 0),
         glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0, -1, 0),
     };
+
     
     *this = UnitCubeModel(
         verticesUnitCube, 
         sizeof(verticesUnitCube)/sizeof(verticesUnitCube[0]), 
         [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 
+			glm::vec3 spotlightPosition(6.0f, 10.0f, 5.0f);
+			GLuint lightPositionLocation = glGetUniformLocation(shaderProgram, "lightPosition"); //find memory location of world matrix
+			glUniform3fv(lightPositionLocation, 1, &spotlightPosition[0]);
+			
             GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
             glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
             glDrawArrays(GL_TRIANGLES, 0, vertexCount);
