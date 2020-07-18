@@ -1,4 +1,7 @@
 #version 330 core
+
+// Reference used learnopengl.com
+
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 
@@ -11,7 +14,8 @@ out vec3 fragmentPosition; //Actual position in the xyz world space
 
 void main()
 {
-   vertexNormal = aNormal; 
+	// Transforms normal in world coordinates. Translations can be ignored
+   vertexNormal = mat3(transpose(inverse(worldMatrix))) * -aNormal;
    fragmentPosition = vec3(worldMatrix * vec4(aPos, 1.0));
    mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;
    gl_Position = modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);
