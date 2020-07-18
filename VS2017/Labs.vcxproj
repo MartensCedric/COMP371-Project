@@ -122,6 +122,7 @@
     <ClCompile Include="..\Source\GridModel.cpp" />
     <ClCompile Include="..\Source\GroupModel.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
+    <ClCompile Include="..\Source\NormalsModel.cpp" />
     <ClCompile Include="..\Source\shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="..\Source\includes\Camera.hpp" />
     <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
+    <ClInclude Include="..\Source\includes\NormalsModel.h" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />

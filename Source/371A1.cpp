@@ -254,8 +254,6 @@ int main(int argc, char*argv[])
 	E.addChild(&eMiddle);
 	E.addChild(&eBottom);
 
-	E.setShader(passthroughShader);
-
 	E.translate(-3.5, 0, 0);
 	E5.addChild(&E);
 
@@ -289,7 +287,6 @@ int main(int argc, char*argv[])
 	five.addChild(&fiveMiddle);
 	five.addChild(&fiveBottom);
 
-	five.setShader(passthroughShader);
 	five.translate(1.5, 0, 0);
 	
 	E5.addChild(&five);
@@ -319,8 +316,6 @@ int main(int argc, char*argv[])
 	I.addChild(&iMiddle);
 	I.addChild(&iBottom);
 
-	I.setShader(passthroughShader);
-
 	I31.addChild(&I);
 
 	//Draw a 3
@@ -347,8 +342,6 @@ int main(int argc, char*argv[])
 	three.addChild(&threeTop);
 	three.addChild(&threeMiddle);
 	three.addChild(&threeBottom);
-
-	three.setShader(passthroughShader);
 	three.translate(2, 0, 0);
 
 	I31.addChild(&three);
@@ -378,8 +371,6 @@ int main(int argc, char*argv[])
 	I2.addChild(&iMiddle2);
 	I2.addChild(&iBottom2);
 
-	I2.setShader(passthroughShader);
-
 	I32.addChild(&I2);
 
 	//Draw a 3
@@ -407,7 +398,6 @@ int main(int argc, char*argv[])
 	three2.addChild(&threeMiddle2);
 	three2.addChild(&threeBottom2);
 
-	three2.setShader(passthroughShader);
 	three2.translate(2, 0, 0);
 
 	I32.addChild(&three2);
@@ -444,7 +434,6 @@ int main(int argc, char*argv[])
 	D.addChild(&dBottom);
 	D.addChild(&dRight);
 
-	D.setShader(passthroughShader);
 
 	D.translate(-3.5, 0, 0);
 	D8.addChild(&D);
@@ -479,7 +468,6 @@ int main(int argc, char*argv[])
 	eight.addChild(&eightMiddle);
 	eight.addChild(&eightBottom);
 
-	eight.setShader(passthroughShader);
 	eight.translate(1.5, 0, 0);
 
 	D8.addChild(&eight);
@@ -508,7 +496,6 @@ int main(int argc, char*argv[])
 	T.addChild(&tMiddle);
 	T.addChild(&tBottom);
 
-	T.setShader(passthroughShader);
 	T5.addChild(&T);
 	
 	// Draw a 5
@@ -541,8 +528,6 @@ int main(int argc, char*argv[])
 	tFive.addChild(&tFiveTop);
 	tFive.addChild(&tFiveMiddle);
 	tFive.addChild(&tFiveBottom);
-
-	tFive.setShader(passthroughShader);
 
 	T5.addChild(&tFive);
 	T5.translate(-25, 3.5, -25);

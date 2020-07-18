@@ -54,7 +54,7 @@ void Model::setShader(int shaderProgram)
 
 	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
 	{
-		(*it)->shaderId = shaderProgram;
+		(*it)->setShader(shaderProgram);
 	}
 };
 
