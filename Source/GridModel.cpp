@@ -14,7 +14,7 @@ GridModel::GridModel() {
 
 	for (int i = 0; i < 100; i++)
 	{
-		SimpleModel* xline = new SimpleModel(verticesGridUnit, sizeof(verticesGridUnit) / sizeof(verticesGridUnit[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
+		SimpleModel* xline = new SimpleModel(verticesGridUnit, sizeof(verticesGridUnit) / sizeof(verticesGridUnit[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 			GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
 			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]); //send worldMatrix data to that memory location
 			glDrawArrays(GL_LINES, 0, 2);
@@ -23,7 +23,7 @@ GridModel::GridModel() {
 		xline->translate(0, 0, -25.0f + i/2.0f);
 		xline->setupAttribPointer();
 
-		SimpleModel* zline = new SimpleModel(verticesGridUnit, sizeof(verticesGridUnit) / sizeof(verticesGridUnit[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
+		SimpleModel* zline = new SimpleModel(verticesGridUnit, sizeof(verticesGridUnit) / sizeof(verticesGridUnit[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 			GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
 			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]); //send worldMatrix data to that memory location
 			glDrawArrays(GL_LINES, 2, 2);
@@ -37,12 +37,4 @@ GridModel::GridModel() {
 	}
 
 	setupAttribPointer();
-}
-
-void GridModel::setShader(int shaderProgram)
-{
-	for (auto it = children.begin(); it != children.end(); it++)
-	{
-		(*it)->setShader(shaderProgram);
-	}
 }

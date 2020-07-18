@@ -5,5 +5,4 @@
 class GridModel : public SimpleModel {
     public:
         GridModel();
-		void setShader(int shaderProgram) override;
 };

@@ -57,19 +57,19 @@ int compileShader(const char * path, int shaderType)
 	return shaderId;
 }
 
-int compileAndLinkShaders()
+int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
 {
 	// compile and link shader program
 	// return shader program id
 	// ------------------------------------
 
 	// vertex shader
-	int vertexShader = compileShader("../Shaders/passthrough.vshader", GL_VERTEX_SHADER);
+	int vertexShader = compileShader(vertexPath, GL_VERTEX_SHADER);
 
 	if (vertexShader == -1)
 		exit(EXIT_FAILURE);
 
-	int fragmentShader = compileShader("../Shaders/passthrough.fshader", GL_FRAGMENT_SHADER);
+	int fragmentShader = compileShader(fragmentPath, GL_FRAGMENT_SHADER);
 
 	if (fragmentShader == -1)
 		exit(EXIT_FAILURE);

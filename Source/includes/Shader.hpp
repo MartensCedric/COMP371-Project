@@ -1,2 +1,2 @@
 int compileShader(const char * path, int shaderType);
-int compileAndLinkShaders();
+int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath);
