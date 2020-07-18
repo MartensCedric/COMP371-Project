@@ -68,10 +68,18 @@ UnitCubeModel::UnitCubeModel() {
         [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
 
 			glm::vec3 spotlightPosition(6.0f, 10.0f, 5.0f);
-			GLuint lightPositionLocation = glGetUniformLocation(shaderProgram, "lightPosition"); //find memory location of world matrix
+			GLuint spotlightPositionLocation = glGetUniformLocation(shaderProgram, "lightPosition");
+			glUniform3fv(spotlightPositionLocation, 1, &spotlightPosition[0]);
+
+			glm::vec3 ambiantColor(1.0f, 0.843f, 0.0f);
+			GLuint lightPositionLocation = glGetUniformLocation(shaderProgram, "ambientColor");
 			glUniform3fv(lightPositionLocation, 1, &spotlightPosition[0]);
+
+			glm::vec3 eyePosition(0.0f, 5.0f, 15.0f);
+			GLuint eyePositionLocation = glGetUniformLocation(shaderProgram, "eyePosition");
+			glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
 			
-            GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
+            GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
             glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
             glDrawArrays(GL_TRIANGLES, 0, vertexCount);
         }
