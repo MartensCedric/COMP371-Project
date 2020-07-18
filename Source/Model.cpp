@@ -15,7 +15,7 @@ Model::Model() {}
 * This is an OpenGL wrapper which allows you to create models with hierarchical modeling.
 * The vertices must be specified as well as a routine that draws said model.
 */
-Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT))
+Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
 {
 	drawFunction = drawFunc;
 	// Create a vertex array
@@ -67,7 +67,7 @@ void Model::draw()
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
 	this->camera->setViewMatrix(shaderId);
-	drawFunction(vertexCount, shaderId, this->getModelMatrix());
+	drawFunction(vertexCount, shaderId, this->getModelMatrix(), this->camera);
 
 	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
 	{

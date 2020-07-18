@@ -65,17 +65,17 @@ UnitCubeModel::UnitCubeModel() {
     *this = UnitCubeModel(
         verticesUnitCube, 
         sizeof(verticesUnitCube)/sizeof(verticesUnitCube[0]), 
-        [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
+        [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 
-			glm::vec3 spotlightPosition(6.0f, 10.0f, 5.0f);
+			glm::vec3 spotlightPosition(0.0f, 5.0f, 6.0f);
 			GLuint spotlightPositionLocation = glGetUniformLocation(shaderProgram, "lightPosition");
 			glUniform3fv(spotlightPositionLocation, 1, &spotlightPosition[0]);
 
-			glm::vec3 ambiantColor(1.0f, 0.843f, 0.0f);
-			GLuint lightPositionLocation = glGetUniformLocation(shaderProgram, "ambientColor");
-			glUniform3fv(lightPositionLocation, 1, &spotlightPosition[0]);
+			glm::vec3 ambientColor(1.0f, 0.843f, 0.0f);
+			GLuint ambientColorLocation = glGetUniformLocation(shaderProgram, "ambientColor");
+			glUniform3fv(ambientColorLocation, 1, &ambientColor[0]);
 
-			glm::vec3 eyePosition(0.0f, 5.0f, 15.0f);
+			glm::vec3 eyePosition = camera->position;
 			GLuint eyePositionLocation = glGetUniformLocation(shaderProgram, "eyePosition");
 			glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
 			
@@ -87,6 +87,6 @@ UnitCubeModel::UnitCubeModel() {
     setupAttribPointer();
 }
 
-UnitCubeModel::UnitCubeModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT)) 
+UnitCubeModel::UnitCubeModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
 : NormalsModel(vertexArray, vertexCount, drawFunc) 
 {}

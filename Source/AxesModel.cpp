@@ -23,7 +23,7 @@ AxesModel::AxesModel() {
         glm::vec3(0.0f, 0.0f, 5.0f), blue
     };
 
-	*this = AxesModel(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT) {
+	*this = AxesModel(verticesAxes, sizeof(verticesAxes) / sizeof(verticesAxes[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
 		glLineWidth(3);
@@ -33,6 +33,6 @@ AxesModel::AxesModel() {
 	setupAttribPointer();
 }
 
-AxesModel::AxesModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT)) 
+AxesModel::AxesModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
 : SimpleModel(vertexArray, vertexCount, drawFunc) 
 {}
