@@ -213,6 +213,7 @@ int main(int argc, char*argv[])
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depthmapRender.fshader");
 	glUseProgram(passthroughShader);
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
@@ -578,6 +579,7 @@ int main(int argc, char*argv[])
 		// We're first going to render the shadow map
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
+
 		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->setShader(shadowShader);
@@ -585,16 +587,18 @@ int main(int argc, char*argv[])
 		int lightSpaceLocation = glGetUniformLocation(shadowShader, "lightSpaceMatrix");
 		glUniformMatrix4fv(lightSpaceLocation, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 		world.draw();
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // Each frame, reset color of each pixel to glClearColor and reset the depth
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-		//glBindTexture(GL_TEXTURE_2D, depthMap);
+        // Each frame, reset color of each pixel to glClearColor and reset the depth-
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
 		{
-			(*it)->setShader(lightAffectedShader);
+			(*it)->setShader(depthMapShader);
 		}
-		//world.draw();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		world.draw();
 
         // End frame
         glfwSwapBuffers(window);
