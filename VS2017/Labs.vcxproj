@@ -124,7 +124,9 @@
     <ClCompile Include="..\Source\NormalsModel.cpp" />
     <ClCompile Include="..\Source\shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
+    <ClCompile Include="..\Source\SphereModel.cpp" />
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
+    <ClCompile Include="..\Source\WorldModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />

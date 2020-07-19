@@ -42,6 +42,7 @@ class EightModel : public SimpleModel {
 
 class WorldModel : public SimpleModel {
 	public:
-        std::vector<Model*> models;
-        WorldModel();
+		std::vector<Model*> models;
+		std::vector<Model*> spheres;
+		WorldModel();
 };

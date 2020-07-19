@@ -178,6 +178,7 @@ EightModel::EightModel() {
 WorldModel::WorldModel() {
 	// Compile and link shaders here ...
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+	int transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	glUseProgram(passthroughShader);
 
@@ -189,10 +190,6 @@ WorldModel::WorldModel() {
 	axes->setShader(passthroughShader);
 	addChild(axes);
 	
-	SphereModel* sphere = new SphereModel(15.0f, 36, 18);
-	sphere->translate(0, 15, 0);
-	models.push_back(sphere);
-
 	/* 
 	 * ----------------------------------------------------
 	 *                          E5
@@ -208,6 +205,11 @@ WorldModel::WorldModel() {
 	FiveModel* five = new FiveModel();
 	five->translate(1.5, 0, 0);
 	E5->addChild(five);
+
+	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
+	sphere->translate(0, 4, 0);
+	spheres.push_back(sphere);
+	E5->addChild(sphere);
 
 	E5->translate(0, 3.5, 0);
 	models.push_back(E5);
@@ -226,10 +228,14 @@ WorldModel::WorldModel() {
 
 	ThreeModel* three = new ThreeModel();
 	three->translate(2, 0, 0);
-
 	I3->addChild(three);
-	I3->translate(8, 3.5, -8);
 
+	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
+	sphere_1->translate(0, 4, 0);
+	spheres.push_back(sphere_1);
+	I3->addChild(sphere_1);
+
+	I3->translate(18, 3.5, -18);
 	models.push_back(I3);
 
 	/* 
@@ -248,9 +254,12 @@ WorldModel::WorldModel() {
 	three_2->translate(2, 0, 0);
 	I3_2->addChild(three_2);
 
-	I3_2->translate(8, 3.5, 8);
-	//I3_2->rotate(0, 0, 1, 180.0f);
+	SphereModel* sphere_2 = new SphereModel(6.0f, 36, 18);
+	sphere_2->translate(0, 4, 0);
+	spheres.push_back(sphere_2);
+	I3_2->addChild(sphere_2);
 
+	I3_2->translate(18, 3.5, 18);
 	models.push_back(I3_2);
 
 	/* 
@@ -269,8 +278,12 @@ WorldModel::WorldModel() {
 	eight->translate(1.5, 0, 0);
 	D8->addChild(eight);
 
-	D8->translate(-8, 3.5, 8);
-	//D8->rotate(0, 1, 0, 175);
+	SphereModel* sphere_3 = new SphereModel(6.0f, 36, 18);
+	sphere_3->translate(0, 4, 0);
+	spheres.push_back(sphere_3);	
+	D8->addChild(sphere_3);
+
+	D8->translate(-18, 3.5, 18);
 	models.push_back(D8);
 
 	/* 
@@ -289,7 +302,12 @@ WorldModel::WorldModel() {
 	five_2->translate(1.5, 0, 0);
 	T5->addChild(five_2);
 
-	T5->translate(-8, 3.5, -8);
+	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
+	sphere_4->translate(0, 4, 0);
+	spheres.push_back(sphere_4);
+	T5->addChild(sphere_4);
+
+	T5->translate(-18, 3.5, -18);
 	models.push_back(T5);
 
 	//----------Models----------
@@ -297,5 +315,11 @@ WorldModel::WorldModel() {
 	{
 		(*it)->setShader(lightAffectedShader);
 		addChild(*it);
+	}
+
+	//----------Models----------
+	for (auto it = spheres.begin(); it != spheres.end(); it++)
+	{
+		(*it)->setShader(transparentShader);
 	}
 };
