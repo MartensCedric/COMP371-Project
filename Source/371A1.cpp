@@ -36,10 +36,12 @@
 
 #endif
 
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
+// Include GLEW - OpenGL Extension Wrangler
+#include <GL/glew.h>    
 
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
+// GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
+#include <GLFW/glfw3.h> 
 
 #include <stdlib.h>
 #include <iostream>
@@ -53,6 +55,15 @@ double previousYPos = -1;
 double currentVariation = 0;
 bool leftMouseClick = false;
 Camera* camera = nullptr;
+int windowWidth = 1024;
+int windowHeight = 768;
+
+void window_size_callback(GLFWwindow* window, int width, int height) {
+	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
+	float scaledWidth = windowWidth*scale;
+	float scaledHeight = windowHeight*scale;
+	glViewport((width - scaledWidth)/2, (height - scaledHeight)/2, scaledWidth, scaledHeight);
+}
 
 // Callbacks for keys
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -176,20 +187,17 @@ int main(int argc, char*argv[])
     // Initialize GLFW and OpenGL version
     glfwInit();
 
-#if defined(PLATFORM_OSX)	
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2); 
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#else
-	// On windows, we set OpenGL version to 3.3
+	// Set OpenGL version to 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#if defined(PLATFORM_OSX)	
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
     // Create Window and rendering context using GLFW
-    GLFWwindow* window = glfwCreateWindow(1024, 768, "Comp371 - Assignment 1", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Comp371 - Assignment 1", NULL, NULL);
     if (window == NULL) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -198,8 +206,10 @@ int main(int argc, char*argv[])
 
 	glfwSetCursorPosCallback(window, cursorPositionCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(window);
+
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetWindowSizeCallback(window, window_size_callback);
 
     // Initialize GLEW
     glewExperimental = true; // Needed for core profile
@@ -215,7 +225,7 @@ int main(int argc, char*argv[])
 	glUseProgram(passthroughShader);
 
 	//----------Camera setup----------
-	camera = new Camera();
+	camera = new Camera(windowWidth, windowHeight);
 	
     // Define and upload geometry to the GPU here ...
 	GridModel grid;
