@@ -227,15 +227,22 @@ int main(int argc, char*argv[])
 	world.addChild(&axes);
 
 	// Alpha numerical models
-	SimpleModel E5, I31, I32, T5, D8;
+	// Splitting each model in two: 2/3 assigned to the bottom, the remainder 1/3 to the top
+	SimpleModel E5top, E5bottom, I31, I32, T5, D8;
 
 	// Draw an E
-	SimpleModel E;
-	E.setupAttribPointer();
+	// split top/bot divisions
+	SimpleModel eTopDiv, eBottomDiv;
+	eTopDiv.setupAttribPointer();
+	eBottomDiv.setupAttribPointer();
 
-	UnitCubeModel eLeft;
-	eLeft.scale(1, 5, 1);
+	UnitCubeModel eLeftTop;
+	eLeftTop.scale(1, 3, 1);
+	eLeftTop.translate(0, 2, 0);
 
+	UnitCubeModel eLeftBottom;
+	eLeftBottom.scale(1, 3, 1);
+	eLeftBottom.translate(0, -2, 0);
 
 	UnitCubeModel eTop;
 	eTop.scale(3, 1, 1);
@@ -249,17 +256,23 @@ int main(int argc, char*argv[])
 	eBottom.scale(3, 1, 1);
 	eBottom.translate(1, -3, 0);
 
-	E.addChild(&eLeft);
-	E.addChild(&eTop);
-	E.addChild(&eMiddle);
-	E.addChild(&eBottom);
+	eTopDiv.addChild(&eLeftTop);
+	eTopDiv.addChild(&eTop);
+	eBottomDiv.addChild(&eLeftBottom);
+	eBottomDiv.addChild(&eMiddle);
+	eBottomDiv.addChild(&eBottom);
 
-	E.translate(-3.5, 0, 0);
-	E5.addChild(&E);
+	eTopDiv.translate(-3.5, 0, 0);
+	eBottomDiv.translate(-3.5, 0, 0);
+
+	models.push_back(&eTopDiv);
+	models.push_back(&eBottomDiv);
 
 	// Draw a 5
-	SimpleModel five;
-	five.setupAttribPointer();
+	///*
+	SimpleModel fiveTopDiv, fiveBottomDiv;
+	fiveTopDiv.setupAttribPointer();
+	fiveBottomDiv.setupAttribPointer();
 
 	UnitCubeModel fiveLeft;
 	fiveLeft.scale(1, 2.5, 1);
@@ -281,17 +294,17 @@ int main(int argc, char*argv[])
 	fiveBottom.scale(3, 1, 1);
 	fiveBottom.translate(1, -3, 0);
 
-	five.addChild(&fiveLeft);
-	five.addChild(&fiveRight);
-	five.addChild(&fiveTop);
-	five.addChild(&fiveMiddle);
-	five.addChild(&fiveBottom);
+	fiveTopDiv.addChild(&fiveLeft);
+	fiveBottomDiv.addChild(&fiveRight);
+	fiveTopDiv.addChild(&fiveTop);
+	fiveBottomDiv.addChild(&fiveMiddle);
+	fiveBottomDiv.addChild(&fiveBottom);
 
-	five.translate(1.5, 0, 0);
-	
-	E5.addChild(&five);
-	E5.translate(0, 3.5, 0);
-	models.push_back(&E5);
+	fiveTopDiv.translate(1.5, 0, 0);
+	fiveBottomDiv.translate(1.5, 0, 0);
+
+	models.push_back(&fiveTopDiv);
+	models.push_back(&fiveBottomDiv);
 
 
 	// First I3
