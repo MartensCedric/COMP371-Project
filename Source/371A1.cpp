@@ -231,6 +231,11 @@ int main(int argc, char*argv[])
 
 
     // Attach it to framebuffer's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE); // We don't need color buffer
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//----------Camera setup----------
 	camera = new Camera();
@@ -571,17 +576,23 @@ int main(int argc, char*argv[])
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
+
+
+		// We're first going to render the shadow map
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		world.draw();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
         // Each frame, reset color of each pixel to glClearColor and reset the depth
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-
-		glfwGetCursorPos(window, &xCursor, &yCursor);
-
-		// Draw the 100x100 square grid and axes on the ground
+		glBindTexture(GL_TEXTURE_2D, depthMap);
 		world.draw();
 
         // End frame
         glfwSwapBuffers(window);
 
+		glfwGetCursorPos(window, &xCursor, &yCursor);
         // Detect inputs
         glfwPollEvents();
 
