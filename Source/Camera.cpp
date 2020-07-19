@@ -54,7 +54,7 @@ void Camera::setProjectionMatrix(int shader)
 {
 	// Set projection matrix for the shader (in this case we use perspective projection)
 	glm::mat4 projectionMatrix = glm::perspective(
-		defaultFOV,            // field of view in degrees
+		this->fov,            // field of view in degrees
 		1024.0f / 768.0f, // aspect ratio
 		0.01f, 100.0f     // near and far (near > 0)
 	);
