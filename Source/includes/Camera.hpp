@@ -9,7 +9,7 @@ class Camera {
         glm::vec3 position;
         glm::vec3 lookAtPos;
         glm::vec3 up;
-		GLfloat fov = 1.0f;
+		GLfloat fov = 0.75f;
 
         Camera();
         void moveForward();
