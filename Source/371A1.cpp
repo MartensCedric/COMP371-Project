@@ -212,6 +212,7 @@ int main(int argc, char*argv[])
     // Compile and link shaders here ...
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
+	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	glUseProgram(passthroughShader);
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
@@ -556,14 +557,6 @@ int main(int argc, char*argv[])
 	T5.translate(-25, 3.5, -25);
 	
 	models.push_back(&T5);
-
-	//----------Models----------
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		world.addChild(*it);
-		(*it)->setShader(lightAffectedShader);
-	}
-	 
 	world.setCamera(camera);
 
 	// Variables for Tilt/Pan
@@ -577,17 +570,31 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
+		glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.f, 8.0f);
 
+		glm::mat4 lightView = glm::lookAt(glm::vec3(0, 5, 6), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 		// We're first going to render the shadow map
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
+		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->setShader(shadowShader);
+		}
+		int lightSpaceLocation = glGetUniformLocation(shadowShader, "lightSpaceMatrix");
+		glUniformMatrix4fv(lightSpaceLocation, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 		world.draw();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         // Each frame, reset color of each pixel to glClearColor and reset the depth
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-		glBindTexture(GL_TEXTURE_2D, depthMap);
-		world.draw();
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+		//glBindTexture(GL_TEXTURE_2D, depthMap);
+		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->setShader(lightAffectedShader);
+		}
+		//world.draw();
 
         // End frame
         glfwSwapBuffers(window);
