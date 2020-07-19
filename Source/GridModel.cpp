@@ -12,7 +12,7 @@ GridModel::GridModel() {
         glm::vec3(0, 0, 25.f), color,
     };
 
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 101; i++)
 	{
 		SimpleModel* xline = new SimpleModel(verticesGridUnit, sizeof(verticesGridUnit) / sizeof(verticesGridUnit[0]), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 			GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
