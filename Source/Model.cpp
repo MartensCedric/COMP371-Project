@@ -133,6 +133,7 @@ glm::mat4 Model::getModelMatrix()
 void Model::reset()
 {
 	this->objRotMat = glm::mat4(1);
+	this->objTransMat = glm::mat4(1);
 }
 
 Model::~Model() {}
