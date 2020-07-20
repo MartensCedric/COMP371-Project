@@ -5,7 +5,7 @@ NormalsModel::NormalsModel() {}
 /**
 * This subclass provides an easy implementation for models where the vertex attributes are pos+normal.
 */
-NormalsModel::NormalsModel(glm::vec3 * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) : Model::Model(vertexArray, vertexCount, drawFunc)
+NormalsModel::NormalsModel(Vertex * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) : Model::Model(vertexArray, vertexCount, drawFunc)
 {
 	this->vertexCount = vertexCount / 2; // if we use pos + normal attribute we must divide by two
 }

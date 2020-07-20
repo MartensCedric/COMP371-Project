@@ -5,7 +5,7 @@
 * A subclass for an easy implementation of a 1x1x1 unit cube.
 */
 UnitCubeModel::UnitCubeModel() {
-    glm::vec3 verticesUnitCube[] = {
+    Vertex verticesUnitCube[] = {
         // Front face
         glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1),
         glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(0, 0, 1),
@@ -64,7 +64,7 @@ UnitCubeModel::UnitCubeModel() {
     
     *this = UnitCubeModel(
         verticesUnitCube, 
-        sizeof(verticesUnitCube)/sizeof(verticesUnitCube[0]), 
+        sizeof(verticesUnitCube)/sizeof(glm::vec3), 
         [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 
 			glm::vec3 spotlightPosition(0.0f, 5.0f, 6.0f);
@@ -87,6 +87,6 @@ UnitCubeModel::UnitCubeModel() {
     setupAttribPointer();
 }
 
-UnitCubeModel::UnitCubeModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
+UnitCubeModel::UnitCubeModel(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
 : NormalsModel(vertexArray, vertexCount, drawFunc) 
 {}

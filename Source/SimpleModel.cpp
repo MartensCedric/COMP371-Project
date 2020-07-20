@@ -5,7 +5,7 @@ SimpleModel::SimpleModel() {}
 /**
 * This subclass provides an easy implementation for models where the vertex attributes are pos+color.
 */
-SimpleModel::SimpleModel(glm::vec3 * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) : Model::Model(vertexArray, vertexCount, drawFunc)
+SimpleModel::SimpleModel(Vertex * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) : Model::Model(vertexArray, vertexCount, drawFunc)
 {
 	this->vertexCount = vertexCount / 2; // if we use pos + color attribute we must divide by two
 }
@@ -32,6 +32,7 @@ void SimpleModel::setupAttribPointer()
 		(void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
 	);
 	glEnableVertexAttribArray(1);
+
 }
 
 SimpleModel::~SimpleModel()

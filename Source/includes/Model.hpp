@@ -36,7 +36,7 @@ public:
 	Camera* camera = nullptr;
 
 	Model();
-	Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+	Model(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 	virtual void setupAttribPointer() = 0;
 	virtual void setShader(int shaderProgram);
 	virtual void setCamera(Camera* camera);
@@ -48,4 +48,10 @@ public:
 	glm::mat4 getModelMatrix();
 	void reset();
 	virtual ~Model();
+};
+
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 color;
 };
