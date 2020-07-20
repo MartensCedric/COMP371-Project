@@ -1,9 +1,10 @@
 #pragma once
-#include "NormalsModel.h"
+#include "SimpleModel.hpp"
 #include <glm/glm.hpp>
+#include <vector>
 
-class UnitCubeModel : public NormalsModel {
+class UnitCubeModel : public SimpleModel {
     public:
         UnitCubeModel();
-        UnitCubeModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+        UnitCubeModel(glm::vec3* vertices, int verticesCount, unsigned short* indices, int indicesCount, void(*drawFunc)(int indicesCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 };

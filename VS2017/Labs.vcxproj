@@ -131,7 +131,7 @@
     <ClInclude Include="..\Source\includes\Camera.hpp" />
     <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
-    <ClInclude Include="..\Source\includes\NormalsModel.h" />
+    <ClInclude Include="..\Source\includes\NormalsModel.hpp" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />

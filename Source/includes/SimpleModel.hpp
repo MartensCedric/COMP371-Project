@@ -8,8 +8,10 @@
 class SimpleModel : public Model
 {
 	public:
+		std::vector<glm::vec3> vertices;
+        std::vector<unsigned short> indices;
 		SimpleModel();
-		SimpleModel(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+		SimpleModel(glm::vec3* vertices, int verticesCount, unsigned short* indices, int indicesCount, void(*drawFunc)(int indicesCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 		virtual void setupAttribPointer() override;
 		virtual ~SimpleModel();
 };

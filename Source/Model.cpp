@@ -15,21 +15,28 @@ Model::Model() {}
 * This is an OpenGL wrapper which allows you to create models with hierarchical modeling.
 * The vertices must be specified as well as a routine that draws said model.
 */
-Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
+Model::Model(glm::vec3* vertices, int verticesCount, unsigned short* indices, int indicesCount, void(*drawFunc)(int indicesCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
 {
 	drawFunction = drawFunc;
 	// Create a vertex array
-	GLuint modelVAO;   //Create a VAO 
-	glGenVertexArrays(1, &modelVAO); //Create array in memory for our object, parameters:(# of arrays, memory location)
-	glBindVertexArray(modelVAO);  //Tell openGL to use this VAO until I decide to change it (openGL is state machine)
+	GLuint VAO;
+	glGenVertexArrays(1, &VAO); // Create array in memory for our object, parameters:(# of arrays, memory location)
+	glBindVertexArray(VAO);  // Tell openGL to use this VAO until I decide to change it (openGL is state machine)
 
-	GLuint modelVBO;  //Create a VBO  (VBO's connect to a single VAO)
-	glGenBuffers(1, &modelVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, modelVBO);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(glm::vec3), vertexArray, GL_STATIC_DRAW);
+	// Create a VBO  (VBO's connect to a single VAO)
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, verticesCount * sizeof(glm::vec3), vertices, GL_STATIC_DRAW);
 
-	vaoId = modelVAO;
-	this->vertexCount = vertexCount;
+	GLuint EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesCount * sizeof(unsigned short), indices, GL_STATIC_DRAW);
+
+	vaoId = VAO;
+	eboId = EBO;
+	this->indicesCount = indicesCount;
 }
 
 /**
@@ -65,9 +72,10 @@ void Model::draw()
 {
 	glUseProgram(shaderId);
 	glBindVertexArray(vaoId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
 	this->camera->setProjectionMatrix(shaderId);
 	this->camera->setViewMatrix(shaderId);
-	drawFunction(vertexCount, shaderId, this->getModelMatrix(), this->camera);
+	drawFunction(indicesCount, shaderId, this->getModelMatrix(), this->camera);
 
 	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
 	{
