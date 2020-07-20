@@ -47,6 +47,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 SimpleModel world;
 std::vector<Model*> models;
