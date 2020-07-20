@@ -166,6 +166,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPointSize(5);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
+
+	
 }
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
@@ -194,6 +196,13 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 		previousYPos = -1;
 		leftMouseClick = false;
 	}
+}
+
+void setWorldMatrix(int shaderProgram, glm::mat4 worldMatrix)
+{
+	glUseProgram(shaderProgram);
+	GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
+	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 }
 
 int main(int argc, char*argv[])
@@ -236,12 +245,15 @@ int main(int argc, char*argv[])
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
+	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+
+
 
     // Compile and link shaders here ...
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
-	glUseProgram(passthroughShader);
+	//glUseProgram(textureShader);
 
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
@@ -251,6 +263,7 @@ int main(int argc, char*argv[])
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, boxTextureID);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;

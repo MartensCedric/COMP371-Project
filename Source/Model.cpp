@@ -112,6 +112,7 @@ void Model::addChild(Model* child)
 }
 
 
+
 /**
 * Gets the model matrix for this model.
 * The model matrix is used to get the coordinate transform of this model in respect to the world.
@@ -137,3 +138,4 @@ void Model::reset()
 }
 
 Model::~Model() {}
+

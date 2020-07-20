@@ -27,6 +27,7 @@ public:
 	int vaoId;
 	int shaderId;
 	int vertexCount;
+	bool isLetter;
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
@@ -50,8 +51,13 @@ public:
 	virtual ~Model();
 };
 
+
 struct Vertex
 {
+	Vertex(glm::vec3 _position, glm::vec3 _color, glm::vec2 _uv)
+		: position(_position), color(_color), uv(_uv) {}
+
 	glm::vec3 position;
 	glm::vec3 color;
+	glm::vec2 uv;
 };

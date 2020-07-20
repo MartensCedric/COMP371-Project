@@ -13,14 +13,14 @@ AxesModel::AxesModel() {
     glm::vec3 blue = glm::vec3(0.0f , 0.0f, 1.0f);
 
 	Vertex verticesAxes[] = {
-        glm::vec3(0.0f, 0.0f, 0.0f), red,
-        glm::vec3(5.0f, 0.0f, 0.0f), red, 
+        Vertex(glm::vec3(0.0f, 0.0f, 0.0f), red, glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(5.0f, 0.0f, 0.0f), red, glm::vec2(0.0f, 0.0f)),
 
-        glm::vec3(0.0f, 0.0f, 0.0f), green, 
-        glm::vec3(0.0f, 5.0f, 0.0f), green, 
+        Vertex(glm::vec3(0.0f, 0.0f, 0.0f), green, glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.0f, 5.0f, 0.0f), green, glm::vec2(0.0f, 0.0f)),
 
-        glm::vec3(0.0f, 0.0f, 0.0f), blue, 
-        glm::vec3(0.0f, 0.0f, 5.0f), blue
+        Vertex(glm::vec3(0.0f, 0.0f, 0.0f), blue, glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.0f, 0.0f, 5.0f), blue, glm::vec2(0.0f, 0.0f))
     };
 
 	*this = AxesModel(verticesAxes, sizeof(verticesAxes) / sizeof(glm::vec3), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
