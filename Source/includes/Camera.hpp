@@ -9,9 +9,11 @@ class Camera {
         glm::vec3 position;
         glm::vec3 lookAtPos;
         glm::vec3 up;
-		GLfloat fov = 1.0f;
+		GLfloat fov = 0.75f;
+        int width;
+        int height;
 
-        Camera();
+        Camera(int width, int height);
         void moveForward();
         void moveBack();
         void moveLeft();
@@ -19,5 +21,7 @@ class Camera {
 		void setFOV(float fov);
 		void setViewMatrix(int shader);
 		void setProjectionMatrix(int shader);
+        void setWidth(int width);
+        void setHeight(int height);
 		float getFOV();
 };
