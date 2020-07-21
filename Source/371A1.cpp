@@ -392,12 +392,15 @@ int main(int argc, char*argv[])
 	modelsBottom.push_back(&iBottomDiv);
 
 	//Draw a 3
-	UnitCubeModel three, threeTopDiv, threeBottomDiv;
-	three.setupAttribPointer();
+	SimpleModel three, threeTopDiv, threeBottomDiv;
 
-	UnitCubeModel threeRight;
-	threeRight.scale(1, 5, 1);
-	threeRight.translate(2, 0, 0);
+	UnitCubeModel threeRightTop;
+	threeRightTop.scale(1, 3, 1);
+	threeRightTop.translate(2, 2, 0);
+
+	UnitCubeModel threeRightBottom;
+	threeRightBottom.scale(1, 3, 1);
+	threeRightBottom.translate(2, -2, 0);
 
 	UnitCubeModel threeTop;
 	threeTop.scale(3, 1, 1);
@@ -412,7 +415,8 @@ int main(int argc, char*argv[])
 	threeBottom.translate(1, -3, 0);
 
 	threeTopDiv.addChild(&threeTop);
-	threeTopDiv.addChild(&threeRight);
+	threeTopDiv.addChild(&threeRightTop);
+	threeBottomDiv.addChild(&threeRightBottom);
 	threeBottomDiv.addChild(&threeMiddle);
 	threeBottomDiv.addChild(&threeBottom);
 
