@@ -11,11 +11,14 @@
 
 #include "Camera.hpp"
 
-
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
 #include "../Source/includes/Camera.hpp"
 
+#endif
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
 #endif
 
 class Model
