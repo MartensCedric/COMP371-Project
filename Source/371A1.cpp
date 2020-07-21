@@ -266,11 +266,11 @@ int main(int argc, char*argv[])
 
 	// Alpha numerical models
 	// Splitting each model in two: 2/3 assigned to the bottom, the remainder 1/3 to the top
-	SimpleModel E5top, E5bottom, I31, I32, T5, D8;
+	SimpleModel E5, E5top, E5bottom, I31, I32, T5, D8;
 
 	// Draw an E
 	// split top/bot divisions
-	SimpleModel eTopDiv, eBottomDiv;
+	SimpleModel E, eTopDiv, eBottomDiv;
 	eTopDiv.setupAttribPointer();
 	eBottomDiv.setupAttribPointer();
 
@@ -300,15 +300,20 @@ int main(int argc, char*argv[])
 	eBottomDiv.addChild(&eMiddle);
 	eBottomDiv.addChild(&eBottom);
 
+	E.addChild(&eTopDiv);
+	E.addChild(&eBottomDiv);
+
 	eTopDiv.translate(-3.5, 0, 0);
 	eBottomDiv.translate(-3.5, 0, 0);
+	
+	E5.addChild(&E);
 
 	modelsTop.push_back(&eTopDiv);
 	modelsBottom.push_back(&eBottomDiv);
 
 	// Draw a 5
 	///*
-	SimpleModel fiveTopDiv, fiveBottomDiv;
+	SimpleModel five, fiveTopDiv, fiveBottomDiv;
 	fiveTopDiv.setupAttribPointer();
 	fiveBottomDiv.setupAttribPointer();
 
@@ -341,9 +346,13 @@ int main(int argc, char*argv[])
 	fiveTopDiv.translate(1.5, 0, 0);
 	fiveBottomDiv.translate(1.5, 0, 0);
 
+	five.addChild(&fiveTopDiv);
+	five.addChild(&fiveBottomDiv);
+	E5.addChild(&five);
+
 	modelsTop.push_back(&fiveTopDiv);
 	modelsBottom.push_back(&fiveBottomDiv);
-
+	models.push_back(&E5);
 
 	// First I3
 	//Draw an I
