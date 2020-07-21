@@ -270,7 +270,7 @@ int main(int argc, char*argv[])
 
 	// Draw an E
 	// split top/bot divisions
-	/*SimpleModel eTopDiv, eBottomDiv;
+	SimpleModel eTopDiv, eBottomDiv;
 	eTopDiv.setupAttribPointer();
 	eBottomDiv.setupAttribPointer();
 
@@ -342,7 +342,7 @@ int main(int argc, char*argv[])
 	fiveBottomDiv.translate(1.5, 0, 0);
 
 	modelsTop.push_back(&fiveTopDiv);
-	modelsBottom.push_back(&fiveBottomDiv);*/
+	modelsBottom.push_back(&fiveBottomDiv);
 
 
 	// First I3
@@ -368,11 +368,9 @@ int main(int argc, char*argv[])
 	iBottom.scale(2, 1, 1);
 	iBottom.translate(0, -3, 0);
 
-	iTopDiv.translate(24, 3.5, -25);
 	iTopDiv.addChild(&iTop);
 	iTopDiv.addChild(&iMiddleTop);
 
-	iBottomDiv.translate(24, 3.5, -25);
 	iBottomDiv.addChild(&iMiddleBottom);
 	iBottomDiv.addChild(&iBottom);
 
@@ -613,17 +611,6 @@ int main(int argc, char*argv[])
 		(*it)->setShader(lightAffectedShader);
 	}
 
-	for (auto it = modelsBottom.begin(); it != modelsBottom.end(); it++)
-	{
-		world.addChild(*it);
-		(*it)->setShader(lightAffectedShader);
-	}
-	 
-	for (auto it = modelsTop.begin(); it != modelsTop.end(); it++)
-	{
-		world.addChild(*it);
-		(*it)->setShader(lightAffectedShader);
-	}
 
 	world.setCamera(camera);
 
