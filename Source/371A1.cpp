@@ -270,7 +270,7 @@ int main(int argc, char*argv[])
 
 	// Draw an E
 	// split top/bot divisions
-	SimpleModel eTopDiv, eBottomDiv;
+	/*SimpleModel eTopDiv, eBottomDiv;
 	eTopDiv.setupAttribPointer();
 	eBottomDiv.setupAttribPointer();
 
@@ -342,35 +342,50 @@ int main(int argc, char*argv[])
 	fiveBottomDiv.translate(1.5, 0, 0);
 
 	modelsTop.push_back(&fiveTopDiv);
-	modelsBottom.push_back(&fiveBottomDiv);
+	modelsBottom.push_back(&fiveBottomDiv);*/
 
 
 	// First I3
 	//Draw an I
-	SimpleModel I;
+	SimpleModel I, iTopDiv, iBottomDiv;
+	iTopDiv.setupAttribPointer();
+	iBottomDiv.setupAttribPointer();
 	I.setupAttribPointer();
+
 	I.translate(-2, 0, 0);
 
 	UnitCubeModel iTop;
 	iTop.scale(2, 1, 1);
 	iTop.translate(0, 3, 0);
 
-	UnitCubeModel iMiddle;
-	iMiddle.scale(1, 5, 1);
-	iMiddle.translate(0, 0, 0);
+	UnitCubeModel iMiddleTop, iMiddleBottom;
+	iMiddleTop.scale(1, 2, 1);
+	iMiddleTop.translate(0, 2, 0);
+	iMiddleBottom.scale(1, 4, 1);
+	iMiddleBottom.translate(0, -1, 0);
 
 	UnitCubeModel iBottom;
 	iBottom.scale(2, 1, 1);
 	iBottom.translate(0, -3, 0);
 
-	I.addChild(&iTop);
-	I.addChild(&iMiddle);
-	I.addChild(&iBottom);
+	iTopDiv.translate(24, 3.5, -25);
+	iTopDiv.addChild(&iTop);
+	iTopDiv.addChild(&iMiddleTop);
+
+	iBottomDiv.translate(24, 3.5, -25);
+	iBottomDiv.addChild(&iMiddleBottom);
+	iBottomDiv.addChild(&iBottom);
+
+	I.addChild(&iTopDiv);
+	I.addChild(&iBottomDiv);
 
 	I31.addChild(&I);
 
+	modelsTop.push_back(&iTopDiv);
+	modelsBottom.push_back(&iBottomDiv);
+
 	//Draw a 3
-	SimpleModel three;
+	UnitCubeModel three, threeTopDiv, threeBottomDiv;
 	three.setupAttribPointer();
 
 	UnitCubeModel threeRight;
@@ -389,13 +404,19 @@ int main(int argc, char*argv[])
 	threeBottom.scale(3, 1, 1);
 	threeBottom.translate(1, -3, 0);
 
-	three.addChild(&threeRight);
-	three.addChild(&threeTop);
-	three.addChild(&threeMiddle);
-	three.addChild(&threeBottom);
-	three.translate(2, 0, 0);
+	threeTopDiv.addChild(&threeTop);
+	threeTopDiv.addChild(&threeRight);
+	threeBottomDiv.addChild(&threeMiddle);
+	threeBottomDiv.addChild(&threeBottom);
+
+	three.addChild(&threeBottomDiv);
+	three.addChild(&threeTopDiv);
 
 	I31.addChild(&three);
+
+	modelsBottom.push_back(&threeBottomDiv);
+	modelsTop.push_back(&threeTopDiv);
+
 	I31.translate(25, 3.5, -25);
 
 	models.push_back(&I31);
