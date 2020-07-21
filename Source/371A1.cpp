@@ -53,6 +53,8 @@ SimpleModel world;
 std::vector<Model*> models;
 double currentYPos;
 double previousYPos = -1;
+int randomX;
+int randomY;
 double currentVariation = 0;
 bool leftMouseClick = false;
 Camera* camera = nullptr;
@@ -704,6 +706,17 @@ int main(int argc, char*argv[])
 			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
 			{
 				(*it)->scale(0.95, 0.95, 0.95);
+			}
+		}
+
+		// Reposition models
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			{
+				(*it)->reset();
+				randomX = rand() % 51 + (-25);
+				randomY = rand() % 51 + (-25);
+ 				(*it)->translate(randomX, 3.5, randomY);
 			}
 		}
     }
