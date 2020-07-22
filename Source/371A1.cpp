@@ -5,7 +5,7 @@
 //
 // Inspired by the following tutorials:
 // - https://learnopengl.com/Getting-started/Hello-Window
-// - https://learnopengl.com/Getting-started/Hello-Triangle
+// - https://learnopengl.com/Getting-started/Hefllo-Triangle
 
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
@@ -170,6 +170,35 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
+unsigned int quadVAO = 0;
+unsigned int quadVBO;
+void renderQuad()
+{
+	if (quadVAO == 0)
+	{
+		float quadVertices[] = {
+			// positions        // texture Coords
+			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+			1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+			1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		};
+		// setup plane VAO
+		glGenVertexArrays(1, &quadVAO);
+		glGenBuffers(1, &quadVBO);
+		glBindVertexArray(quadVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	}
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+}
+
 
 int main(int argc, char*argv[])
 {
@@ -213,7 +242,7 @@ int main(int argc, char*argv[])
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
-	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depthmapRender.fshader");
+	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depth_fragment.glsl");
 	glUseProgram(passthroughShader);
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
@@ -558,6 +587,11 @@ int main(int argc, char*argv[])
 	T5.translate(-25, 3.5, -25);
 	
 	models.push_back(&T5);
+	for (auto it = models.begin(); it != models.end(); it++)
+	{
+		world.addChild(*it);
+		(*it)->setShader(lightAffectedShader);
+	}
 	world.setCamera(camera);
 
 	// Variables for Tilt/Pan
@@ -571,34 +605,49 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
-		glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.f, 8.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 lightView = glm::lookAt(glm::vec3(0, 5, 6), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+		glm::mat4 lightProjection = glm::perspective(70.0f,                  // field of view in degrees
+			1024.0f / 768.0f,  // aspect ratio
+			0.01f, 100.0f);         // near and far (near > 0)
+
+
+		glm::mat4 lightView = glm::lookAt(camera->position, camera->position + camera->lookAtPos, camera->up);
 
 		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 		// We're first going to render the shadow map
+		glUseProgram(shadowShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		int lightSpaceLocation = glGetUniformLocation(shadowShader, "lightSpaceMatrix");
+		glUniformMatrix4fv(lightSpaceLocation, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 
 		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
 		{
 			(*it)->setShader(shadowShader);
+			(*it)->draw();
 		}
-		int lightSpaceLocation = glGetUniformLocation(shadowShader, "lightSpaceMatrix");
-		glUniformMatrix4fv(lightSpaceLocation, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
-		world.draw();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         // Each frame, reset color of each pixel to glClearColor and reset the depth-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
-		{
-			(*it)->setShader(depthMapShader);
-		}
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUseProgram(depthMapShader);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+		glm::mat4 identity(1.0);
+		GLuint worldMatrixLocation = glGetUniformLocation(depthMapShader, "worldMatrix");
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
+		renderQuad();
+		//for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
+		//{
+		//	(*it)->draw();
+		//}
 
-		world.draw();
+		//world.draw();
 
         // End frame
         glfwSwapBuffers(window);
