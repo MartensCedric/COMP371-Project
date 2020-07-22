@@ -242,7 +242,7 @@ int main(int argc, char*argv[])
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
-	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depth_fragment.glsl");
+	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depthmapRender.fshader");
 	glUseProgram(passthroughShader);
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
@@ -635,19 +635,15 @@ int main(int argc, char*argv[])
 
         // Each frame, reset color of each pixel to glClearColor and reset the depth-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(depthMapShader);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-		glm::mat4 identity(1.0);
-		GLuint worldMatrixLocation = glGetUniformLocation(depthMapShader, "worldMatrix");
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &identity[0][0]);
-		renderQuad();
-		//for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
-		//{
-		//	(*it)->draw();
-		//}
 
-		//world.draw();
+		for (std::vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
+		{
+			(*it)->setShader(lightAffectedShader);
+		}
+
+		world.draw();
 
         // End frame
         glfwSwapBuffers(window);
