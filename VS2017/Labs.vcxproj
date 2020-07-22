@@ -120,8 +120,10 @@
     <ClCompile Include="..\Source\AxesModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\GridModel.cpp" />
+    <ClCompile Include="..\Source\LoadTexture.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
     <ClCompile Include="..\Source\NormalsModel.cpp" />
+    <ClCompile Include="..\Source\PlaneModel.cpp" />
     <ClCompile Include="..\Source\Shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
     <ClCompile Include="..\Source\SphereModel.cpp" />
@@ -132,11 +134,15 @@
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />
     <ClInclude Include="..\Source\includes\Camera.hpp" />
     <ClInclude Include="..\Source\includes\GridModel.hpp" />
+    <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
     <ClInclude Include="..\Source\includes\NormalsModel.h" />
+    <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
+    <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
+    <ClInclude Include="..\Source\includes\WorldModel.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

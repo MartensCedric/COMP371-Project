@@ -6,6 +6,6 @@
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 #include <iostream>
-#include <stb_image.h>
+#include <stb_image>
 
 GLuint loadTexture(const char *filename);

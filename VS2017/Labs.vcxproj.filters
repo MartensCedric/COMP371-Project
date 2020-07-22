@@ -96,6 +96,12 @@
     <ClCompile Include="..\Source\WorldModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\LoadTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\PlaneModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\Model.hpp">
@@ -122,5 +128,9 @@
     <ClInclude Include="..\Source\includes\AxesModel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
+    <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
+    <ClInclude Include="..\Source\includes\SphereModel.hpp" />
+    <ClInclude Include="..\Source\includes\WorldModel.hpp" />
   </ItemGroup>
 </Project>
