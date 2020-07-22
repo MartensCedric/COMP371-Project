@@ -1,9 +1,5 @@
-#include "includes/LoadTexture.hpp"
-
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
-using namespace std;
+#include "includes/LoadTexture.hpp"
 
 GLuint loadTexture(const char *filename)
 {
@@ -17,7 +13,6 @@ GLuint loadTexture(const char *filename)
 	// Step2 Set filter parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 
 	// Step3 Load Textures with dimension data
 	int width, height, nrChannels;

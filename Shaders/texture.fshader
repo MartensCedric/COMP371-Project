@@ -8,4 +8,4 @@ void main()
 {
    vec4 textureColor = texture( textureSampler, vertexUV );
    FragColor = textureColor;
-};
+}

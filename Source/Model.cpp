@@ -1,14 +1,6 @@
 #include "includes/Model.hpp"
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-// initializing OpenGL and binding inputs
-#include <iostream>
-#include <glm/gtx/string_cast.hpp>
 
 Model::Model() {}
-
 
 /**
 * Model Class
@@ -59,11 +51,26 @@ void Model::setShader(int shaderProgram)
 };
 
 /**
+* Sets the shader for the model and its children
+*/
+void Model::setTexture(GLuint texture)
+{
+	textureId = texture;
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setTexture(texture);
+	}
+};
+
+/**
 * Draws the model. Binds the correct shader and VAO, it will also draw all the children.
 */
 void Model::draw()
 {
 	glUseProgram(shaderId);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
 	this->camera->setViewMatrix(shaderId);

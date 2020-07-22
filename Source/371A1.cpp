@@ -15,20 +15,14 @@
 #define OS_Windows 0
 #include "includes/Camera.hpp"
 #include "includes/WorldModel.hpp"
-#include "includes/PlaneModel.hpp"
-#include "includes/LoadTexture.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
 #define OS_Windows 1
 #define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/Shader.hpp"
 
-#include "../Source/includes/Shader.hpp"
-#include "../Source/includes/SimpleModel.hpp"
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
-#include "../Source/includes/PlaneModel.hpp"
-#include "../Source/includes/LoadTexture.hpp"
 
 #endif
 
@@ -44,10 +38,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-GLuint loadTexture(const char *filename);
 
 WorldModel* world = nullptr;
 double currentYPos;
@@ -247,28 +237,10 @@ int main(int argc, char*argv[])
         return -1;
     }
 
-	// Load textures
-	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
-	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
-	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
-
-
-
-    // Compile and link shaders here ...
-	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
-	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
-	//glUseProgram(textureShader);
-
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
 	world->setCamera(camera);
-
-	// Enable blending
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBindTexture(GL_TEXTURE_2D, boxTextureID);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -285,7 +257,6 @@ int main(int argc, char*argv[])
 
 		glfwGetCursorPos(window, &xCursor, &yCursor);
 
-		// Draw the 100x100 square grid and axes on the ground
 		world->draw();
 
         // End frame
@@ -439,47 +410,4 @@ int main(int argc, char*argv[])
     glfwTerminate();
     
 	return 0;
-}
-
-GLuint loadTexture(const char *filename)
-{
-	// Step1 Create and bind textures
-	GLuint textureId = 0;
-	glGenTextures(1, &textureId);
-	assert(textureId != 0);
-
-	glBindTexture(GL_TEXTURE_2D, textureId);
-
-	// Step2 Set filter parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-	// Step3 Load Textures with dimension data
-	int width, height, nrChannels;
-	unsigned char *data = stbi_load(filename, &width, &height, &nrChannels, 0); //function responsible for loading the image with appropriate dimensions 
-	if (!data)
-	{
-		std::cerr << "Error::Texture could not load texture file:" << filename << std::endl;
-		return 0;
-	}
-
-	// Step4 Upload the texture to the GPU
-	GLenum format = 0;
-	if (nrChannels == 1)
-		format = GL_RED;
-	else if (nrChannels == 3)
-		format = GL_RGB;
-	else if (nrChannels == 4)
-		format = GL_RGBA;
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height,
-		0, format, GL_UNSIGNED_BYTE, data);
-
-	//If you specify mipmap behaviour you have to pregenerate the mipmaps for your image
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	// Step5 Free resources
-	stbi_image_free(data);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	return textureId;
 }

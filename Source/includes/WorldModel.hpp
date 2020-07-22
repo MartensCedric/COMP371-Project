@@ -3,7 +3,9 @@
 #include "GridModel.hpp"
 #include "AxesModel.hpp"
 #include "SphereModel.hpp"
+#include "PlaneModel.hpp"
 #include "Shader.hpp"
+#include "LoadTexture.hpp"
 
 class EModel : public SimpleModel {
 	public: 

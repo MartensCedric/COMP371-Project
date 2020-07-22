@@ -13,6 +13,7 @@ GridModel::GridModel() {
 		Vertex(glm::vec3(0, 0, 25.f), color,glm::vec2(0.0f, 0.0f)),
 
 	};
+
 	//Set grid.setShader  to texture shader and uncomment these blocks of code for tiles texture on the ground
 
 	////This plane appears slightly above other grid
@@ -56,7 +57,6 @@ GridModel::GridModel() {
 	//	glDrawArrays(GL_TRIANGLES, 0, 6);
 	//	});
 	//this->addChild(plane);
-
 
 	setupAttribPointer();
 }
