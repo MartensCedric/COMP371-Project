@@ -15,6 +15,8 @@
 #define OS_Windows 0
 #include "includes/Camera.hpp"
 #include "includes/WorldModel.hpp"
+#include "includes/PlaneModel.hpp"
+#include "includes/LoadTexture.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -25,6 +27,9 @@
 #include "../Source/includes/SimpleModel.hpp"
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
+#include "../Source/includes/PlaneModel.hpp"
+#include "../Source/includes/LoadTexture.hpp"
+
 #endif
 
 // Include GLEW - OpenGL Extension Wrangler
