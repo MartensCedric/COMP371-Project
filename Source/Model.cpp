@@ -1,21 +1,13 @@
 #include "includes/Model.hpp"
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-// initializing OpenGL and binding inputs
-#include <iostream>
-#include <glm/gtx/string_cast.hpp>
 
 Model::Model() {}
-
 
 /**
 * Model Class
 * This is an OpenGL wrapper which allows you to create models with hierarchical modeling.
 * The vertices must be specified as well as a routine that draws said model.
 */
-Model::Model(glm::vec3* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
+Model::Model(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
 {
 	drawFunction = drawFunc;
 	// Create a vertex array
@@ -59,11 +51,26 @@ void Model::setShader(int shaderProgram)
 };
 
 /**
+* Sets the shader for the model and its children
+*/
+void Model::setTexture(GLuint texture)
+{
+	textureId = texture;
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setTexture(texture);
+	}
+};
+
+/**
 * Draws the model. Binds the correct shader and VAO, it will also draw all the children.
 */
 void Model::draw()
 {
 	glUseProgram(shaderId);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
 	this->camera->setViewMatrix(shaderId);
@@ -112,6 +119,7 @@ void Model::addChild(Model* child)
 }
 
 
+
 /**
 * Gets the model matrix for this model.
 * The model matrix is used to get the coordinate transform of this model in respect to the world.
@@ -133,6 +141,8 @@ glm::mat4 Model::getModelMatrix()
 void Model::reset()
 {
 	this->objRotMat = glm::mat4(1);
+	this->objTransMat = glm::mat4(1);
 }
 
 Model::~Model() {}
+

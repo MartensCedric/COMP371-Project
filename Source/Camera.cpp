@@ -2,14 +2,17 @@
 
 GLuint projectionMatrixLocation;
 float defaultFOV = 0.785f;
+
 /**
 * This class instantiates a camera. It has some utility functions that manipulates it.
 */
-Camera::Camera() :
+Camera::Camera(int width, int height) :
 	speed(0.1f),
-	position(0.0f, 5.0f, 15.0f),
+	position(0.0f, 10.0f, 70.0f),
 	lookAtPos(0, 2, 0),
-	up(0.0f, 1.0f, 0.0f)
+	up(0.0f, 1.0f, 0.0f),
+	width(width),
+	height(height)
 {
     // With this enabled (surfaces with vertices in counter clockwise direction will render)
     // Therefore the back of a surface will not render (more efficient)
@@ -45,23 +48,32 @@ void Camera::setViewMatrix(int shader)
 		lookAtPos, // center
 		up // up
 	);
+
 	GLuint viewMatrixLocation = glGetUniformLocation(shader, "viewMatrix");
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-
 }
 
 void Camera::setProjectionMatrix(int shader)
 {
 	// Set projection matrix for the shader (in this case we use perspective projection)
 	glm::mat4 projectionMatrix = glm::perspective(
-		defaultFOV,            // field of view in degrees
-		1024.0f / 768.0f, // aspect ratio
-		0.01f, 100.0f     // near and far (near > 0)
+		this->fov,               // field of view in degrees
+		((float)width) / height, // aspect ratio
+		0.01f, 100.0f            // near and far (near > 0)
 	);
 	projectionMatrixLocation = glGetUniformLocation(shader, "projectionMatrix");
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 }
 
+void Camera::setWidth(int width)
+{
+	this->width = width;
+}
+
+void Camera::setHeight(int height)
+{
+	this->height = height;
+}
 
 //Replaces the values of the projection matrix within the projectionMatrixLocation
 void Camera::setFOV(float fov) {
@@ -79,4 +91,3 @@ void Camera::setFOV(float fov) {
 float Camera::getFOV() {
 	return this->fov;
 }
-
