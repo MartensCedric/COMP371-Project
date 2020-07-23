@@ -5,8 +5,8 @@ uniform vec3 lightPosition;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
 uniform vec3 eyePosition;
 
-uniform float kAmbient = 0.2;
-uniform float kDiffuse = 0.6;
+uniform float kAmbient = 0.4;
+uniform float kDiffuse = 0.4;
 uniform float kSpecular = 0.5;
 
 uniform float specularExponent = 32;
