@@ -51,4 +51,5 @@ class WorldModel : public SimpleModel {
 		void setAxesShader(int shaderProgram);
 		void setModelShader(int shaderProgram);
 		void setPlaneShader(int shaderProgram);
+		void setSphereShader(int shaderProgram);
 };

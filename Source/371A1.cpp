@@ -238,11 +238,15 @@ int main(int argc, char*argv[])
     }
 
     // Compile and link shaders here ...
-	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+	int transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
+	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+
+	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depthmapRender.fshader");
-	glUseProgram(passthroughShader);
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 768;
@@ -271,6 +275,13 @@ int main(int argc, char*argv[])
 	camera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
 	world->setCamera(camera);
+
+	world->setAxesShader(passthroughShader);
+	world->setGridShader(passthroughShader);
+	world->setPlaneShader(textureLightShader);
+	world->setModelShader(textureLightShader);
+	world->setSphereShader(transparentShader);
+
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -318,8 +329,9 @@ int main(int argc, char*argv[])
 
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
-			(*it)->setShader(lightAffectedShader);
+			(*it)->setShader(textureLightShader);
 		}
+		world->setSphereShader(transparentShader);
 
 		world->draw();
 

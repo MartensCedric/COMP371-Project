@@ -189,14 +189,16 @@ void WorldModel::setModelShader(int shaderProgram)
 		(*it)->setShader(shaderProgram); 
 }
 
+void WorldModel::setSphereShader(int shaderProgram)
+{
+	for (auto it = spheres.begin(); it != spheres.end(); it++)
+	{
+		(*it)->setShader(shaderProgram);
+	}
+}
+
 WorldModel::WorldModel() {
-	// Compile and link shaders here ...
-	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
-	int transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
-	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
-	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
-	
+
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
@@ -207,16 +209,13 @@ WorldModel::WorldModel() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	plane = new PlaneModel();
-	plane->setShader(textureLightShader);
 	plane->setTexture(grassTextureID);
 	addChild(plane);
 
 	grid = new GridModel();
-	grid->setShader(passthroughShader);
 	//addChild(grid);
 	
 	axes = new AxesModel();
-	axes->setShader(passthroughShader);
 	addChild(axes);
 	
 	/* 
@@ -349,18 +348,8 @@ WorldModel::WorldModel() {
 	T5->translate(-18, 3.5, -18);
 	models.push_back(T5);
 
-	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		(*it)->setShader(textureLightShader);
 		addChild(*it);
-	}
-
-	//----------Models----------
-	for (auto it = spheres.begin(); it != spheres.end(); it++)
-	{
-		(*it)->setShader(transparentShader);
-	}
 };
 
 
