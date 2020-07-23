@@ -296,12 +296,11 @@ int main(int argc, char*argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 lightProjection = glm::perspective(70.0f,                  // field of view in degrees
-			1024.0f / 768.0f,  // aspect ratio
-			0.01f, 100.0f);         // near and far (near > 0)
 
-
-		glm::mat4 lightView = glm::lookAt(camera->position, camera->position + camera->lookAtPos, camera->up);
+		// Light project is orthographic -> Directional Light, we need a Point light :( 
+		glm::mat4 lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f,
+			1.0f, 25.f);         // near and far (near > 0)
+		glm::mat4 lightView = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
 
 		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 		// We're first going to render the shadow map
