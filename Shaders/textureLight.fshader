@@ -17,7 +17,6 @@ out vec4 FragColor;
 void main()
 {
    vec3 ambientColor = texture( textureSampler, vertexUV ).rgb;
-   FragColor = textureColor;
    
    vec3 normal = vertexNormal;
    vec3 lightDirection = normalize(fragmentPosition - lightPosition);

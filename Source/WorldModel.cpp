@@ -199,7 +199,7 @@ WorldModel::WorldModel() {
 
 	GridModel* grid = new GridModel();
 	grid->setShader(passthroughShader);
-	addChild(grid);
+	//addChild(grid);
 	
 	AxesModel* axes = new AxesModel();
 	axes->setShader(passthroughShader);
