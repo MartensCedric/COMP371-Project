@@ -15,23 +15,24 @@ void SimpleModel::setupAttribPointer()
 		3,                   // size
 		GL_FLOAT,            // type
 		GL_FALSE,            // normalized?
-		sizeof(Vertex), // stride - each vertex contain 2 vec3 (position, color)
+		sizeof(Vertex),      // stride - each vertex contain 2 vec3 (position, color)
 		(void*)0             // array buffer offset (how far from the start it starts)
 	);
 	glEnableVertexAttribArray(0);
 
 
 	glVertexAttribPointer(
-		1,                            // attribute 1 matches aColor in Vertex Shader
+		1,                                 // attribute 1 matches aColor/normal in Vertex Shader
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
+		(void*)sizeof(glm::vec3)            // color/normal is offseted a vec3 (comes after position)
 	);
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(2,                            // attribute 2 matches aUV in Vertex Shader
+	glVertexAttribPointer(
+		2,                	                // attribute 2 matches aUV in Vertex Shader
 		2,
 		GL_FLOAT,
 		GL_FALSE,
@@ -41,5 +42,4 @@ void SimpleModel::setupAttribPointer()
 	glEnableVertexAttribArray(2);
 }
 
-SimpleModel::~SimpleModel()
-{}
+SimpleModel::~SimpleModel() {}
