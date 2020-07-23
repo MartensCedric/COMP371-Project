@@ -21,10 +21,9 @@
 #define OS_Windows 1
 #define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/Shader.hpp"
 
-#include "../Source/includes/Shader.hpp"
-#include "../Source/includes/SimpleModel.hpp"
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
+
 #endif
 
 // Include GLEW - OpenGL Extension Wrangler
@@ -162,6 +161,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPointSize(5);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
+
+	
 }
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
@@ -190,6 +191,13 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 		previousYPos = -1;
 		leftMouseClick = false;
 	}
+}
+
+void setWorldMatrix(int shaderProgram, glm::mat4 worldMatrix)
+{
+	glUseProgram(shaderProgram);
+	GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
+	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 }
 
 int main(int argc, char*argv[])
@@ -234,10 +242,6 @@ int main(int argc, char*argv[])
 	world = new WorldModel();
 	world->setCamera(camera);
 
-	// Enable blending
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
 	double xPanStart = -1;
@@ -253,7 +257,6 @@ int main(int argc, char*argv[])
 
 		glfwGetCursorPos(window, &xCursor, &yCursor);
 
-		// Draw the 100x100 square grid and axes on the ground
 		world->draw();
 
         // End frame

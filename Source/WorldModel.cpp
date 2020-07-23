@@ -180,11 +180,26 @@ WorldModel::WorldModel() {
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-	glUseProgram(passthroughShader);
+	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+	
+	// Load textures
+	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
+	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
+	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+	
+	// Enable blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+	PlaneModel* plane = new PlaneModel();
+	plane->setShader(textureLightShader);
+	plane->setTexture(grassTextureID);
+	addChild(plane);
 
 	GridModel* grid = new GridModel();
 	grid->setShader(passthroughShader);
-	addChild(grid);
+	//addChild(grid);
 	
 	AxesModel* axes = new AxesModel();
 	axes->setShader(passthroughShader);
@@ -199,10 +214,12 @@ WorldModel::WorldModel() {
 	SimpleModel* E5 = new SimpleModel();
 
 	EModel* E = new EModel();
+	E->setTexture(boxTextureID);
 	E->translate(-3.5, 0, 0);
 	E5->addChild(E);
 
 	FiveModel* five = new FiveModel();
+	five->setTexture(goldTextureID);
 	five->translate(1.5, 0, 0);
 	E5->addChild(five);
 
@@ -223,10 +240,12 @@ WorldModel::WorldModel() {
 	SimpleModel* I3 = new SimpleModel();
 
 	IModel* I = new IModel();
+	I->setTexture(boxTextureID);
 	I->translate(-2, 0, 0);
 	I3->addChild(I);
 
 	ThreeModel* three = new ThreeModel();
+	three->setTexture(goldTextureID);
 	three->translate(2, 0, 0);
 	I3->addChild(three);
 
@@ -247,10 +266,12 @@ WorldModel::WorldModel() {
 	SimpleModel* I3_2 = new SimpleModel();
 
 	IModel* I_2 = new IModel();
+	I_2->setTexture(boxTextureID);
 	I_2->translate(-2, 0, 0);
 	I3_2->addChild(I_2);
 
 	ThreeModel* three_2 = new ThreeModel();
+	three_2->setTexture(goldTextureID);
 	three_2->translate(2, 0, 0);
 	I3_2->addChild(three_2);
 
@@ -271,10 +292,12 @@ WorldModel::WorldModel() {
 	SimpleModel* D8 = new SimpleModel();
 
 	DModel* D = new DModel();
+	D->setTexture(boxTextureID);
 	D->translate(-3.5, 0, 0);
 	D8->addChild(D);
 
 	EightModel* eight = new EightModel();
+	eight->setTexture(goldTextureID);
 	eight->translate(1.5, 0, 0);
 	D8->addChild(eight);
 
@@ -295,10 +318,12 @@ WorldModel::WorldModel() {
 	SimpleModel* T5 = new SimpleModel();
 
 	TModel* T = new TModel();
+	T->setTexture(boxTextureID);
 	T->translate(-2, 0, 0);
 	T5->addChild(T);
 	
 	FiveModel* five_2 = new FiveModel();
+	five_2->setTexture(goldTextureID);
 	five_2->translate(1.5, 0, 0);
 	T5->addChild(five_2);
 
@@ -313,7 +338,7 @@ WorldModel::WorldModel() {
 	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		(*it)->setShader(lightAffectedShader);
+		(*it)->setShader(textureLightShader);
 		addChild(*it);
 	}
 
@@ -323,3 +348,5 @@ WorldModel::WorldModel() {
 		(*it)->setShader(transparentShader);
 	}
 };
+
+
