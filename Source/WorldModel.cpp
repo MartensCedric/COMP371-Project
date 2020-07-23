@@ -181,6 +181,7 @@ WorldModel::WorldModel() {
 	int transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
 	
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
@@ -192,7 +193,7 @@ WorldModel::WorldModel() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	PlaneModel* plane = new PlaneModel();
-	plane->setShader(textureShader);
+	plane->setShader(textureLightShader);
 	plane->setTexture(grassTextureID);
 	addChild(plane);
 
@@ -337,8 +338,7 @@ WorldModel::WorldModel() {
 	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		//(*it)->setShader(lightAffectedShader);
-		(*it)->setShader(textureShader);
+		(*it)->setShader(textureLightShader);
 		addChild(*it);
 	}
 
@@ -348,26 +348,5 @@ WorldModel::WorldModel() {
 		(*it)->setShader(transparentShader);
 	}
 };
-
-/*
-		if (showTexture == true)
-		{
-			plane.draw();
-		}
-
-
-		if (showTexture == true)
-		{
-			//set texture shader 
-			for (auto it = models.begin(); it != models.end(); it++)
-			{
-				world.addChild(*it);
-				(*it)->setShader(textureShader);
-			}
-		}
-		
-		(*it)->setShader(lightAffectedShader);
-*/
-
 
 
