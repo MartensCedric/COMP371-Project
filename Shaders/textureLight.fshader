@@ -16,14 +16,13 @@ in vec3 vertexNormal;
 out vec4 FragColor; 
 void main()
 {
-   vec3 ambientColor = texture( textureSampler, vertexUV ).rgb;
+   vec3 ambientColor = texture(textureSampler, vertexUV ).rgb;
    
-   vec3 normal = vertexNormal;
    vec3 lightDirection = normalize(fragmentPosition - lightPosition);
-   float diffuse = max(dot(normal, lightDirection), 0.0f);
+   float diffuse = max(dot(vertexNormal, lightDirection), 0.0f);
    vec3 diffuseColor = diffuse * lightColor;
    vec3 viewDirection = normalize(eyePosition - fragmentPosition);
-   vec3 lightReflectDirection = reflect(lightDirection, normal);
+   vec3 lightReflectDirection = reflect(lightDirection, vertexNormal);
    
    // The dot is the cos(theta) because it's normalized
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 

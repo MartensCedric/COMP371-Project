@@ -45,10 +45,11 @@ public:
 
 struct Vertex
 {
-	Vertex(glm::vec3 _position, glm::vec4 _color, glm::vec2 _uv)
-		: position(_position), color(_color), uv(_uv) {}
+	Vertex(glm::vec3 _position, glm::vec4 _color, glm::vec3 _normal, glm::vec2 _uv)
+		: position(_position), color(_color), normal(_normal), uv(_uv) {}
 
 	glm::vec3 position;
 	glm::vec4 color;
+	glm::vec3 normal;
 	glm::vec2 uv;
 };

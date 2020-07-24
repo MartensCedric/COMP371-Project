@@ -10,16 +10,17 @@ AxesModel::AxesModel() {
     glm::vec4 red = glm::vec4(1, 0, 0, 1);
     glm::vec4 green = glm::vec4(0, 1, 0, 1);
     glm::vec4 blue = glm::vec4(0, 0, 1, 1);
+    glm::vec3 normal = glm::vec3(0, 0, 0);
 
 	std::vector<Vertex> vertices = {
-        Vertex(glm::vec3(0, 0, 0), red, glm::vec2(0, 0)),
-        Vertex(glm::vec3(5, 0, 0), red, glm::vec2(0, 0)),
+        Vertex(glm::vec3(0, 0, 0), red, normal, glm::vec2(0, 0)),
+        Vertex(glm::vec3(5, 0, 0), red, normal, glm::vec2(0, 0)),
 
-        Vertex(glm::vec3(0, 0, 0), green, glm::vec2(0, 0)),
-        Vertex(glm::vec3(0, 5, 0), green, glm::vec2(0, 0)),
+        Vertex(glm::vec3(0, 0, 0), green, normal, glm::vec2(0, 0)),
+        Vertex(glm::vec3(0, 5, 0), green, normal, glm::vec2(0, 0)),
 
-        Vertex(glm::vec3(0, 0, 0), blue, glm::vec2(0, 0)),
-        Vertex(glm::vec3(0, 0, 5), blue, glm::vec2(0, 0))
+        Vertex(glm::vec3(0, 0, 0), blue, normal, glm::vec2(0, 0)),
+        Vertex(glm::vec3(0, 0, 5), blue, normal, glm::vec2(0, 0))
     };
 
 	*this = AxesModel(&vertices[0], vertices.size(), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {

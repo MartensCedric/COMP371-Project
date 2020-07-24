@@ -4,60 +4,62 @@
 * A subclass for an easy implementation of a 1x1x1 unit cube.
 */
 UnitCubeModel::UnitCubeModel() {
+    glm::vec4 color = glm::vec4(0.5, 0.5, 0.5, 1);
+    
     std::vector<Vertex> vertices = {
         // Front face
-        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(0, 0, 1, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(0, 0, 1, 0), glm::vec2(1.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 0), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), color, glm::vec3(0, 0, 1), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), color, glm::vec3(0, 0, 1), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), color, glm::vec3(0, 0, 1), glm::vec2(1.0f, 1.0f)),
 
-        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(0, 0, 1, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 0), glm::vec2(1.0f, 0.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 0, 1, 0), glm::vec2(0.0f, 1.0f)), 
+        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), color, glm::vec3(0, 0, 1), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), color, glm::vec3(0, 0, 1), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), color, glm::vec3(0, 0, 1), glm::vec2(0.0f, 1.0f)), 
 
         // Back face
-        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, 0, -1, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(0, 0, -1, 0), glm::vec2(1.0f, 1.0f)),
-        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec4(0, 0, -1, 0), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), color, glm::vec3(0, 0, -1), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), color, glm::vec3(0, 0, -1), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), color, glm::vec3(0, 0, -1), glm::vec2(1.0f, 0.0f)),
 
-        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, 0, -1, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(0, 0, -1, 0), glm::vec2(0.0f, 1.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(0, 0, -1, 0), glm::vec2(1.0f, 1.0f)), 
+        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), color, glm::vec3(0, 0, -1), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), color, glm::vec3(0, 0, -1), glm::vec2(0.0f, 1.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), color, glm::vec3(0, 0, -1), glm::vec2(1.0f, 1.0f)), 
 
         // Left face
-        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(-1, 0, 0, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(-1, 0, 0, 0), glm::vec2(0.0f, 1.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(-1, 0, 0, 0), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), color, glm::vec3(-1, 0, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), color, glm::vec3(-1, 0, 0), glm::vec2(0.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), color, glm::vec3(-1, 0, 0), glm::vec2(1.0f, 0.0f)),
 
-        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(-1, 0, 0, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(-1, 0, 0, 0), glm::vec2(1.0f, 1.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(-1, 0, 0, 0), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), color, glm::vec3(-1, 0, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), color, glm::vec3(-1, 0, 0), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), color, glm::vec3(-1, 0, 0), glm::vec2(1.0f, 0.0f)),
 
         // Right face
-        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec4(1, 0, 0, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(1, 0, 0, 0), glm::vec2(1.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 0), glm::vec2(0.0f, 1.0f)),
+        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), color, glm::vec3(1, 0, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), color, glm::vec3(1, 0, 0), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), color, glm::vec3(1, 0, 0), glm::vec2(0.0f, 1.0f)),
 
-        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(1, 0, 0, 0), glm::vec2(0.0f, 1.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(1, 0, 0, 0), glm::vec2(1.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(1, 0, 0, 0), glm::vec2(1.0f, 1.0f)), 
+        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), color, glm::vec3(1, 0, 0), glm::vec2(0.0f, 1.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), color, glm::vec3(1, 0, 0), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), color, glm::vec3(1, 0, 0), glm::vec2(1.0f, 1.0f)), 
 
         // Top face
-        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(0, 1, 0, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 0), glm::vec2(0.0f, 1.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 0), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), color, glm::vec3(0, 1, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), color, glm::vec3(0, 1, 0), glm::vec2(0.0f, 1.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), color, glm::vec3(0, 1, 0), glm::vec2(1.0f, 1.0f)),
 
-        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec4(0, 1, 0, 0), glm::vec2(1.0f, 1.0f)),
-        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec4(0, 1, 0, 0), glm::vec2(1.0f, 0.0f)),
-        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec4(0, 1, 0, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, 0.5f), color, glm::vec3(0, 1, 0), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), color, glm::vec3(0, 1, 0), glm::vec2(1.0f, 0.0f)),
+        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), color, glm::vec3(0, 1, 0), glm::vec2(0.0f, 0.0f)),
 
         // Bottom face
-        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, -1, 0, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(0, -1, 0, 0), glm::vec2(1.0f, 1.0f)),
-        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec4(0, -1, 0, 0), glm::vec2(0.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), color, glm::vec3(0, -1, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), color, glm::vec3(0, -1, 0), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), color, glm::vec3(0, -1, 0), glm::vec2(0.0f, 1.0f)),
 
-        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec4(0, -1, 0, 0), glm::vec2(1.0f, 1.0f)),
-        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec4(0, -1, 0, 0), glm::vec2(0.0f, 0.0f)),
-        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec4(0, -1, 0, 0), glm::vec2(1.0f, 0.0f))
+        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), color, glm::vec3(0, -1, 0), glm::vec2(1.0f, 1.0f)),
+        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), color, glm::vec3(0, -1, 0), glm::vec2(0.0f, 0.0f)),
+        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), color, glm::vec3(0, -1, 0), glm::vec2(1.0f, 0.0f))
     };
 
     *this = UnitCubeModel(

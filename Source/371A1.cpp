@@ -50,7 +50,7 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
-int passthroughShader, transparentShader, lightShader, textureShader, textureLightShader;
+int passthroughShader, lightShader, textureShader, textureLightShader;
 bool showTexture = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
@@ -257,14 +257,13 @@ int main(int argc, char*argv[])
 
 	// Compile and link shaders here ...
 	passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
-	transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
 	lightShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
 	textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
 	
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
-	world = new WorldModel(passthroughShader, transparentShader, textureLightShader);
+	world = new WorldModel(passthroughShader, textureLightShader, lightShader);
 	world->setCamera(camera);
 
 	// Variables for Tilt/Pan
@@ -282,6 +281,8 @@ int main(int argc, char*argv[])
 
 		glfwGetCursorPos(window, &xCursor, &yCursor);
 
+		// Reorder children based on distance from camera
+		
 		world->draw();
 
         // End frame
