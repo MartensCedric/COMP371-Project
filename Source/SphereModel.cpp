@@ -43,43 +43,21 @@ SphereModel::SphereModel(float radius, int sectors, int stacks){
             if(i != 0)
             {
                 vertices.push_back(v.at(k1));
-                //vertices.push_back(color);
-
                 vertices.push_back(v.at(k2));
-                //vertices.push_back(color);
-
                 vertices.push_back(v.at(k1+1));
-                //vertices.push_back(color);
-
-                //indices.push_back(k1);
-                //indices.push_back(k2);
-                //indices.push_back(k1+1);
             }
 
             // k1+1 => k2 => k2+1
             if(i != (stacks-1))
             {
-
                 vertices.push_back(v.at(k1+1));
-                //vertices.push_back(color);
-
                 vertices.push_back(v.at(k2));
-                //vertices.push_back(color);
-
                 vertices.push_back(v.at(k2+1));
-                //vertices.push_back(color);
-
-                //indices.push_back(k1 + 1);
-                //indices.push_back(k2);
-                //indices.push_back(k2 + 1);
             }
         }
     }
 
-    *this = SphereModel(
-        &vertices[0], 
-        vertices.size(), 
-        [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
+    *this = SphereModel(&vertices[0], vertices.size(), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
             GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix"); //find memory location of world matrix
             glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
             glDrawArrays(GL_TRIANGLES, 0, vertexCount);
@@ -90,5 +68,4 @@ SphereModel::SphereModel(float radius, int sectors, int stacks){
 }
 
 SphereModel::SphereModel(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
-: SimpleModel(vertexArray, vertexCount, drawFunc) 
-{}
+: SimpleModel(vertexArray, vertexCount, drawFunc) {}

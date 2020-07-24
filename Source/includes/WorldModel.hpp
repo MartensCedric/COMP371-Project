@@ -46,5 +46,6 @@ class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
-		WorldModel();
+		std::vector<Model*> texturedElement;
+		WorldModel(int passthroughShader, int transparentShader, int textureLightShader);
 };

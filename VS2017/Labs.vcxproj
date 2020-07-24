@@ -122,7 +122,6 @@
     <ClCompile Include="..\Source\GridModel.cpp" />
     <ClCompile Include="..\Source\LoadTexture.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
-    <ClCompile Include="..\Source\NormalsModel.cpp" />
     <ClCompile Include="..\Source\PlaneModel.cpp" />
     <ClCompile Include="..\Source\Shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
@@ -136,7 +135,6 @@
     <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
-    <ClInclude Include="..\Source\includes\NormalsModel.h" />
     <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
