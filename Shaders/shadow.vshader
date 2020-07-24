@@ -1,17 +1,15 @@
 #version 330 core
+layout (location = 0) in vec3 position;
 
-// Reference used learnopengl.com
-
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aNormal;
-
-uniform mat4 worldMatrix = mat4(1.0);
-uniform mat4 viewMatrix = mat4(1.0);
-uniform mat4 projectionMatrix = mat4(1.0);
-uniform mat4 lightSpaceMatrix = mat4(1.0);
+uniform mat4 light_proj_view_matrix;
 
 void main()
 {
-   mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;
-   gl_Position = lightSpaceMatrix * modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    mat4 scale_bias_matrix = mat4(vec4(0.5, 0.0, 0.0, 0.0),
+                                    vec4(0.0, 0.5, 0.0, 0.0),
+                                    vec4(0.0, 0.0, 0.5, 0.0),
+                                    vec4(0.5, 0.5, 0.5, 1.0));
+    gl_Position = 
+                    //scale_bias_matrix * // bias the depth map coordinates
+                    light_proj_view_matrix * vec4(position, 1.0);
 }

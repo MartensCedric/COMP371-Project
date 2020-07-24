@@ -246,8 +246,7 @@ int main(int argc, char*argv[])
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
-	int depthMapShader = compileAndLinkShaders("../Shaders/depthmapRender.vshader", "../Shaders/depthmapRender.fshader");
-
+	
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 768;
 
@@ -311,8 +310,8 @@ int main(int argc, char*argv[])
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 
-		int lightSpaceLocation = glGetUniformLocation(shadowShader, "lightSpaceMatrix");
-		glUniformMatrix4fv(lightSpaceLocation, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
+		int lightSpaceLocationShadow = glGetUniformLocation(shadowShader, "light_proj_view_matrix");
+		glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
@@ -325,7 +324,7 @@ int main(int argc, char*argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-
+		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->setShader(textureLightShader);
