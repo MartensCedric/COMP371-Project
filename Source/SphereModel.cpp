@@ -7,7 +7,7 @@ SphereModel::SphereModel(float radius, int sectors, int stacks){
     float stackStep = M_PI / stacks;
     float sectorAngle, stackAngle;
     
-    glm::vec3 color = glm::vec3(0.75f, 0.75f, 0.75f);
+    glm::vec4 color = glm::vec4(0.75, 0.75, 0.75, 0.5);
     std::vector<struct Vertex> v;
     for(int i = 0; i <= stacks; ++i)
     {

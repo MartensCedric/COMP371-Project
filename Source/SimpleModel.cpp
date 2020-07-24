@@ -22,22 +22,22 @@ void SimpleModel::setupAttribPointer()
 
 
 	glVertexAttribPointer(
-		1,                                 // attribute 1 matches aColor/normal in Vertex Shader
-		3,
+		1,                                             // attribute 1 matches aColor/normal in Vertex Shader
+		4,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)sizeof(glm::vec3)            // color/normal is offseted a vec3 (comes after position)
+		(void*)sizeof(glm::vec3)                        // color/normal is offseted a vec3 (comes after position)
 	);
 	glEnableVertexAttribArray(1);
 
 	glVertexAttribPointer(
-		2,                	                // attribute 2 matches aUV in Vertex Shader
+		2,                	                             // attribute 2 matches aUV in Vertex Shader
 		2,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)(2 * sizeof(glm::vec3))      // uv is offseted by 2 vec3 (comes after position and color)
+		(void*) (sizeof(glm::vec3) + sizeof(glm::vec4))  // uv is offseted by 2 vec3 (comes after position and color)
 	);
 	glEnableVertexAttribArray(2);
 }
