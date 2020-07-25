@@ -1,6 +1,9 @@
 #version 330 core
 in vec2 vertexUV;
-uniform sampler2D textureSampler;
+
+uniform sampler2D textureSampler; //Binded to 0
+uniform sampler2D shadow_map; //Binded to 1
+
 uniform vec3 lightPosition;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
 uniform vec3 eyePosition;
@@ -15,8 +18,6 @@ in vec3 fragmentPosition;
 in vec3 vertexNormal;
 out vec4 FragColor;
 
-uniform sampler2D shadow_map;
-
 in vec4 fragment_position_light_space;
 
 float shadow_scalar() {
@@ -30,7 +31,7 @@ float shadow_scalar() {
     // get depth of current fragment from light's perspective
     float current_depth = ndc.z;
     // check whether current frag pos is in shadow
-    float bias = 0;  // bias applied in depth map: see shadow_vertex.glsl
+    float bias = 0.0;  // bias applied in depth map: see shadow_vertex.glsl
     return ((current_depth - bias) < closest_depth) ? 1.0 : 0.0;
 }
 

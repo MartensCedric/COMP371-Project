@@ -9,7 +9,5 @@ void main()
                                     vec4(0.0, 0.5, 0.0, 0.0),
                                     vec4(0.0, 0.0, 0.5, 0.0),
                                     vec4(0.5, 0.5, 0.5, 1.0));
-    gl_Position = 
-                    //scale_bias_matrix * // bias the depth map coordinates
-                    light_proj_view_matrix * vec4(position, 1.0);
+    gl_Position = light_proj_view_matrix * vec4(position, 1.0);
 }

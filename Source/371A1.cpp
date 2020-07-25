@@ -297,18 +297,12 @@ int main(int argc, char*argv[])
 
 
 		// Light project is orthographic -> Directional Light, we need a Point light :( 
-		glm::mat4 lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f,
-			1.0f, 25.f);         // near and far (near > 0)
-		glm::mat4 lightView = glm::lookAt(glm::vec3(0.0f, 5.0f, 6.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
 
-		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
 		// We're first going to render the shadow map
 		glUseProgram(shadowShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
-
-		int lightSpaceLocationShadow = glGetUniformLocation(shadowShader, "light_proj_view_matrix");
-		glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
@@ -317,10 +311,13 @@ int main(int argc, char*argv[])
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // Each frame, reset color of each pixel to glClearColor and reset the depth-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// Each frame, reset color of each pixel to glClearColor and reset the depth-
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//glBindTexture(GL_TEXTURE_2D, depthMap); not needed apparently
+		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
+		glUniform1i(shadowMapTexureLoc, 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
