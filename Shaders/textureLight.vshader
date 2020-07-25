@@ -11,10 +11,16 @@ uniform mat4 projectionMatrix = mat4(1.0);
 out vec2 vertexUV;
 out vec3 vertexNormal;
 out vec3 fragmentPosition; //Actual position in the xyz world space
+
+uniform mat4 transform_in_light_space;
+
+out vec4 fragment_position_light_space;
+
 void main()
 {
    vertexNormal = mat3(transpose(inverse(worldMatrix))) * -aNormal;
    fragmentPosition = vec3(worldMatrix * vec4(aPos, 1.0));
+   fragment_position_light_space = transform_in_light_space * vec4(fragmentPosition, 1.0);
    mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;
    gl_Position = modelViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);
    vertexUV = aUV;

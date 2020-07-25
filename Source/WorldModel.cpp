@@ -175,7 +175,30 @@ EightModel::EightModel() {
 	addChild(bottom);
 };
 
-WorldModel::WorldModel(int passthroughShader, int textureLightShader, int lightShader) {
+
+PlaneModel* plane = nullptr;
+GridModel* grid = nullptr;
+AxesModel* axes = nullptr;
+
+void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
+void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
+void WorldModel::setPlaneShader(int shaderProgram) { plane->setShader(shaderProgram); }
+
+void WorldModel::setModelShader(int shaderProgram) 
+{ 
+	for(auto it = models.begin(); it != models.end(); it++)
+		(*it)->setShader(shaderProgram); 
+}
+
+void WorldModel::setSphereShader(int shaderProgram)
+{
+	for (auto it = spheres.begin(); it != spheres.end(); it++)
+	{
+		(*it)->setShader(shaderProgram);
+	}
+}
+
+WorldModel::WorldModel() {
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
@@ -184,20 +207,17 @@ WorldModel::WorldModel(int passthroughShader, int textureLightShader, int lightS
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	GridModel* grid = new GridModel();
-	grid->setShader(passthroughShader);
-	addChild(grid);
-	
-	PlaneModel* plane = new PlaneModel();
-	plane->setShader(textureLightShader);
+
+	plane = new PlaneModel();
 	plane->setTexture(grassTextureID);
 	plane->translate(0, 0.1, 0);
 	texturedElement.push_back(plane);
 	addChild(plane);
 
-	AxesModel* axes = new AxesModel();
-	axes->setShader(passthroughShader);
+	grid = new GridModel();
+	addChild(grid);
+	
+	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);
 	
@@ -341,19 +361,9 @@ WorldModel::WorldModel(int passthroughShader, int textureLightShader, int lightS
 	D8->translate(-18, 3.5, 18);
 	models.push_back(D8);
 
-	
-	//----------Models----------
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		(*it)->setShader(textureLightShader);
-		addChild(*it);
-	}
 
-	//----------Spheres----------
-	for (auto it = spheres.begin(); it != spheres.end(); it++)
-	{
-		(*it)->setShader(lightShader);
-	}
+	for (auto it = models.begin(); it != models.end(); it++)
+		addChild(*it);
 };
 
 

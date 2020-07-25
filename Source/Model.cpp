@@ -69,7 +69,18 @@ void Model::setTexture(GLuint texture)
 void Model::draw()
 {
 	glUseProgram(shaderId);
+	int modelTextureLoc = glGetUniformLocation(shaderId, "shadow_map");
+	glUniform1i(modelTextureLoc, 0);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId);
+
+	glm::mat4 lightProjection = glm::ortho(-25.f, 25.f, -25.f, 25.f,
+		0.01f, 100.f);         // near and far (near > 0)
+	glm::mat4 lightView = glm::lookAt(glm::vec3(0.0f, 15.0f, 15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
+
+	glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
+	int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");
+	glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);

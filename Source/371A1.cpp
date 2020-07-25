@@ -5,7 +5,7 @@
 //
 // Inspired by the following tutorials:
 // - https://learnopengl.com/Getting-started/Hello-Window
-// - https://learnopengl.com/Getting-started/Hello-Triangle
+// - https://learnopengl.com/Getting-started/Hefllo-Triangle
 
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
@@ -255,16 +255,49 @@ int main(int argc, char*argv[])
         return -1;
     }
 
-	// Compile and link shaders here ...
-	passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
-	lightShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-	textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
-	textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+    // Compile and link shaders here ...
+	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
+	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+
+	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+
+	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+
 	
+	// Two Pass Shadow Map. Code adapted from learnopengl.com
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+
+	unsigned int shadowMapFBO;
+	glGenFramebuffers(1, &shadowMapFBO);
+	
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+
+    // Attach it to framebuffer's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE); // We don't need color buffer
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
-	world = new WorldModel(passthroughShader, textureLightShader, lightShader);
+	world = new WorldModel();
 	world->setCamera(camera);
+
+	world->setAxesShader(passthroughShader);
+	world->setGridShader(passthroughShader);
+	world->setPlaneShader(textureLightShader);
+	world->setModelShader(textureLightShader);
+
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -276,18 +309,50 @@ int main(int argc, char*argv[])
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
-        // Each frame, reset color of each pixel to glClearColor and reset the depth
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
-		glfwGetCursorPos(window, &xCursor, &yCursor);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// We're first going to render the shadow map
+		glUseProgram(shadowShader);
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->setShader(shadowShader);
+			(*it)->draw();
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		// Each frame, reset color of each pixel to glClearColor and reset the depth-
+		glViewport(0, 0, windowWidth, windowHeight);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
+		glUniform1i(shadowMapTexureLoc, 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		
+		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->setShader(textureLightShader);
+		}
+
+		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
+		{
+			(*it)->setShader(lightAffectedShader);
+		}
 
 		// Reorder children based on distance from camera
 		
 		world->draw();
 
+
         // End frame
         glfwSwapBuffers(window);
 
+		glfwGetCursorPos(window, &xCursor, &yCursor);
         // Detect inputs
         glfwPollEvents();
 

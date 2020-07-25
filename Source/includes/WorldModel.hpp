@@ -46,6 +46,11 @@ class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
+		WorldModel();
+		void setGridShader(int shaderProgram);
+		void setAxesShader(int shaderProgram);
+		void setModelShader(int shaderProgram);
+		void setPlaneShader(int shaderProgram);
+		void setSphereShader(int shaderProgram);
 		std::vector<Model*> texturedElement;
-		WorldModel(int passthroughShader, int textureLightShader, int lightShader);
 };
