@@ -434,7 +434,7 @@ int main(int argc, char*argv[])
 
 	//Second I3
 	//Draw an I
-	SimpleModel I2;
+	SimpleModel I2, iTopDiv2, iBottomDiv2;
 	I2.setupAttribPointer();
 	I2.translate(-2, 0, 0);
 
@@ -442,17 +442,27 @@ int main(int argc, char*argv[])
 	iTop2.scale(2, 1, 1);
 	iTop2.translate(0, 3, 0);
 
-	UnitCubeModel iMiddle2;
-	iMiddle2.scale(1, 5, 1);
-	iMiddle2.translate(0, 0, 0);
+	UnitCubeModel iMiddleTop2, iMiddleBottom2;
+	iMiddleTop2.scale(1, 4, 1);
+	iMiddleTop2.translate(0, 1, 0);
+	iMiddleBottom2.scale(1, 2, 1);
+	iMiddleBottom2.translate(0, -2, 0);
+
 
 	UnitCubeModel iBottom2;
 	iBottom2.scale(2, 1, 1);
 	iBottom2.translate(0, -3, 0);
 
-	I2.addChild(&iTop2);
-	I2.addChild(&iMiddle2);
-	I2.addChild(&iBottom2);
+	iTopDiv2.addChild(&iTop2);
+	iTopDiv2.addChild(&iMiddleTop2);
+	iBottomDiv2.addChild(&iMiddleBottom2);
+	iBottomDiv2.addChild(&iBottom2);
+
+	I2.addChild(&iTopDiv2);
+	I2.addChild(&iBottomDiv2);
+
+	modelsBottom.push_back(&iBottomDiv2);
+	modelsTop.push_back(&iTopDiv2);
 
 	I32.addChild(&I2);
 
