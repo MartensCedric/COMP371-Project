@@ -1,13 +1,17 @@
+// reference: http://www.songho.ca/opengl/gl_sphere.html
+
 #include "includes/SphereModel.hpp"
 
 SphereModel::SphereModel(float radius, int sectors, int stacks){
     float x, y, z, xy;                              // vertex position
+    float nx, ny, nz, lengthInv = 1.0f / radius;    // vertex normal
+    float s, t;
     
     float sectorStep = 2 * M_PI / sectors;
     float stackStep = M_PI / stacks;
     float sectorAngle, stackAngle;
     
-    glm::vec3 color = glm::vec3(0.75f, 0.75f, 0.75f);
+    glm::vec4 color = glm::vec4(0.75, 0.75, 0.75, 0.5);
     std::vector<struct Vertex> v;
     for(int i = 0; i <= stacks; ++i)
     {
@@ -24,8 +28,17 @@ SphereModel::SphereModel(float radius, int sectors, int stacks){
             // vertex position (x, y, z)
             x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
             y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
+
+            // normalized vertex normal (nx, ny, nz)
+            nx = x * lengthInv;
+            ny = y * lengthInv;
+            nz = z * lengthInv;
             
-            v.push_back(Vertex(glm::vec3(x, y, z), color, glm::vec2(0, 0)));
+            // vertex tex coord (s, t) range between [0, 1]
+            s = (float)j / sectors;
+            t = (float)i / stacks;
+
+            v.push_back(Vertex(glm::vec3(x, y, z), color, glm::vec3(nx, ny, nz), glm::vec2(s, t)));
         }
     }
 

@@ -1,14 +1,15 @@
 #include "includes/GridModel.hpp"
 
 GridModel::GridModel() {
-    glm::vec3 color = glm::vec3(0.52f, 0.58f, 0.18f);
+    glm::vec4 color = glm::vec4(0.5f, 0.5f, 0.2f, 1);
+	glm::vec3 normal = glm::vec3(0, 0, 0);
     
     std::vector<Vertex> vertices = {
-		Vertex(glm::vec3(-25.f, 0, 0), color,glm::vec2(0.0f, 1.0f)),
-		Vertex(glm::vec3(25.0f, 0, 0), color,glm::vec2(1.0f, 0.0f)),
+		Vertex(glm::vec3(-25, 0, 0), color, normal, glm::vec2(0, 1)),
+		Vertex(glm::vec3(25, 0, 0), color, normal, glm::vec2(1, 0)),
 
-		Vertex(glm::vec3(0, 0, -25.f), color,glm::vec2(1.0f, 1.0f)),
-		Vertex(glm::vec3(0, 0, 25.f), color,glm::vec2(0.0f, 0.0f)),
+		Vertex(glm::vec3(0, 0, -25), color, normal, glm::vec2(1, 1)),
+		Vertex(glm::vec3(0, 0, 25), color, normal, glm::vec2(0, 0)),
 	};
 
 	for (int i = 0; i < 101; i++)

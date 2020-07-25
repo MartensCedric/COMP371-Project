@@ -50,7 +50,7 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
-int passthroughShader, transparentShader, lightShader, textureShader, textureLightShader;
+int passthroughShader, lightShader, textureShader, textureLightShader;
 bool showTexture = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
@@ -256,7 +256,6 @@ int main(int argc, char*argv[])
     }
 
     // Compile and link shaders here ...
-	int transparentShader = compileAndLinkShaders("../Shaders/transparent.vshader", "../Shaders/transparent.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
 	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
@@ -264,6 +263,7 @@ int main(int argc, char*argv[])
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+
 	
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -297,7 +297,6 @@ int main(int argc, char*argv[])
 	world->setGridShader(passthroughShader);
 	world->setPlaneShader(textureLightShader);
 	world->setModelShader(textureLightShader);
-	world->setSphereShader(transparentShader);
 
 
 	// Variables for Tilt/Pan
@@ -339,8 +338,14 @@ int main(int argc, char*argv[])
 		{
 			(*it)->setShader(textureLightShader);
 		}
-		world->setSphereShader(transparentShader);
 
+		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
+		{
+			(*it)->setShader(lightAffectedShader);
+		}
+
+		// Reorder children based on distance from camera
+		
 		world->draw();
 
 
