@@ -50,6 +50,9 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
+int passthroughShader, transparentShader, lightShader, textureShader, textureLightShader;
+bool showTexture = true;
+
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
 	float scaledWidth = windowWidth*scale;
@@ -162,7 +165,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 
-	
+	// Toggle Texture
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+		
+		for (auto it = world->texturedElement.begin(); it != world->texturedElement.end(); it++)
+		{
+			if(showTexture) {
+				(*it)->setShader(lightShader);
+			} else {
+				(*it)->setShader(textureLightShader);
+			} 
+		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE) {
+		showTexture = !showTexture;
+	}
 }
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
@@ -398,7 +416,6 @@ int main(int argc, char*argv[])
 				tiltDirection = glm::vec3(1.0f);
 			}
 		}
-
 
 		//move forward
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {

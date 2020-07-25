@@ -13,7 +13,7 @@
 
 class SphereModel : public SimpleModel {
     public:
-        std::vector<struct Vertex> vertices;
+        std::vector<Vertex> vertices;
         
         // iniatiate the variable we are going to use
         float X1, Y1, X2, Y2, Z1, Z2;

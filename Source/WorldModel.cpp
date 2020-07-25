@@ -198,7 +198,6 @@ void WorldModel::setSphereShader(int shaderProgram)
 }
 
 WorldModel::WorldModel() {
-
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
@@ -210,6 +209,7 @@ WorldModel::WorldModel() {
 	
 	plane = new PlaneModel();
 	plane->setTexture(grassTextureID);
+	texturedElement.push_back(plane);
 	addChild(plane);
 
 	grid = new GridModel();
@@ -228,18 +228,20 @@ WorldModel::WorldModel() {
 
 	EModel* E = new EModel();
 	E->setTexture(boxTextureID);
+	texturedElement.push_back(E);
 	E->translate(-3.5, 0, 0);
 	E5->addChild(E);
 
 	FiveModel* five = new FiveModel();
 	five->setTexture(goldTextureID);
+	texturedElement.push_back(five);
 	five->translate(1.5, 0, 0);
 	E5->addChild(five);
 
 	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
 	sphere->translate(0, 4, 0);
 	spheres.push_back(sphere);
-	//E5->addChild(sphere);
+	E5->addChild(sphere);
 
 	E5->translate(0, 3.5, 0);
 	models.push_back(E5);
@@ -254,18 +256,20 @@ WorldModel::WorldModel() {
 
 	IModel* I = new IModel();
 	I->setTexture(boxTextureID);
+	texturedElement.push_back(I);
 	I->translate(-2, 0, 0);
 	I3->addChild(I);
 
 	ThreeModel* three = new ThreeModel();
 	three->setTexture(goldTextureID);
+	texturedElement.push_back(three);
 	three->translate(2, 0, 0);
 	I3->addChild(three);
 
 	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
 	sphere_1->translate(0, 4, 0);
 	spheres.push_back(sphere_1);
-	//I3->addChild(sphere_1);
+	I3->addChild(sphere_1);
 
 	I3->translate(18, 3.5, -18);
 	models.push_back(I3);
@@ -280,18 +284,20 @@ WorldModel::WorldModel() {
 
 	IModel* I_2 = new IModel();
 	I_2->setTexture(boxTextureID);
+	texturedElement.push_back(I_2);
 	I_2->translate(-2, 0, 0);
 	I3_2->addChild(I_2);
 
 	ThreeModel* three_2 = new ThreeModel();
 	three_2->setTexture(goldTextureID);
+	texturedElement.push_back(three_2);
 	three_2->translate(2, 0, 0);
 	I3_2->addChild(three_2);
 
 	SphereModel* sphere_2 = new SphereModel(6.0f, 36, 18);
 	sphere_2->translate(0, 4, 0);
 	spheres.push_back(sphere_2);
-	//I3_2->addChild(sphere_2);
+	I3_2->addChild(sphere_2);
 
 	I3_2->translate(18, 3.5, 18);
 	models.push_back(I3_2);
@@ -306,18 +312,20 @@ WorldModel::WorldModel() {
 
 	DModel* D = new DModel();
 	D->setTexture(boxTextureID);
+	texturedElement.push_back(D);
 	D->translate(-3.5, 0, 0);
 	D8->addChild(D);
 
 	EightModel* eight = new EightModel();
 	eight->setTexture(goldTextureID);
+	texturedElement.push_back(eight);
 	eight->translate(1.5, 0, 0);
 	D8->addChild(eight);
 
 	SphereModel* sphere_3 = new SphereModel(6.0f, 36, 18);
 	sphere_3->translate(0, 4, 0);
 	spheres.push_back(sphere_3);	
-	//D8->addChild(sphere_3);
+	D8->addChild(sphere_3);
 
 	D8->translate(-18, 3.5, 18);
 	models.push_back(D8);
@@ -332,18 +340,20 @@ WorldModel::WorldModel() {
 
 	TModel* T = new TModel();
 	T->setTexture(boxTextureID);
+	texturedElement.push_back(T);
 	T->translate(-2, 0, 0);
 	T5->addChild(T);
 	
 	FiveModel* five_2 = new FiveModel();
 	five_2->setTexture(goldTextureID);
+	texturedElement.push_back(five_2);
 	five_2->translate(1.5, 0, 0);
 	T5->addChild(five_2);
 
 	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
 	sphere_4->translate(0, 4, 0);
 	spheres.push_back(sphere_4);
-	//T5->addChild(sphere_4);
+	T5->addChild(sphere_4);
 
 	T5->translate(-18, 3.5, -18);
 	models.push_back(T5);

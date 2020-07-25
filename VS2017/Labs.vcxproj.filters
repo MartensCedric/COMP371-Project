@@ -87,9 +87,6 @@
     <ClCompile Include="..\Source\AxesModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\NormalsModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\SphereModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\NormalsModel.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\includes\AxesModel.hpp">

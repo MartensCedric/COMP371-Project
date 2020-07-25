@@ -18,7 +18,7 @@ Model::Model(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCou
 	GLuint modelVBO;  //Create a VBO  (VBO's connect to a single VAO)
 	glGenBuffers(1, &modelVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, modelVBO);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(glm::vec3), vertexArray, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertexArray, GL_STATIC_DRAW);
 
 	vaoId = modelVAO;
 	this->vertexCount = vertexCount;
