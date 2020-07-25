@@ -10,6 +10,8 @@ SimpleModel::SimpleModel(Vertex * vertexArray, int vertexCount, void(*drawFunc)(
 
 void SimpleModel::setupAttribPointer()
 {
+	// Position
+
 	glVertexAttribPointer(
 		0,                   // attribute 0 matches aPos in Vertex Shader
 		3,                   // size
@@ -20,26 +22,41 @@ void SimpleModel::setupAttribPointer()
 	);
 	glEnableVertexAttribArray(0);
 
+	// Color
 
 	glVertexAttribPointer(
-		1,                                 // attribute 1 matches aColor/normal in Vertex Shader
+		1,
+		4,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)sizeof(glm::vec3)
+	);
+	glEnableVertexAttribArray(1);
+
+	// Normal
+
+	glVertexAttribPointer(
+		2,                                              
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)sizeof(glm::vec3)            // color/normal is offseted a vec3 (comes after position)
+		(void*)(sizeof(glm::vec3) + sizeof(glm::vec4))
 	);
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
+	// UV
+	
 	glVertexAttribPointer(
-		2,                	                // attribute 2 matches aUV in Vertex Shader
+		3,
 		2,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)(2 * sizeof(glm::vec3))      // uv is offseted by 2 vec3 (comes after position and color)
+		(void*) (2*sizeof(glm::vec3) + sizeof(glm::vec4))
 	);
-	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 }
 
 SimpleModel::~SimpleModel() {}

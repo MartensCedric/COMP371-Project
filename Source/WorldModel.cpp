@@ -175,7 +175,7 @@ EightModel::EightModel() {
 	addChild(bottom);
 };
 
-WorldModel::WorldModel(int passthroughShader, int transparentShader, int textureLightShader) {
+WorldModel::WorldModel(int passthroughShader, int textureLightShader, int lightShader) {
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
@@ -185,47 +185,49 @@ WorldModel::WorldModel(int passthroughShader, int transparentShader, int texture
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
+	GridModel* grid = new GridModel();
+	grid->setShader(passthroughShader);
+	addChild(grid);
+	
 	PlaneModel* plane = new PlaneModel();
 	plane->setShader(textureLightShader);
 	plane->setTexture(grassTextureID);
+	plane->translate(0, 0.1, 0);
 	texturedElement.push_back(plane);
 	addChild(plane);
 
-	GridModel* grid = new GridModel();
-	grid->setShader(passthroughShader);
-	//addChild(grid);
-	
 	AxesModel* axes = new AxesModel();
 	axes->setShader(passthroughShader);
+	axes->translate(0, 0.1, 0);
 	addChild(axes);
 	
 	/* 
 	 * ----------------------------------------------------
-	 *                          E5
+	 *                          T5
 	 * ---------------------------------------------------- 
 	 */
 
-	SimpleModel* E5 = new SimpleModel();
+	SimpleModel* T5 = new SimpleModel();
 
-	EModel* E = new EModel();
-	E->setTexture(boxTextureID);
-	texturedElement.push_back(E);
-	E->translate(-3.5, 0, 0);
-	E5->addChild(E);
+	TModel* T = new TModel();
+	T->setTexture(boxTextureID);
+	texturedElement.push_back(T);
+	T->translate(-2, 0, 0);
+	T5->addChild(T);
+	
+	FiveModel* five_2 = new FiveModel();
+	five_2->setTexture(goldTextureID);
+	texturedElement.push_back(five_2);
+	five_2->translate(1.5, 0, 0);
+	T5->addChild(five_2);
 
-	FiveModel* five = new FiveModel();
-	five->setTexture(goldTextureID);
-	texturedElement.push_back(five);
-	five->translate(1.5, 0, 0);
-	E5->addChild(five);
+	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
+	sphere_4->translate(0, 4, 0);
+	spheres.push_back(sphere_4);
+	T5->addChild(sphere_4);
 
-	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
-	sphere->translate(0, 4, 0);
-	spheres.push_back(sphere);
-	E5->addChild(sphere);
-
-	E5->translate(0, 3.5, 0);
-	models.push_back(E5);
+	T5->translate(-18, 3.5, -18);
+	models.push_back(T5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -254,6 +256,34 @@ WorldModel::WorldModel(int passthroughShader, int transparentShader, int texture
 
 	I3->translate(18, 3.5, -18);
 	models.push_back(I3);
+
+	/* 
+	 * ----------------------------------------------------
+	 *                          E5
+	 * ---------------------------------------------------- 
+	 */
+
+	SimpleModel* E5 = new SimpleModel();
+
+	EModel* E = new EModel();
+	E->setTexture(boxTextureID);
+	texturedElement.push_back(E);
+	E->translate(-3.5, 0, 0);
+	E5->addChild(E);
+
+	FiveModel* five = new FiveModel();
+	five->setTexture(goldTextureID);
+	texturedElement.push_back(five);
+	five->translate(1.5, 0, 0);
+	E5->addChild(five);
+
+	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
+	sphere->translate(0, 4, 0);
+	spheres.push_back(sphere);
+	E5->addChild(sphere);
+
+	E5->translate(0, 3.5, 0);
+	models.push_back(E5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -311,34 +341,7 @@ WorldModel::WorldModel(int passthroughShader, int transparentShader, int texture
 	D8->translate(-18, 3.5, 18);
 	models.push_back(D8);
 
-	/* 
-	 * ----------------------------------------------------
-	 *                          T5
-	 * ---------------------------------------------------- 
-	 */
-
-	SimpleModel* T5 = new SimpleModel();
-
-	TModel* T = new TModel();
-	T->setTexture(boxTextureID);
-	texturedElement.push_back(T);
-	T->translate(-2, 0, 0);
-	T5->addChild(T);
 	
-	FiveModel* five_2 = new FiveModel();
-	five_2->setTexture(goldTextureID);
-	texturedElement.push_back(five_2);
-	five_2->translate(1.5, 0, 0);
-	T5->addChild(five_2);
-
-	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
-	sphere_4->translate(0, 4, 0);
-	spheres.push_back(sphere_4);
-	T5->addChild(sphere_4);
-
-	T5->translate(-18, 3.5, -18);
-	models.push_back(T5);
-
 	//----------Models----------
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
@@ -346,10 +349,10 @@ WorldModel::WorldModel(int passthroughShader, int transparentShader, int texture
 		addChild(*it);
 	}
 
-	//----------Models----------
+	//----------Spheres----------
 	for (auto it = spheres.begin(); it != spheres.end(); it++)
 	{
-		(*it)->setShader(transparentShader);
+		(*it)->setShader(lightShader);
 	}
 };
 
