@@ -467,12 +467,15 @@ int main(int argc, char*argv[])
 	I32.addChild(&I2);
 
 	//Draw a 3
-	SimpleModel three2;
-	three2.setupAttribPointer();
+	SimpleModel three2, threeTopDiv2, threeBottomDiv2;
 
-	UnitCubeModel threeRight2;
-	threeRight2.scale(1, 5, 1);
-	threeRight2.translate(2, 0, 0);
+	UnitCubeModel threeRightTop2;
+	threeRightTop2.scale(1, 3, 1);
+	threeRightTop2.translate(2, 2, 0);
+
+	UnitCubeModel threeRightBottom2;
+	threeRightBottom2.scale(1, 3, 1);
+	threeRightBottom2.translate(2, -2, 0);
 
 	UnitCubeModel threeTop2;
 	threeTop2.scale(3, 1, 1);
@@ -486,10 +489,14 @@ int main(int argc, char*argv[])
 	threeBottom2.scale(3, 1, 1);
 	threeBottom2.translate(1, -3, 0);
 
-	three2.addChild(&threeRight2);
-	three2.addChild(&threeTop2);
-	three2.addChild(&threeMiddle2);
-	three2.addChild(&threeBottom2);
+	threeTopDiv2.addChild(&threeTop2);
+	threeTopDiv2.addChild(&threeRightTop2);
+	threeBottomDiv2.addChild(&threeRightBottom2);
+	threeBottomDiv2.addChild(&threeMiddle2);
+	threeBottomDiv2.addChild(&threeBottom2);
+
+	three2.addChild(&threeTopDiv2);
+	three2.addChild(&threeBottomDiv2);
 
 	three2.translate(2, 0, 0);
 
@@ -497,6 +504,8 @@ int main(int argc, char*argv[])
 	I32.translate(25, 3.5, 25);
 	I32.rotate(0, 0, 1, 180.0f);
 
+	modelsBottom.push_back(&threeBottomDiv2);
+	modelsTop.push_back(&threeTopDiv2);
 	models.push_back(&I32);
 
 	//Draw a D
