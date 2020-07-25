@@ -239,7 +239,7 @@ WorldModel::WorldModel() {
 	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
 	sphere->translate(0, 4, 0);
 	spheres.push_back(sphere);
-	E5->addChild(sphere);
+	//E5->addChild(sphere);
 
 	E5->translate(0, 3.5, 0);
 	models.push_back(E5);
@@ -265,7 +265,7 @@ WorldModel::WorldModel() {
 	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
 	sphere_1->translate(0, 4, 0);
 	spheres.push_back(sphere_1);
-	I3->addChild(sphere_1);
+	//I3->addChild(sphere_1);
 
 	I3->translate(18, 3.5, -18);
 	models.push_back(I3);
@@ -291,7 +291,7 @@ WorldModel::WorldModel() {
 	SphereModel* sphere_2 = new SphereModel(6.0f, 36, 18);
 	sphere_2->translate(0, 4, 0);
 	spheres.push_back(sphere_2);
-	I3_2->addChild(sphere_2);
+	//I3_2->addChild(sphere_2);
 
 	I3_2->translate(18, 3.5, 18);
 	models.push_back(I3_2);
@@ -317,7 +317,7 @@ WorldModel::WorldModel() {
 	SphereModel* sphere_3 = new SphereModel(6.0f, 36, 18);
 	sphere_3->translate(0, 4, 0);
 	spheres.push_back(sphere_3);	
-	D8->addChild(sphere_3);
+	//D8->addChild(sphere_3);
 
 	D8->translate(-18, 3.5, 18);
 	models.push_back(D8);
@@ -343,7 +343,7 @@ WorldModel::WorldModel() {
 	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
 	sphere_4->translate(0, 4, 0);
 	spheres.push_back(sphere_4);
-	T5->addChild(sphere_4);
+	//T5->addChild(sphere_4);
 
 	T5->translate(-18, 3.5, -18);
 	models.push_back(T5);

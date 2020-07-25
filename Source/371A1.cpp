@@ -248,7 +248,7 @@ int main(int argc, char*argv[])
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
-	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 768;
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
 	unsigned int shadowMapFBO;
 	glGenFramebuffers(1, &shadowMapFBO);
@@ -295,14 +295,11 @@ int main(int argc, char*argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-		// Light project is orthographic -> Directional Light, we need a Point light :( 
-
-
 		// We're first going to render the shadow map
 		glUseProgram(shadowShader);
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
-		glClear(GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
@@ -312,6 +309,7 @@ int main(int argc, char*argv[])
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
+		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
