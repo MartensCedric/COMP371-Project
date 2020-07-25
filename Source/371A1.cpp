@@ -453,10 +453,11 @@ int main(int argc, char*argv[])
 	iBottom2.scale(2, 1, 1);
 	iBottom2.translate(0, -3, 0);
 
-	iTopDiv2.addChild(&iTop2);
-	iTopDiv2.addChild(&iMiddleTop2);
-	iBottomDiv2.addChild(&iMiddleBottom2);
-	iBottomDiv2.addChild(&iBottom2);
+	// this is backwards because of the final 180 rotate at the end
+	iTopDiv2.addChild(&iMiddleBottom2);
+	iTopDiv2.addChild(&iBottom2);
+	iBottomDiv2.addChild(&iTop2);
+	iBottomDiv2.addChild(&iMiddleTop2);
 
 	I2.addChild(&iTopDiv2);
 	I2.addChild(&iBottomDiv2);
@@ -489,11 +490,12 @@ int main(int argc, char*argv[])
 	threeBottom2.scale(3, 1, 1);
 	threeBottom2.translate(1, -3, 0);
 
-	threeTopDiv2.addChild(&threeTop2);
-	threeTopDiv2.addChild(&threeRightTop2);
-	threeBottomDiv2.addChild(&threeRightBottom2);
-	threeBottomDiv2.addChild(&threeMiddle2);
-	threeBottomDiv2.addChild(&threeBottom2);
+	// this is backwards because of the final 180 rotate at the end
+	threeTopDiv2.addChild(&threeRightBottom2);
+	threeTopDiv2.addChild(&threeMiddle2);
+	threeTopDiv2.addChild(&threeBottom2);
+	threeBottomDiv2.addChild(&threeTop2);
+	threeBottomDiv2.addChild(&threeRightTop2);
 
 	three2.addChild(&threeTopDiv2);
 	three2.addChild(&threeBottomDiv2);
