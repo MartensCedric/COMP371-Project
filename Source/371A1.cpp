@@ -5,7 +5,7 @@
 //
 // Inspired by the following tutorials:
 // - https://learnopengl.com/Getting-started/Hello-Window
-// - https://learnopengl.com/Getting-started/Hello-Triangle
+// - https://learnopengl.com/Getting-started/Hefllo-Triangle
 
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
@@ -13,26 +13,16 @@
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
 #define OS_Windows 0
-#include "includes/Shader.hpp"
-#include "includes/SimpleModel.hpp"
 #include "includes/Camera.hpp"
-#include "includes/GridModel.hpp"
-#include "includes/AxesModel.hpp"
-#include "includes/UnitCubeModel.hpp"
-#include "includes/GroupModel.hpp"
+#include "includes/WorldModel.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
 #define OS_Windows 1
 #define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/Shader.hpp"
 
-#include "../Source/includes/Shader.hpp"
-#include "../Source/includes/SimpleModel.hpp"
 #include "../Source/includes/Camera.hpp"
-#include "../Source/includes/GridModel.hpp"
-#include "../Source/includes/AxesModel.hpp"
-#include "../Source/includes/UnitCubeModel.hpp"
-#include "../Source/includes/GroupModel.hpp"
+#include "../Source/includes/WorldModel.hpp"
 
 #endif
 
@@ -49,18 +39,20 @@
 #include <string>
 #include <algorithm>
 
-SimpleModel world;
-std::vector<Model*> models;
-std::vector<Model*> modelsBottom;
-std::vector<Model*> modelsTop;
+WorldModel* world = nullptr;
 
 double currentYPos;
 double previousYPos = -1;
+int randomX;
+int randomY;
 double currentVariation = 0;
 bool leftMouseClick = false;
 Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
+
+int passthroughShader, lightShader, textureShader, textureLightShader;
+bool showTexture = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
@@ -78,7 +70,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
 		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(0, 1, 0, 5);
 		}
@@ -90,7 +82,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
 		glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(0, 1, 0, -5);
 		}
@@ -102,7 +94,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
 		glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 	{
-		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(1, 0, 0, 5);
 		}
@@ -114,7 +106,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
 		glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 	{
-		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(1, 0, 0, -5);
 		}
@@ -126,7 +118,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
 		glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
 	{
-		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(0, 0, 1, 5);
 		}
@@ -138,7 +130,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
 		glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
 	{
-		for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(0, 0, 1, -5);
 		}
@@ -146,28 +138,44 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	// Rotate World Orientation Left
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		world.rotate(1, 0, 0, -5);
+		world->rotate(1, 0, 0, -5);
 	}
 
 	// Rotate World Orientation Right
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		world.rotate(1, 0, 0, 5);
+		world->rotate(1, 0, 0, 5);
 	}
 
 	// Rotate World Orientation UP
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		world.rotate(0, 1, 0, 5);
+		world->rotate(0, 1, 0, 5);
 	}
 
 	// Rotate World Orientation Down
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		world.rotate(0, 1, 0, -5);
+		world->rotate(0, 1, 0, -5);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_HOME)) {
-		world.reset();
+		world->reset();
 	}
 
+	// Scale Up
+	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->scale(1.05, 1.05, 1.05);
+		}
+	}
+	
+	// Scale Down
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->scale(0.95, 0.95, 0.95);
+		}
+	}
+	
 	//Switch to lines rendering mode
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -181,9 +189,28 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPointSize(5);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
+
+	// Toggle Texture
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+		
+		for (auto it = world->texturedElement.begin(); it != world->texturedElement.end(); it++)
+		{
+			if(showTexture) {
+				(*it)->setShader(lightShader);
+			} else {
+				(*it)->setShader(textureLightShader);
+			} 
+		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE) {
+		showTexture = !showTexture;
+	}
 }
+
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
-static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) {
+static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) 
+{
 	currentYPos = yPos;
 
 	if (previousYPos != -1) {
@@ -209,6 +236,12 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
+void setWorldMatrix(int shaderProgram, glm::mat4 worldMatrix)
+{
+	glUseProgram(shaderProgram);
+	GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
+	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+}
 
 int main(int argc, char*argv[])
 {
@@ -248,441 +281,53 @@ int main(int argc, char*argv[])
     }
 
     // Compile and link shaders here ...
-	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	glUseProgram(passthroughShader);
 
+	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+
+	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+
+	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
+	world = new WorldModel();
+	// Two Pass Shadow Map. Code adapted from learnopengl.com
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+
+	world->setCamera(camera);
+
+	unsigned int shadowMapFBO;
+	glGenFramebuffers(1, &shadowMapFBO);
 	
-    // Define and upload geometry to the GPU here ...
-	GridModel grid;
-	grid.setShader(passthroughShader);
-	world.addChild(&grid);
-	
-	AxesModel axes;
-	axes.setShader(passthroughShader);
-	world.addChild(&axes);
-
-	// Alpha numerical models
-	// Splitting each model in two: 2/3 assigned to the bottom, the remainder 1/3 to the top
-	SimpleModel E5, E5top, E5bottom, I31, I32, T5, D8;
-
-	// Draw an E
-	// split top/bot divisions
-	SimpleModel E, eTopDiv, eBottomDiv;
-	eTopDiv.setupAttribPointer();
-	eBottomDiv.setupAttribPointer();
-
-	UnitCubeModel eLeftTop;
-	eLeftTop.scale(1, 3, 1);
-	eLeftTop.translate(0, 2, 0);
-
-	UnitCubeModel eLeftBottom;
-	eLeftBottom.scale(1, 3, 1);
-	eLeftBottom.translate(0, -2, 0);
-
-	UnitCubeModel eTop;
-	eTop.scale(3, 1, 1);
-	eTop.translate(1, 3, 0);
-
-	UnitCubeModel eMiddle;
-	eMiddle.scale(3, 1, 1);
-	eMiddle.translate(1, 0, 0);
-	
-	UnitCubeModel eBottom;
-	eBottom.scale(3, 1, 1);
-	eBottom.translate(1, -3, 0);
-
-	eTopDiv.addChild(&eLeftTop);
-	eTopDiv.addChild(&eTop);
-	eBottomDiv.addChild(&eLeftBottom);
-	eBottomDiv.addChild(&eMiddle);
-	eBottomDiv.addChild(&eBottom);
-
-	E.addChild(&eTopDiv);
-	E.addChild(&eBottomDiv);
-
-	eTopDiv.translate(-3.5, 0, 0);
-	eBottomDiv.translate(-3.5, 0, 0);
-	
-	E5.addChild(&E);
-
-	modelsTop.push_back(&eTopDiv);
-	modelsBottom.push_back(&eBottomDiv);
-
-	// Draw a 5
-	///*
-	SimpleModel five, fiveTopDiv, fiveBottomDiv;
-	fiveTopDiv.setupAttribPointer();
-	fiveBottomDiv.setupAttribPointer();
-
-	UnitCubeModel fiveLeft;
-	fiveLeft.scale(1, 2.5, 1);
-	fiveLeft.translate(0, 1.25, 0);
-
-	UnitCubeModel fiveRight;
-	fiveRight.scale(1, 2.5, 1);
-	fiveRight.translate(2, -1.25, 0);
-
-	UnitCubeModel fiveTop;
-	fiveTop.scale(3, 1, 1);
-	fiveTop.translate(1, 3, 0);
-
-	UnitCubeModel fiveMiddle;
-	fiveMiddle.scale(3, 1, 1);
-	fiveMiddle.translate(1, 0, 0);
-	
-	UnitCubeModel fiveBottom;
-	fiveBottom.scale(3, 1, 1);
-	fiveBottom.translate(1, -3, 0);
-
-	fiveTopDiv.addChild(&fiveLeft);
-	fiveBottomDiv.addChild(&fiveRight);
-	fiveTopDiv.addChild(&fiveTop);
-	fiveBottomDiv.addChild(&fiveMiddle);
-	fiveBottomDiv.addChild(&fiveBottom);
-
-	fiveTopDiv.translate(1.5, 0, 0);
-	fiveBottomDiv.translate(1.5, 0, 0);
-
-	five.addChild(&fiveTopDiv);
-	five.addChild(&fiveBottomDiv);
-	E5.addChild(&five);
-
-	modelsTop.push_back(&fiveTopDiv);
-	modelsBottom.push_back(&fiveBottomDiv);
-	models.push_back(&E5);
-
-	// First I3
-	//Draw an I
-	SimpleModel I, iTopDiv, iBottomDiv;
-	iTopDiv.setupAttribPointer();
-	iBottomDiv.setupAttribPointer();
-	I.setupAttribPointer();
-
-	I.translate(-2, 0, 0);
-
-	UnitCubeModel iTop;
-	iTop.scale(2, 1, 1);
-	iTop.translate(0, 3, 0);
-
-	UnitCubeModel iMiddleTop, iMiddleBottom;
-	iMiddleTop.scale(1, 2, 1);
-	iMiddleTop.translate(0, 2, 0);
-	iMiddleBottom.scale(1, 4, 1);
-	iMiddleBottom.translate(0, -1, 0);
-
-	UnitCubeModel iBottom;
-	iBottom.scale(2, 1, 1);
-	iBottom.translate(0, -3, 0);
-
-	iTopDiv.addChild(&iTop);
-	iTopDiv.addChild(&iMiddleTop);
-
-	iBottomDiv.addChild(&iMiddleBottom);
-	iBottomDiv.addChild(&iBottom);
-
-	I.addChild(&iTopDiv);
-	I.addChild(&iBottomDiv);
-
-	I31.addChild(&I);
-
-	modelsTop.push_back(&iTopDiv);
-	modelsBottom.push_back(&iBottomDiv);
-
-	//Draw a 3
-	SimpleModel three, threeTopDiv, threeBottomDiv;
-
-	UnitCubeModel threeRightTop;
-	threeRightTop.scale(1, 3, 1);
-	threeRightTop.translate(2, 2, 0);
-
-	UnitCubeModel threeRightBottom;
-	threeRightBottom.scale(1, 3, 1);
-	threeRightBottom.translate(2, -2, 0);
-
-	UnitCubeModel threeTop;
-	threeTop.scale(3, 1, 1);
-	threeTop.translate(1, 3, 0);
-
-	UnitCubeModel threeMiddle;
-	threeMiddle.scale(3, 1, 1);
-	threeMiddle.translate(1, 0, 0);
-
-	UnitCubeModel threeBottom;
-	threeBottom.scale(3, 1, 1);
-	threeBottom.translate(1, -3, 0);
-
-	threeTopDiv.addChild(&threeTop);
-	threeTopDiv.addChild(&threeRightTop);
-	threeBottomDiv.addChild(&threeRightBottom);
-	threeBottomDiv.addChild(&threeMiddle);
-	threeBottomDiv.addChild(&threeBottom);
-
-	three.addChild(&threeBottomDiv);
-	three.addChild(&threeTopDiv);
-
-	I31.addChild(&three);
-
-	modelsBottom.push_back(&threeBottomDiv);
-	modelsTop.push_back(&threeTopDiv);
-
-	I31.translate(25, 3.5, -25);
-
-	models.push_back(&I31);
-
-	//Second I3
-	//Draw an I
-	SimpleModel I2, iTopDiv2, iBottomDiv2;
-	I2.setupAttribPointer();
-	I2.translate(-2, 0, 0);
-
-	UnitCubeModel iTop2;
-	iTop2.scale(2, 1, 1);
-	iTop2.translate(0, 3, 0);
-
-	UnitCubeModel iMiddleTop2, iMiddleBottom2;
-	iMiddleTop2.scale(1, 4, 1);
-	iMiddleTop2.translate(0, 1, 0);
-	iMiddleBottom2.scale(1, 2, 1);
-	iMiddleBottom2.translate(0, -2, 0);
-
-
-	UnitCubeModel iBottom2;
-	iBottom2.scale(2, 1, 1);
-	iBottom2.translate(0, -3, 0);
-
-	// this is backwards because of the final 180 rotate at the end
-	iTopDiv2.addChild(&iMiddleBottom2);
-	iTopDiv2.addChild(&iBottom2);
-	iBottomDiv2.addChild(&iTop2);
-	iBottomDiv2.addChild(&iMiddleTop2);
-
-	I2.addChild(&iTopDiv2);
-	I2.addChild(&iBottomDiv2);
-
-	modelsBottom.push_back(&iBottomDiv2);
-	modelsTop.push_back(&iTopDiv2);
-
-	I32.addChild(&I2);
-
-	//Draw a 3
-	SimpleModel three2, threeTopDiv2, threeBottomDiv2;
-
-	UnitCubeModel threeRightTop2;
-	threeRightTop2.scale(1, 3, 1);
-	threeRightTop2.translate(2, 2, 0);
-
-	UnitCubeModel threeRightBottom2;
-	threeRightBottom2.scale(1, 3, 1);
-	threeRightBottom2.translate(2, -2, 0);
-
-	UnitCubeModel threeTop2;
-	threeTop2.scale(3, 1, 1);
-	threeTop2.translate(1, 3, 0);
-
-	UnitCubeModel threeMiddle2;
-	threeMiddle2.scale(3, 1, 1);
-	threeMiddle2.translate(1, 0, 0);
-
-	UnitCubeModel threeBottom2;
-	threeBottom2.scale(3, 1, 1);
-	threeBottom2.translate(1, -3, 0);
-
-	// this is backwards because of the final 180 rotate at the end
-	threeTopDiv2.addChild(&threeRightBottom2);
-	threeTopDiv2.addChild(&threeMiddle2);
-	threeTopDiv2.addChild(&threeBottom2);
-	threeBottomDiv2.addChild(&threeTop2);
-	threeBottomDiv2.addChild(&threeRightTop2);
-
-	three2.addChild(&threeTopDiv2);
-	three2.addChild(&threeBottomDiv2);
-
-	three2.translate(2, 0, 0);
-
-	I32.addChild(&three2);
-	I32.translate(25, 3.5, 25);
-	I32.rotate(0, 0, 1, 180.0f);
-
-	modelsBottom.push_back(&threeBottomDiv2);
-	modelsTop.push_back(&threeTopDiv2);
-	models.push_back(&I32);
-
-	//Draw a D
-	SimpleModel D, dTopDiv, dBottomDiv;
-	D.setupAttribPointer();
-
-
-	UnitCubeModel dLeftTop, dLeftBottom;
-	dLeftBottom.scale(1, 3.55, 1);
-	dLeftBottom.translate(0, -1.5, 0);
-	dLeftTop.scale(1, 3.55, 1);
-	dLeftTop.translate(0, 1.5, 0);
-
-	UnitCubeModel dRightTop, dRightBottom;
-	dRightTop.scale(1, 2.75, 1);
-	dRightTop.translate(2.3, 1.25, 0);
-
-	dRightBottom.scale(1, 2.75, 1);
-	dRightBottom.translate(2.3, -1.25, 0);
-
-	UnitCubeModel dTop;
-	dTop.scale(3, 1, 1);
-	dTop.translate(1.2, 2.83, 0);
-	dTop.rotate(0, 0, 1, -11);
-
-
-	UnitCubeModel dBottom;
-	dBottom.scale(3, 1, 1);
-	dBottom.translate(1.2, -2.83, 0);
-	dBottom.rotate(0, 0, 1, 11);
-
-	dTopDiv.addChild(&dLeftTop);
-	dTopDiv.addChild(&dTop);
-	dTopDiv.addChild(&dRightTop);
-	dBottomDiv.addChild(&dBottom);
-	dBottomDiv.addChild(&dRightBottom);
-	dBottomDiv.addChild(&dLeftBottom);
-
-	D.addChild(&dBottomDiv);
-	D.addChild(&dTopDiv);
-
-	modelsTop.push_back(&dTopDiv);
-	modelsBottom.push_back(&dBottomDiv);
-
-	D.translate(-3.5, 0, 0);
-	D8.addChild(&D);
-
-	// Draw a 8
-	SimpleModel eight, eightTopDiv, eightBottomDiv;
-	eight.setupAttribPointer();
-
-	UnitCubeModel eightRightTop, eightRightBottom;
-	eightRightTop.scale(1, 2.5, 1);
-	eightRightTop.translate(2, 1.5, 0);
-	eightRightBottom.scale(1, 2.5, 1);
-	eightRightBottom.translate(2, -1.5, 0);
-
-	UnitCubeModel eightLeftTop, eightLeftBottom;
-	eightLeftTop.scale(1, 2.5, 1);
-	eightLeftTop.translate(0, 1.5, 0);
-	eightLeftBottom.scale(1, 2.5, 1);
-	eightLeftBottom.translate(0, -1.5, 0);
-
-	UnitCubeModel eightTop;
-	eightTop.scale(3, 1, 1);
-	eightTop.translate(1, 3, 0);
-
-	UnitCubeModel eightMiddle;
-	eightMiddle.scale(3, 1, 1);
-	eightMiddle.translate(1, 0, 0);
-
-	UnitCubeModel eightBottom;
-	eightBottom.scale(3, 1, 1);
-	eightBottom.translate(1, -3, 0);
-
-	eightTopDiv.addChild(&eightTop);
-	eightTopDiv.addChild(&eightRightTop);
-	eightTopDiv.addChild(&eightLeftTop);
-	eightBottomDiv.addChild(&eightMiddle);
-	eightBottomDiv.addChild(&eightBottom);
-	eightBottomDiv.addChild(&eightRightBottom);
-	eightBottomDiv.addChild(&eightLeftBottom);
-
-	eight.addChild(&eightTopDiv);
-	eight.addChild(&eightBottomDiv);
-	eight.translate(1.5, 0, 0);
-
-	D8.addChild(&eight);
-	D8.translate(-25, 3.5, 25);
-	D8.rotate(0, 1, 0, 175);
-
-	modelsBottom.push_back(&eightBottomDiv);
-	modelsTop.push_back(&eightTopDiv);
-	models.push_back(&D8);
-
-	//Draw a T
-	SimpleModel T, tTopDiv, tBottomDiv;
-	T.setupAttribPointer();
-	T.translate(-2, 0, 0);
-
-	UnitCubeModel tTop;
-	tTop.scale(4, 1, 1);
-	tTop.translate(0, 3, 0);
-
-	UnitCubeModel tMiddle;
-	tMiddle.scale(1, 3, 1);
-	tMiddle.translate(0, 2, 0);
-
-	UnitCubeModel tBottom;
-	tBottom.scale(1, 4, 1);
-	tBottom.translate(0, -1.5, 0);
-
-	tTopDiv.addChild(&tTop);
-	tTopDiv.addChild(&tMiddle);
-	tBottomDiv.addChild(&tBottom);
-
-	T.addChild(&tTopDiv);
-	T.addChild(&tBottomDiv);
-
-	modelsBottom.push_back(&tBottomDiv);
-	modelsTop.push_back(&tTopDiv);
-
-	T5.addChild(&T);
-	
-	// Draw a 5
-	SimpleModel tFive, tFiveTopDiv, tFiveBottomDiv;
-	tFive.setupAttribPointer();
-	tFive.translate(2, 0, 0);
-
-	UnitCubeModel tFiveLeft;
-	tFiveLeft.scale(1, 2.5, 1);
-	tFiveLeft.translate(0, 1.75, 0);
-
-	UnitCubeModel tFiveRight;
-	tFiveRight.scale(1, 2, 1);
-	tFiveRight.translate(2, -1.5, 0);
-
-	UnitCubeModel tFiveTop;
-	tFiveTop.scale(3, 1, 1);
-	tFiveTop.translate(1, 3, 0);
-
-	UnitCubeModel tFiveMiddle;
-	tFiveMiddle.scale(3, 1, 1);
-	tFiveMiddle.translate(1, 0, 0);
-
-	UnitCubeModel tFiveBottom;
-	tFiveBottom.scale(3, 1, 1);
-	tFiveBottom.translate(1, -3, 0);
-
-	tFiveTopDiv.addChild(&tFiveLeft);
-	tFiveTopDiv.addChild(&tFiveTop);
-	tFiveBottomDiv.addChild(&tFiveMiddle);
-	tFiveBottomDiv.addChild(&tFiveRight);
-	tFiveBottomDiv.addChild(&tFiveBottom);
-
-	tFive.addChild(&tFiveTopDiv);
-	tFive.addChild(&tFiveBottomDiv);
-
-	T5.addChild(&tFive);
-
-	T5.translate(-25, 3.5, -25);
-	
-	modelsBottom.push_back(&tFiveBottomDiv);
-	modelsTop.push_back(&tFiveTopDiv);
-	models.push_back(&T5);
-
-	//----------Models----------
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		world.addChild(*it);
-		(*it)->setShader(lightAffectedShader);
-	}
-
-
-	world.setCamera(camera);
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+
+    // Attach it to framebuffer's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE); // We don't need color buffer
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//----------Camera setup----------
+	camera = new Camera(windowWidth, windowHeight);
+	world = new WorldModel();
+	world->setCamera(camera);
+
+	world->setAxesShader(passthroughShader);
+	world->setGridShader(passthroughShader);
+	world->setPlaneShader(textureLightShader);
+	world->setModelShader(textureLightShader);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -694,17 +339,50 @@ int main(int argc, char*argv[])
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
-        // Each frame, reset color of each pixel to glClearColor and reset the depth
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
-		glfwGetCursorPos(window, &xCursor, &yCursor);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Draw the 100x100 square grid and axes on the ground
-		world.draw();
+		// We're first going to render the shadow map
+		glUseProgram(shadowShader);
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->setShader(shadowShader);
+			(*it)->draw();
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		// Each frame, reset color of each pixel to glClearColor and reset the depth-
+		glViewport(0, 0, windowWidth, windowHeight);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
+		glUniform1i(shadowMapTexureLoc, 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		
+		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->setShader(textureLightShader);
+		}
+
+		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
+		{
+			(*it)->setShader(lightAffectedShader);
+		}
+
+		// Reorder children based on distance from camera
+		
+		world->draw();
+
 
         // End frame
         glfwSwapBuffers(window);
 
+		glfwGetCursorPos(window, &xCursor, &yCursor);
         // Detect inputs
         glfwPollEvents();
 
@@ -773,52 +451,57 @@ int main(int argc, char*argv[])
 				tiltDirection = glm::vec3(1.0f);
 			}
 		}
-
 		// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
 
 		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsBottom.begin(); it != modelsBottom.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
 			}
 		}
 
 		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsBottom.begin(); it != modelsBottom.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
 			}
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsBottom.begin(); it != modelsBottom.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
 			}
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsBottom.begin(); it != modelsBottom.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
 		}
 
 		// move up
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsBottom.begin(); it != modelsBottom.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, 1, 0);
 			}
 		}
 
 		// move down
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsBottom.begin(); it != modelsBottom.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, -1, 0);
 			}
@@ -827,48 +510,54 @@ int main(int argc, char*argv[])
 		// ------------------------------------------------ TOP HALF CONTROLS -------------------------------------------------
 
 		// move forward
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsTop.begin(); it != modelsTop.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
 			}
 		}
 
 		// move back
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsTop.begin(); it != modelsTop.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
 			}
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsTop.begin(); it != modelsTop.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
 			}
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsTop.begin(); it != modelsTop.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
 		}
 
 		// move up
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsTop.begin(); it != modelsTop.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
 			{
 				(*it)->translate(0, 1, 0);
 			}
 		}
 
 		// move down
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = modelsTop.begin(); it != modelsTop.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
 			{
 				(*it)->translate(0, -1, 0);
 			}
@@ -877,48 +566,54 @@ int main(int argc, char*argv[])
 		// ------------------------------------------------ FULL CONTROLS -------------------------------------------------
 
 		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
 			}
 		}
 
 		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
 			}
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
 			}
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
 		}
 
-		// move up
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		//move up
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(0, 1, 0);
 			}
 		}
 
-		// move down
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+		//move down
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(0, -1, 0);
 			}
@@ -926,7 +621,7 @@ int main(int argc, char*argv[])
 			
 		// Scale Up
 		if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->scale(1.05, 1.05, 1.05);
 			}
@@ -934,9 +629,20 @@ int main(int argc, char*argv[])
 		
 		// Scale Down
 		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = models.begin(); it != models.end(); it++)
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->scale(0.95, 0.95, 0.95);
+			}
+		}
+
+		// Reposition models
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->reset();
+				randomX = rand() % 51 + (-25);
+				randomY = rand() % 51 + (-25);
+ 				(*it)->translate(randomX, 3.5, randomY);
 			}
 		}
     }
