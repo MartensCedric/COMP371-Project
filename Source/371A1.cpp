@@ -274,7 +274,6 @@ int main(int argc, char*argv[])
 
     // Compile and link shaders here ...
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-	glUseProgram(passthroughShader);
 
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
 	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
