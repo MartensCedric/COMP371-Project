@@ -256,6 +256,8 @@ WorldModel::WorldModel() {
 	SimpleModel* T = new SimpleModel();
 	SimpleModel* tTopDiv = new SimpleModel();
 	SimpleModel* tBottomDiv = new SimpleModel();
+	T->setTexture(boxTextureID);
+	texturedElement.push_back(T);
 
 	T->setupAttribPointer();
 	T->translate(-2, 0, 0);
@@ -288,6 +290,8 @@ WorldModel::WorldModel() {
 	SimpleModel* tFive = new SimpleModel();
 	SimpleModel* tFiveTopDiv = new SimpleModel();
 	SimpleModel* tFiveBottomDiv = new SimpleModel();
+	tFive->setTexture(goldTextureID);
+	texturedElement.push_back(tFive);
 
 	tFive->setupAttribPointer();
 	tFive->translate(2, 0, 0);
@@ -360,6 +364,9 @@ WorldModel::WorldModel() {
 	SimpleModel* I = new SimpleModel();
 	SimpleModel* iTopDiv = new SimpleModel();
 	SimpleModel* iBottomDiv = new SimpleModel();
+	I->setTexture(boxTextureID);
+	texturedElement.push_back(I);
+
 	iTopDiv->setupAttribPointer();
 	iBottomDiv->setupAttribPointer();
 	I->setupAttribPointer();
@@ -399,6 +406,8 @@ WorldModel::WorldModel() {
 	SimpleModel* three = new SimpleModel();
 	SimpleModel* threeTopDiv = new SimpleModel();
 	SimpleModel* threeBottomDiv = new SimpleModel();
+	three->setTexture(goldTextureID);
+	texturedElement.push_back(three);
 
 	UnitCubeModel* threeRightTop = new UnitCubeModel();
 	threeRightTop->scale(1, 3, 1);
@@ -469,9 +478,8 @@ WorldModel::WorldModel() {
 	SimpleModel* E = new SimpleModel();
 	SimpleModel* eTopDiv = new SimpleModel();
 	SimpleModel* eBottomDiv = new SimpleModel();
-
-	eTopDiv->setupAttribPointer();
-	eBottomDiv->setupAttribPointer();
+	E->setTexture(boxTextureID);
+	texturedElement.push_back(E);
 
 	UnitCubeModel* eLeftTop = new UnitCubeModel();
 	eLeftTop->scale(1, 3, 1);
@@ -515,6 +523,8 @@ WorldModel::WorldModel() {
 	SimpleModel* five = new SimpleModel();
 	SimpleModel* fiveTopDiv = new SimpleModel();
 	SimpleModel* fiveBottomDiv = new SimpleModel();
+	five->setTexture(goldTextureID);
+	texturedElement.push_back(five);
 
 	UnitCubeModel* fiveLeft = new UnitCubeModel();
 	fiveLeft->scale(1, 2.5, 1);
@@ -584,8 +594,9 @@ WorldModel::WorldModel() {
 	SimpleModel* I2 = new SimpleModel();
 	SimpleModel* iTopDiv2 = new SimpleModel();
 	SimpleModel* iBottomDiv2 = new SimpleModel();
+	I2->setTexture(boxTextureID);
+	texturedElement.push_back(I2);
 
-	I2->setupAttribPointer();
 	I2->translate(-2, 0, 0);
 
 	UnitCubeModel* iTop2 = new UnitCubeModel();
@@ -622,6 +633,8 @@ WorldModel::WorldModel() {
 	SimpleModel* three2 = new SimpleModel();
 	SimpleModel* threeTopDiv2 = new SimpleModel();
 	SimpleModel* threeBottomDiv2 = new SimpleModel();
+	three2->setTexture(goldTextureID);
+	texturedElement.push_back(three2);
 
 	UnitCubeModel* threeRightTop2 = new UnitCubeModel();
 	threeRightTop2->scale(1, 3, 1);
@@ -694,6 +707,8 @@ WorldModel::WorldModel() {
 	SimpleModel* D = new SimpleModel();
 	SimpleModel* dTopDiv = new SimpleModel();
 	SimpleModel* dBottomDiv = new SimpleModel();
+	D->setTexture(boxTextureID);
+	texturedElement.push_back(D);
 
 	UnitCubeModel* dLeftTop = new UnitCubeModel();
 	UnitCubeModel* dLeftBottom = new UnitCubeModel();
@@ -743,6 +758,8 @@ WorldModel::WorldModel() {
 	SimpleModel* eight = new SimpleModel();
 	SimpleModel* eightTopDiv = new SimpleModel();
 	SimpleModel* eightBottomDiv = new SimpleModel();
+	eight->setTexture(goldTextureID);
+	texturedElement.push_back(eight);
 
 	UnitCubeModel* eightRightTop = new UnitCubeModel();
 	UnitCubeModel* eightRightBottom = new UnitCubeModel();
