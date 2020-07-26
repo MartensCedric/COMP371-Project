@@ -291,14 +291,8 @@ int main(int argc, char*argv[])
 
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 
-	//----------Camera setup----------
-	camera = new Camera(windowWidth, windowHeight);
-	world = new WorldModel();
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-
-	world->setCamera(camera);
-
 	unsigned int shadowMapFBO;
 	glGenFramebuffers(1, &shadowMapFBO);
 	
@@ -327,7 +321,7 @@ int main(int argc, char*argv[])
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
 	world->setPlaneShader(textureLightShader);
-	world->setModelShader(textureLightShader);
+	//world->setModelShader(textureLightShader);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;

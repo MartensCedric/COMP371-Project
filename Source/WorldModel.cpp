@@ -212,18 +212,24 @@ WorldModel::WorldModel() {
 	plane->setTexture(grassTextureID);
 	plane->translate(0, 0.1, 0);
 	texturedElement.push_back(plane);
-	//addChild(plane);
+	addChild(plane);
 
 	grid = new GridModel();
-	//addChild(grid);
+	addChild(grid);
 	
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
-	//addChild(axes);
+	addChild(axes);
 
 	// Alpha numerical models
 	// Splitting each model in two: 2/3 assigned to the bottom, the remainder 1/3 to the top
-	SimpleModel E5, E5top, E5bottom, I31, I32, T5, D8;
+	SimpleModel* E5 = new SimpleModel();
+	SimpleModel* E5top = new SimpleModel();
+	SimpleModel* E5bottom = new SimpleModel();
+	SimpleModel* I31 = new SimpleModel();
+	SimpleModel* I32 = new SimpleModel();
+	SimpleModel* T5 = new SimpleModel();
+	SimpleModel* D8 = new SimpleModel();
 	
 	/* 
 	 * ----------------------------------------------------
@@ -247,82 +253,88 @@ WorldModel::WorldModel() {
 
 
 	//Draw a T
-	SimpleModel T, tTopDiv, tBottomDiv;
-	T.setupAttribPointer();
-	T.translate(-2, 0, 0);
+	SimpleModel* T = new SimpleModel();
+	SimpleModel* tTopDiv = new SimpleModel();
+	SimpleModel* tBottomDiv = new SimpleModel();
 
-	UnitCubeModel tTop;
-	tTop.scale(4, 1, 1);
-	tTop.translate(0, 3, 0);
+	T->setupAttribPointer();
+	T->translate(-2, 0, 0);
 
-	UnitCubeModel tMiddle;
-	tMiddle.scale(1, 3, 1);
-	tMiddle.translate(0, 2, 0);
+	UnitCubeModel* tTop = new UnitCubeModel();
+	tTop->scale(4, 1, 1);
+	tTop->translate(0, 3, 0);
 
-	UnitCubeModel tBottom;
-	tBottom.scale(1, 4, 1);
-	tBottom.translate(0, -1.5, 0);
+	UnitCubeModel* tMiddle = new UnitCubeModel();
+	tMiddle->scale(1, 3, 1);
+	tMiddle->translate(0, 2, 0);
 
-	tTopDiv.addChild(&tTop);
-	tTopDiv.addChild(&tMiddle);
-	tBottomDiv.addChild(&tBottom);
+	UnitCubeModel* tBottom = new UnitCubeModel();
+	tBottom->scale(1, 4, 1);
+	tBottom->translate(0, -1.5, 0);
 
-	T.addChild(&tTopDiv);
-	T.addChild(&tBottomDiv);
+	tTopDiv->addChild(tTop);
+	tTopDiv->addChild(tMiddle);
+	tBottomDiv->addChild(tBottom);
 
-	modelsBottom.push_back(&tBottomDiv);
-	modelsTop.push_back(&tTopDiv);
+	T->addChild(tTopDiv);
+	T->addChild(tBottomDiv);
 
-	T5.addChild(&T);
+	modelsBottom.push_back(tBottomDiv);
+	modelsTop.push_back(tTopDiv);
+
+	T5->addChild(T);
 
 	// Draw a 5
-	SimpleModel tFive, tFiveTopDiv, tFiveBottomDiv;
-	tFive.setupAttribPointer();
-	tFive.translate(2, 0, 0);
+	SimpleModel* tFive = new SimpleModel();
+	SimpleModel* tFiveTopDiv = new SimpleModel();
+	SimpleModel* tFiveBottomDiv = new SimpleModel();
 
-	UnitCubeModel tFiveLeft;
-	tFiveLeft.scale(1, 2.5, 1);
-	tFiveLeft.translate(0, 1.75, 0);
+	tFive->setupAttribPointer();
+	tFive->translate(2, 0, 0);
 
-	UnitCubeModel tFiveRight;
-	tFiveRight.scale(1, 2, 1);
-	tFiveRight.translate(2, -1.5, 0);
+	UnitCubeModel* tFiveLeft = new UnitCubeModel();
+	tFiveLeft->scale(1, 2.5, 1);
+	tFiveLeft->translate(0, 1.75, 0);
 
-	UnitCubeModel tFiveTop;
-	tFiveTop.scale(3, 1, 1);
-	tFiveTop.translate(1, 3, 0);
+	UnitCubeModel* tFiveRight = new UnitCubeModel();
+	tFiveRight->scale(1, 2, 1);
+	tFiveRight->translate(2, -1.5, 0);
 
-	UnitCubeModel tFiveMiddle;
-	tFiveMiddle.scale(3, 1, 1);
-	tFiveMiddle.translate(1, 0, 0);
+	UnitCubeModel* tFiveTop = new UnitCubeModel();
+	tFiveTop->scale(3, 1, 1);
+	tFiveTop->translate(1, 3, 0);
 
-	UnitCubeModel tFiveBottom;
-	tFiveBottom.scale(3, 1, 1);
-	tFiveBottom.translate(1, -3, 0);
+	UnitCubeModel* tFiveMiddle = new UnitCubeModel();
+	tFiveMiddle->scale(3, 1, 1);
+	tFiveMiddle->translate(1, 0, 0);
 
-	tFiveTopDiv.addChild(&tFiveLeft);
-	tFiveTopDiv.addChild(&tFiveTop);
-	tFiveBottomDiv.addChild(&tFiveMiddle);
-	tFiveBottomDiv.addChild(&tFiveRight);
-	tFiveBottomDiv.addChild(&tFiveBottom);
+	UnitCubeModel* tFiveBottom = new UnitCubeModel();
+	tFiveBottom->scale(3, 1, 1);
+	tFiveBottom->translate(1, -3, 0);
 
-	tFive.addChild(&tFiveTopDiv);
-	tFive.addChild(&tFiveBottomDiv);
+	tFiveTopDiv->addChild(tFiveLeft);
+	tFiveTopDiv->addChild(tFiveTop);
+	tFiveBottomDiv->addChild(tFiveMiddle);
+	tFiveBottomDiv->addChild(tFiveRight);
+	tFiveBottomDiv->addChild(tFiveBottom);
 
-	T5.addChild(&tFive);
+	tFive->addChild(tFiveTopDiv);
+	tFive->addChild(tFiveBottomDiv);
 
-	T5.translate(-25, 3.5, -25);
+	T5->addChild(tFive);
 
-	modelsBottom.push_back(&tFiveBottomDiv);
-	modelsTop.push_back(&tFiveTopDiv);
-	models.push_back(&T5);
+	T5->translate(-25, 3.5, -25);
+
+	modelsBottom.push_back(tFiveBottomDiv);
+	modelsTop.push_back(tFiveTopDiv);
+	models.push_back(T5);
 
 	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
 	sphere_4->translate(0, 4, 0);
 	spheres.push_back(sphere_4);
-	T5.addChild(sphere_4);
+	T5->addChild(sphere_4);
 
-	T5.translate(-18, 3.5, -18);
+	T5->translate(-18, 3.5, -18);
 
 	/* 
 	 * ----------------------------------------------------
@@ -345,87 +357,92 @@ WorldModel::WorldModel() {
 	I3->addChild(three);*/
 
 	//Draw an I
-	SimpleModel I, iTopDiv, iBottomDiv;
-	iTopDiv.setupAttribPointer();
-	iBottomDiv.setupAttribPointer();
-	I.setupAttribPointer();
+	SimpleModel* I = new SimpleModel();
+	SimpleModel* iTopDiv = new SimpleModel();
+	SimpleModel* iBottomDiv = new SimpleModel();
+	iTopDiv->setupAttribPointer();
+	iBottomDiv->setupAttribPointer();
+	I->setupAttribPointer();
 
-	I.translate(-2, 0, 0);
+	I->translate(-2, 0, 0);
 
-	UnitCubeModel iTop;
-	iTop.scale(2, 1, 1);
-	iTop.translate(0, 3, 0);
+	UnitCubeModel* iTop = new UnitCubeModel();
+	iTop->scale(2, 1, 1);
+	iTop->translate(0, 3, 0);
 
-	UnitCubeModel iMiddleTop, iMiddleBottom;
-	iMiddleTop.scale(1, 2, 1);
-	iMiddleTop.translate(0, 2, 0);
-	iMiddleBottom.scale(1, 4, 1);
-	iMiddleBottom.translate(0, -1, 0);
+	UnitCubeModel* iMiddleTop = new UnitCubeModel();
+	UnitCubeModel* iMiddleBottom = new UnitCubeModel();
+	iMiddleTop->scale(1, 2, 1);
+	iMiddleTop->translate(0, 2, 0);
+	iMiddleBottom->scale(1, 4, 1);
+	iMiddleBottom->translate(0, -1, 0);
 
-	UnitCubeModel iBottom;
-	iBottom.scale(2, 1, 1);
-	iBottom.translate(0, -3, 0);
+	UnitCubeModel* iBottom = new UnitCubeModel();
+	iBottom->scale(2, 1, 1);
+	iBottom->translate(0, -3, 0);
 
-	iTopDiv.addChild(&iTop);
-	iTopDiv.addChild(&iMiddleTop);
+	iTopDiv->addChild(iTop);
+	iTopDiv->addChild(iMiddleTop);
 
-	iBottomDiv.addChild(&iMiddleBottom);
-	iBottomDiv.addChild(&iBottom);
+	iBottomDiv->addChild(iMiddleBottom);
+	iBottomDiv->addChild(iBottom);
 
-	I.addChild(&iTopDiv);
-	I.addChild(&iBottomDiv);
+	I->addChild(iTopDiv);
+	I->addChild(iBottomDiv);
 
-	I31.addChild(&I);
+	I31->addChild(I);
 
-	modelsTop.push_back(&iTopDiv);
-	modelsBottom.push_back(&iBottomDiv);
+	modelsTop.push_back(iTopDiv);
+	modelsBottom.push_back(iBottomDiv);
 
 	//Draw a 3
-	SimpleModel three, threeTopDiv, threeBottomDiv;
+	SimpleModel* three = new SimpleModel();
+	SimpleModel* threeTopDiv = new SimpleModel();
+	SimpleModel* threeBottomDiv = new SimpleModel();
 
-	UnitCubeModel threeRightTop;
-	threeRightTop.scale(1, 3, 1);
-	threeRightTop.translate(2, 2, 0);
+	UnitCubeModel* threeRightTop = new UnitCubeModel();
+	threeRightTop->scale(1, 3, 1);
+	threeRightTop->translate(2, 2, 0);
 
-	UnitCubeModel threeRightBottom;
-	threeRightBottom.scale(1, 3, 1);
-	threeRightBottom.translate(2, -2, 0);
+	UnitCubeModel* threeRightBottom = new UnitCubeModel();
+	threeRightBottom->scale(1, 3, 1);
+	threeRightBottom->translate(2, -2, 0);
 
-	UnitCubeModel threeTop;
-	threeTop.scale(3, 1, 1);
-	threeTop.translate(1, 3, 0);
+	UnitCubeModel* threeTop = new UnitCubeModel();
+	threeTop->scale(3, 1, 1);
+	threeTop->translate(1, 3, 0);
 
-	UnitCubeModel threeMiddle;
-	threeMiddle.scale(3, 1, 1);
-	threeMiddle.translate(1, 0, 0);
+	UnitCubeModel* threeMiddle = new UnitCubeModel();
+	threeMiddle->scale(3, 1, 1);
+	threeMiddle->translate(1, 0, 0);
 
-	UnitCubeModel threeBottom;
-	threeBottom.scale(3, 1, 1);
-	threeBottom.translate(1, -3, 0);
+	UnitCubeModel* threeBottom = new UnitCubeModel();
+	threeBottom->scale(3, 1, 1);
+	threeBottom->translate(1, -3, 0);
 
-	threeTopDiv.addChild(&threeTop);
-	threeTopDiv.addChild(&threeRightTop);
-	threeBottomDiv.addChild(&threeRightBottom);
-	threeBottomDiv.addChild(&threeMiddle);
-	threeBottomDiv.addChild(&threeBottom);
+	threeTopDiv->addChild(threeTop);
+	threeTopDiv->addChild(threeRightTop);
+	threeBottomDiv->addChild(threeRightBottom);
+	threeBottomDiv->addChild(threeMiddle);
+	threeBottomDiv->addChild(threeBottom);
 
-	three.addChild(&threeBottomDiv);
-	three.addChild(&threeTopDiv);
+	three->addChild(threeBottomDiv);
+	three->addChild(threeTopDiv);
 
-	I31.addChild(&three);
+	I31->addChild(three);
 
-	modelsBottom.push_back(&threeBottomDiv);
-	modelsTop.push_back(&threeTopDiv);
+	modelsBottom.push_back(threeBottomDiv);
+	modelsTop.push_back(threeTopDiv);
 
-	I31.translate(25, 3.5, -25);
+	I31->translate(25, 3.5, -25);
 
 	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
 	sphere_1->translate(0, 4, 0);
 	spheres.push_back(sphere_1);
-	I31.addChild(sphere_1);
+	I31->addChild(sphere_1);
 
-	I31.translate(18, 3.5, -18);
-	models.push_back(&I31);
+	I31->translate(18, 3.5, -18);
+	models.push_back(I31);
 
 	/* 
 	 * ----------------------------------------------------
@@ -449,96 +466,99 @@ WorldModel::WorldModel() {
 
 	// Draw an E
 	// split top/bot divisions
-	SimpleModel E, eTopDiv, eBottomDiv;
-	eTopDiv.setupAttribPointer();
-	eBottomDiv.setupAttribPointer();
+	SimpleModel* E = new SimpleModel();
+	SimpleModel* eTopDiv = new SimpleModel();
+	SimpleModel* eBottomDiv = new SimpleModel();
 
-	UnitCubeModel eLeftTop;
-	eLeftTop.scale(1, 3, 1);
-	eLeftTop.translate(0, 2, 0);
+	eTopDiv->setupAttribPointer();
+	eBottomDiv->setupAttribPointer();
 
-	UnitCubeModel eLeftBottom;
-	eLeftBottom.scale(1, 3, 1);
-	eLeftBottom.translate(0, -2, 0);
+	UnitCubeModel* eLeftTop = new UnitCubeModel();
+	eLeftTop->scale(1, 3, 1);
+	eLeftTop->translate(0, 2, 0);
 
-	UnitCubeModel eTop;
-	eTop.scale(3, 1, 1);
-	eTop.translate(1, 3, 0);
+	UnitCubeModel* eLeftBottom = new UnitCubeModel();
+	eLeftBottom->scale(1, 3, 1);
+	eLeftBottom->translate(0, -2, 0);
 
-	UnitCubeModel eMiddle;
-	eMiddle.scale(3, 1, 1);
-	eMiddle.translate(1, 0, 0);
+	UnitCubeModel* eTop = new UnitCubeModel();
+	eTop->scale(3, 1, 1);
+	eTop->translate(1, 3, 0);
 
-	UnitCubeModel eBottom;
-	eBottom.scale(3, 1, 1);
-	eBottom.translate(1, -3, 0);
+	UnitCubeModel* eMiddle = new UnitCubeModel();
+	eMiddle->scale(3, 1, 1);
+	eMiddle->translate(1, 0, 0);
 
-	eTopDiv.addChild(&eLeftTop);
-	eTopDiv.addChild(&eTop);
-	eBottomDiv.addChild(&eLeftBottom);
-	eBottomDiv.addChild(&eMiddle);
-	eBottomDiv.addChild(&eBottom);
+	UnitCubeModel* eBottom = new UnitCubeModel();
+	eBottom->scale(3, 1, 1);
+	eBottom->translate(1, -3, 0);
 
-	E.addChild(&eTopDiv);
-	E.addChild(&eBottomDiv);
+	eTopDiv->addChild(eLeftTop);
+	eTopDiv->addChild(eTop);
+	eBottomDiv->addChild(eLeftBottom);
+	eBottomDiv->addChild(eMiddle);
+	eBottomDiv->addChild(eBottom);
 
-	eTopDiv.translate(-3.5, 0, 0);
-	eBottomDiv.translate(-3.5, 0, 0);
+	E->addChild(eTopDiv);
+	E->addChild(eBottomDiv);
 
-	E5.addChild(&E);
+	eTopDiv->translate(-3.5, 0, 0);
+	eBottomDiv->translate(-3.5, 0, 0);
 
-	modelsTop.push_back(&eTopDiv);
-	modelsBottom.push_back(&eBottomDiv);
+	E5->addChild(E);
+
+	modelsTop.push_back(eTopDiv);
+	modelsBottom.push_back(eBottomDiv);
 
 	// Draw a 5
 	///*
-	SimpleModel five, fiveTopDiv, fiveBottomDiv;
-	fiveTopDiv.setupAttribPointer();
-	fiveBottomDiv.setupAttribPointer();
+	SimpleModel* five = new SimpleModel();
+	SimpleModel* fiveTopDiv = new SimpleModel();
+	SimpleModel* fiveBottomDiv = new SimpleModel();
 
-	UnitCubeModel fiveLeft;
-	fiveLeft.scale(1, 2.5, 1);
-	fiveLeft.translate(0, 1.25, 0);
+	UnitCubeModel* fiveLeft = new UnitCubeModel();
+	fiveLeft->scale(1, 2.5, 1);
+	fiveLeft->translate(0, 1.25, 0);
 
-	UnitCubeModel fiveRight;
-	fiveRight.scale(1, 2.5, 1);
-	fiveRight.translate(2, -1.25, 0);
+	UnitCubeModel* fiveRight = new UnitCubeModel();
+	fiveRight->scale(1, 2.5, 1);
+	fiveRight->translate(2, -1.25, 0);
 
-	UnitCubeModel fiveTop;
-	fiveTop.scale(3, 1, 1);
-	fiveTop.translate(1, 3, 0);
+	UnitCubeModel* fiveTop = new UnitCubeModel();
+	fiveTop->scale(3, 1, 1);
+	fiveTop->translate(1, 3, 0);
 
-	UnitCubeModel fiveMiddle;
-	fiveMiddle.scale(3, 1, 1);
-	fiveMiddle.translate(1, 0, 0);
+	UnitCubeModel* fiveMiddle = new UnitCubeModel();
+	fiveMiddle->scale(3, 1, 1);
+	fiveMiddle->translate(1, 0, 0);
 
-	UnitCubeModel fiveBottom;
-	fiveBottom.scale(3, 1, 1);
-	fiveBottom.translate(1, -3, 0);
+	UnitCubeModel* fiveBottom = new UnitCubeModel();
+	fiveBottom->scale(3, 1, 1);
+	fiveBottom->translate(1, -3, 0);
 
-	fiveTopDiv.addChild(&fiveLeft);
-	fiveBottomDiv.addChild(&fiveRight);
-	fiveTopDiv.addChild(&fiveTop);
-	fiveBottomDiv.addChild(&fiveMiddle);
-	fiveBottomDiv.addChild(&fiveBottom);
+	fiveTopDiv->addChild(fiveLeft);
+	fiveBottomDiv->addChild(fiveRight);
+	fiveTopDiv->addChild(fiveTop);
+	fiveBottomDiv->addChild(fiveMiddle);
+	fiveBottomDiv->addChild(fiveBottom);
 
-	fiveTopDiv.translate(1.5, 0, 0);
-	fiveBottomDiv.translate(1.5, 0, 0);
+	fiveTopDiv->translate(1.5, 0, 0);
+	fiveBottomDiv->translate(1.5, 0, 0);
 
-	five.addChild(&fiveTopDiv);
-	five.addChild(&fiveBottomDiv);
-	E5.addChild(&five);
+	five->addChild(fiveTopDiv);
+	five->addChild(fiveBottomDiv);
+	E5->addChild(five);
 
-	modelsTop.push_back(&fiveTopDiv);
-	modelsBottom.push_back(&fiveBottomDiv);
+	modelsTop.push_back(fiveTopDiv);
+	modelsBottom.push_back(fiveBottomDiv);
 
 	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
 	sphere->translate(0, 4, 0);
 	spheres.push_back(sphere);
-	E5.addChild(sphere);
+	E5->addChild(sphere);
 
-	E5.translate(0, 3.5, 0);
-	models.push_back(&E5);
+	E5->translate(0, 3.5, 0);
+	models.push_back(E5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -561,88 +581,94 @@ WorldModel::WorldModel() {
 	I3_2->addChild(three_2);*/
 
 	//Draw an I
-	SimpleModel I2, iTopDiv2, iBottomDiv2;
-	I2.setupAttribPointer();
-	I2.translate(-2, 0, 0);
+	SimpleModel* I2 = new SimpleModel();
+	SimpleModel* iTopDiv2 = new SimpleModel();
+	SimpleModel* iBottomDiv2 = new SimpleModel();
 
-	UnitCubeModel iTop2;
-	iTop2.scale(2, 1, 1);
-	iTop2.translate(0, 3, 0);
+	I2->setupAttribPointer();
+	I2->translate(-2, 0, 0);
 
-	UnitCubeModel iMiddleTop2, iMiddleBottom2;
-	iMiddleTop2.scale(1, 4, 1);
-	iMiddleTop2.translate(0, 1, 0);
-	iMiddleBottom2.scale(1, 2, 1);
-	iMiddleBottom2.translate(0, -2, 0);
+	UnitCubeModel* iTop2 = new UnitCubeModel();
+	iTop2->scale(2, 1, 1);
+	iTop2->translate(0, 3, 0);
 
+	UnitCubeModel* iMiddleTop2 = new UnitCubeModel();
+	UnitCubeModel* iMiddleBottom2 = new UnitCubeModel();
 
-	UnitCubeModel iBottom2;
-	iBottom2.scale(2, 1, 1);
-	iBottom2.translate(0, -3, 0);
+	iMiddleTop2->scale(1, 4, 1);
+	iMiddleTop2->translate(0, 1, 0);
+	iMiddleBottom2->scale(1, 2, 1);
+	iMiddleBottom2->translate(0, -2, 0);
+
+	UnitCubeModel* iBottom2 = new UnitCubeModel();
+	iBottom2->scale(2, 1, 1);
+	iBottom2->translate(0, -3, 0);
 
 	// this is backwards because of the final 180 rotate at the end
-	iTopDiv2.addChild(&iMiddleBottom2);
-	iTopDiv2.addChild(&iBottom2);
-	iBottomDiv2.addChild(&iTop2);
-	iBottomDiv2.addChild(&iMiddleTop2);
+	iTopDiv2->addChild(iMiddleBottom2);
+	iTopDiv2->addChild(iBottom2);
+	iBottomDiv2->addChild(iTop2);
+	iBottomDiv2->addChild(iMiddleTop2);
 
-	I2.addChild(&iTopDiv2);
-	I2.addChild(&iBottomDiv2);
+	I2->addChild(iTopDiv2);
+	I2->addChild(iBottomDiv2);
 
-	modelsBottom.push_back(&iBottomDiv2);
-	modelsTop.push_back(&iTopDiv2);
+	modelsBottom.push_back(iBottomDiv2);
+	modelsTop.push_back(iTopDiv2);
 
-	I32.addChild(&I2);
+	I32->addChild(I2);
 
 	//Draw a 3
-	SimpleModel three2, threeTopDiv2, threeBottomDiv2;
+	SimpleModel* three2 = new SimpleModel();
+	SimpleModel* threeTopDiv2 = new SimpleModel();
+	SimpleModel* threeBottomDiv2 = new SimpleModel();
 
-	UnitCubeModel threeRightTop2;
-	threeRightTop2.scale(1, 3, 1);
-	threeRightTop2.translate(2, 2, 0);
+	UnitCubeModel* threeRightTop2 = new UnitCubeModel();
+	threeRightTop2->scale(1, 3, 1);
+	threeRightTop2->translate(2, 2, 0);
 
-	UnitCubeModel threeRightBottom2;
-	threeRightBottom2.scale(1, 3, 1);
-	threeRightBottom2.translate(2, -2, 0);
+	UnitCubeModel* threeRightBottom2 = new UnitCubeModel();
+	threeRightBottom2->scale(1, 3, 1);
+	threeRightBottom2->translate(2, -2, 0);
 
-	UnitCubeModel threeTop2;
-	threeTop2.scale(3, 1, 1);
-	threeTop2.translate(1, 3, 0);
+	UnitCubeModel* threeTop2 = new UnitCubeModel();
+	threeTop2->scale(3, 1, 1);
+	threeTop2->translate(1, 3, 0);
 
-	UnitCubeModel threeMiddle2;
-	threeMiddle2.scale(3, 1, 1);
-	threeMiddle2.translate(1, 0, 0);
+	UnitCubeModel* threeMiddle2 = new UnitCubeModel();
+	threeMiddle2->scale(3, 1, 1);
+	threeMiddle2->translate(1, 0, 0);
 
-	UnitCubeModel threeBottom2;
-	threeBottom2.scale(3, 1, 1);
-	threeBottom2.translate(1, -3, 0);
+	UnitCubeModel* threeBottom2 = new UnitCubeModel();
+	threeBottom2->scale(3, 1, 1);
+	threeBottom2->translate(1, -3, 0);
 
 	// this is backwards because of the final 180 rotate at the end
-	threeTopDiv2.addChild(&threeRightBottom2);
-	threeTopDiv2.addChild(&threeMiddle2);
-	threeTopDiv2.addChild(&threeBottom2);
-	threeBottomDiv2.addChild(&threeTop2);
-	threeBottomDiv2.addChild(&threeRightTop2);
+	threeTopDiv2->addChild(threeRightBottom2);
+	threeTopDiv2->addChild(threeMiddle2);
+	threeTopDiv2->addChild(threeBottom2);
+	threeBottomDiv2->addChild(threeTop2);
+	threeBottomDiv2->addChild(threeRightTop2);
 
-	three2.addChild(&threeTopDiv2);
-	three2.addChild(&threeBottomDiv2);
+	three2->addChild(threeTopDiv2);
+	three2->addChild(threeBottomDiv2);
 
-	three2.translate(2, 0, 0);
+	three2->translate(2, 0, 0);
 
-	I32.addChild(&three2);
-	I32.translate(25, 3.5, 25);
-	I32.rotate(0, 0, 1, 180.0f);
+	I32->addChild(three2);
+	I32->translate(25, 3.5, 25);
+	I32->rotate(0, 0, 1, 180.0f);
 
-	modelsBottom.push_back(&threeBottomDiv2);
-	modelsTop.push_back(&threeTopDiv2);
+	modelsBottom.push_back(threeBottomDiv2);
+	modelsTop.push_back(threeTopDiv2);
 
 	SphereModel* sphere_2 = new SphereModel(6.0f, 36, 18);
 	sphere_2->translate(0, 4, 0);
 	spheres.push_back(sphere_2);
-	I32.addChild(sphere_2);
+	I32->addChild(sphere_2);
 
-	I32.translate(18, 3.5, 18);
-	models.push_back(&I32);
+	I32->translate(18, 3.5, 18);
+	models.push_back(I32);
 
 	/* 
 	 * ----------------------------------------------------
@@ -665,109 +691,117 @@ WorldModel::WorldModel() {
 	D8->addChild(eight);*/
 
 	//Draw a D
-	SimpleModel D, dTopDiv, dBottomDiv;
-	D.setupAttribPointer();
+	SimpleModel* D = new SimpleModel();
+	SimpleModel* dTopDiv = new SimpleModel();
+	SimpleModel* dBottomDiv = new SimpleModel();
+
+	UnitCubeModel* dLeftTop = new UnitCubeModel();
+	UnitCubeModel* dLeftBottom = new UnitCubeModel();
+
+	dLeftBottom->scale(1, 3.55, 1);
+	dLeftBottom->translate(0, -1.5, 0);
+	dLeftTop->scale(1, 3.55, 1);
+	dLeftTop->translate(0, 1.5, 0);
+
+	UnitCubeModel* dRightTop = new UnitCubeModel();
+	UnitCubeModel* dRightBottom = new UnitCubeModel();
+
+	dRightTop->scale(1, 2.75, 1);
+	dRightTop->translate(2.3, 1.25, 0);
+
+	dRightBottom->scale(1, 2.75, 1);
+	dRightBottom->translate(2.3, -1.25, 0);
+
+	UnitCubeModel* dTop = new UnitCubeModel();
+	dTop->scale(3, 1, 1);
+	dTop->translate(1.2, 2.83, 0);
+	dTop->rotate(0, 0, 1, -11);
 
 
-	UnitCubeModel dLeftTop, dLeftBottom;
-	dLeftBottom.scale(1, 3.55, 1);
-	dLeftBottom.translate(0, -1.5, 0);
-	dLeftTop.scale(1, 3.55, 1);
-	dLeftTop.translate(0, 1.5, 0);
+	UnitCubeModel* dBottom = new UnitCubeModel();
+	dBottom->scale(3, 1, 1);
+	dBottom->translate(1.2, -2.83, 0);
+	dBottom->rotate(0, 0, 1, 11);
 
-	UnitCubeModel dRightTop, dRightBottom;
-	dRightTop.scale(1, 2.75, 1);
-	dRightTop.translate(2.3, 1.25, 0);
+	dTopDiv->addChild(dLeftTop);
+	dTopDiv->addChild(dTop);
+	dTopDiv->addChild(dRightTop);
+	dBottomDiv->addChild(dBottom);
+	dBottomDiv->addChild(dRightBottom);
+	dBottomDiv->addChild(dLeftBottom);
 
-	dRightBottom.scale(1, 2.75, 1);
-	dRightBottom.translate(2.3, -1.25, 0);
+	D->addChild(dBottomDiv);
+	D->addChild(dTopDiv);
 
-	UnitCubeModel dTop;
-	dTop.scale(3, 1, 1);
-	dTop.translate(1.2, 2.83, 0);
-	dTop.rotate(0, 0, 1, -11);
+	modelsTop.push_back(dTopDiv);
+	modelsBottom.push_back(dBottomDiv);
 
-
-	UnitCubeModel dBottom;
-	dBottom.scale(3, 1, 1);
-	dBottom.translate(1.2, -2.83, 0);
-	dBottom.rotate(0, 0, 1, 11);
-
-	dTopDiv.addChild(&dLeftTop);
-	dTopDiv.addChild(&dTop);
-	dTopDiv.addChild(&dRightTop);
-	dBottomDiv.addChild(&dBottom);
-	dBottomDiv.addChild(&dRightBottom);
-	dBottomDiv.addChild(&dLeftBottom);
-
-	D.addChild(&dBottomDiv);
-	D.addChild(&dTopDiv);
-
-	modelsTop.push_back(&dTopDiv);
-	modelsBottom.push_back(&dBottomDiv);
-
-	D.translate(-3.5, 0, 0);
-	D8.addChild(&D);
+	D->translate(-3.5, 0, 0);
+	D8->addChild(D);
 
 	// Draw a 8
-	SimpleModel eight, eightTopDiv, eightBottomDiv;
-	eight.setupAttribPointer();
+	SimpleModel* eight = new SimpleModel();
+	SimpleModel* eightTopDiv = new SimpleModel();
+	SimpleModel* eightBottomDiv = new SimpleModel();
 
-	UnitCubeModel eightRightTop, eightRightBottom;
-	eightRightTop.scale(1, 2.5, 1);
-	eightRightTop.translate(2, 1.5, 0);
-	eightRightBottom.scale(1, 2.5, 1);
-	eightRightBottom.translate(2, -1.5, 0);
+	UnitCubeModel* eightRightTop = new UnitCubeModel();
+	UnitCubeModel* eightRightBottom = new UnitCubeModel();
 
-	UnitCubeModel eightLeftTop, eightLeftBottom;
-	eightLeftTop.scale(1, 2.5, 1);
-	eightLeftTop.translate(0, 1.5, 0);
-	eightLeftBottom.scale(1, 2.5, 1);
-	eightLeftBottom.translate(0, -1.5, 0);
+	eightRightTop->scale(1, 2.5, 1);
+	eightRightTop->translate(2, 1.5, 0);
+	eightRightBottom->scale(1, 2.5, 1);
+	eightRightBottom->translate(2, -1.5, 0);
 
-	UnitCubeModel eightTop;
-	eightTop.scale(3, 1, 1);
-	eightTop.translate(1, 3, 0);
+	UnitCubeModel* eightLeftTop = new UnitCubeModel();
+	UnitCubeModel* eightLeftBottom = new UnitCubeModel();
+	eightLeftTop->scale(1, 2.5, 1);
+	eightLeftTop->translate(0, 1.5, 0);
+	eightLeftBottom->scale(1, 2.5, 1);
+	eightLeftBottom->translate(0, -1.5, 0);
 
-	UnitCubeModel eightMiddle;
-	eightMiddle.scale(3, 1, 1);
-	eightMiddle.translate(1, 0, 0);
+	UnitCubeModel* eightTop = new UnitCubeModel();
+	eightTop->scale(3, 1, 1);
+	eightTop->translate(1, 3, 0);
 
-	UnitCubeModel eightBottom;
-	eightBottom.scale(3, 1, 1);
-	eightBottom.translate(1, -3, 0);
+	UnitCubeModel* eightMiddle = new UnitCubeModel();
+	eightMiddle->scale(3, 1, 1);
+	eightMiddle->translate(1, 0, 0);
 
-	eightTopDiv.addChild(&eightTop);
-	eightTopDiv.addChild(&eightRightTop);
-	eightTopDiv.addChild(&eightLeftTop);
-	eightBottomDiv.addChild(&eightMiddle);
-	eightBottomDiv.addChild(&eightBottom);
-	eightBottomDiv.addChild(&eightRightBottom);
-	eightBottomDiv.addChild(&eightLeftBottom);
+	UnitCubeModel* eightBottom = new UnitCubeModel();
+	eightBottom->scale(3, 1, 1);
+	eightBottom->translate(1, -3, 0);
 
-	eight.addChild(&eightTopDiv);
-	eight.addChild(&eightBottomDiv);
-	eight.translate(1.5, 0, 0);
+	eightTopDiv->addChild(eightTop);
+	eightTopDiv->addChild(eightRightTop);
+	eightTopDiv->addChild(eightLeftTop);
+	eightBottomDiv->addChild(eightMiddle);
+	eightBottomDiv->addChild(eightBottom);
+	eightBottomDiv->addChild(eightRightBottom);
+	eightBottomDiv->addChild(eightLeftBottom);
 
-	D8.addChild(&eight);
-	D8.translate(-25, 3.5, 25);
-	D8.rotate(0, 1, 0, 175);
+	eight->addChild(eightTopDiv);
+	eight->addChild(eightBottomDiv);
+	eight->translate(1.5, 0, 0);
 
-	modelsBottom.push_back(&eightBottomDiv);
-	modelsTop.push_back(&eightTopDiv);
+	D8->addChild(eight);
+	D8->translate(-25, 3.5, 25);
+	D8->rotate(0, 1, 0, 175);
+
+	modelsBottom.push_back(eightBottomDiv);
+	modelsTop.push_back(eightTopDiv);
 
 	SphereModel* sphere_3 = new SphereModel(6.0f, 36, 18);
 	sphere_3->translate(0, 4, 0);
 	spheres.push_back(sphere_3);	
-	D8.addChild(sphere_3);
+	D8->addChild(sphere_3);
 
-	D8.translate(-18, 3.5, 18);
-	models.push_back(&D8);
+	D8->translate(-18, 3.5, 18);
+	models.push_back(D8);
 
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		//addChild(*it);
+		addChild(*it);
 	}
 };
 
