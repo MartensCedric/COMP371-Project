@@ -50,8 +50,9 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
-int passthroughShader, lightShader, textureShader, textureLightShader;
 bool showTexture = true;
+bool showLight = true;
+bool showShadows = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
@@ -165,23 +166,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 
-	// Toggle Texture
 	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
-		
-		for (auto it = world->texturedElement.begin(); it != world->texturedElement.end(); it++)
-		{
-			if(showTexture) {
-				(*it)->setShader(lightShader);
-			} else {
-				(*it)->setShader(textureLightShader);
-			} 
-		}
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE) {
+		std::cout << "X" << std::endl;
 		showTexture = !showTexture;
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
+		showLight = !showLight;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+		showShadows = !showShadows;
+	}
 }
+
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
 static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) 
@@ -310,6 +308,24 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
+
+		int modelShader = passthroughShader;
+
+		if (showLight && showTexture)
+		{
+			modelShader = textureLightShader;
+		}
+		else if (showLight)
+		{
+			modelShader = lightAffectedShader;
+		}
+		else if (showShadows)
+		{
+			modelShader = shadowShader;
+		}
+
+		world->setPlaneShader(modelShader);
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// We're first going to render the shadow map
@@ -336,7 +352,7 @@ int main(int argc, char*argv[])
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
-			(*it)->setShader(textureLightShader);
+			(*it)->setShader(modelShader);
 		}
 
 		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
