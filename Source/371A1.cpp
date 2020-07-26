@@ -511,16 +511,22 @@ int main(int argc, char*argv[])
 	models.push_back(&I32);
 
 	//Draw a D
-	SimpleModel D;
+	SimpleModel D, dTopDiv, dBottomDiv;
 	D.setupAttribPointer();
 
 
-	UnitCubeModel dLeft;
-	dLeft.scale(1, 7.1, 1);
+	UnitCubeModel dLeftTop, dLeftBottom;
+	dLeftBottom.scale(1, 3.55, 1);
+	dLeftBottom.translate(0, -1.5, 0);
+	dLeftTop.scale(1, 3.55, 1);
+	dLeftTop.translate(0, 1.5, 0);
 
-	UnitCubeModel dRight;
-	dRight.scale(1, 5.5, 1);
-	dRight.translate(2.3, 0, 0);
+	UnitCubeModel dRightTop, dRightBottom;
+	dRightTop.scale(1, 2.75, 1);
+	dRightTop.translate(2.3, 1.25, 0);
+
+	dRightBottom.scale(1, 2.75, 1);
+	dRightBottom.translate(2.3, -1.25, 0);
 
 	UnitCubeModel dTop;
 	dTop.scale(3, 1, 1);
@@ -533,11 +539,18 @@ int main(int argc, char*argv[])
 	dBottom.translate(1.2, -2.83, 0);
 	dBottom.rotate(0, 0, 1, 11);
 
-	D.addChild(&dLeft);
-	D.addChild(&dTop);
-	D.addChild(&dBottom);
-	D.addChild(&dRight);
+	dTopDiv.addChild(&dLeftTop);
+	dTopDiv.addChild(&dTop);
+	dTopDiv.addChild(&dRightTop);
+	dBottomDiv.addChild(&dBottom);
+	dBottomDiv.addChild(&dRightBottom);
+	dBottomDiv.addChild(&dLeftBottom);
 
+	D.addChild(&dBottomDiv);
+	D.addChild(&dTopDiv);
+
+	modelsTop.push_back(&dTopDiv);
+	modelsBottom.push_back(&dBottomDiv);
 
 	D.translate(-3.5, 0, 0);
 	D8.addChild(&D);
