@@ -52,7 +52,6 @@ int windowHeight = 768;
 
 bool showTexture = true;
 bool showLight = true;
-bool showShadows = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
@@ -172,10 +171,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
 		showLight = !showLight;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
-		showShadows = !showShadows;
 	}
 }
 
@@ -324,21 +319,20 @@ int main(int argc, char*argv[])
 		}
 
 		world->setPlaneShader(modelShader);
-		if (showShadows)
-		{
-			glUseProgram(shadowShader);
-			glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-			glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->setShader(shadowShader);
-				(*it)->draw();
-			}
-		
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glUseProgram(shadowShader);
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->setShader(shadowShader);
+			(*it)->draw();
 		}
+		
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

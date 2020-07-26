@@ -1,8 +1,8 @@
 #include "includes/PlaneModel.hpp"
 
 PlaneModel::PlaneModel() {
-	glm::vec4 color = glm::vec4(0, 0, 0, 0);
-    glm::vec3 normal = glm::vec3(0.52f, 0.58f, 0.18f);
+	glm::vec4 color = glm::vec4(0.52, 0.58, 0.18, 1.0);
+    glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.f);
     
 	//This plane appears slightly above other grid
 	//When uv values are larger than one it gets tiled (in this case tiled 8 times in x direction and 8 times in z direction)
