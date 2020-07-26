@@ -167,7 +167,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
-		std::cout << "X" << std::endl;
 		showTexture = !showTexture;
 	}
 
@@ -319,28 +318,27 @@ int main(int argc, char*argv[])
 		{
 			modelShader = lightAffectedShader;
 		}
-		else if (showShadows)
+		else if (showTexture)
 		{
-			modelShader = shadowShader;
+			modelShader = textureShader;
 		}
 
 		world->setPlaneShader(modelShader);
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// We're first going to render the shadow map
-		glUseProgram(shadowShader);
-		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		if (showShadows)
 		{
-			(*it)->setShader(shadowShader);
-			(*it)->draw();
-		}
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glUseProgram(shadowShader);
+			glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+			glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->setShader(shadowShader);
+				(*it)->draw();
+			}
+		
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -357,7 +355,7 @@ int main(int argc, char*argv[])
 
 		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
 		{
-			(*it)->setShader(lightAffectedShader);
+			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
 		}
 
 		// Reorder children based on distance from camera
