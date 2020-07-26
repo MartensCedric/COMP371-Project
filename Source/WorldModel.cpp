@@ -327,8 +327,6 @@ WorldModel::WorldModel() {
 
 	T5->addChild(tFive);
 
-	T5->translate(-25, 3.5, -25);
-
 	modelsBottom.push_back(tFiveBottomDiv);
 	modelsTop.push_back(tFiveTopDiv);
 	models.push_back(T5);
@@ -442,8 +440,6 @@ WorldModel::WorldModel() {
 
 	modelsBottom.push_back(threeBottomDiv);
 	modelsTop.push_back(threeTopDiv);
-
-	I31->translate(25, 3.5, -25);
 
 	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
 	sphere_1->translate(0, 4, 0);
@@ -669,7 +665,6 @@ WorldModel::WorldModel() {
 	three2->translate(2, 0, 0);
 
 	I32->addChild(three2);
-	I32->translate(25, 3.5, 25);
 	I32->rotate(0, 0, 1, 180.0f);
 
 	modelsBottom.push_back(threeBottomDiv2);
@@ -801,7 +796,6 @@ WorldModel::WorldModel() {
 	eight->translate(1.5, 0, 0);
 
 	D8->addChild(eight);
-	D8->translate(-25, 3.5, 25);
 	D8->rotate(0, 1, 0, 175);
 
 	modelsBottom.push_back(eightBottomDiv);
