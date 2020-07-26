@@ -70,7 +70,7 @@ void Model::draw()
 {
 	glUseProgram(shaderId);
 	int modelTextureLoc = glGetUniformLocation(shaderId, "shadow_map");
-	glUniform1i(modelTextureLoc, 0);
+	glUniform1i(modelTextureLoc, 1);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 

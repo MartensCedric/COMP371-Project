@@ -50,8 +50,8 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
-int passthroughShader, lightShader, textureShader, textureLightShader;
 bool showTexture = true;
+bool showLight = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
@@ -165,23 +165,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 
-	// Toggle Texture
 	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
-		
-		for (auto it = world->texturedElement.begin(); it != world->texturedElement.end(); it++)
-		{
-			if(showTexture) {
-				(*it)->setShader(lightShader);
-			} else {
-				(*it)->setShader(textureLightShader);
-			} 
-		}
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE) {
 		showTexture = !showTexture;
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
+		showLight = !showLight;
+	}
 }
+
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
 static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) 
@@ -310,9 +302,24 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// We're first going to render the shadow map
+		int modelShader = passthroughShader;
+
+		if (showLight && showTexture)
+		{
+			modelShader = textureLightShader;
+		}
+		else if (showLight)
+		{
+			modelShader = lightAffectedShader;
+		}
+		else if (showTexture)
+		{
+			modelShader = textureShader;
+		}
+
+		world->setPlaneShader(modelShader);
+
 		glUseProgram(shadowShader);
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
@@ -323,8 +330,9 @@ int main(int argc, char*argv[])
 			(*it)->setShader(shadowShader);
 			(*it)->draw();
 		}
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+		
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -336,12 +344,12 @@ int main(int argc, char*argv[])
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
-			(*it)->setShader(textureLightShader);
+			(*it)->setShader(modelShader);
 		}
 
 		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
 		{
-			(*it)->setShader(lightAffectedShader);
+			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
 		}
 
 		// Reorder children based on distance from camera
