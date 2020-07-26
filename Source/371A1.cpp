@@ -633,17 +633,17 @@ int main(int argc, char*argv[])
 	T5.addChild(&T);
 	
 	// Draw a 5
-	SimpleModel tFive;
+	SimpleModel tFive, tFiveTopDiv, tFiveBottomDiv;
 	tFive.setupAttribPointer();
 	tFive.translate(2, 0, 0);
 
 	UnitCubeModel tFiveLeft;
 	tFiveLeft.scale(1, 2.5, 1);
-	tFiveLeft.translate(0, 1.25, 0);
+	tFiveLeft.translate(0, 1.75, 0);
 
 	UnitCubeModel tFiveRight;
-	tFiveRight.scale(1, 2.5, 1);
-	tFiveRight.translate(2, -1.25, 0);
+	tFiveRight.scale(1, 2, 1);
+	tFiveRight.translate(2, -1.5, 0);
 
 	UnitCubeModel tFiveTop;
 	tFiveTop.scale(3, 1, 1);
@@ -657,15 +657,21 @@ int main(int argc, char*argv[])
 	tFiveBottom.scale(3, 1, 1);
 	tFiveBottom.translate(1, -3, 0);
 
-	tFive.addChild(&tFiveLeft);
-	tFive.addChild(&tFiveRight);
-	tFive.addChild(&tFiveTop);
-	tFive.addChild(&tFiveMiddle);
-	tFive.addChild(&tFiveBottom);
+	tFiveTopDiv.addChild(&tFiveLeft);
+	tFiveTopDiv.addChild(&tFiveTop);
+	tFiveBottomDiv.addChild(&tFiveMiddle);
+	tFiveBottomDiv.addChild(&tFiveRight);
+	tFiveBottomDiv.addChild(&tFiveBottom);
+
+	tFive.addChild(&tFiveTopDiv);
+	tFive.addChild(&tFiveBottomDiv);
 
 	T5.addChild(&tFive);
+
 	T5.translate(-25, 3.5, -25);
 	
+	modelsBottom.push_back(&tFiveBottomDiv);
+	modelsTop.push_back(&tFiveTopDiv);
 	models.push_back(&T5);
 
 	//----------Models----------
