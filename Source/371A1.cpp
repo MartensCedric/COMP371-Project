@@ -556,16 +556,20 @@ int main(int argc, char*argv[])
 	D8.addChild(&D);
 
 	// Draw a 8
-	SimpleModel eight;
+	SimpleModel eight, eightTopDiv, eightBottomDiv;
 	eight.setupAttribPointer();
 
-	UnitCubeModel eightRight;
-	eightRight.scale(1, 5, 1);
-	eightRight.translate(2, 0, 0);
+	UnitCubeModel eightRightTop, eightRightBottom;
+	eightRightTop.scale(1, 2.5, 1);
+	eightRightTop.translate(2, 1.5, 0);
+	eightRightBottom.scale(1, 2.5, 1);
+	eightRightBottom.translate(2, -1.5, 0);
 
-	UnitCubeModel eightLeft;
-	eightLeft.scale(1, 5, 1);
-	eightLeft.translate(0, 0, 0);
+	UnitCubeModel eightLeftTop, eightLeftBottom;
+	eightLeftTop.scale(1, 2.5, 1);
+	eightLeftTop.translate(0, 1.5, 0);
+	eightLeftBottom.scale(1, 2.5, 1);
+	eightLeftBottom.translate(0, -1.5, 0);
 
 	UnitCubeModel eightTop;
 	eightTop.scale(3, 1, 1);
@@ -579,17 +583,24 @@ int main(int argc, char*argv[])
 	eightBottom.scale(3, 1, 1);
 	eightBottom.translate(1, -3, 0);
 
-	eight.addChild(&eightLeft);
-	eight.addChild(&eightRight);
-	eight.addChild(&eightTop);
-	eight.addChild(&eightMiddle);
-	eight.addChild(&eightBottom);
+	eightTopDiv.addChild(&eightTop);
+	eightTopDiv.addChild(&eightRightTop);
+	eightTopDiv.addChild(&eightLeftTop);
+	eightBottomDiv.addChild(&eightMiddle);
+	eightBottomDiv.addChild(&eightBottom);
+	eightBottomDiv.addChild(&eightRightBottom);
+	eightBottomDiv.addChild(&eightLeftBottom);
 
+	eight.addChild(&eightTopDiv);
+	eight.addChild(&eightBottomDiv);
 	eight.translate(1.5, 0, 0);
 
 	D8.addChild(&eight);
 	D8.translate(-25, 3.5, 25);
 	D8.rotate(0, 1, 0, 175);
+
+	modelsBottom.push_back(&eightBottomDiv);
+	modelsTop.push_back(&eightTopDiv);
 	models.push_back(&D8);
 
 	//Draw a T
