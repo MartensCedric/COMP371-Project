@@ -611,11 +611,10 @@ WorldModel::WorldModel() {
 	iBottom2->scale(2, 1, 1);
 	iBottom2->translate(0, -3, 0);
 
-	// this is backwards because of the final 180 rotate at the end
-	iTopDiv2->addChild(iMiddleBottom2);
-	iTopDiv2->addChild(iBottom2);
-	iBottomDiv2->addChild(iTop2);
-	iBottomDiv2->addChild(iMiddleTop2);
+	iTopDiv2->addChild(iMiddleTop2);
+	iTopDiv2->addChild(iTop2);
+	iBottomDiv2->addChild(iMiddleBottom2);
+	iBottomDiv2->addChild(iBottom2);
 
 	I2->addChild(iTopDiv2);
 	I2->addChild(iBottomDiv2);
@@ -652,12 +651,11 @@ WorldModel::WorldModel() {
 	threeBottom2->scale(3, 1, 1);
 	threeBottom2->translate(1, -3, 0);
 
-	// this is backwards because of the final 180 rotate at the end
-	threeTopDiv2->addChild(threeRightBottom2);
-	threeTopDiv2->addChild(threeMiddle2);
-	threeTopDiv2->addChild(threeBottom2);
-	threeBottomDiv2->addChild(threeTop2);
-	threeBottomDiv2->addChild(threeRightTop2);
+	threeBottomDiv2->addChild(threeRightBottom2);
+	threeBottomDiv2->addChild(threeMiddle2);
+	threeBottomDiv2->addChild(threeBottom2);
+	threeTopDiv2->addChild(threeTop2);
+	threeTopDiv2->addChild(threeRightTop2);
 
 	three2->addChild(threeTopDiv2);
 	three2->addChild(threeBottomDiv2);
@@ -665,7 +663,7 @@ WorldModel::WorldModel() {
 	three2->translate(2, 0, 0);
 
 	I32->addChild(three2);
-	I32->rotate(0, 0, 1, 180.0f);
+	I32->rotate(0, 1, 0, 180.0f);
 
 	modelsBottom.push_back(threeBottomDiv2);
 	modelsTop.push_back(threeTopDiv2);
