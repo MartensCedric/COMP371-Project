@@ -222,7 +222,8 @@ WorldModel::WorldModel() {
 	addChild(axes);
 
 	// Alpha numerical models
-	// Splitting each model in two: 2/3 assigned to the bottom, the remainder 1/3 to the top
+	// Splitting each model in two
+	// strategy: 2/3 assigned to the bottom, the remainder 1/3 to the top
 	SimpleModel* E5 = new SimpleModel();
 	SimpleModel* E5top = new SimpleModel();
 	SimpleModel* E5bottom = new SimpleModel();
@@ -602,10 +603,10 @@ WorldModel::WorldModel() {
 	UnitCubeModel* iMiddleTop2 = new UnitCubeModel();
 	UnitCubeModel* iMiddleBottom2 = new UnitCubeModel();
 
-	iMiddleTop2->scale(1, 4, 1);
-	iMiddleTop2->translate(0, 1, 0);
-	iMiddleBottom2->scale(1, 2, 1);
-	iMiddleBottom2->translate(0, -2, 0);
+	iMiddleTop2->scale(1, 2, 1);
+	iMiddleTop2->translate(0, 1.5, 0);
+	iMiddleBottom2->scale(1, 4, 1);
+	iMiddleBottom2->translate(0, -1.5, 0);
 
 	UnitCubeModel* iBottom2 = new UnitCubeModel();
 	iBottom2->scale(2, 1, 1);
