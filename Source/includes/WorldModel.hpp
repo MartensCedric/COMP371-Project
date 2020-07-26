@@ -45,6 +45,8 @@ class EightModel : public SimpleModel {
 class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
+		std::vector<Model*> modelsBottom;
+		std::vector<Model*> modelsTop;
 		std::vector<Model*> spheres;
 		WorldModel();
 		void setGridShader(int shaderProgram);
