@@ -604,7 +604,7 @@ int main(int argc, char*argv[])
 	models.push_back(&D8);
 
 	//Draw a T
-	SimpleModel T;
+	SimpleModel T, tTopDiv, tBottomDiv;
 	T.setupAttribPointer();
 	T.translate(-2, 0, 0);
 
@@ -613,16 +613,22 @@ int main(int argc, char*argv[])
 	tTop.translate(0, 3, 0);
 
 	UnitCubeModel tMiddle;
-	tMiddle.scale(1, 5, 1);
-	tMiddle.translate(0, 0, 0);
+	tMiddle.scale(1, 3, 1);
+	tMiddle.translate(0, 2, 0);
 
 	UnitCubeModel tBottom;
-	tBottom.scale(1, 1, 1);
-	tBottom.translate(0, -3, 0);
+	tBottom.scale(1, 4, 1);
+	tBottom.translate(0, -1.5, 0);
 
-	T.addChild(&tTop);
-	T.addChild(&tMiddle);
-	T.addChild(&tBottom);
+	tTopDiv.addChild(&tTop);
+	tTopDiv.addChild(&tMiddle);
+	tBottomDiv.addChild(&tBottom);
+
+	T.addChild(&tTopDiv);
+	T.addChild(&tBottomDiv);
+
+	modelsBottom.push_back(&tBottomDiv);
+	modelsTop.push_back(&tTopDiv);
 
 	T5.addChild(&T);
 	
