@@ -310,7 +310,6 @@ int main(int argc, char*argv[])
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
 	world->setPlaneShader(textureLightShader);
-	//world->setModelShader(textureLightShader);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
