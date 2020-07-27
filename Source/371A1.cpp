@@ -310,7 +310,6 @@ int main(int argc, char*argv[])
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
 	world->setPlaneShader(textureLightShader);
-	//world->setModelShader(textureLightShader);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -358,9 +357,13 @@ int main(int argc, char*argv[])
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glActiveTexture(GL_TEXTURE0);
 		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
-		glUniform1i(shadowMapTexureLoc, 1);
-		glActiveTexture(GL_TEXTURE1);
+		glUniform1i(shadowMapTexureLoc, 0);
+
+		int shadowMapLoc = glGetUniformLocation(lightAffectedShader, "shadow_map");
+		glUniform1i(shadowMapLoc, 0);
+
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
