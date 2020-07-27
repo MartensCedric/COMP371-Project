@@ -199,7 +199,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
-
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
 static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) 
 {
@@ -375,11 +374,8 @@ int main(int argc, char*argv[])
 		{
 			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
 		}
-
-		// Reorder children based on distance from camera
-		
+	
 		world->draw();
-
 
         // End frame
         glfwSwapBuffers(window);
@@ -458,7 +454,7 @@ int main(int argc, char*argv[])
 		// move forward
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
 			}
@@ -467,7 +463,7 @@ int main(int argc, char*argv[])
 		// move back
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
 			}
@@ -476,7 +472,7 @@ int main(int argc, char*argv[])
 		// move left
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
 			}
@@ -485,7 +481,7 @@ int main(int argc, char*argv[])
 		// move right
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
@@ -494,7 +490,7 @@ int main(int argc, char*argv[])
 		// move up
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, 1, 0);
 			}
@@ -503,7 +499,7 @@ int main(int argc, char*argv[])
 		// move down
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsBottom.begin(); it != world->modelsBottom.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				(*it)->translate(0, -1, 0);
 			}
@@ -514,7 +510,7 @@ int main(int argc, char*argv[])
 		// move forward
 		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				(*it)->translate(0, 0, -1);
 			}
@@ -523,7 +519,7 @@ int main(int argc, char*argv[])
 		// move back
 		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				(*it)->translate(0, 0, 1);
 			}
@@ -532,7 +528,7 @@ int main(int argc, char*argv[])
 		// move left
 		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
 			}
@@ -541,7 +537,7 @@ int main(int argc, char*argv[])
 		// move right
 		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
 			}
@@ -550,7 +546,7 @@ int main(int argc, char*argv[])
 		// move up
 		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				(*it)->translate(0, 1, 0);
 			}
@@ -559,7 +555,7 @@ int main(int argc, char*argv[])
 		// move down
 		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->modelsTop.begin(); it != world->modelsTop.end(); it++)
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				(*it)->translate(0, -1, 0);
 			}

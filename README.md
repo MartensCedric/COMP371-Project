@@ -58,6 +58,10 @@ If the above steps do not result in a new window popping up to render the graphi
 - `z` --> rotate left about Z axis
 - `c` --> rotate right about Z axis
 
+- `↑` --> rotate world anti-clockwise about y axis
+- `↓` --> rotate world clockwise about y axis
+- `←` --> rotate world clockwise about x axis
+- `→` --> rotate world anti-clockwise about x axis
 - `home` --> set world orientation to home position
 
 - `Left Mouse Click + Move Mouse up/down` --> Zoom out/in

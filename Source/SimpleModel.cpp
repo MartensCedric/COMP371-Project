@@ -1,5 +1,8 @@
 #include "includes/SimpleModel.hpp"
 
+std::vector<Model*> SimpleModel::modelsBottom;
+std::vector<Model*> SimpleModel::modelsTop;
+		
 SimpleModel::SimpleModel() {}
 
 /**
