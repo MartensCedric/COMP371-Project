@@ -1,8 +1,8 @@
 #version 330 core
 in vec2 vertexUV;
 
-uniform sampler2D textureSampler; //Binded to 0
-uniform sampler2D shadow_map; //Binded to 1
+uniform sampler2D textureSampler; 
+uniform sampler2D shadow_map; 
 
 uniform vec3 lightPosition;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
