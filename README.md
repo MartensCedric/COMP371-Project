@@ -40,16 +40,41 @@ If the above steps do not result in a new window popping up to render the graphi
 
 ### Keyboard inputs
 
-- `Lshift + w` --> move model forward
-- `Lshift + a` --> move model left
-- `Lshift + s` --> move model backward
-- `Lshift + d` --> move model right
+- `shift + w` --> move model forward (continuous)
+- `shift + a` --> move model left (continuous)
+- `shift + s` --> move model backward (continuous)
+- `shift + d` --> move model right (continuous)
+
+- `ctrl + w` --> move lower model part forward (continuous)
+- `ctrl + a` --> move lower model part left (continuous)
+- `ctrl + s` --> move lower model part backward (continuous)
+- `ctrl + d` --> move lower model part right (continuous)
+
+- `alt + w` --> move upper model part forward (continuous)
+- `alt + a` --> move upper model part left (continuous)
+- `alt + s` --> move upper model part backward (continuous)
+- `alt + d` --> move upper model part right (continuous)
+
+- `ctrl + ↑` --> move model forward (discrete)
+- `ctrl + ↓` --> move model left (discrete)
+- `ctrl + ←` --> move model backward (discrete)
+- `ctrl + →` --> move model right (discrete)
+
+- `alt + ↑` --> move lower model part forward (discrete)
+- `alt + ↓` --> move lower model part left (discrete)
+- `alt + ←` --> move lower model part backward (discrete)
+- `alt + →` --> move lower model part right (discrete)
+
+- `shift + ↑` --> move upper model part forward (discrete)
+- `shift + ↓` --> move upper model part left (discrete)
+- `shift + ←` --> move upper model part backward (discrete)
+- `shift + →` --> move upper model part right (discrete)
 
 - `u` --> scale up model
 - `j` --> scale down model
 
-- `Lshift + q` --> move model up
-- `Lshift + e` --> move model down
+- `shift + q` --> move model up
+- `shift + e` --> move model down
 
 - `a` --> rotate left about Y axis
 - `d` --> rotate right about Y axis
@@ -67,5 +92,12 @@ If the above steps do not result in a new window popping up to render the graphi
 - `Left Mouse Click + Move Mouse up/down` --> Zoom out/in
 - `Right Mouse Click + Move Mouse left/right` --> Pan
 - `Middle Mouse Click + Move Mouse up/down` --> Tilt
+
+- `l` --> switch to lines rendering mode
+- `p` --> switch to points rendering mode
+- `t` --> switch to triangles rendering mode
+
+- `b` --> toggle light and shadow rendering
+- `x` --> toggle texture rendering
 
 - `Esc` --> terminate program
