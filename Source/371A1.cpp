@@ -51,8 +51,27 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
+int maxOffset = 2;
+
 bool showTexture = true;
 bool showLight = true;
+bool isLightToggled = false;
+bool isTextureToggled = false;
+
+bool hasBottomMovedForward = false;
+bool hasBottomMovedBackward = false;
+bool hasBottomMovedRight = false;
+bool hasBottomMovedLeft = false;
+
+bool hasTopMovedForward = false;
+bool hasTopMovedBackward = false;
+bool hasTopMovedRight = false;
+bool hasTopMovedLeft = false;
+
+bool hasMovedForward = false;
+bool hasMovedBackward = false;
+bool hasMovedRight = false;
+bool hasMovedLeft = false;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
@@ -67,7 +86,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     // Rotate model about left about Y
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
@@ -79,7 +98,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Rotate model about left about Y
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
@@ -91,7 +110,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Rotate model about left about X
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 	{
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
@@ -103,7 +122,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Rotate model about left about X
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 	{
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
@@ -115,7 +134,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Rotate model about left about Z
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
 	{
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
@@ -127,7 +146,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// Rotate model about left about Z
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
 	{
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
@@ -137,22 +156,34 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 	// Rotate World Orientation Left
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 		world->rotate(1, 0, 0, -5);
 	}
 
 	// Rotate World Orientation Right
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		world->rotate(1, 0, 0, 5);
 	}
 
 	// Rotate World Orientation UP
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 		world->rotate(0, 1, 0, 5);
 	}
 
 	// Rotate World Orientation Down
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		world->rotate(0, 1, 0, -5);
 	}
 
@@ -176,27 +207,227 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 	}
 	
-	//Switch to lines rendering mode
+	// Switch to lines rendering mode
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	//Switch to triangle rendering mode
+	// Switch to triangle rendering mode
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	//Switch to points rendering mode
+	// Switch to points rendering mode
 	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
 		glPointSize(5);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+	// Toggle Light
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !isLightToggled) {
+		isLightToggled = true;
+		showLight = !showLight;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE) {
+		isLightToggled = false;
+	}
+
+	// Toggle Texture
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && !isTextureToggled) {
+		isTextureToggled = true;
 		showTexture = !showTexture;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
-		showLight = !showLight;
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE) {
+		isTextureToggled = false;
 	}
+
+	// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
+
+		// move forward
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasBottomMovedForward)
+		{
+			hasBottomMovedForward = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+				if(dZ > -1*maxOffset) {
+					(*it)->translate(0, 0, -1);
+				}
+			}
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE) {
+			hasBottomMovedForward = false;
+			hasTopMovedForward = false;
+			hasMovedForward = false;
+		}
+
+		// move back
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasBottomMovedBackward)
+		{
+			hasBottomMovedBackward = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+
+				if(dZ < maxOffset) {
+					(*it)->translate(0, 0, 1);
+				}
+ 			}
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE) {
+			hasBottomMovedBackward = false;
+			hasTopMovedBackward = false;
+			hasMovedBackward = false;
+		}
+
+		// move left
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasBottomMovedLeft)
+		{
+			hasBottomMovedLeft = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX > -1*maxOffset) {
+					(*it)->translate(-1, 0, 0);
+				}
+			}
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE) {
+			hasBottomMovedLeft = false;
+			hasTopMovedLeft = false;
+			hasMovedLeft = false;
+		}
+
+		// move right
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasBottomMovedRight)
+		{
+			hasBottomMovedRight = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX < maxOffset) {
+					(*it)->translate(1, 0, 0);
+				}
+			}
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
+			hasBottomMovedRight = false;
+			hasTopMovedRight = false;
+			hasMovedRight = false;
+		}
+
+		// ------------------------------------------------ TOP HALF CONTROLS -------------------------------------------------
+
+		// move forward
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasTopMovedForward)
+		{
+			hasTopMovedForward = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+				if(dZ > -1*maxOffset) {
+					(*it)->translate(0, 0, -1);
+				}
+			}
+		}
+
+		// move back
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasTopMovedBackward)
+		{
+			hasTopMovedBackward = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+
+				if(dZ < maxOffset) {
+					(*it)->translate(0, 0, 1);
+				}
+ 			}
+		}
+
+		// move left
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasTopMovedLeft)
+		{
+			hasTopMovedLeft = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX > -1*maxOffset) {
+					(*it)->translate(-1, 0, 0);
+				}
+			}
+		}
+
+		// move right
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasTopMovedRight)
+		{
+			hasTopMovedRight = true;
+			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
+			{
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX < maxOffset) {
+					(*it)->translate(1, 0, 0);
+				}
+			}
+		}
+
+		// ------------------------------------------------ FULL CONTROLS -------------------------------------------------
+
+		// move forward
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasMovedForward)
+		{
+			hasMovedForward = true;
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->translate(0, 0, -1);
+			}
+		}
+
+		// move back
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasMovedBackward)
+		{
+			hasMovedBackward = true;
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->translate(0, 0, 1);
+			}
+		}
+
+		// move left
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasMovedLeft)
+		{
+			hasMovedLeft = true;
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->translate(-1, 0, 0);
+			}
+		}
+
+		// move right
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasMovedRight)
+		{
+			hasMovedRight = true;
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->translate(1, 0, 0);
+			}
+		}
 }
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
@@ -293,7 +524,6 @@ int main(int argc, char*argv[])
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-
     // Attach it to framebuffer's depth buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
@@ -318,9 +548,9 @@ int main(int argc, char*argv[])
 	bool isTilting = false;
 	glm::vec3 panDirection = glm::vec3(1.0f);
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
+
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
-
 
 		int modelShader = passthroughShader;
 
@@ -449,6 +679,7 @@ int main(int argc, char*argv[])
 				tiltDirection = glm::vec3(1.0f);
 			}
 		}
+		
 		// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
 
 		// move forward
@@ -456,7 +687,11 @@ int main(int argc, char*argv[])
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
-				(*it)->translate(0, 0, -1);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+				if(dZ > -1*maxOffset) {
+					(*it)->translate(0, 0, -0.25);
+				}
 			}
 		}
 
@@ -465,8 +700,13 @@ int main(int argc, char*argv[])
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
-				(*it)->translate(0, 0, 1);
-			}
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+
+				if(dZ < maxOffset) {
+					(*it)->translate(0, 0, 0.25);
+				}
+ 			}
 		}
 
 		// move left
@@ -474,7 +714,12 @@ int main(int argc, char*argv[])
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
-				(*it)->translate(-1, 0, 0);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX > -1*maxOffset) {
+					(*it)->translate(-0.25, 0, 0);
+				}
 			}
 		}
 
@@ -483,81 +728,97 @@ int main(int argc, char*argv[])
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
-				(*it)->translate(1, 0, 0);
-			}
-		}
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
 
-		// move up
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		{
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				(*it)->translate(0, 1, 0);
-			}
-		}
-
-		// move down
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		{
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				(*it)->translate(0, -1, 0);
+				if(dX < maxOffset) {
+					(*it)->translate(0.25, 0, 0);
+				}
 			}
 		}
 
 		// ------------------------------------------------ TOP HALF CONTROLS -------------------------------------------------
 
 		// move forward
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
-				(*it)->translate(0, 0, -1);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+				if(dZ > -1*maxOffset) {
+					(*it)->translate(0, 0, -0.25);
+				}
 			}
 		}
 
 		// move back
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
-				(*it)->translate(0, 0, 1);
-			}
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dZ = transMat[3][2];
+
+				if(dZ < maxOffset) {
+					(*it)->translate(0, 0, 0.25);
+				}
+ 			}
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
-				(*it)->translate(-1, 0, 0);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX > -1*maxOffset) {
+					(*it)->translate(-0.25, 0, 0);
+				}
 			}
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
-				(*it)->translate(1, 0, 0);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dX = transMat[3][0];
+
+				if(dX < maxOffset) {
+					(*it)->translate(0.25, 0, 0);
+				}
 			}
 		}
 
 		// move up
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
-				(*it)->translate(0, 1, 0);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dY = transMat[3][1];
+
+				if(dY < maxOffset) {
+					(*it)->translate(0, 0.25, 0);
+				}
 			}
 		}
 
 		// move down
-		if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		{
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
-				(*it)->translate(0, -1, 0);
+				glm::mat4 transMat = (*it)->objTransMat;
+				float dY = transMat[3][1];
+
+				if(dY > 0) {
+					(*it)->translate(0, -0.25, 0);
+				}
 			}
 		}
 
