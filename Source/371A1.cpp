@@ -73,6 +73,9 @@ bool hasMovedBackward = false;
 bool hasMovedRight = false;
 bool hasMovedLeft = false;
 
+bool hasTurnedRight = false;
+bool hasTurnedLeft = false;
+
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
 	float scaledWidth = windowWidth*scale;
@@ -84,27 +87,41 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     // Rotate model about left about Y
-	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
+		glfwGetKey(window, GLFW_KEY_ENTER) &&
+		glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
+		!hasTurnedLeft
+	) {
+		hasTurnedLeft = true;
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(0, 1, 0, 5);
 		}
 	}
 
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE) {
+		hasTurnedLeft = false;
+	}
+
 	// Rotate model about left about Y
-	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
+		glfwGetKey(window, GLFW_KEY_ENTER) &&
+		glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
+		!hasTurnedRight
+	) {
+		hasTurnedRight = true;
 		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->rotate(0, 1, 0, -5);
 		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_RELEASE) {
+		hasTurnedRight = false;
 	}
 
 	// Rotate model about left about X
@@ -680,6 +697,32 @@ int main(int argc, char*argv[])
 			}
 		}
 		
+		// Rotate model about left about Y
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+			!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->rotate(0, 1, 0, 5);
+			}
+		}
+
+		// Rotate model about left about Y
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+			!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->rotate(0, 1, 0, -5);
+			}
+		}
+
 		// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
 
 		// move forward
@@ -710,8 +753,10 @@ int main(int argc, char*argv[])
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
+		if (!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && 
+			glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
+		) {
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				glm::mat4 transMat = (*it)->objTransMat;
@@ -724,8 +769,10 @@ int main(int argc, char*argv[])
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
+		if (!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && 
+			glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS
+		) {
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
 			{
 				glm::mat4 transMat = (*it)->objTransMat;
@@ -767,8 +814,10 @@ int main(int argc, char*argv[])
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
+		if (!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_LEFT_ALT) && 
+			glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
+		) {
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				glm::mat4 transMat = (*it)->objTransMat;
@@ -781,8 +830,10 @@ int main(int argc, char*argv[])
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
+		if (!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_LEFT_ALT) && 
+			glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS
+		) {
 			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
 			{
 				glm::mat4 transMat = (*it)->objTransMat;
@@ -843,8 +894,10 @@ int main(int argc, char*argv[])
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
+		if (!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && 
+			glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
+		) {
 			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(-1, 0, 0);
@@ -852,8 +905,10 @@ int main(int argc, char*argv[])
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
+		if (!glfwGetKey(window, GLFW_KEY_ENTER) && 
+			glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && 
+			glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS
+		) {
 			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->translate(1, 0, 0);
