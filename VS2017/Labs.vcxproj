@@ -139,7 +139,7 @@
     <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
-    <ClInclude Include="..\Source\includes\Skybox.h" />
+    <ClInclude Include="..\Source\includes\Skybox.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />

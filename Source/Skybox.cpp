@@ -1,7 +1,7 @@
 #pragma once
 
 #include "includes/Model.hpp"
-#include "includes/Skybox.h"
+#include "includes/Skybox.hpp"
 
 // Code adapted from learnopengl.com
 

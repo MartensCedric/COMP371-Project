@@ -15,7 +15,7 @@
 #define OS_Windows 0
 #include "includes/Camera.hpp"
 #include "includes/WorldModel.hpp"
-#include "includes/Skybox.h"
+#include "includes/Skybox.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -24,7 +24,7 @@
 
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
-#include "../Source/includes/Skybox.h"
+#include "../Source/includes/Skybox.hpp"
 
 #endif
 
