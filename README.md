@@ -83,6 +83,9 @@ If the above steps do not result in a new window popping up to render the graphi
 - `z` --> rotate left about Z axis
 - `c` --> rotate right about Z axis
 
+- `enter + a` --> rotate left about Y axis (discrete)
+- `enter + d` --> rotate right about Y axis (discrete)
+
 - `↑` --> rotate world anti-clockwise about y axis
 - `↓` --> rotate world clockwise about y axis
 - `←` --> rotate world clockwise about x axis
