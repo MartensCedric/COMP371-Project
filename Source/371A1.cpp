@@ -550,11 +550,6 @@ int main(int argc, char*argv[])
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
 
-	Skybox skybox;
-	skybox.setShader(skyboxShader);
-	skybox.setCamera(camera);
-	skybox.setTexture(skyboxCubeMap);
-
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int shadowMapFBO;
@@ -579,6 +574,10 @@ int main(int argc, char*argv[])
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
+	Skybox skybox;
+	skybox.setShader(skyboxShader);
+	skybox.setCamera(camera);
+	skybox.setTexture(skyboxCubeMap);
 	world->setCamera(camera);
 
 	world->setAxesShader(passthroughShader);

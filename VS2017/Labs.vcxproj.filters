@@ -99,6 +99,9 @@
     <ClCompile Include="..\Source\PlaneModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\Model.hpp">
@@ -127,6 +130,9 @@
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
     <ClInclude Include="..\ThirdParty\stb_image.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\includes\Skybox.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

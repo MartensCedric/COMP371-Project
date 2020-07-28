@@ -20,6 +20,7 @@ class Camera {
         void moveRight();
 		void setFOV(float fov);
 		void setViewMatrix(int shader);
+		void setSkyboxViewMatrix(int shader);
 		void setProjectionMatrix(int shader);
         void setWidth(int width);
         void setHeight(int height);

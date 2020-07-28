@@ -53,6 +53,18 @@ void Camera::setViewMatrix(int shader)
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 }
 
+void Camera::setSkyboxViewMatrix(int shader)
+{
+	glm::mat4 viewMatrix = glm::mat4(glm::mat3(lookAt(
+		position, // eye
+		lookAtPos, // center
+		up // up
+	))); // get rid of translation
+
+	GLuint viewMatrixLocation = glGetUniformLocation(shader, "viewMatrix");
+	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+}
+
 void Camera::setProjectionMatrix(int shader)
 {
 	// Set projection matrix for the shader (in this case we use perspective projection)

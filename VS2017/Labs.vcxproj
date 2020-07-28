@@ -125,6 +125,7 @@
     <ClCompile Include="..\Source\PlaneModel.cpp" />
     <ClCompile Include="..\Source\Shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
+    <ClCompile Include="..\Source\Skybox.cpp" />
     <ClCompile Include="..\Source\SphereModel.cpp" />
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
     <ClCompile Include="..\Source\WorldModel.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
+    <ClInclude Include="..\Source\includes\Skybox.h" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
