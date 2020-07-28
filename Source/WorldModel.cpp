@@ -311,15 +311,15 @@ WorldModel::WorldModel() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	grid = new GridModel();
+	addChild(grid);
+	
 	plane = new PlaneModel();
 	plane->setTexture(grassTextureID);
 	plane->translate(0, 0.1, 0);
 	texturedElement.push_back(plane);
 	addChild(plane);
 
-	grid = new GridModel();
-	addChild(grid);
-	
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);

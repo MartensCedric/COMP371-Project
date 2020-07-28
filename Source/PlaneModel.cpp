@@ -1,7 +1,7 @@
 #include "includes/PlaneModel.hpp"
 
 PlaneModel::PlaneModel() {
-	glm::vec4 color = glm::vec4(0.52, 0.58, 0.18, 1.0);
+	glm::vec4 color = glm::vec4(0.52, 0.58, 0.18, 0);
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.f);
     
 	//This plane appears slightly above other grid
