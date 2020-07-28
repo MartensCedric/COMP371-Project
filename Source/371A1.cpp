@@ -83,6 +83,15 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport((width - scaledWidth)/2, (height - scaledHeight)/2, scaledWidth, scaledHeight);
 }
 
+bool models_sort(Model* model1, Model* model2) { 
+	// Apply the Model matrix to the center of the model
+	// To get its position in the World coordinates system 
+	glm::vec4 new_model1_pos = model1->getModelMatrix() * glm::vec4(0, 0, 0, 1);
+	glm::vec4 new_model2_pos = model2->getModelMatrix() * glm::vec4(0, 0, 0, 1);
+	
+	return (new_model1_pos.z < new_model2_pos.z);
+}
+
 // Callbacks for keys
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -194,6 +203,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 		world->rotate(0, 1, 0, 5);
+
+		// Sort the models according to their z position 
+		// For correct blending 
+		sort(world->models.begin(), world->models.end(), &models_sort);
+		sort(world->children.begin(), world->children.end(), &models_sort);
 	}
 
 	// Rotate World Orientation Down
@@ -202,6 +216,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
 		glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		world->rotate(0, 1, 0, -5);
+
+		// Sort the models according to their z position 
+		// For correct blending 
+		sort(world->models.begin(), world->models.end(), &models_sort);
+		sort(world->children.begin(), world->children.end(), &models_sort);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_HOME)) {
