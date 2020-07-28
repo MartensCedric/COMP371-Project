@@ -25,7 +25,7 @@ public:
 	std::vector<Model*> children;
 	Model* parent = nullptr;
 	Camera* camera = nullptr;
-
+		
 	Model();
 	Model(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 	virtual void setupAttribPointer() = 0;
@@ -37,7 +37,7 @@ public:
 	void rotate(float y, float x, float z, float angle);
 	void translate(float x, float y, float z);
 	void addChild(Model* child);
-	glm::mat4 getModelMatrix();
+	glm::mat4 getModelMatrix() const;
 	void reset();
 	virtual ~Model();
 };
