@@ -335,7 +335,7 @@ WorldModel::WorldModel() {
 	 */
 
 	SimpleModel* T5 = new SimpleModel();
-
+	
 	TModel* T = new TModel();
 	T->setTexture(boxTextureID);
 	texturedElement.push_back(T);
@@ -363,7 +363,7 @@ WorldModel::WorldModel() {
 	 */
 
 	SimpleModel* I3 = new SimpleModel();
-
+	
 	IModel* I = new IModel();
 	I->setTexture(boxTextureID);
 	texturedElement.push_back(I);
@@ -391,7 +391,7 @@ WorldModel::WorldModel() {
 	 */
 
 	SimpleModel* E5 = new SimpleModel();
-
+	
 	EModel* E = new EModel();
 	E->setTexture(boxTextureID);
 	texturedElement.push_back(E);
@@ -419,7 +419,7 @@ WorldModel::WorldModel() {
 	 */
 
 	SimpleModel* I3_2 = new SimpleModel();
-
+	
 	IModel* I_2 = new IModel();
 	I_2->setTexture(boxTextureID);
 	texturedElement.push_back(I_2);
@@ -447,7 +447,7 @@ WorldModel::WorldModel() {
 	 */
 
 	SimpleModel* D8 = new SimpleModel();
-
+	
 	DModel* D = new DModel();
 	D->setTexture(boxTextureID);
 	texturedElement.push_back(D);

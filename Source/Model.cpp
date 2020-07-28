@@ -75,8 +75,10 @@ void Model::draw()
 
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
-	glm::mat4 lightProjection = glm::ortho(-25.f, 25.f, -25.f, 25.f,
-		0.01f, 50.f);         // near and far (near > 0)
+	glm::mat4 lightProjection = glm::ortho(
+		-25.f, 25.f, -25.f, 25.f,
+		0.01f, 50.f
+	);         // near and far (near > 0)
 	glm::mat4 lightView = glm::lookAt(glm::vec3(0.0f, 10.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
@@ -137,7 +139,7 @@ void Model::addChild(Model* child)
 * The model matrix is used to get the coordinate transform of this model in respect to the world.
 * Children transformations are done first (at the right). The process is recursive.
 */
-glm::mat4 Model::getModelMatrix()
+glm::mat4 Model::getModelMatrix() const
 {
 	if (this->parent == nullptr)
 		return objTransMat * objRotMat * objScaleMat;
