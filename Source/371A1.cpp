@@ -15,6 +15,7 @@
 #define OS_Windows 0
 #include "includes/Camera.hpp"
 #include "includes/WorldModel.hpp"
+#include "includes/Skybox.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -23,6 +24,7 @@
 
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
+#include "../Source/includes/Skybox.hpp"
 
 #endif
 
@@ -538,13 +540,15 @@ int main(int argc, char*argv[])
         return -1;
     }
 
+	int skyboxCubeMap = loadSkybox();
+
     // Compile and link shaders here ...
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
 	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -570,6 +574,10 @@ int main(int argc, char*argv[])
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
+	Skybox skybox;
+	skybox.setShader(skyboxShader);
+	skybox.setCamera(camera);
+	skybox.setTexture(skyboxCubeMap);
 	world->setCamera(camera);
 
 	world->setAxesShader(passthroughShader);
@@ -621,6 +629,9 @@ int main(int argc, char*argv[])
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDepthMask(GL_FALSE);
+		skybox.draw();
+		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
 		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");

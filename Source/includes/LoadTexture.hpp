@@ -6,6 +6,7 @@
 #include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 #include <iostream>
+#include <vector>
 
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
@@ -19,3 +20,5 @@
 #endif
 
 GLuint loadTexture(const char *filename);
+GLuint loadSkybox();
+GLuint loadCubemap(std::vector<std::string> faces);
