@@ -1,4 +1,5 @@
 #include "includes/WorldModel.hpp"
+#include "../Source/includes/Terrain.h"
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -282,10 +283,12 @@ EightModel::EightModel() {
 PlaneModel* plane = nullptr;
 GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
+Terrain* terrain = nullptr;
 
 void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
 void WorldModel::setPlaneShader(int shaderProgram) { plane->setShader(shaderProgram); }
+void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
 
 void WorldModel::setModelShader(int shaderProgram) 
 { 
@@ -317,12 +320,16 @@ WorldModel::WorldModel() {
 	plane = new PlaneModel();
 	plane->setTexture(grassTextureID);
 	plane->translate(0, 0.1, 0);
-	texturedElement.push_back(plane);
-	addChild(plane);
+	//texturedElement.push_back(plane);
+	//addChild(plane);
 
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);
+
+	terrain = new Terrain();
+	terrain->setTexture(grassTextureID);
+	texturedElement.push_back(terrain);
 
 	// Alpha numerical models
 	// Splitting each model in two

@@ -101,3 +101,7 @@ If the above steps do not result in a new window popping up to render the graphi
 - `x` --> toggle texture rendering
 
 - `Esc` --> terminate program
+
+# Credits
+- learnopengl.com (Light code, shadows, skybox)
+- Noise library FastNoise (MIT)

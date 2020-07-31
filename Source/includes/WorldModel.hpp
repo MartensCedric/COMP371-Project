@@ -52,5 +52,6 @@ class WorldModel : public SimpleModel {
 		void setModelShader(int shaderProgram);
 		void setPlaneShader(int shaderProgram);
 		void setSphereShader(int shaderProgram);
+		void setTerrainShader(int shaderProgram);
 		std::vector<Model*> texturedElement;
 };
