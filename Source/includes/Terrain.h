@@ -14,7 +14,7 @@ class Terrain :
 {
 public:
 	Terrain();
-	static const int SIZE = 50;
+	static const int SIZE = 100;
 	float heightMap[SIZE][SIZE];
 	void generate();
 	virtual void setupAttribPointer() override;

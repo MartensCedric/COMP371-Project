@@ -36,8 +36,8 @@ EModel::EModel() {
 	addChild(topDiv);
 	addChild(bottomDiv);
 
-	SimpleModel::modelsTop.push_back(topDiv);
-	SimpleModel::modelsBottom.push_back(bottomDiv);
+	//SimpleModel::modelsTop.push_back(topDiv);
+	//SimpleModel::modelsBottom.push_back(bottomDiv);
 };
 
 FiveModel::FiveModel() {
@@ -76,8 +76,8 @@ FiveModel::FiveModel() {
 	addChild(topDiv);
 	addChild(bottomDiv);
 
-	modelsBottom.push_back(bottomDiv);
-	modelsTop.push_back(topDiv);
+	//modelsBottom.push_back(bottomDiv);
+	//modelsTop.push_back(topDiv);
 };
 
 IModel::IModel() {
@@ -111,8 +111,8 @@ IModel::IModel() {
 	addChild(topDiv);
 	addChild(bottomDiv);
 
-	modelsTop.push_back(topDiv);
-	modelsBottom.push_back(bottomDiv);
+	//modelsTop.push_back(topDiv);
+	//modelsBottom.push_back(bottomDiv);
 };
 
 ThreeModel::ThreeModel() {
@@ -150,8 +150,8 @@ ThreeModel::ThreeModel() {
 	addChild(bottomDiv);
 	addChild(topDiv);
 
-	modelsBottom.push_back(bottomDiv);
-	modelsTop.push_back(topDiv);
+	//modelsBottom.push_back(bottomDiv);
+	//modelsTop.push_back(topDiv);
 };
 
 TModel::TModel() {
@@ -180,8 +180,8 @@ TModel::TModel() {
 	addChild(topDiv);
 	addChild(bottomDiv);
 
-	modelsBottom.push_back(bottomDiv);
-	modelsTop.push_back(topDiv);
+	//modelsBottom.push_back(bottomDiv);
+	//modelsTop.push_back(topDiv);
 };
 
 DModel::DModel() {
@@ -227,8 +227,8 @@ DModel::DModel() {
 	addChild(bottomDiv);
 	addChild(topDiv);
 
-	modelsTop.push_back(topDiv);
-	modelsBottom.push_back(bottomDiv);
+	//modelsTop.push_back(topDiv);
+	//modelsBottom.push_back(bottomDiv);
 };
 
 EightModel::EightModel() {
@@ -276,8 +276,8 @@ EightModel::EightModel() {
 	addChild(topDiv);
 	addChild(bottomDiv);
 	
-	modelsBottom.push_back(bottomDiv);
-	modelsTop.push_back(topDiv);
+	//modelsBottom.push_back(bottomDiv);
+	//modelsTop.push_back(topDiv);
 };
 
 PlaneModel* plane = nullptr;
@@ -315,7 +315,7 @@ WorldModel::WorldModel() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid = new GridModel();
-	addChild(grid);
+//	addChild(grid);
 	
 	plane = new PlaneModel();
 	plane->setTexture(grassTextureID);
@@ -330,6 +330,8 @@ WorldModel::WorldModel() {
 	terrain = new Terrain();
 	terrain->setTexture(grassTextureID);
 	texturedElement.push_back(terrain);
+	terrain->translate(-50, 0, -50);
+	addChild(terrain);
 
 	// Alpha numerical models
 	// Splitting each model in two
@@ -361,7 +363,7 @@ WorldModel::WorldModel() {
 	T5->addChild(sphere_4);
 
 	T5->translate(-18, 3.5, -18);
-	models.push_back(T5);
+	//models.push_back(T5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -389,7 +391,7 @@ WorldModel::WorldModel() {
 	I3->addChild(sphere_1);
 
 	I3->translate(18, 3.5, -18);
-	models.push_back(I3);
+	//models.push_back(I3);
 
 	/* 
 	 * ----------------------------------------------------
@@ -417,7 +419,7 @@ WorldModel::WorldModel() {
 	E5->addChild(sphere);
 
 	E5->translate(0, 3.5, 0);
-	models.push_back(E5);
+	//models.push_back(E5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -445,7 +447,7 @@ WorldModel::WorldModel() {
 	I3_2->addChild(sphere_2);
 
 	I3_2->translate(18, 3.5, 18);
-	models.push_back(I3_2);
+	//models.push_back(I3_2);
 
 	/* 
 	 * ----------------------------------------------------
@@ -473,10 +475,10 @@ WorldModel::WorldModel() {
 	D8->addChild(sphere_3);
 
 	D8->translate(-18, 3.5, 18);
-	models.push_back(D8);
+	//models.push_back(D8);
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		addChild(*it);
+		//addChild(*it);
 	}
 };
