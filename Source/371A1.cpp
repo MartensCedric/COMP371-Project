@@ -549,6 +549,7 @@ int main(int argc, char*argv[])
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
+	int terrainShader = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -583,7 +584,7 @@ int main(int argc, char*argv[])
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
 	world->setPlaneShader(textureLightShader);
-	world->setTerrainShader(textureLightShader);
+	world->setTerrainShader(terrainShader);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;

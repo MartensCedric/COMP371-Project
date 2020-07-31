@@ -108,6 +108,9 @@
     <ClCompile Include="..\ThirdParty\FastNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\TerrainCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\Model.hpp">
@@ -145,6 +148,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\ThirdParty\FastNoise.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\includes\TerrainCube.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
