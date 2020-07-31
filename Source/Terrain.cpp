@@ -38,9 +38,10 @@ void Terrain::generate()
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
-			heightMap[i][j] = noise.GetNoise(i*3, j * 3);
+			heightMap[i][j] = noise.GetNoise(i*2, j*2);
 			UnitCubeModel* block = new UnitCubeModel();
-			block->translate(i, heightMap[i][j] * 5.0f, j);
+			block->scale(1, 1, 5);
+			block->translate(i, heightMap[i][j] * 15.0f, j);
 			addChild(block);
 		}
 	}
