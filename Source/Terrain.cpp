@@ -3,8 +3,8 @@
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
 #define OS_Windows 0
-#include "FastNoise.h"
-#include "includes/UnitCubeModel.hpp"
+#include "../ThirdParty/FastNoise.h"
+#include "includes/TerrainCube.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -14,17 +14,14 @@
 #endif
 
 
-
 Terrain::Terrain()
 {
 	generate();
 }
 
-
 void Terrain::setupAttribPointer()
 {
 }
-
 
 void Terrain::generate()
 {
