@@ -38,6 +38,19 @@ void Model::setCamera(Camera* camera)
 }
 
 /**
+* Sets the light for the model and its children
+*/
+void Model::setLight(DirectionalLight* light)
+{
+	this->light = light;
+
+	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setLight(light);
+	}
+};
+
+/**
 * Sets the shader for the model and its children
 */
 void Model::setShader(int shaderProgram)
@@ -51,7 +64,7 @@ void Model::setShader(int shaderProgram)
 };
 
 /**
-* Sets the shader for the model and its children
+* Sets the texture for the model and its children
 */
 void Model::setTexture(GLuint texture)
 {
@@ -75,15 +88,26 @@ void Model::draw()
 
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
-	glm::mat4 lightProjection = glm::ortho(
-		-25.f, 25.f, -25.f, 25.f,
-		0.01f, 50.f
-	);         // near and far (near > 0)
-	glm::mat4 lightView = glm::lookAt(glm::vec3(0.0f, 10.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
+	if (light != nullptr)
+	{
+		glm::mat4 lightProjection = glm::ortho(
+			-50.f, 50.f, -50.f, 50.f,
+			0.01f, 50.f
+		);         // near and far (near > 0)
+		glm::mat4 lightView = glm::lookAt(light->position, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // currently all light looks at the center
 
-	glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
-	int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");
-	glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
+		glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
+		int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");
+		glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
+
+		glm::vec3 pointLightPosition = this->light->position;
+		GLuint pointlightPositionLocation = glGetUniformLocation(shaderId, "lightPosition");
+		glUniform3fv(pointlightPositionLocation, 1, &pointLightPosition[0]);
+
+		glm::mat4 transformLightSpace = lightProjection * lightView;
+		int transformLightSpaceLocation = glGetUniformLocation(shaderId, "transform_in_light_space");
+		glUniformMatrix4fv(transformLightSpaceLocation, 1, GL_FALSE, &transformLightSpace[0][0]);
+	}
 
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);

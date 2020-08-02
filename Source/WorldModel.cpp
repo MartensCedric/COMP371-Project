@@ -284,6 +284,7 @@ PlaneModel* plane = nullptr;
 GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
+DirectionalLight sun;
 
 void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
@@ -331,6 +332,7 @@ WorldModel::WorldModel() {
 	terrain->setTexture(grassTextureID);
 	texturedElement.push_back(terrain);
 	terrain->translate(-50, 0, -50);
+	terrain->setLight(&sun);
 	addChild(terrain);
 
 	// Alpha numerical models

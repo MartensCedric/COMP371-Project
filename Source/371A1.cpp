@@ -16,6 +16,7 @@
 #include "includes/Camera.hpp"
 #include "includes/WorldModel.hpp"
 #include "includes/Skybox.hpp"
+#include "includes/DirectionalLight.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -25,6 +26,7 @@
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
 #include "../Source/includes/Skybox.hpp"
+#include "../Source/includes/DirectionalLight.hpp"
 
 #endif
 
