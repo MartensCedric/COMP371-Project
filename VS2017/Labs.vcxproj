@@ -127,8 +127,11 @@
     <ClCompile Include="..\Source\SimpleModel.cpp" />
     <ClCompile Include="..\Source\Skybox.cpp" />
     <ClCompile Include="..\Source\SphereModel.cpp" />
+    <ClCompile Include="..\Source\Terrain.cpp" />
+    <ClCompile Include="..\Source\TerrainCube.cpp" />
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
     <ClCompile Include="..\Source\WorldModel.cpp" />
+    <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />
@@ -141,8 +144,11 @@
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
     <ClInclude Include="..\Source\includes\Skybox.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
+    <ClInclude Include="..\Source\includes\Terrain.hpp" />
+    <ClInclude Include="..\Source\includes\TerrainCube.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
+    <ClInclude Include="..\ThirdParty\FastNoise.h" />
     <ClInclude Include="..\ThirdParty\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

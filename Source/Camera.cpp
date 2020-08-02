@@ -71,7 +71,7 @@ void Camera::setProjectionMatrix(int shader)
 	glm::mat4 projectionMatrix = glm::perspective(
 		this->fov,               // field of view in degrees
 		((float)width) / height, // aspect ratio
-		0.01f, 100.0f            // near and far (near > 0)
+		0.01f, 200.0f            // near and far (near > 0)
 	);
 	projectionMatrixLocation = glGetUniformLocation(shader, "projectionMatrix");
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
