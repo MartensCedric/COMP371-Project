@@ -13,7 +13,7 @@ class SimpleModel : public Model
 		
 		SimpleModel();
 		SimpleModel(glm::vec3 * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
-		SimpleModel(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+		SimpleModel(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 		virtual void setupAttribPointer() override;
 		virtual ~SimpleModel();
 };

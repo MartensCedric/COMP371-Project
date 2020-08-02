@@ -24,5 +24,5 @@ class SphereModel : public SimpleModel {
         std::vector<glm::vec3> indexed_vertices;
 
         SphereModel(float radius, int sectors, int stacks);
-        SphereModel(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+        SphereModel(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 };
