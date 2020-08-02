@@ -100,9 +100,9 @@ void Model::draw()
 		int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");
 		glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
 
-		glm::vec3 pointLightPosition = this->light->position;
-		GLuint pointlightPositionLocation = glGetUniformLocation(shaderId, "lightPosition");
-		glUniform3fv(pointlightPositionLocation, 1, &pointLightPosition[0]);
+		glm::vec3 lightPosition = this->light->position;
+		GLuint lightPositionLocation = glGetUniformLocation(shaderId, "lightPosition");
+		glUniform3fv(lightPositionLocation, 1, &lightPosition[0]);
 
 		glm::mat4 transformLightSpace = lightProjection * lightView;
 		int transformLightSpaceLocation = glGetUniformLocation(shaderId, "transform_in_light_space");

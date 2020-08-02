@@ -622,11 +622,11 @@ int main(int argc, char*argv[])
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
-		{
-			(*it)->setShader(shadowShader);
-			(*it)->draw();
-		}
+		//for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		//{
+		//	(*it)->setShader(shadowShader);
+		//	(*it)->draw();
+		//}
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		

@@ -61,6 +61,7 @@ void main()
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 
    vec3 specularColor = specularComponent * lightColor;
    float shadowScalar = shadow_scalar();
+   shadowScalar = 1.0;
    vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
    
    FragColor = vec4(finalLight.rgb, 1.0f); //This is the actual line we want to have

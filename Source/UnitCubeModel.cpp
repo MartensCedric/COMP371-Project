@@ -74,8 +74,6 @@ UnitCubeModel::UnitCubeModel() {
             GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
             glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
 
-
-        
 			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	}
     );
