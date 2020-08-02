@@ -144,8 +144,8 @@
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
     <ClInclude Include="..\Source\includes\Skybox.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
-    <ClInclude Include="..\Source\includes\Terrain.h" />
-    <ClInclude Include="..\Source\includes\TerrainCube.h" />
+    <ClInclude Include="..\Source\includes\Terrain.hpp" />
+    <ClInclude Include="..\Source\includes\TerrainCube.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
     <ClInclude Include="..\ThirdParty\FastNoise.h" />

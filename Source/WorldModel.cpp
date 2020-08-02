@@ -1,5 +1,5 @@
 #include "includes/WorldModel.hpp"
-#include "../Source/includes/Terrain.h"
+#include "../Source/includes/Terrain.hpp"
 
 EModel::EModel() {
 	setupAttribPointer();

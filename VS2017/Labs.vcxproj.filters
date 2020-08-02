@@ -144,13 +144,13 @@
     <ClInclude Include="..\Source\includes\Skybox.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\includes\Terrain.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\ThirdParty\FastNoise.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\includes\TerrainCube.h">
+    <ClInclude Include="..\Source\includes\Terrain.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\includes\TerrainCube.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

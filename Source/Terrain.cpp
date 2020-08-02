@@ -1,4 +1,4 @@
-#include "includes/Terrain.h"
+#include "includes/Terrain.hpp"
 
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
@@ -10,7 +10,7 @@
 
 #define OS_Windows 1
 #include "../FastNoise.h"
-#include "../Source/includes/TerrainCube.h"
+#include "../Source/includes/TerrainCube.hpp"
 #endif
 
 
