@@ -1,28 +1,14 @@
-#ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
+#include "includes/Shader.hpp"
 
-#define OS_Windows 0
+int Shader::lightAffectedShader = 0;
+int Shader::textureShader = 0;
+int Shader::textureLightShader = 0;
+int Shader::passthroughShader = 0;
+int Shader::shadowShader = 0;
+int Shader::skyboxShader = 0;
+int Shader::terrainShader = 0;
 
-#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
-
-#define OS_Windows 1
-#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL
-
-#endif
-
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
-
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-// initializing OpenGL and binding inputs
-
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
-
-#include <stdlib.h>
-#include <iostream>
-#include <fstream>
-#include <string>
-
-int compileShader(const char * path, int shaderType)
+int Shader::compileShader(const char * path, int shaderType)
 {
 	std::ifstream file;
 	file.open(path, std::ios::in);
@@ -57,7 +43,7 @@ int compileShader(const char * path, int shaderType)
 	return shaderId;
 }
 
-int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
+int Shader::compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
 {
 	// compile and link shader program
 	// return shader program id
@@ -94,4 +80,14 @@ int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
 	glDeleteShader(fragmentShader);
 
 	return shaderProgram;
+}
+
+Shader::Shader() {
+	Shader::lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
+	Shader::textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	Shader::textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+	Shader::passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+	Shader::shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+	Shader::skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
+	Shader::terrainShader = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
 }

@@ -285,11 +285,6 @@ GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
 
-void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
-void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
-void WorldModel::setPlaneShader(int shaderProgram) { plane->setShader(shaderProgram); }
-void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
-
 void WorldModel::setModelShader(int shaderProgram) 
 { 
 	for(auto it = models.begin(); it != models.end(); it++)
