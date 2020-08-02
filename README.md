@@ -36,6 +36,9 @@ If the above steps do not result in a new window popping up to render the graphi
 ### To compile from the CLI
 `make`
 
+### To run MangoHud
+`MANGOHUD_DLSYM=1 mangohud ./exec`
+
 ## Controls
 
 ### Keyboard inputs

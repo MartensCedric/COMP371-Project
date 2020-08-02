@@ -1,6 +1,7 @@
 #pragma once
 #include "SimpleModel.hpp"
 #include <glm/glm.hpp>
+#include "Shader.hpp"
 
 class AxesModel : public SimpleModel {
     public:
