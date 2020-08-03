@@ -14,7 +14,5 @@ public:
 	Terrain();
 	Terrain(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 	static const int SIZE = 100;
-	float height;  // [-1, 1]
-	void draw();
 };
 
