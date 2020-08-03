@@ -2,10 +2,13 @@ default: exec
 
 CFLAGS = -g -Wall
 LIBS = -lGL -lX11 -lGLEW `pkg-config glfw3 --static --libs`
-OBJFILES = Skybox.o LoadTexture.o PlaneModel.o WorldModel.o SphereModel.o GridModel.o AxesModel.o UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
+OBJFILES = FastNoise.o Terrain.o Skybox.o LoadTexture.o SphereModel.o PlaneModel.o AxesModel.o GridModel.o WorldModel.o UnitCubeModel.o SimpleModel.o Model.o Shader.o Camera.o
 
 exec: 371A1.cpp $(OBJFILES)
 	g++ $(CFLAGS) -o exec 371A1.cpp $(OBJFILES) $(LIBS)
+
+FastNoise.o: ../ThirdParty/FastNoise.cpp
+	g++ -c $(CFLAGS) $< $(LIBS)
 
 %.o: %.cpp
 	g++ -c $(CFLAGS) $< $(LIBS)
