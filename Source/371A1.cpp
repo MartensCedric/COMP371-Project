@@ -55,21 +55,6 @@ int windowHeight = 768;
 
 int maxOffset = 2;
 
-bool showTexture = true;
-bool showLight = true;
-bool isLightToggled = false;
-bool isTextureToggled = false;
-
-bool hasBottomMovedForward = false;
-bool hasBottomMovedBackward = false;
-bool hasBottomMovedRight = false;
-bool hasBottomMovedLeft = false;
-
-bool hasTopMovedForward = false;
-bool hasTopMovedBackward = false;
-bool hasTopMovedRight = false;
-bool hasTopMovedLeft = false;
-
 bool hasMovedForward = false;
 bool hasMovedBackward = false;
 bool hasMovedRight = false;
@@ -80,9 +65,9 @@ bool hasTurnedLeft = false;
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
-	float scaledWidth = windowWidth*scale;
-	float scaledHeight = windowHeight*scale;
-	glViewport((width - scaledWidth)/2, (height - scaledHeight)/2, scaledWidth, scaledHeight);
+	windowWidth = windowWidth*scale;
+	windowHeight = windowHeight*scale;
+	glViewport((width - windowWidth)/2, (height - windowHeight)/2, windowWidth, windowHeight);
 }
 
 bool models_sort(Model* model1, Model* model2) { 
@@ -228,228 +213,48 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			(*it)->scale(0.95, 0.95, 0.95);
 		}
 	}
-	
-	// Switch to lines rendering mode
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	// Switch to triangle rendering mode
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	// ------------------------------------------------ FULL CONTROLS -------------------------------------------------
 
-	// Switch to points rendering mode
-	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
-		glPointSize(5);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	// move forward
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasMovedForward)
+	{
+		hasMovedForward = true;
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->translate(0, 0, -1);
+		}
 	}
 
-	// Toggle Light
-	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !isLightToggled) {
-		isLightToggled = true;
-		showLight = !showLight;
+	// move back
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasMovedBackward)
+	{
+		hasMovedBackward = true;
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->translate(0, 0, 1);
+		}
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_RELEASE) {
-		isLightToggled = false;
+	// move left
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasMovedLeft)
+	{
+		hasMovedLeft = true;
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->translate(-1, 0, 0);
+		}
 	}
 
-	// Toggle Texture
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && !isTextureToggled) {
-		isTextureToggled = true;
-		showTexture = !showTexture;
+	// move right
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasMovedRight)
+	{
+		hasMovedRight = true;
+		for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		{
+			(*it)->translate(1, 0, 0);
+		}
 	}
-
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_RELEASE) {
-		isTextureToggled = false;
-	}
-
-	// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
-
-		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasBottomMovedForward)
-		{
-			hasBottomMovedForward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-				if(dZ > -1*maxOffset) {
-					(*it)->translate(0, 0, -1);
-				}
-			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE) {
-			hasBottomMovedForward = false;
-			hasTopMovedForward = false;
-			hasMovedForward = false;
-		}
-
-		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasBottomMovedBackward)
-		{
-			hasBottomMovedBackward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-
-				if(dZ < maxOffset) {
-					(*it)->translate(0, 0, 1);
-				}
- 			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE) {
-			hasBottomMovedBackward = false;
-			hasTopMovedBackward = false;
-			hasMovedBackward = false;
-		}
-
-		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasBottomMovedLeft)
-		{
-			hasBottomMovedLeft = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX > -1*maxOffset) {
-					(*it)->translate(-1, 0, 0);
-				}
-			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE) {
-			hasBottomMovedLeft = false;
-			hasTopMovedLeft = false;
-			hasMovedLeft = false;
-		}
-
-		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasBottomMovedRight)
-		{
-			hasBottomMovedRight = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX < maxOffset) {
-					(*it)->translate(1, 0, 0);
-				}
-			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
-			hasBottomMovedRight = false;
-			hasTopMovedRight = false;
-			hasMovedRight = false;
-		}
-
-		// ------------------------------------------------ TOP HALF CONTROLS -------------------------------------------------
-
-		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasTopMovedForward)
-		{
-			hasTopMovedForward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-				if(dZ > -1*maxOffset) {
-					(*it)->translate(0, 0, -1);
-				}
-			}
-		}
-
-		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasTopMovedBackward)
-		{
-			hasTopMovedBackward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-
-				if(dZ < maxOffset) {
-					(*it)->translate(0, 0, 1);
-				}
- 			}
-		}
-
-		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasTopMovedLeft)
-		{
-			hasTopMovedLeft = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX > -1*maxOffset) {
-					(*it)->translate(-1, 0, 0);
-				}
-			}
-		}
-
-		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasTopMovedRight)
-		{
-			hasTopMovedRight = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX < maxOffset) {
-					(*it)->translate(1, 0, 0);
-				}
-			}
-		}
-
-		// ------------------------------------------------ FULL CONTROLS -------------------------------------------------
-
-		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasMovedForward)
-		{
-			hasMovedForward = true;
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->translate(0, 0, -1);
-			}
-		}
-
-		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasMovedBackward)
-		{
-			hasMovedBackward = true;
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->translate(0, 0, 1);
-			}
-		}
-
-		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasMovedLeft)
-		{
-			hasMovedLeft = true;
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->translate(-1, 0, 0);
-			}
-		}
-
-		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasMovedRight)
-		{
-			hasMovedRight = true;
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->translate(1, 0, 0);
-			}
-		}
 }
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
@@ -569,22 +374,6 @@ int main(int argc, char*argv[])
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
-
-		int modelShader = Shader::passthrough;
-
-		if (showLight && showTexture)
-		{
-			modelShader = Shader::textureLight;
-		}
-		else if (showLight)
-		{
-			modelShader = Shader::light;
-		}
-		else if (showTexture)
-		{
-			modelShader = Shader::texture;
-		}
-
 		glUseProgram(Shader::shadow);
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
@@ -616,12 +405,12 @@ int main(int argc, char*argv[])
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
-			(*it)->setShader(modelShader);
+			(*it)->setShader(Shader::textureLight);
 		}
 
 		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
 		{
-			(*it)->setShader(showLight ? Shader::light : Shader::passthrough);
+			(*it)->setShader(Shader::light);
 		}
 	
 		world->draw();

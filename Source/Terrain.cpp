@@ -102,7 +102,7 @@ Terrain::Terrain()
 		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	});
 
-	setShader(Shader::textureLight);
+	setShader(Shader::terrain);
     setupAttribPointer();
 }
 

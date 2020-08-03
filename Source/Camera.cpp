@@ -22,7 +22,7 @@ Camera::Camera(int width, int height) :
     glEnable(GL_DEPTH_TEST);
 
     // greyish background color
-    glClearColor(0.2f, 0.29f, 0.29f, 1.0f);
+    glClearColor(135.0/255, 206.0/255, 250.0/255, 1.0f);
 }
 
 void Camera::moveForward() {

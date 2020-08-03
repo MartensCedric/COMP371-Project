@@ -289,16 +289,9 @@ WorldModel::WorldModel() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	grid = new GridModel();
-	//addChild(grid);
-	
 	plane = new PlaneModel();
 	plane->translate(0, 0.1, 0);
 	addChild(plane);
-
-	axes = new AxesModel();
-	axes->translate(0, 0.1, 0);
-	addChild(axes);
 
 	terrain = new Terrain();
 	terrain->setTexture(grassTextureID);
@@ -306,10 +299,6 @@ WorldModel::WorldModel() {
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
-	// Alpha numerical models
-	// Splitting each model in two
-	// strategy: 2/3 assigned to the bottom, the remainder 1/3 to the top
-	
 	/* 
 	 * ----------------------------------------------------
 	 *                          T5
@@ -336,7 +325,7 @@ WorldModel::WorldModel() {
 	T5->addChild(sphere_4);
 
 	T5->translate(-18, 3.5, -18);
-	//models.push_back(T5);
+	models.push_back(T5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -364,7 +353,7 @@ WorldModel::WorldModel() {
 	I3->addChild(sphere_1);
 
 	I3->translate(18, 3.5, -18);
-	//models.push_back(I3);
+	models.push_back(I3);
 
 	/* 
 	 * ----------------------------------------------------
@@ -392,7 +381,7 @@ WorldModel::WorldModel() {
 	E5->addChild(sphere);
 
 	E5->translate(0, 3.5, 0);
-	//models.push_back(E5);
+	models.push_back(E5);
 
 	/* 
 	 * ----------------------------------------------------
@@ -420,7 +409,7 @@ WorldModel::WorldModel() {
 	I3_2->addChild(sphere_2);
 
 	I3_2->translate(18, 3.5, 18);
-	//models.push_back(I3_2);
+	models.push_back(I3_2);
 
 	/* 
 	 * ----------------------------------------------------
