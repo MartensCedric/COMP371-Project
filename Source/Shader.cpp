@@ -1,12 +1,12 @@
 #include "includes/Shader.hpp"
 
-int Shader::lightAffectedShader = 0;
-int Shader::textureShader = 0;
-int Shader::textureLightShader = 0;
-int Shader::passthroughShader = 0;
-int Shader::shadowShader = 0;
-int Shader::skyboxShader = 0;
-int Shader::terrainShader = 0;
+int Shader::light = 0;
+int Shader::texture= 0;
+int Shader::textureLight = 0;
+int Shader::passthrough = 0;
+int Shader::shadow = 0;
+int Shader::skybox = 0;
+int Shader::terrain = 0;
 
 int Shader::compileShader(const char * path, int shaderType)
 {
@@ -83,11 +83,11 @@ int Shader::compileAndLinkShaders(const char * vertexPath, const char * fragment
 }
 
 Shader::Shader() {
-	Shader::lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
-	Shader::textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
-	Shader::textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
-	Shader::passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
-	Shader::shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
-	Shader::skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
-	Shader::terrainShader = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
+	Shader::light = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
+	Shader::texture = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
+	Shader::textureLight = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+	Shader::passthrough = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
+	Shader::shadow = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
+	Shader::skybox = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
+	Shader::terrain = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
 }

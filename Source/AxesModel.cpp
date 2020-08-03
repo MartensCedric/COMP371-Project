@@ -7,8 +7,6 @@
 * Blue : Z
 */
 AxesModel::AxesModel() {
-    setShader(Shader::passthroughShader);
-
     glm::vec4 red = glm::vec4(1, 0, 0, 1);
     glm::vec4 green = glm::vec4(0, 1, 0, 1);
     glm::vec4 blue = glm::vec4(0, 0, 1, 1);
@@ -32,6 +30,8 @@ AxesModel::AxesModel() {
 		glDrawArrays(GL_LINES, 0, vertexCount);
 		glLineWidth(1);
 	});
+
+    setShader(Shader::passthrough);
 	setupAttribPointer();
 }
 

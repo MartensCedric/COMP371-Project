@@ -1,5 +1,4 @@
 #include "includes/WorldModel.hpp"
-#include "../Source/includes/Terrain.hpp"
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -280,25 +279,6 @@ EightModel::EightModel() {
 	//modelsTop.push_back(topDiv);
 };
 
-PlaneModel* plane = nullptr;
-GridModel* grid = nullptr;
-AxesModel* axes = nullptr;
-Terrain* terrain = nullptr;
-
-void WorldModel::setModelShader(int shaderProgram) 
-{ 
-	for(auto it = models.begin(); it != models.end(); it++)
-		(*it)->setShader(shaderProgram); 
-}
-
-void WorldModel::setSphereShader(int shaderProgram)
-{
-	for (auto it = spheres.begin(); it != spheres.end(); it++)
-	{
-		(*it)->setShader(shaderProgram);
-	}
-}
-
 WorldModel::WorldModel() {
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
@@ -310,20 +290,18 @@ WorldModel::WorldModel() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid = new GridModel();
-//	addChild(grid);
+	//addChild(grid);
 	
 	plane = new PlaneModel();
-	//plane->setTexture(grassTextureID);
 	plane->translate(0, 0.1, 0);
-	//texturedElement.push_back(plane);
-	//addChild(plane);
+	addChild(plane);
 
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);
 
 	terrain = new Terrain();
-	//terrain->setTexture(grassTextureID);
+	terrain->setTexture(grassTextureID);
 	texturedElement.push_back(terrain);
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
@@ -470,10 +448,10 @@ WorldModel::WorldModel() {
 	D8->addChild(sphere_3);
 
 	D8->translate(-18, 3.5, 18);
-	//models.push_back(D8);
+	models.push_back(D8);
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		//addChild(*it);
+		addChild(*it);
 	}
 };

@@ -1,8 +1,6 @@
 #include "includes/GridModel.hpp"
 
 GridModel::GridModel() {
-	setShader(Shader::passthroughShader);
-
     glm::vec4 color = glm::vec4(0.5f, 0.5f, 0.2f, 1);
 	glm::vec3 normal = glm::vec3(0, 0, 0);
     
@@ -32,6 +30,8 @@ GridModel::GridModel() {
 		});
 
 		zline->translate(-25.0f + i/2.0f, 0, 0);
+
+		setShader(Shader::passthrough);
 		zline->setupAttribPointer();
 
 		this->addChild(xline);

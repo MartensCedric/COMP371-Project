@@ -26,13 +26,13 @@
 
 class Shader {
     public:
-        static int lightAffectedShader;
-        static int textureShader;
-        static int textureLightShader;
-        static int passthroughShader;
-        static int shadowShader;
-        static int skyboxShader;
-        static int terrainShader;
+        static int light;
+        static int texture;
+        static int textureLight;
+        static int passthrough;
+        static int shadow;
+        static int skybox;
+        static int terrain;
         
         Shader();
         int compileShader(const char * path, int shaderType);
