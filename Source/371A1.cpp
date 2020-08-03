@@ -553,15 +553,10 @@ int main(int argc, char*argv[])
 	camera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
 	Skybox skybox;
-	skybox.setShader(skyboxShader);
+	skybox.setShader(Shader::skybox);
 	skybox.setCamera(camera);
 	skybox.setTexture(skyboxCubeMap);
 	world->setCamera(camera);
-
-	world->setAxesShader(passthroughShader);
-	world->setGridShader(passthroughShader);
-	world->setPlaneShader(textureLightShader);
-	world->setTerrainShader(terrainShader);
 
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -575,31 +570,29 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
-		int modelShader = passthroughShader;
+		int modelShader = Shader::passthrough;
 
 		if (showLight && showTexture)
 		{
-			modelShader = textureLightShader;
+			modelShader = Shader::textureLight;
 		}
 		else if (showLight)
 		{
-			modelShader = lightAffectedShader;
+			modelShader = Shader::light;
 		}
 		else if (showTexture)
 		{
-			modelShader = textureShader;
+			modelShader = Shader::texture;
 		}
 
-		world->setPlaneShader(modelShader);
-
-		glUseProgram(shadowShader);
+		glUseProgram(Shader::shadow);
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
-			(*it)->setShader(shadowShader);
+			(*it)->setShader(Shader::shadow);
 			(*it)->draw();
 		}
 		
@@ -613,10 +606,10 @@ int main(int argc, char*argv[])
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
-		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
+		int shadowMapTexureLoc = glGetUniformLocation(Shader::textureLight, "shadow_map");
 		glUniform1i(shadowMapTexureLoc, 0);
 
-		int shadowMapLoc = glGetUniformLocation(lightAffectedShader, "shadow_map");
+		int shadowMapLoc = glGetUniformLocation(Shader::light, "shadow_map");
 		glUniform1i(shadowMapLoc, 0);
 
 		glBindTexture(GL_TEXTURE_2D, depthMap);
@@ -628,7 +621,7 @@ int main(int argc, char*argv[])
 
 		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
 		{
-			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
+			(*it)->setShader(showLight ? Shader::light : Shader::passthrough);
 		}
 	
 		world->draw();

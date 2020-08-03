@@ -6,6 +6,7 @@
 #include "PlaneModel.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
+#include "Terrain.hpp"
 
 class EModel : public SimpleModel {
 	public: 
@@ -44,10 +45,13 @@ class EightModel : public SimpleModel {
 
 class WorldModel : public SimpleModel {
 	public:
+		PlaneModel* plane = nullptr;
+		GridModel* grid = nullptr;
+		AxesModel* axes = nullptr;
+		Terrain* terrain = nullptr;
+
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
 		WorldModel();
-		void setModelShader(int shaderProgram);
-		void setSphereShader(int shaderProgram);
 		std::vector<Model*> texturedElement;
 };
