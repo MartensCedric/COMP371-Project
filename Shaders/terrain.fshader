@@ -18,8 +18,6 @@ in vec3 fragmentPosition;
 in vec3 vertexNormal;
 out vec4 FragColor;
 
-uniform float height;
-
 in vec4 fragment_position_light_space;
 
 float shadow_scalar() {
@@ -39,6 +37,7 @@ float shadow_scalar() {
 
 void main()
 {
+   float height = fragmentPosition.y / 10.0;
    vec3 ambientColor = vec3(252.0f/255.0f, 252.0f/255.0f, 252.0f/255.0f);
    
    if(height < 0.6)
@@ -61,8 +60,8 @@ void main()
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 
    vec3 specularColor = specularComponent * lightColor;
    float shadowScalar = shadow_scalar();
-   vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
-   
+   //vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
+   vec3 finalLight = kAmbient * ambientColor + kDiffuse * diffuseColor + kSpecular * specularColor;
    FragColor = vec4(finalLight.rgb, 1.0f); //This is the actual line we want to have
    //FragColor = vec4(shadow_scalar(), shadow_scalar(), shadow_scalar(), 1.0); //Use this line to debug and see in white/black shadows
 }
