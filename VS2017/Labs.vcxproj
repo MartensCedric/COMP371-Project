@@ -128,7 +128,6 @@
     <ClCompile Include="..\Source\Skybox.cpp" />
     <ClCompile Include="..\Source\SphereModel.cpp" />
     <ClCompile Include="..\Source\Terrain.cpp" />
-    <ClCompile Include="..\Source\TerrainCube.cpp" />
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
     <ClCompile Include="..\Source\WorldModel.cpp" />
     <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
@@ -145,7 +144,6 @@
     <ClInclude Include="..\Source\includes\Skybox.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\Terrain.hpp" />
-    <ClInclude Include="..\Source\includes\TerrainCube.hpp" />
     <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
     <ClInclude Include="..\ThirdParty\FastNoise.h" />
