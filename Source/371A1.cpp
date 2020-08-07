@@ -57,6 +57,8 @@ int windowHeight = 768;
 
 int maxOffset = 2;
 
+float sunTheta = 0;
+
 bool showTexture = true;
 bool showLight = true;
 bool isLightToggled = false;
@@ -588,6 +590,8 @@ int main(int argc, char*argv[])
 	world->setPlaneShader(textureLightShader);
 	world->setTerrainShader(terrainShader);
 
+	DirectionalLight* worldLight = new DirectionalLight();
+	world->setLight(worldLight);
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
 	double xPanStart = -1;
@@ -599,6 +603,13 @@ int main(int argc, char*argv[])
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
+
+		if (sunTheta >= 2 * 3.141592654f)
+		{
+			sunTheta -= 2 * 3.141592654;
+		}
+		sunTheta += 0.05f;
+		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
 
 		int modelShader = passthroughShader;
 
