@@ -187,22 +187,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 	}
 
-	// Rotate World Orientation Left
-	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
-		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		world->rotate(1, 0, 0, -5);
-	}
-
-	// Rotate World Orientation Right
-	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
-		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		world->rotate(1, 0, 0, 5);
-	}
-
 	// Rotate World Orientation UP
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&

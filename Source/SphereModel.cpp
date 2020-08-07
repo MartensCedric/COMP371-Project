@@ -12,7 +12,7 @@ SphereModel::SphereModel(float radius, int sectors, int stacks){
     float sectorAngle, stackAngle;
     
     glm::vec4 color = glm::vec4(0.75, 0.75, 0.75, 0.5);
-    std::vector<struct Vertex> v;
+    std::vector<Vertex> v;
     for(int i = 0; i <= stacks; ++i)
     {
         stackAngle = M_PI / 2 - i * stackStep;      // starting from pi/2 to -pi/2
@@ -80,5 +80,5 @@ SphereModel::SphereModel(float radius, int sectors, int stacks){
     setupAttribPointer();
 }
 
-SphereModel::SphereModel(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
+SphereModel::SphereModel(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
 : SimpleModel(vertexArray, vertexCount, drawFunc) {}

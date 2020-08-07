@@ -12,7 +12,12 @@ class SimpleModel : public Model
 		static std::vector<Model*> modelsTop;
 		
 		SimpleModel();
+<<<<<<< HEAD
 		SimpleModel(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+=======
+		SimpleModel(glm::vec3 * vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+		SimpleModel(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
+>>>>>>> master
 		virtual void setupAttribPointer() override;
 		virtual ~SimpleModel();
 };

@@ -319,7 +319,7 @@ WorldModel::WorldModel() {
 //	addChild(grid);
 	
 	plane = new PlaneModel();
-	plane->setTexture(grassTextureID);
+	//plane->setTexture(grassTextureID);
 	plane->translate(0, 0.1, 0);
 	//texturedElement.push_back(plane);
 	//addChild(plane);
@@ -329,7 +329,7 @@ WorldModel::WorldModel() {
 	addChild(axes);
 
 	terrain = new Terrain();
-	terrain->setTexture(grassTextureID);
+	//terrain->setTexture(grassTextureID);
 	texturedElement.push_back(terrain);
 	terrain->translate(-50, 0, -50);
 	terrain->setLight(&sun);
