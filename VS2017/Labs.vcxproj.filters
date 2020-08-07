@@ -147,5 +147,8 @@
     <ClInclude Include="..\Source\includes\Terrain.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\includes\DirectionalLight.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />
     <ClInclude Include="..\Source\includes\Camera.hpp" />
+    <ClInclude Include="..\Source\includes\DirectionalLight.hpp" />
     <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
