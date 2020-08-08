@@ -98,6 +98,11 @@ void Model::draw()
 	int lightDirectionLocation = glGetUniformLocation(shaderId, "lightDirection");
 	glUniform3fv(lightDirectionLocation, 1, &lightDirection[0]);
 
+
+	glm::vec3 eyePosition = camera->position;
+	GLuint eyePositionLocation = glGetUniformLocation(shaderId, "eyePosition");
+	glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
+
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
 	this->camera->setViewMatrix(shaderId);

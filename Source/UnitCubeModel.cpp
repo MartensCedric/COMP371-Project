@@ -61,11 +61,7 @@ UnitCubeModel::UnitCubeModel() {
         &vertices[0], 
         vertices.size(), 
         [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
-
-			glm::vec3 eyePosition = camera->position;
-			GLuint eyePositionLocation = glGetUniformLocation(shaderProgram, "eyePosition");
-			glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
-			
+	
             GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
             glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]);
 

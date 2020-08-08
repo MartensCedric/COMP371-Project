@@ -318,18 +318,15 @@ WorldModel::WorldModel() {
 //	addChild(grid);
 	
 	plane = new PlaneModel();
-	//plane->setTexture(grassTextureID);
-	plane->translate(0, 0.1, 0);
-	//texturedElement.push_back(plane);
-	//addChild(plane);
+	plane->setTexture(grassTextureID);
+	plane->translate(0, -4, 0);
+	addChild(plane);
 
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);
 
 	terrain = new Terrain();
-	//terrain->setTexture(grassTextureID);
-	texturedElement.push_back(terrain);
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
@@ -347,13 +344,11 @@ WorldModel::WorldModel() {
 	
 	TModel* T = new TModel();
 	T->setTexture(boxTextureID);
-	texturedElement.push_back(T);
 	T->translate(-2, 0, 0);
 	T5->addChild(T);
 	
 	FiveModel* five_2 = new FiveModel();
 	five_2->setTexture(goldTextureID);
-	texturedElement.push_back(five_2);
 	five_2->translate(1.5, 0, 0);
 	T5->addChild(five_2);
 
@@ -375,13 +370,11 @@ WorldModel::WorldModel() {
 	
 	IModel* I = new IModel();
 	I->setTexture(boxTextureID);
-	texturedElement.push_back(I);
 	I->translate(-2, 0, 0);
 	I3->addChild(I);
 
 	ThreeModel* three = new ThreeModel();
 	three->setTexture(goldTextureID);
-	texturedElement.push_back(three);
 	three->translate(2, 0, 0);
 	I3->addChild(three);
 
@@ -403,13 +396,11 @@ WorldModel::WorldModel() {
 	
 	EModel* E = new EModel();
 	E->setTexture(boxTextureID);
-	texturedElement.push_back(E);
 	E->translate(-3.5, 0, 0);
 	E5->addChild(E);
 
 	FiveModel* five = new FiveModel();
 	five->setTexture(goldTextureID);
-	texturedElement.push_back(five);
 	five->translate(1.5, 0, 0);
 	E5->addChild(five);
 
@@ -431,13 +422,11 @@ WorldModel::WorldModel() {
 	
 	IModel* I_2 = new IModel();
 	I_2->setTexture(boxTextureID);
-	texturedElement.push_back(I_2);
 	I_2->translate(-2, 0, 0);
 	I3_2->addChild(I_2);
 
 	ThreeModel* three_2 = new ThreeModel();
 	three_2->setTexture(goldTextureID);
-	texturedElement.push_back(three_2);
 	three_2->translate(2, 0, 0);
 	I3_2->addChild(three_2);
 
@@ -459,13 +448,11 @@ WorldModel::WorldModel() {
 	
 	DModel* D = new DModel();
 	D->setTexture(boxTextureID);
-	texturedElement.push_back(D);
 	D->translate(-3.5, 0, 0);
 	D8->addChild(D);
 
 	EightModel* eight = new EightModel();
 	eight->setTexture(goldTextureID);
-	texturedElement.push_back(eight);
 	eight->translate(1.5, 0, 0);
 	D8->addChild(eight);
 
