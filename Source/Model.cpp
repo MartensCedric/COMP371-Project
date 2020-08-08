@@ -84,6 +84,13 @@ void Model::draw()
 
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
+	glActiveTexture(GL_TEXTURE2);
+	int skyboxLoc = glGetUniformLocation(shaderId, "skybox");
+	glUniform1i(skyboxLoc, 2);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxLoc);
+
+
 	glm::mat4 lightProjection = glm::ortho(
 		-100.f, 100.f, -100.f, 100.f,
 		0.01f, 800.f

@@ -536,6 +536,7 @@ int main(int argc, char*argv[])
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
 	int terrainShader = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
+	int waterShader = compileAndLinkShaders("../Shaders/water.vshader", "../Shaders/water.fshader");
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -570,7 +571,7 @@ int main(int argc, char*argv[])
 
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
-	world->setPlaneShader(textureLightShader);
+	world->setPlaneShader(waterShader);
 	world->setTerrainShader(terrainShader);
 
 	DirectionalLight* worldLight = new DirectionalLight();
@@ -630,12 +631,7 @@ int main(int argc, char*argv[])
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
-		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
-		glUniform1i(shadowMapTexureLoc, 0);
-
-		int shadowMapLoc = glGetUniformLocation(lightAffectedShader, "shadow_map");
-		glUniform1i(shadowMapLoc, 0);
-
+	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)

@@ -149,9 +149,6 @@ ThreeModel::ThreeModel() {
 
 	addChild(bottomDiv);
 	addChild(topDiv);
-
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
 };
 
 TModel::TModel() {
@@ -318,7 +315,6 @@ WorldModel::WorldModel() {
 //	addChild(grid);
 	
 	plane = new PlaneModel();
-	plane->setTexture(grassTextureID);
 	plane->translate(0, -4, 0);
 	addChild(plane);
 
