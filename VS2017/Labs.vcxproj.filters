@@ -108,6 +108,12 @@
     <ClCompile Include="..\ThirdParty\FastNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\ConeModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\DigitalClockSegment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\Model.hpp">
@@ -145,6 +151,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\includes\Terrain.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\includes\ConeModel.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\includes\DigitalClockSegment.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
