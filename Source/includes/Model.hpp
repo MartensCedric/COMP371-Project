@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
 #include <vector>
 #include "Camera.hpp"
+#include "DirectionalLight.hpp"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -25,6 +26,7 @@ public:
 	std::vector<Model*> children;
 	Model* parent = nullptr;
 	Camera* camera = nullptr;
+	DirectionalLight* light = nullptr;
 		
 	Model();
 	Model(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
@@ -32,6 +34,7 @@ public:
 	virtual void setShader(int shaderProgram);
 	virtual void setTexture(GLuint texture);
 	virtual void setCamera(Camera* camera);
+	virtual void setLight(DirectionalLight* light);
 	virtual void draw();
 	void scale(float x, float y, float z);
 	void rotate(float y, float x, float z, float angle);

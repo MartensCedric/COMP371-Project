@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />
     <ClInclude Include="..\Source\includes\Camera.hpp" />
+    <ClInclude Include="..\Source\includes\DirectionalLight.hpp" />
     <ClInclude Include="..\Source\includes\ConeModel.hpp" />
     <ClInclude Include="..\Source\includes\DigitalClockSegment.h" />
     <ClInclude Include="..\Source\includes\GridModel.hpp" />

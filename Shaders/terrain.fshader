@@ -4,7 +4,7 @@ in vec2 vertexUV;
 uniform sampler2D textureSampler; 
 uniform sampler2D shadow_map; 
 
-uniform vec3 lightPosition;
+uniform vec3 lightDirection;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
 uniform vec3 eyePosition;
 
@@ -50,11 +50,11 @@ void main()
 		ambientColor = vec3(162.0f/255.0f, 235.0f/255.0f, 193.0f/255.0f);
    }
   
-   vec3 lightDirection = normalize(fragmentPosition - lightPosition);
-   float diffuse = max(dot(vertexNormal, lightDirection), 0.0f);
+   vec3 lightDirectionNorm = normalize(lightDirection);
+   float diffuse = max(dot(vertexNormal, lightDirectionNorm), 0.0f);
    vec3 diffuseColor = diffuse * lightColor;
    vec3 viewDirection = normalize(eyePosition - fragmentPosition);
-   vec3 lightReflectDirection = reflect(lightDirection, vertexNormal);
+   vec3 lightReflectDirection = reflect(lightDirectionNorm, vertexNormal);
    
    // The dot is the cos(theta) because it's normalized
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 

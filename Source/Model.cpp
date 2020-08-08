@@ -63,6 +63,15 @@ void Model::setTexture(GLuint texture)
 	}
 };
 
+void Model::setLight(DirectionalLight* light)
+{
+	this->light = light;
+	for (auto it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setLight(light);
+	}
+}
+
 /**
 * Draws the model. Binds the correct shader and VAO, it will also draw all the children.
 */
@@ -76,14 +85,18 @@ void Model::draw()
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
 	glm::mat4 lightProjection = glm::ortho(
-		-25.f, 25.f, -25.f, 25.f,
-		0.01f, 50.f
+		-100.f, 100.f, -100.f, 100.f,
+		0.01f, 800.f
 	);         // near and far (near > 0)
-	glm::mat4 lightView = glm::lookAt(glm::vec3(0.0f, 10.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
+	glm::mat4 lightView = glm::lookAt(glm::vec3(-light->direction * 30.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
 	int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");
 	glUniformMatrix4fv(lightSpaceLocationShadow, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
+
+	glm::vec3 lightDirection = this->light->direction;
+	int lightDirectionLocation = glGetUniformLocation(shaderId, "lightDirection");
+	glUniform3fv(lightDirectionLocation, 1, &lightDirection[0]);
 
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);

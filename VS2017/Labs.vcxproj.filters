@@ -153,6 +153,7 @@
     <ClInclude Include="..\Source\includes\Terrain.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\includes\DirectionalLight.hpp">
     <ClInclude Include="..\Source\includes\ConeModel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
