@@ -238,6 +238,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		sort(world->children.begin(), world->children.end(), &models_sort);
 	}
 
+	// Move world back
+	if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+	{
+		world->translate(0, 0, -1);
+	}
+	// move world forward
+	else if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+	{
+		world->translate(0, 0, 1);
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_HOME)) {
 		world->reset();
 	}
