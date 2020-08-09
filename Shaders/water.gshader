@@ -26,19 +26,23 @@ void main() {
    int ySections = 4;
    
    
-   for(int j = 0; j < ySections; j++)
+   for(int j = 0; j < ySections - 1; j++)
    {
+    float topY = (2.0 * j)/ySections; 
+	float bottomY = (2.0 * (j + 1))/ySections;
 	for(int i = 0; i < xSections; i++)
 	{
 		float x = (2.0 * i)/(xSections);
-		gl_Position = MVP * vec4(-1.0 + x, 0.0, -1.0, 1.0);
+		gl_Position = MVP * vec4(-1.0 + x, 0.0, -1.0 + topY, 1.0);
 		vertexNormal = vec3(0, 1.0, 0.0);
 		EmitVertex();		
         
-		gl_Position = MVP * vec4(-1.0 + x, 0.0, 1.0, 1.0);
+		gl_Position = MVP * vec4(-1.0 + x, 0.0, -1.0 + bottomY, 1.0);
 		vertexNormal = vec3(0, 1.0, 0.0);
 		EmitVertex();
 	}
+	EndPrimitive();
+	
    }
    
    
