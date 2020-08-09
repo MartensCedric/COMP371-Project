@@ -27,6 +27,7 @@ public:
 	Model* parent = nullptr;
 	Camera* camera = nullptr;
 	DirectionalLight* light = nullptr;
+	int skybox = -1;
 		
 	Model();
 	Model(struct Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
@@ -35,6 +36,7 @@ public:
 	virtual void setTexture(GLuint texture);
 	virtual void setCamera(Camera* camera);
 	virtual void setLight(DirectionalLight* light);
+	virtual void setSkybox(int skybox);
 	virtual void draw();
 	void scale(float x, float y, float z);
 	void rotate(float y, float x, float z, float angle);

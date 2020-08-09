@@ -14,5 +14,5 @@ void main()
    vec3 frag_to_eye = normalize(fragmentPosition - eyePosition);
    vec3 look_at_reflection = reflect(frag_to_eye, normalize(vertexNormal));
    vec3 skybox_env_color = texture(skybox, look_at_reflection).rgb;
-   FragColor = vec4(vertexColor.r, vertexColor.g, vertexColor.b, vertexColor.a);
+   FragColor = vec4(skybox_env_color, 1.0f);
 }

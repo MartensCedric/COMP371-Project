@@ -576,6 +576,7 @@ int main(int argc, char*argv[])
 
 	DirectionalLight* worldLight = new DirectionalLight();
 	world->setLight(worldLight);
+	world->setSkybox(skyboxCubeMap);
 	
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -588,6 +589,7 @@ int main(int argc, char*argv[])
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
+
 
 		sunTheta += 0.005f;
 
@@ -607,8 +609,6 @@ int main(int argc, char*argv[])
 		{
 			modelShader = textureShader;
 		}
-
-		world->setPlaneShader(modelShader);
 
 		glUseProgram(shadowShader);
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);

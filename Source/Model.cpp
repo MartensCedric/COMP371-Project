@@ -72,6 +72,15 @@ void Model::setLight(DirectionalLight* light)
 	}
 }
 
+void Model::setSkybox(int skybox)
+{
+	this->skybox = skybox;
+	for (auto it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setSkybox(skybox);
+	}
+}
+
 /**
 * Draws the model. Binds the correct shader and VAO, it will also draw all the children.
 */
@@ -88,7 +97,7 @@ void Model::draw()
 	int skyboxLoc = glGetUniformLocation(shaderId, "skybox");
 	glUniform1i(skyboxLoc, 2);
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxLoc);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox);
 
 
 	glm::mat4 lightProjection = glm::ortho(
