@@ -6,9 +6,7 @@ uniform float environment_map = 0.5f;
 uniform vec3 lightDirection;
 uniform vec3 eyePosition;
 
-in vec4 vertexColor;
 in vec3 vertexNormal;
-in vec2 vertexUV;
 in vec3 fragmentPosition;
 
 void main()
