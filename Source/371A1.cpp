@@ -185,7 +185,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 	}
 
-	// Rotate World Orientation UP
+	// NOTE: clockwise is defined relative to the origin vectors outward direction of corresponding axis
+	// Rotate World Orientation anti-clockwise about Y axis
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		world->rotate(0, 1, 0, -5);
+
+		// Sort the models according to their z position 
+		// For correct blending 
+		sort(world->models.begin(), world->models.end(), &models_sort);
+		sort(world->children.begin(), world->children.end(), &models_sort);
+	}
+
+	// Rotate World Orientation clockwise about Y axis
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
@@ -198,12 +212,25 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		sort(world->children.begin(), world->children.end(), &models_sort);
 	}
 
-	// Rotate World Orientation Down
+	// Rotate World Orientation clockwise about X axis
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		world->rotate(0, 1, 0, -5);
+		glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		world->rotate(1, 0, 0, -5);
+
+		// Sort the models according to their z position 
+		// For correct blending 
+		sort(world->models.begin(), world->models.end(), &models_sort);
+		sort(world->children.begin(), world->children.end(), &models_sort);
+	}
+
+	// Rotate World Orientation anti-clockwise about X axis
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		world->rotate(1, 0, 0, 5);
 
 		// Sort the models according to their z position 
 		// For correct blending 
