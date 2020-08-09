@@ -1,5 +1,71 @@
 #include "includes/WorldModel.hpp"
+#include "includes/ConeModel.hpp"
 #include "../Source/includes/Terrain.hpp"
+
+PenguinModel::PenguinModel() {
+	setupAttribPointer();
+
+	//@TODO: refactor this so it's accessible as class attributes?
+	// Load textures
+	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
+	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
+	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+
+	SimpleModel* leftFoot = new UnitCubeModel();
+	SimpleModel* rightFoot = new UnitCubeModel();
+	SimpleModel* body = new UnitCubeModel();
+	SimpleModel* leftWing = new UnitCubeModel();
+	SimpleModel* rightWing = new UnitCubeModel();
+	SimpleModel* head = new UnitCubeModel();
+	//@TODO: use Cedrics epic cone model instead of unit cube
+	//ConeModel* beak = new ConeModel(glm::vec3(0, 0, 0));
+	SimpleModel* beak = new UnitCubeModel();
+	SimpleModel* leftEye = new UnitCubeModel();
+	SimpleModel* rightEye = new UnitCubeModel();
+
+	body->scale(3, 3, 2);
+	body->translate(0, 2, 0.5);
+	//@TODO: change the body to black except white on front side
+	body->setTexture(boxTextureID);
+	leftFoot->scale(1, 1, 1.2);
+	leftFoot->translate(-1, 0, 0.2);
+	leftFoot->setTexture(goldTextureID);
+	rightFoot->scale(1, 1, 1.2);
+	rightFoot->translate(1, 0, 0.2);
+	//@TODO: change the wings to black
+	rightFoot->setTexture(goldTextureID);
+	leftWing->scale(0.5, 2, 1.2);
+	leftWing->translate(-1.5, 2, 0.2);
+	leftWing->setTexture(goldTextureID);
+	rightWing->scale(0.5, 2, 1.2);
+	rightWing->translate(1.5, 2, 0.2);
+	rightWing->setTexture(goldTextureID);
+	head->scale(1.5, 1.5, 1.2);
+	head->translate(0, 4.25, 0.2); // z=0.5 will center it
+	//@TODO: change to black outline and white front face (or split up into two models?)
+	head->setTexture(goldTextureID);
+	leftEye->scale(0.2, 0.2, 0.2);
+	leftEye->translate(-0.5, 4.25, 0.9);
+	leftEye->setTexture(grassTextureID);
+	rightEye->scale(0.2, 0.2, 0.2);
+	rightEye->translate(0.5, 4.25, 0.9);
+	//@TODO: change to pitch black (w/ reflection?)
+	rightEye->setTexture(grassTextureID);
+	beak->scale(0.2, 0.2, 0.7);
+	beak->translate(0, 4, 0.9);
+	//@TODO: change to ORANGE
+	beak->setTexture(grassTextureID);
+
+	addChild(body);
+	addChild(leftFoot);
+	addChild(rightFoot);
+	addChild(leftWing);
+	addChild(rightWing);
+	addChild(head);
+	addChild(leftEye);
+	addChild(rightEye);
+	addChild(beak);
+}
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -477,8 +543,14 @@ WorldModel::WorldModel() {
 	D8->translate(-18, 3.5, 18);
 	//models.push_back(D8);
 
+	// place test penguin
+	PenguinModel* penguino = new PenguinModel();
+	texturedElement.push_back(penguino);
+	penguino->translate(0, 11, 0);
+	models.push_back(penguino);
+
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		//addChild(*it);
+		addChild(*it);
 	}
 };
