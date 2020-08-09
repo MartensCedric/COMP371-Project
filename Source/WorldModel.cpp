@@ -280,6 +280,117 @@ EightModel::EightModel() {
 	//modelsTop.push_back(topDiv);
 };
 
+TreeTrunkModel::TreeTrunkModel() {
+	setupAttribPointer();
+
+	UnitCubeModel* mainTrunk = new UnitCubeModel();
+	mainTrunk->scale(1, 5.5, 1);
+	mainTrunk->translate(0, -1, 0);
+
+	addChild(mainTrunk);
+};
+
+RoundLeaves::RoundLeaves() {
+	setupAttribPointer();
+
+	UnitCubeModel* base = new UnitCubeModel();
+	base->scale(3, 1, 3);
+	base->translate(0, 0, 0);
+
+	UnitCubeModel* leftTop = new UnitCubeModel();
+	leftTop->scale(1, 1, 1);
+	leftTop->translate(-2, 0, -1);
+	UnitCubeModel* leftMiddle = new UnitCubeModel();
+	leftMiddle->scale(1, 1, 1);
+	leftMiddle->translate(-2, 0, 0);
+	UnitCubeModel* leftBottom = new UnitCubeModel();
+	leftBottom->scale(1, 1, 1);
+	leftBottom->translate(-2, 0, 1);
+
+	UnitCubeModel* rightTop = new UnitCubeModel();
+	rightTop->scale(1, 1, 1);
+	rightTop->translate(2, 0, -1);
+	UnitCubeModel* rightMiddle = new UnitCubeModel();
+	rightMiddle->scale(1, 1, 1);
+	rightMiddle->translate(2, 0, 0);
+	UnitCubeModel* rightBottom = new UnitCubeModel();
+	rightBottom->scale(1, 1, 1);
+	rightBottom->translate(2, 0, 1);
+
+	UnitCubeModel* topLeft = new UnitCubeModel();
+	topLeft->scale(1, 1, 1);
+	topLeft->translate(-1, 0, -2);
+	UnitCubeModel* topMiddle = new UnitCubeModel();
+	topMiddle->scale(1, 1, 1);
+	topMiddle->translate(0, 0, -2);
+	UnitCubeModel* topRight = new UnitCubeModel();
+	topRight->scale(1, 1, 1);
+	topRight->translate(1, 0, -2);
+
+	UnitCubeModel* bottomLeft = new UnitCubeModel();
+	bottomLeft->scale(1, 1, 1);
+	bottomLeft->translate(-1, 0, 2);
+	UnitCubeModel* bottomMiddle = new UnitCubeModel();
+	bottomMiddle->scale(1, 1, 1);
+	bottomMiddle->translate(0, 0, 2);
+	UnitCubeModel* bottomRight = new UnitCubeModel();
+	bottomRight->scale(1, 1, 1);
+	bottomRight->translate(1, 0, 2);
+
+	addChild(base);
+
+	addChild(leftTop);
+	addChild(leftMiddle);
+	addChild(leftBottom);
+
+	addChild(rightTop);
+	addChild(rightMiddle);
+	addChild(rightBottom);
+
+	addChild(topLeft);
+	addChild(topMiddle);
+	addChild(topRight);
+
+	addChild(bottomLeft);
+	addChild(bottomMiddle);
+	addChild(bottomRight);
+};
+
+SquareLeaves::SquareLeaves() {
+	setupAttribPointer();
+
+	UnitCubeModel* topleft = new UnitCubeModel();
+	topleft->scale(1, 1, 1);
+	topleft->translate(-0.5, 0, -0.5);
+
+	UnitCubeModel* topright = new UnitCubeModel();
+	topright->scale(1, 1, 1);
+	topright->translate(0.5, 0, -0.5);
+
+	UnitCubeModel* bottomleft = new UnitCubeModel();
+	bottomleft->scale(1, 1, 1);
+	bottomleft->translate(-0.5, 0, 0.5);
+
+	UnitCubeModel* bottomright = new UnitCubeModel();
+	bottomright->scale(1, 1, 1);
+	bottomright->translate(0.5, 0, 0.5);
+
+	addChild(topleft);
+	addChild(topright);
+	addChild(bottomleft);
+	addChild(bottomright);
+};
+
+CubeLeaves::CubeLeaves() {
+	setupAttribPointer();
+
+	UnitCubeModel* base3 = new UnitCubeModel();
+	base3->scale(1, 1, 1);
+	base3->translate(0, 0, 0);
+
+	addChild(base3);
+};
+
 PlaneModel* plane = nullptr;
 GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
@@ -309,6 +420,8 @@ WorldModel::WorldModel() {
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
 	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
+	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	
 	// Enable blending
 	glEnable(GL_BLEND);
@@ -333,152 +446,92 @@ WorldModel::WorldModel() {
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
-	// Alpha numerical models
-	// Splitting each model in two
-	// strategy: 2/3 assigned to the bottom, the remainder 1/3 to the top
-	
-	/* 
-	 * ----------------------------------------------------
-	 *                          T5
-	 * ---------------------------------------------------- 
-	 */
+	//Tree Model
+	SimpleModel* tree = new SimpleModel();
 
-	SimpleModel* T5 = new SimpleModel();
-	
-	TModel* T = new TModel();
-	T->setTexture(boxTextureID);
-	texturedElement.push_back(T);
-	T->translate(-2, 0, 0);
-	T5->addChild(T);
-	
-	FiveModel* five_2 = new FiveModel();
-	five_2->setTexture(goldTextureID);
-	texturedElement.push_back(five_2);
-	five_2->translate(1.5, 0, 0);
-	T5->addChild(five_2);
+	TreeTrunkModel* trunk = new TreeTrunkModel();
+	trunk->setTexture(trunkTextureID);
+	texturedElement.push_back(trunk);
+	trunk->translate(0, 1, 0);
+	tree->addChild(trunk);
 
-	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
-	sphere_4->translate(0, 4, 0);
-	spheres.push_back(sphere_4);
-	T5->addChild(sphere_4);
+	RoundLeaves* layer1 = new RoundLeaves();
+	layer1->setTexture(leavesTextureID);
+	texturedElement.push_back(layer1);
+	layer1->translate(0, 0, 0);
+	tree->addChild(layer1);
 
-	T5->translate(-18, 3.5, -18);
-	//models.push_back(T5);
+	SquareLeaves* layer2 = new SquareLeaves();
+	layer2->setTexture(leavesTextureID);
+	texturedElement.push_back(layer2);
+	layer2->scale(1.5, 1, 1.5);
+	layer2->translate(0, 1, 0);
+	tree->addChild(layer2);
 
-	/* 
-	 * ----------------------------------------------------
-	 *                          I3
-	 * ---------------------------------------------------- 
-	 */
+	RoundLeaves* layer3 = new RoundLeaves();
+	layer3->setTexture(leavesTextureID);
+	texturedElement.push_back(layer3);
+	layer3->scale(0.80, 1, 0.80);
+	layer3->translate(0, 1.8, 0);
+	layer3->rotate(0, 1, 0, 45);
+	tree->addChild(layer3);
 
-	SimpleModel* I3 = new SimpleModel();
-	
-	IModel* I = new IModel();
-	I->setTexture(boxTextureID);
-	texturedElement.push_back(I);
-	I->translate(-2, 0, 0);
-	I3->addChild(I);
+	SquareLeaves* layer4 = new SquareLeaves();
+	layer4->setTexture(leavesTextureID);
+	texturedElement.push_back(layer4);
+	layer4->scale(0.9, 1, 0.9);
+	layer4->translate(0, 2.5, 0);
+	layer4->rotate(0, 1, 0, 45);
+	tree->addChild(layer4);
 
-	ThreeModel* three = new ThreeModel();
-	three->setTexture(goldTextureID);
-	texturedElement.push_back(three);
-	three->translate(2, 0, 0);
-	I3->addChild(three);
+	RoundLeaves* layer5 = new RoundLeaves();
+	layer5->setTexture(leavesTextureID);
+	texturedElement.push_back(layer5);
+	layer5->scale(0.70, 0.80, 0.70);
+	layer5->translate(0, 3.4, 0);
+	layer5->rotate(0, 1, 0, 0);
+	tree->addChild(layer5);
 
-	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
-	sphere_1->translate(0, 4, 0);
-	spheres.push_back(sphere_1);
-	I3->addChild(sphere_1);
+	SquareLeaves* layer6 = new SquareLeaves();
+	layer6->setTexture(leavesTextureID);
+	texturedElement.push_back(layer6);
+	layer6->scale(0.75, 1, 0.75);
+	layer6->translate(0, 3.9, 0);
+	layer6->rotate(0, 1, 0, 0);
+	tree->addChild(layer6);
 
-	I3->translate(18, 3.5, -18);
-	//models.push_back(I3);
+	RoundLeaves* layer7 = new RoundLeaves();
+	layer7->setTexture(leavesTextureID);
+	texturedElement.push_back(layer7);
+	layer7->scale(0.50, 0.80, 0.50);
+	layer7->translate(0, 4.6, 0);
+	layer7->rotate(0, 1, 0, 45);
+	tree->addChild(layer7);
 
-	/* 
-	 * ----------------------------------------------------
-	 *                          E5
-	 * ---------------------------------------------------- 
-	 */
+	SquareLeaves* layer8 = new SquareLeaves();
+	layer8->setTexture(leavesTextureID);
+	texturedElement.push_back(layer8);
+	layer8->scale(0.5, 1, 0.5);
+	layer8->translate(0, 5.1, 0);
+	layer8->rotate(0, 1, 0, 45);
+	tree->addChild(layer8);
 
-	SimpleModel* E5 = new SimpleModel();
-	
-	EModel* E = new EModel();
-	E->setTexture(boxTextureID);
-	texturedElement.push_back(E);
-	E->translate(-3.5, 0, 0);
-	E5->addChild(E);
+	CubeLeaves* layer9 = new CubeLeaves();
+	layer9->setTexture(leavesTextureID);
+	texturedElement.push_back(layer9);
+	layer9->scale(0.5, 0.5, 0.5);
+	layer9->translate(0, 5.8, 0);
+	layer9->rotate(0, 1, 0, 0);
+	tree->addChild(layer9);
 
-	FiveModel* five = new FiveModel();
-	five->setTexture(goldTextureID);
-	texturedElement.push_back(five);
-	five->translate(1.5, 0, 0);
-	E5->addChild(five);
 
-	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
-	sphere->translate(0, 4, 0);
-	spheres.push_back(sphere);
-	E5->addChild(sphere);
+	tree->translate(7, 10, 0);
+	models.push_back(tree);
 
-	E5->translate(0, 3.5, 0);
-	//models.push_back(E5);
 
-	/* 
-	 * ----------------------------------------------------
-	 *                          I3-2
-	 * ---------------------------------------------------- 
-	 */
-
-	SimpleModel* I3_2 = new SimpleModel();
-	
-	IModel* I_2 = new IModel();
-	I_2->setTexture(boxTextureID);
-	texturedElement.push_back(I_2);
-	I_2->translate(-2, 0, 0);
-	I3_2->addChild(I_2);
-
-	ThreeModel* three_2 = new ThreeModel();
-	three_2->setTexture(goldTextureID);
-	texturedElement.push_back(three_2);
-	three_2->translate(2, 0, 0);
-	I3_2->addChild(three_2);
-
-	SphereModel* sphere_2 = new SphereModel(6.0f, 36, 18);
-	sphere_2->translate(0, 4, 0);
-	spheres.push_back(sphere_2);
-	I3_2->addChild(sphere_2);
-
-	I3_2->translate(18, 3.5, 18);
-	//models.push_back(I3_2);
-
-	/* 
-	 * ----------------------------------------------------
-	 *                          D8
-	 * ---------------------------------------------------- 
-	 */
-
-	SimpleModel* D8 = new SimpleModel();
-	
-	DModel* D = new DModel();
-	D->setTexture(boxTextureID);
-	texturedElement.push_back(D);
-	D->translate(-3.5, 0, 0);
-	D8->addChild(D);
-
-	EightModel* eight = new EightModel();
-	eight->setTexture(goldTextureID);
-	texturedElement.push_back(eight);
-	eight->translate(1.5, 0, 0);
-	D8->addChild(eight);
-
-	SphereModel* sphere_3 = new SphereModel(6.0f, 36, 18);
-	sphere_3->translate(0, 4, 0);
-	spheres.push_back(sphere_3);	
-	D8->addChild(sphere_3);
-
-	D8->translate(-18, 3.5, 18);
-	//models.push_back(D8);
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		//addChild(*it);
+		addChild(*it);
 	}
 };
