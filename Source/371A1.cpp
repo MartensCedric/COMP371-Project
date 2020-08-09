@@ -53,6 +53,8 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
+float dt = 0;
+
 int maxOffset = 2;
 
 float sunTheta = 0;
@@ -590,8 +592,9 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
-
+	
 		sunTheta += 0.005f;
+		dt += 0.16f; //not accurate
 
 		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
 

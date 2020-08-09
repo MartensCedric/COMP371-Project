@@ -81,6 +81,15 @@ void Model::setSkybox(int skybox)
 	}
 }
 
+void Model::setDeltaTime(float dt)
+{
+	this->dt = dt;
+	for (auto it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setDeltaTime(dt);
+	}
+}
+
 /**
 * Draws the model. Binds the correct shader and VAO, it will also draw all the children.
 */
@@ -118,6 +127,9 @@ void Model::draw()
 	glm::vec3 eyePosition = camera->position;
 	GLuint eyePositionLocation = glGetUniformLocation(shaderId, "eyePosition");
 	glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
+
+	GLuint dtLoc = glGetUniformLocation(shaderId, "dt");
+	glUniform1f(dtLoc, dt);
 
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
