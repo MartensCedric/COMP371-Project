@@ -96,9 +96,6 @@
     <ClCompile Include="..\Source\LoadTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\PlaneModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,6 +103,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\ThirdParty\FastNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\WaterModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,7 +132,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
-    <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
     <ClInclude Include="..\ThirdParty\stb_image.h">
@@ -150,5 +149,6 @@
     <ClInclude Include="..\Source\includes\DirectionalLight.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\includes\WaterModel.hpp" />
   </ItemGroup>
 </Project>

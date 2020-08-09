@@ -277,14 +277,14 @@ EightModel::EightModel() {
 	//modelsTop.push_back(topDiv);
 };
 
-PlaneModel* plane = nullptr;
+WaterModel* plane = nullptr;
 GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
 
 void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
-void WorldModel::setPlaneShader(int shaderProgram) { plane->setShader(shaderProgram); }
+void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
 
 void WorldModel::setModelShader(int shaderProgram) 
@@ -314,8 +314,8 @@ WorldModel::WorldModel() {
 	grid = new GridModel();
 //	addChild(grid);
 	
-	plane = new PlaneModel();
-	plane->translate(0, -4, 0);
+	plane = new WaterModel();
+	plane->translate(0, 5, 0);
 	addChild(plane);
 
 	axes = new AxesModel();

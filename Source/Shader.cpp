@@ -57,7 +57,7 @@ int compileShader(const char * path, int shaderType)
 	return shaderId;
 }
 
-int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
+int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath, const char* geometryPath = nullptr)
 {
 	// compile and link shader program
 	// return shader program id
@@ -69,6 +69,16 @@ int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
 	if (vertexShader == -1)
 		exit(EXIT_FAILURE);
 
+	int geometryShader = -1;
+	if (geometryPath != nullptr)
+	{
+		geometryShader = compileShader(geometryPath, GL_GEOMETRY_SHADER);
+
+		if (geometryShader == -1)
+			exit(EXIT_FAILURE);
+
+	}
+	
 	int fragmentShader = compileShader(fragmentPath, GL_FRAGMENT_SHADER);
 
 	if (fragmentShader == -1)
@@ -77,6 +87,8 @@ int compileAndLinkShaders(const char * vertexPath, const char * fragmentPath)
 	// link shaders
 	int shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
+	if (geometryPath != nullptr)
+		glAttachShader(shaderProgram, geometryShader);
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
 

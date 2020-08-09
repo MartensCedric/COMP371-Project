@@ -7,20 +7,8 @@ layout (location = 3) in vec2 aUV;
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix = mat4(1.0);
 uniform mat4 projectionMatrix = mat4(1.0);
-uniform float dt;
-
-out vec4 vertexColor;
-out vec3 vertexNormal;
-out vec3 fragmentPosition;
-out vec3 vertexUV;
 
 void main()
 {
-   vertexNormal = mat3(transpose(inverse(worldMatrix))) * -aNormal;
-   vertexColor = aColor;
-   mat4 modelViewProjection = projectionMatrix * viewMatrix * worldMatrix;
-   fragmentPosition = vec3(worldMatrix * vec4 (aPos.xyz, 1.0));
-   
-   float water_height_change = sin(dt);
-   gl_Position = modelViewProjection * vec4(aPos.x, aPos.y + water_height_change, aPos.z, 1.0);
+   gl_Position = vec4(aPos, 1.0);
 }

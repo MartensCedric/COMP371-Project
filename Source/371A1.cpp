@@ -538,7 +538,7 @@ int main(int argc, char*argv[])
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
 	int terrainShader = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
-	int waterShader = compileAndLinkShaders("../Shaders/water.vshader", "../Shaders/water.fshader");
+	int waterShader = compileAndLinkShaders("../Shaders/water.vshader", "../Shaders/water.fshader", "../Shaders/water.gshader");
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -573,7 +573,7 @@ int main(int argc, char*argv[])
 
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
-	world->setPlaneShader(waterShader);
+	world->setWaterShader(waterShader);
 	world->setTerrainShader(terrainShader);
 
 	DirectionalLight* worldLight = new DirectionalLight();
@@ -595,6 +595,7 @@ int main(int argc, char*argv[])
 	
 		sunTheta += 0.005f;
 		dt += 0.16f; //not accurate
+		world->setDeltaTime(dt);
 
 		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
 
@@ -630,7 +631,7 @@ int main(int argc, char*argv[])
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthMask(GL_FALSE);
-		skybox.draw();
+		//skybox.draw();
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
