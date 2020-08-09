@@ -12,17 +12,21 @@ uniform float dt;
 out vec3 fragmentPosition;
 out vec3 vertexNormal;
 
+float get_wave_height(float x, float y)
+{
+	return 0.2*sin(x + dt/10.0);
+}
+
 void main() {
   mat4 MVP = projectionMatrix * viewMatrix * worldMatrix;
-  
-  //vertexNormal = mat3(transpose(inverse(worldMatrix))) * -aNormal;
+ 
    vec4 topLeft = vec4(-1.0, 0.0, -1.0, 1.0);
    vec4 bottomLeft = vec4(-1.0, 0.0, 1.0, 1.0);
    vec4 topRight = vec4(1.0, 0.0, -1.0, 1.0);
    vec4 bottomRight = vec4(1.0, 0.0, 1.0, 1.0);
    
-   int xSections = 5;
-   int ySections = 5;
+   int xSections = 6;
+   int ySections = 6;
    
    float scale = 50.0f;
    for(int j = 0; j < ySections - 1; j++)
@@ -33,12 +37,14 @@ void main() {
 	{
 		float x = (2.0 * i)/(xSections);
 		vec3 pos1 = vec3(-1.0 + x, 0.0, -1.0 + topZ) * scale;
+		pos1.y = get_wave_height(pos1.x, pos1.y);
 		gl_Position = MVP * vec4(pos1, 1.0);
 		fragmentPosition = vec3(worldMatrix * vec4(pos1, 1.0));
 		vertexNormal = vec3(0, 1.0, 0.0);
 		EmitVertex();		
         
 		vec3 pos2 = vec3(-1.0 + x, 0.0, -1.0 + bottomZ) * scale;
+		pos2.y = get_wave_height(pos2.x, pos2.y);
 		gl_Position = MVP * vec4(pos2, 1.0);
 		fragmentPosition = vec3(worldMatrix * vec4(pos2, 1.0));
 		vertexNormal = vec3(0, 1.0, 0.0);

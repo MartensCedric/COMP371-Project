@@ -315,7 +315,7 @@ WorldModel::WorldModel() {
 //	addChild(grid);
 	
 	plane = new WaterModel();
-	plane->translate(0, 5, 0);
+	plane->translate(0, -2, 0);
 	addChild(plane);
 
 	axes = new AxesModel();
