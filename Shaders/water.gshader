@@ -2,7 +2,6 @@
 #version 330 core
 layout (points) in;
 layout (triangle_strip, max_vertices=256) out; 
-int sub_divisions = 5;
 
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix = mat4(1.0);
@@ -18,15 +17,15 @@ float get_wave_height(float x, float y)
 }
 
 void main() {
-  mat4 MVP = projectionMatrix * viewMatrix * worldMatrix;
- 
+   mat4 MVP = projectionMatrix * viewMatrix * worldMatrix;
+   
    vec4 topLeft = vec4(-1.0, 0.0, -1.0, 1.0);
    vec4 bottomLeft = vec4(-1.0, 0.0, 1.0, 1.0);
    vec4 topRight = vec4(1.0, 0.0, -1.0, 1.0);
    vec4 bottomRight = vec4(1.0, 0.0, 1.0, 1.0);
    
-   int xSections = 6;
-   int ySections = 6;
+   int xSections = 7;
+   int ySections = 7;
    
    float scale = 50.0f;
    for(int j = 0; j < ySections - 1; j++)
@@ -53,15 +52,4 @@ void main() {
 	EndPrimitive();
 	
    }
-   
-   
-   gl_Position = MVP * topRight;
-   vertexNormal = vec3(0, 1.0, 0.0);
-   EmitVertex();
-
-   gl_Position = MVP * bottomRight;
-   vertexNormal = vec3(0, 1.0, 0.0);
-   EmitVertex();
-   
-   EndPrimitive();
 }

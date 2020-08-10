@@ -5,7 +5,7 @@
 
 // Code adapted from learnopengl.com
 
-Skybox::Skybox() {
+Skybox::Skybox() : Model::Model() {
 
 	drawFunction = [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 
