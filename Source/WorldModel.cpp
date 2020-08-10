@@ -422,6 +422,7 @@ WorldModel::WorldModel() {
 	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
 	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
 	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
+	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 	
 	// Enable blending
 	glEnable(GL_BLEND);
@@ -523,6 +524,55 @@ WorldModel::WorldModel() {
 	layer9->translate(0, 5.8, 0);
 	layer9->rotate(0, 1, 0, 0);
 	tree->addChild(layer9);
+
+	//snow for the tree
+
+	RoundLeaves* snowLayer1 = new RoundLeaves();
+	snowLayer1->setTexture(snowTextureID);
+	texturedElement.push_back(snowLayer1);
+	snowLayer1->scale(1, 0.25, 1);
+	snowLayer1->translate(0, 0.60, 0);
+	tree->addChild(snowLayer1);
+
+	RoundLeaves* snowLayer3 = new RoundLeaves();
+	snowLayer3->setTexture(snowTextureID);
+	texturedElement.push_back(snowLayer3);
+	snowLayer3->scale(0.80, 0.25, 0.80);
+	snowLayer3->translate(0, 2.4, 0);
+	snowLayer3->rotate(0, 1, 0, 45);
+	tree->addChild(snowLayer3);
+
+	RoundLeaves* snowLayer5 = new RoundLeaves();
+	snowLayer5->setTexture(snowTextureID);
+	texturedElement.push_back(snowLayer5);
+	snowLayer5->scale(0.70, 0.25, 0.70);
+	snowLayer5->translate(0, 3.9, 0);
+	snowLayer5->rotate(0, 1, 0, 0);
+	tree->addChild(snowLayer5);
+
+	RoundLeaves* snowLayer7 = new RoundLeaves();
+	snowLayer7->setTexture(snowTextureID);
+	texturedElement.push_back(snowLayer7);
+	snowLayer7->scale(0.50, 0.25, 0.50);
+	snowLayer7->translate(0, 5.1, 0);
+	snowLayer7->rotate(0, 1, 0, 45);
+	tree->addChild(snowLayer7);
+
+	SquareLeaves* snowLayer8 = new SquareLeaves();
+	snowLayer8->setTexture(snowTextureID);
+	texturedElement.push_back(snowLayer8);
+	snowLayer8->scale(0.5, 0.25, 0.5);
+	snowLayer8->translate(0, 5.7, 0);
+	snowLayer8->rotate(0, 1, 0, 45);
+	tree->addChild(snowLayer8);
+
+	CubeLeaves* snowLayer9 = new CubeLeaves();
+	snowLayer9->setTexture(snowTextureID);
+	texturedElement.push_back(snowLayer9);
+	snowLayer9->scale(0.5, 0.23, 0.5);
+	snowLayer9->translate(0, 6.15, 0);
+	snowLayer9->rotate(0, 1, 0, 0);
+	tree->addChild(snowLayer9);
 
 
 	tree->translate(7, 10, 0);
