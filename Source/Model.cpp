@@ -72,6 +72,24 @@ void Model::setLight(DirectionalLight* light)
 	}
 }
 
+void Model::setSkybox(int skybox)
+{
+	this->skybox = skybox;
+	for (auto it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setSkybox(skybox);
+	}
+}
+
+void Model::setDeltaTime(float dt)
+{
+	this->dt = dt;
+	for (auto it = children.begin(); it != children.end(); it++)
+	{
+		(*it)->setDeltaTime(dt);
+	}
+}
+
 /**
 * Draws the model. Binds the correct shader and VAO, it will also draw all the children.
 */
@@ -83,6 +101,13 @@ void Model::draw()
 	glUniform1i(modelTextureLoc, 1);
 
 	glBindTexture(GL_TEXTURE_2D, textureId);
+
+	glActiveTexture(GL_TEXTURE2);
+	int skyboxLoc = glGetUniformLocation(shaderId, "skybox");
+	glUniform1i(skyboxLoc, 2);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox);
+
 
 	glm::mat4 lightProjection = glm::ortho(
 		-100.f, 100.f, -100.f, 100.f,
@@ -97,6 +122,14 @@ void Model::draw()
 	glm::vec3 lightDirection = this->light->direction;
 	int lightDirectionLocation = glGetUniformLocation(shaderId, "lightDirection");
 	glUniform3fv(lightDirectionLocation, 1, &lightDirection[0]);
+
+
+	glm::vec3 eyePosition = camera->position;
+	GLuint eyePositionLocation = glGetUniformLocation(shaderId, "eyePosition");
+	glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
+
+	GLuint dtLoc = glGetUniformLocation(shaderId, "dt");
+	glUniform1f(dtLoc, dt);
 
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
