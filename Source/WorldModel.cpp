@@ -1,6 +1,17 @@
 #include "includes/WorldModel.hpp"
 #include "../Source/includes/Terrain.hpp"
 
+#ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
+
+#define OS_Windows 0
+#include "../ThirdParty/FastNoise.h"
+
+#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+
+#define OS_Windows 1
+#include "../FastNoise.h"
+#endif
+
 EModel::EModel() {
 	setupAttribPointer();
 
@@ -298,6 +309,27 @@ void WorldModel::setSphereShader(int shaderProgram)
 	for (auto it = spheres.begin(); it != spheres.end(); it++)
 	{
 		(*it)->setShader(shaderProgram);
+	}
+}
+
+void WorldModel::generateForest()
+{
+	FastNoise fastNoise;
+	fastNoise.SetSeed(1337);
+	fastNoise.SetNoiseType(FastNoise::Simplex);
+
+
+	for (int i = 0; i < 100; i++)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			float noiseVal = fastNoise.GetNoise(i * 2, j * 2);
+			float terrainHeight = terrain->heightmap[j][i];
+			if (noiseVal >= 0.8)
+			{
+				//Spawn tree
+			}
+		}
 	}
 }
 
