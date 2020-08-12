@@ -54,6 +54,8 @@ int windowWidth = 1024;
 int windowHeight = 768;
 
 int maxOffset = 2;
+float walkSpeed = 0.1f;
+float cameraHeightFromTerrain = 5.0f;
 
 float sunTheta = 0;
 
@@ -761,10 +763,45 @@ int main(int argc, char*argv[])
 		// move forward
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			float x = camera->position.x;
-			float z = camera->position.z - 0.05;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + 5.0f, z);
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			float x = camera->position.x + walkSpeed * lookVec.x;
+			float z = camera->position.z + walkSpeed * lookVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
 		}
+
+		// move backwards
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			float x = camera->position.x - walkSpeed * lookVec.x;
+			float z = camera->position.z - walkSpeed * lookVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
+		}
+
+		// move left
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			glm::vec3 movementVec = glm::normalize(glm::cross(camera->up, lookVec));
+			float x = camera->position.x + walkSpeed * movementVec.x;
+			float z = camera->position.z + walkSpeed * movementVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
+		}
+
+		// move right
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, camera->up));
+			float x = camera->position.x + walkSpeed * movementVec.x;
+			float z = camera->position.z + walkSpeed * movementVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
+		}
+
 
 		// move back
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
