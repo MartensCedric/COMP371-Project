@@ -53,6 +53,8 @@ Camera* camera = nullptr;
 int windowWidth = 1024;
 int windowHeight = 768;
 
+float dt = 0;
+
 int maxOffset = 2;
 float walkSpeed = 0.1f;
 float cameraHeightFromTerrain = 5.0f;
@@ -392,6 +394,7 @@ int main(int argc, char*argv[])
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
 	int terrainShader = compileAndLinkShaders("../Shaders/terrain.vshader", "../Shaders/terrain.fshader");
+	int waterShader = compileAndLinkShaders("../Shaders/water.vshader", "../Shaders/water.fshader", "../Shaders/water.gshader");
 
 	// Two Pass Shadow Map. Code adapted from learnopengl.com
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -426,11 +429,12 @@ int main(int argc, char*argv[])
 
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
-	world->setPlaneShader(textureLightShader);
+	world->setWaterShader(waterShader);
 	world->setTerrainShader(terrainShader);
 
 	DirectionalLight* worldLight = new DirectionalLight();
 	world->setLight(worldLight);
+	world->setSkybox(skyboxCubeMap);
 	
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -446,7 +450,10 @@ int main(int argc, char*argv[])
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
+	
 		sunTheta += 0.005f;
+		dt += 0.16f; //not accurate
+		world->setDeltaTime(dt);
 
 		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
 
@@ -465,8 +472,6 @@ int main(int argc, char*argv[])
 			modelShader = textureShader;
 		}
 
-		world->setPlaneShader(modelShader);
-
 		glUseProgram(shadowShader);
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
@@ -484,16 +489,11 @@ int main(int argc, char*argv[])
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthMask(GL_FALSE);
-		//skybox.draw();
+		skybox.draw();
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
-		int shadowMapTexureLoc = glGetUniformLocation(textureLightShader, "shadow_map");
-		glUniform1i(shadowMapTexureLoc, 0);
-
-		int shadowMapLoc = glGetUniformLocation(lightAffectedShader, "shadow_map");
-		glUniform1i(shadowMapLoc, 0);
-
+	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
