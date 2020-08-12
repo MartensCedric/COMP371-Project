@@ -438,7 +438,8 @@ int main(int argc, char*argv[])
 	bool isTilting = false;
 	glm::vec3 panDirection = glm::vec3(1.0f);
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
-	camera->position = glm::vec3(camera->position.x, world->getTerrainHeight(camera->position.x, camera->position.z) + 2.0f, camera->position.z);
+	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
+	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -762,7 +763,7 @@ int main(int argc, char*argv[])
 		{
 			float x = camera->position.x;
 			float z = camera->position.z - 0.05;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + 2.0f, z);
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + 5.0f, z);
 		}
 
 		// move back

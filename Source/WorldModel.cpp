@@ -290,15 +290,13 @@ void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgra
 void WorldModel::setPlaneShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
 
-float WorldModel::getTerrainHeight(float x, float y) 
+float WorldModel::getTerrainHeight(float x, float z) 
 {
-	float x_rel = x - terrain->objTransMat[0][3];
-	float y_rel = y - terrain->objTransMat[1][3];
 
-	int x_terrain = round(x_rel);
-	int y_terrain = round(y_rel);
+	int x_terrain = round(x);
+	int z_terrain = round(z);
 
-	return terrain->heightmap[x_terrain + terrain->SIZE/2][y_terrain + terrain->SIZE / 2];
+	return terrain->heightmap[x_terrain + terrain->SIZE/2][z_terrain + terrain->SIZE / 2];
 }
 
 void WorldModel::setModelShader(int shaderProgram) 
