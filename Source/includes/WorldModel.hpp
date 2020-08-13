@@ -3,7 +3,7 @@
 #include "GridModel.hpp"
 #include "AxesModel.hpp"
 #include "SphereModel.hpp"
-#include "PlaneModel.hpp"
+#include "WaterModel.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
 
@@ -52,8 +52,10 @@ class WorldModel : public SimpleModel {
 		void setGridShader(int shaderProgram);
 		void setAxesShader(int shaderProgram);
 		void setModelShader(int shaderProgram);
-		void setPlaneShader(int shaderProgram);
+		void setWaterShader(int shaderProgram);
 		void setSphereShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
+		void generateForest();
+		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;
 };
