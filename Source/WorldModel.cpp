@@ -1,5 +1,17 @@
 #include "includes/WorldModel.hpp"
 #include "../Source/includes/Terrain.hpp"
+#include <cstdlib>
+
+#ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
+
+#define OS_Windows 0
+#include "../ThirdParty/FastNoise.h"
+
+#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+
+#define OS_Windows 1
+#include "../FastNoise.h"
+#endif
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -310,6 +322,31 @@ void WorldModel::setSphereShader(int shaderProgram)
 	}
 }
 
+void WorldModel::generateForest()
+{
+	FastNoise fastNoise;
+	fastNoise.SetSeed(0xdeadbeef);
+	fastNoise.SetNoiseType(FastNoise::Simplex);
+
+
+	for (int i = 0; i < 100; i++)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			float noiseVal = fastNoise.GetNoise(i , j );
+			float terrainHeight = terrain->heightmap[i][j];
+			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
+			{
+				UnitCubeModel* cube = new UnitCubeModel();
+				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
+				cube->scale(0.2, 1, 0.2);
+				addChild(cube);
+				models.push_back(cube);
+			}
+		}
+	}
+}
+
 WorldModel::WorldModel() {
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
@@ -469,8 +506,5 @@ WorldModel::WorldModel() {
 	D8->translate(-18, 3.5, 18);
 	//models.push_back(D8);
 
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		//addChild(*it);
-	}
+	generateForest();
 };
