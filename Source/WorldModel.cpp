@@ -1,5 +1,6 @@
 #include "includes/WorldModel.hpp"
 #include "../Source/includes/Terrain.hpp"
+#include <cstdlib>
 
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
@@ -324,7 +325,7 @@ void WorldModel::setSphereShader(int shaderProgram)
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(420);
+	fastNoise.SetSeed(0xdeadbeef);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 
 
@@ -332,9 +333,9 @@ void WorldModel::generateForest()
 	{
 		for (int j = 0; j < 100; j++)
 		{
-			float noiseVal = fastNoise.GetNoise(i * 2, j * 2);
+			float noiseVal = fastNoise.GetNoise(i , j );
 			float terrainHeight = terrain->heightmap[i][j];
-			if (noiseVal >= 0.5f)
+			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
 			{
 				UnitCubeModel* cube = new UnitCubeModel();
 				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
