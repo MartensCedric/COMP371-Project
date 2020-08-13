@@ -77,7 +77,7 @@ Terrain::Terrain()
 		for (int j = 0; j < SIZE; j++)
 		{
 			float height = noise.GetNoise(i * 2, j * 2) * 10.0f;
-			tempHeightMap[j][i] = height;
+			tempHeightMap[i][j] = height;
 			std::vector<Vertex> v = getCubeVertices(i, height, j);
 			vertices.insert(vertices.end(), v.begin(), v.end());
 		}
