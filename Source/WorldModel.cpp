@@ -287,6 +287,15 @@ void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgra
 void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
 
+float WorldModel::getTerrainHeight(float x, float z) 
+{
+
+	int x_terrain = round(x);
+	int z_terrain = round(z);
+
+	return terrain->heightmap[x_terrain + terrain->SIZE/2][z_terrain + terrain->SIZE / 2];
+}
+
 void WorldModel::setModelShader(int shaderProgram) 
 { 
 	for(auto it = models.begin(); it != models.end(); it++)

@@ -56,6 +56,8 @@ int windowHeight = 768;
 float dt = 0;
 
 int maxOffset = 2;
+float walkSpeed = 0.1f;
+float cameraHeightFromTerrain = 5.0f;
 
 float sunTheta = 0;
 
@@ -267,152 +269,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		isTextureToggled = false;
 	}
 
-	// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
-
-		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasBottomMovedForward)
-		{
-			hasBottomMovedForward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-				if(dZ > -1*maxOffset) {
-					(*it)->translate(0, 0, -1);
-				}
-			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE) {
-			hasBottomMovedForward = false;
-			hasTopMovedForward = false;
-			hasMovedForward = false;
-		}
-
-		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasBottomMovedBackward)
-		{
-			hasBottomMovedBackward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-
-				if(dZ < maxOffset) {
-					(*it)->translate(0, 0, 1);
-				}
- 			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE) {
-			hasBottomMovedBackward = false;
-			hasTopMovedBackward = false;
-			hasMovedBackward = false;
-		}
-
-		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasBottomMovedLeft)
-		{
-			hasBottomMovedLeft = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX > -1*maxOffset) {
-					(*it)->translate(-1, 0, 0);
-				}
-			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE) {
-			hasBottomMovedLeft = false;
-			hasTopMovedLeft = false;
-			hasMovedLeft = false;
-		}
-
-		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasBottomMovedRight)
-		{
-			hasBottomMovedRight = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsBottom.begin(); it != SimpleModel::modelsBottom.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX < maxOffset) {
-					(*it)->translate(1, 0, 0);
-				}
-			}
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
-			hasBottomMovedRight = false;
-			hasTopMovedRight = false;
-			hasMovedRight = false;
-		}
-
-		// ------------------------------------------------ TOP HALF CONTROLS -------------------------------------------------
-
-		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && !hasTopMovedForward)
-		{
-			hasTopMovedForward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-				if(dZ > -1*maxOffset) {
-					(*it)->translate(0, 0, -1);
-				}
-			}
-		}
-
-		// move back
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && !hasTopMovedBackward)
-		{
-			hasTopMovedBackward = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dZ = transMat[3][2];
-
-				if(dZ < maxOffset) {
-					(*it)->translate(0, 0, 1);
-				}
- 			}
-		}
-
-		// move left
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !hasTopMovedLeft)
-		{
-			hasTopMovedLeft = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX > -1*maxOffset) {
-					(*it)->translate(-1, 0, 0);
-				}
-			}
-		}
-
-		// move right
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) && glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !hasTopMovedRight)
-		{
-			hasTopMovedRight = true;
-			for (std::vector<Model*>::iterator it = SimpleModel::modelsTop.begin(); it != SimpleModel::modelsTop.end(); it++)
-			{
-				glm::mat4 transMat = (*it)->objTransMat;
-				float dX = transMat[3][0];
-
-				if(dX < maxOffset) {
-					(*it)->translate(1, 0, 0);
-				}
-			}
-		}
-
 		// ------------------------------------------------ FULL CONTROLS -------------------------------------------------
 
 		// move forward
@@ -588,6 +444,8 @@ int main(int argc, char*argv[])
 	bool isTilting = false;
 	glm::vec3 panDirection = glm::vec3(1.0f);
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
+	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
+	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -899,16 +757,51 @@ int main(int argc, char*argv[])
 			}
 		}
 
-		// ------------------------------------------------ FULL CONTROLS -------------------------------------------------
+
+		//Character controls
 
 		// move forward
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->translate(0, 0, -1);
-			}
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			float x = camera->position.x + walkSpeed * lookVec.x;
+			float z = camera->position.z + walkSpeed * lookVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
 		}
+
+		// move backwards
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			float x = camera->position.x - walkSpeed * lookVec.x;
+			float z = camera->position.z - walkSpeed * lookVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
+		}
+
+		// move left
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			glm::vec3 movementVec = glm::normalize(glm::cross(camera->up, lookVec));
+			float x = camera->position.x + walkSpeed * movementVec.x;
+			float z = camera->position.z + walkSpeed * movementVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
+		}
+
+		// move right
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
+			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, camera->up));
+			float x = camera->position.x + walkSpeed * movementVec.x;
+			float z = camera->position.z + walkSpeed * movementVec.z;
+			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			camera->lookAtPos = camera->position + lookVec;
+		}
+
 
 		// move back
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)

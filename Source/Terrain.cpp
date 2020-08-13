@@ -68,17 +68,22 @@ Terrain::Terrain()
 	noise.SetNoiseType(FastNoise::Simplex);
 
 	std::vector<Vertex> vertices;
+	float** tempHeightMap = new float*[SIZE];
+	for (int i = 0; i < SIZE; i++)
+		tempHeightMap[i] = new float[SIZE];
 
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
-			std::vector<Vertex> v = getCubeVertices(i, noise.GetNoise(i*2, j*2) * 10.0f, j);
+			float height = noise.GetNoise(i * 2, j * 2) * 10.0f;
+			tempHeightMap[i][j] = height;
+			std::vector<Vertex> v = getCubeVertices(i, height, j);
 			vertices.insert(vertices.end(), v.begin(), v.end());
 		}
 	}
 
-	*this = Terrain(&vertices[0], vertices.size(), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
+	*this = Terrain(&vertices[0], vertices.size(), tempHeightMap, [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 
 
 			glm::vec3 eyePosition = camera->position;
@@ -94,6 +99,8 @@ Terrain::Terrain()
     setupAttribPointer();
 }
 
-Terrain::Terrain(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera)) 
-: SimpleModel(vertexArray, vertexCount, drawFunc) 
-{}
+Terrain::Terrain(Vertex* vertexArray, int vertexCount, float** heightmap, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
+: SimpleModel(vertexArray, vertexCount, drawFunc), heightmap(heightmap)
+{
+
+}
