@@ -324,7 +324,7 @@ void WorldModel::setSphereShader(int shaderProgram)
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(1337);
+	fastNoise.SetSeed(420);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 
 
@@ -333,10 +333,14 @@ void WorldModel::generateForest()
 		for (int j = 0; j < 100; j++)
 		{
 			float noiseVal = fastNoise.GetNoise(i * 2, j * 2);
-			float terrainHeight = terrain->heightmap[j][i];
-			if (noiseVal >= 0.8)
+			float terrainHeight = terrain->heightmap[i][j];
+			if (noiseVal >= 0.5f)
 			{
-				//Spawn tree
+				UnitCubeModel* cube = new UnitCubeModel();
+				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
+				cube->scale(0.2, 1, 0.2);
+				addChild(cube);
+				models.push_back(cube);
 			}
 		}
 	}
@@ -501,8 +505,5 @@ WorldModel::WorldModel() {
 	D8->translate(-18, 3.5, 18);
 	//models.push_back(D8);
 
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		//addChild(*it);
-	}
+	generateForest();
 };
