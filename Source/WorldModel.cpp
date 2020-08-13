@@ -1,6 +1,18 @@
 #include "includes/WorldModel.hpp"
 #include "includes/ConeModel.hpp"
 #include "../Source/includes/Terrain.hpp"
+#include <cstdlib>
+
+#ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
+
+#define OS_Windows 0
+#include "../ThirdParty/FastNoise.h"
+
+#elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+
+#define OS_Windows 1
+#include "../FastNoise.h"
+#endif
 
 PenguinModel::PenguinModel() {
 	setupAttribPointer();
@@ -215,9 +227,6 @@ ThreeModel::ThreeModel() {
 
 	addChild(bottomDiv);
 	addChild(topDiv);
-
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
 };
 
 TModel::TModel() {
@@ -346,15 +355,24 @@ EightModel::EightModel() {
 	//modelsTop.push_back(topDiv);
 };
 
-PlaneModel* plane = nullptr;
+WaterModel* plane = nullptr;
 GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
 
 void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
-void WorldModel::setPlaneShader(int shaderProgram) { plane->setShader(shaderProgram); }
+void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
+
+float WorldModel::getTerrainHeight(float x, float z) 
+{
+
+	int x_terrain = round(x);
+	int z_terrain = round(z);
+
+	return terrain->heightmap[x_terrain + terrain->SIZE/2][z_terrain + terrain->SIZE / 2];
+}
 
 void WorldModel::setModelShader(int shaderProgram) 
 { 
@@ -367,6 +385,31 @@ void WorldModel::setSphereShader(int shaderProgram)
 	for (auto it = spheres.begin(); it != spheres.end(); it++)
 	{
 		(*it)->setShader(shaderProgram);
+	}
+}
+
+void WorldModel::generateForest()
+{
+	FastNoise fastNoise;
+	fastNoise.SetSeed(0xdeadbeef);
+	fastNoise.SetNoiseType(FastNoise::Simplex);
+
+
+	for (int i = 0; i < 100; i++)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			float noiseVal = fastNoise.GetNoise(i , j );
+			float terrainHeight = terrain->heightmap[i][j];
+			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
+			{
+				UnitCubeModel* cube = new UnitCubeModel();
+				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
+				cube->scale(0.2, 1, 0.2);
+				addChild(cube);
+				models.push_back(cube);
+			}
+		}
 	}
 }
 
@@ -383,19 +426,15 @@ WorldModel::WorldModel() {
 	grid = new GridModel();
 //	addChild(grid);
 	
-	plane = new PlaneModel();
-	//plane->setTexture(grassTextureID);
-	plane->translate(0, 0.1, 0);
-	//texturedElement.push_back(plane);
-	//addChild(plane);
+	plane = new WaterModel();
+	plane->translate(0, -2, 0);
+	addChild(plane);
 
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);
 
 	terrain = new Terrain();
-	//terrain->setTexture(grassTextureID);
-	texturedElement.push_back(terrain);
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
@@ -413,13 +452,11 @@ WorldModel::WorldModel() {
 	
 	TModel* T = new TModel();
 	T->setTexture(boxTextureID);
-	texturedElement.push_back(T);
 	T->translate(-2, 0, 0);
 	T5->addChild(T);
 	
 	FiveModel* five_2 = new FiveModel();
 	five_2->setTexture(goldTextureID);
-	texturedElement.push_back(five_2);
 	five_2->translate(1.5, 0, 0);
 	T5->addChild(five_2);
 
@@ -441,13 +478,11 @@ WorldModel::WorldModel() {
 	
 	IModel* I = new IModel();
 	I->setTexture(boxTextureID);
-	texturedElement.push_back(I);
 	I->translate(-2, 0, 0);
 	I3->addChild(I);
 
 	ThreeModel* three = new ThreeModel();
 	three->setTexture(goldTextureID);
-	texturedElement.push_back(three);
 	three->translate(2, 0, 0);
 	I3->addChild(three);
 
@@ -469,13 +504,11 @@ WorldModel::WorldModel() {
 	
 	EModel* E = new EModel();
 	E->setTexture(boxTextureID);
-	texturedElement.push_back(E);
 	E->translate(-3.5, 0, 0);
 	E5->addChild(E);
 
 	FiveModel* five = new FiveModel();
 	five->setTexture(goldTextureID);
-	texturedElement.push_back(five);
 	five->translate(1.5, 0, 0);
 	E5->addChild(five);
 
@@ -497,13 +530,11 @@ WorldModel::WorldModel() {
 	
 	IModel* I_2 = new IModel();
 	I_2->setTexture(boxTextureID);
-	texturedElement.push_back(I_2);
 	I_2->translate(-2, 0, 0);
 	I3_2->addChild(I_2);
 
 	ThreeModel* three_2 = new ThreeModel();
 	three_2->setTexture(goldTextureID);
-	texturedElement.push_back(three_2);
 	three_2->translate(2, 0, 0);
 	I3_2->addChild(three_2);
 
@@ -525,13 +556,11 @@ WorldModel::WorldModel() {
 	
 	DModel* D = new DModel();
 	D->setTexture(boxTextureID);
-	texturedElement.push_back(D);
 	D->translate(-3.5, 0, 0);
 	D8->addChild(D);
 
 	EightModel* eight = new EightModel();
 	eight->setTexture(goldTextureID);
-	texturedElement.push_back(eight);
 	eight->translate(1.5, 0, 0);
 	D8->addChild(eight);
 
@@ -553,4 +582,6 @@ WorldModel::WorldModel() {
 	{
 		addChild(*it);
 	}
+
+    generateForest();
 };
