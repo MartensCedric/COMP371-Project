@@ -1,4 +1,5 @@
 #include "includes/WorldModel.hpp"
+#include "../Source/includes/TreeModel.hpp"
 #include "../Source/includes/Terrain.hpp"
 #include <cstdlib>
 
@@ -337,11 +338,11 @@ void WorldModel::generateForest()
 			float terrainHeight = terrain->heightmap[i][j];
 			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
 			{
-				UnitCubeModel* cube = new UnitCubeModel();
-				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
-				cube->scale(0.2, 1, 0.2);
-				addChild(cube);
-				models.push_back(cube);
+				TreeModel* tree = new TreeModel();
+				tree->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
+				tree->scale(0.1, 0.1, 0.1);
+				addChild(tree);
+				models.push_back(tree);
 			}
 		}
 	}
