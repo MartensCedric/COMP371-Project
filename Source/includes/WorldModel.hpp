@@ -7,6 +7,7 @@
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
 
+
 class EModel : public SimpleModel {
 	public: 
 		EModel();
@@ -42,25 +43,6 @@ class EightModel : public SimpleModel {
 		EightModel();
 };
 
-class TreeTrunkModel : public SimpleModel {
-public:
-	TreeTrunkModel();
-};
-
-class RoundLeaves : public SimpleModel {
-public:
-	RoundLeaves();
-};
-
-class SquareLeaves : public SimpleModel {
-public:
-	SquareLeaves();
-};
-
-class CubeLeaves : public SimpleModel {
-public:
-	CubeLeaves();
-};
 
 class WorldModel : public SimpleModel {
 	public:

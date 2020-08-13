@@ -16,6 +16,7 @@
 #include "includes/Camera.hpp"
 #include "includes/WorldModel.hpp"
 #include "includes/Skybox.hpp"
+#include "includes/TreeModel.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
 
@@ -25,6 +26,7 @@
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
 #include "../Source/includes/Skybox.hpp"
+#include "../Source/includes/TreeModel.hpp"
 
 #endif
 
@@ -42,6 +44,7 @@
 #include <algorithm>
 
 WorldModel* world = nullptr;
+TreeModel* trees = nullptr;
 
 double currentYPos;
 double previousYPos = -1;
@@ -561,12 +564,14 @@ int main(int argc, char*argv[])
 	//----------Camera setup----------
 	camera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
+	trees = new TreeModel();
 
 	Skybox skybox;
 	skybox.setShader(skyboxShader);
 	skybox.setCamera(camera);
 	skybox.setTexture(skyboxCubeMap);
 	world->setCamera(camera);
+	trees->setCamera(camera);
 
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
@@ -575,6 +580,7 @@ int main(int argc, char*argv[])
 
 	DirectionalLight* worldLight = new DirectionalLight();
 	world->setLight(worldLight);
+	trees->setLight(worldLight);
 	
 	// Variables for Tilt/Pan
 	double xCursor, yCursor;
@@ -619,6 +625,14 @@ int main(int argc, char*argv[])
 			(*it)->setShader(shadowShader);
 			(*it)->draw();
 		}
+
+
+		for (std::vector<Model *>::iterator it = trees->models.begin(); it != trees->models.end(); it++)
+		{
+			(*it)->setShader(shadowShader);
+			(*it)->draw();
+		}
+
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		
@@ -643,12 +657,19 @@ int main(int argc, char*argv[])
 			(*it)->setShader(modelShader);
 		}
 
+		for (std::vector<Model *>::iterator it = trees->models.begin(); it != trees->models.end(); it++)
+		{
+			(*it)->setShader(modelShader);
+		}
+
 		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
 		{
 			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
 		}
+
 	
 		world->draw();
+		trees->draw();
 
         // End frame
         glfwSwapBuffers(window);
