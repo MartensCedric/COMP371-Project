@@ -6,6 +6,7 @@
 #include "WaterModel.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
+#include "ConeModel.hpp"
 
 class EModel : public SimpleModel {
 	public: 
@@ -45,12 +46,16 @@ class EightModel : public SimpleModel {
 class PenguinModel : public SimpleModel {
 public:
 	PenguinModel();
+	void setBeakShader(int shaderID);
+
+	ConeModel* beak;
 };
 
 class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
+		std::vector<PenguinModel*> penguinos; // MEMES BY CEDRIC SMARTENS
 		WorldModel();
 		void setGridShader(int shaderProgram);
 		void setAxesShader(int shaderProgram);
@@ -58,6 +63,7 @@ class WorldModel : public SimpleModel {
 		void setWaterShader(int shaderProgram);
 		void setSphereShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
+		//void setPenguinBeaksShader(int shaderProgram);
 		void generateForest();
 		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;

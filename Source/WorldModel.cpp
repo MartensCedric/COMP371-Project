@@ -30,7 +30,7 @@ PenguinModel::PenguinModel() {
 	SimpleModel* rightWing = new UnitCubeModel();
 	SimpleModel* head = new UnitCubeModel();
 	//@TODO: use Cedrics epic cone model instead of unit cube
-	//ConeModel* beak = new ConeModel(glm::vec3(0, 0, 0));
+	//this->beak = new ConeModel(glm::vec4(1, 1, 0, 1));
 	SimpleModel* beak = new UnitCubeModel();
 	SimpleModel* leftEye = new UnitCubeModel();
 	SimpleModel* rightEye = new UnitCubeModel();
@@ -66,7 +66,7 @@ PenguinModel::PenguinModel() {
 	beak->scale(0.2, 0.2, 0.7);
 	beak->translate(0, 4, 0.9);
 	//@TODO: change to ORANGE
-	beak->setTexture(grassTextureID);
+	//beak->setTexture(grassTextureID);
 
 	addChild(body);
 	addChild(leftFoot);
@@ -78,6 +78,12 @@ PenguinModel::PenguinModel() {
 	addChild(rightEye);
 	addChild(beak);
 }
+
+/*
+void PenguinModel::setBeakShader(int shaderID) {
+	this->beak->setShader(shaderID);
+}
+*/
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -364,6 +370,13 @@ void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgra
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
 void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
+//void WorldModel::setPenguinBeaksShader(int shaderProgram)
+/*{ 
+	for (auto it = penguinos.begin(); it != penguinos.end(); it++)
+	{
+		(*it)->setBeakShader(shaderProgram);
+	}
+}*/
 
 float WorldModel::getTerrainHeight(float x, float z) 
 {
@@ -576,6 +589,7 @@ WorldModel::WorldModel() {
 	PenguinModel* penguino = new PenguinModel();
 	texturedElement.push_back(penguino);
 	penguino->translate(0, 11, 0);
+	//penguinos.push_back(penguino);
 	models.push_back(penguino);
 
 	for (auto it = models.begin(); it != models.end(); it++)
