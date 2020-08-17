@@ -7,6 +7,11 @@
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
 
+class CloudModel : public SimpleModel {
+	public:
+		CloudModel();
+};
+
 class EModel : public SimpleModel {
 	public: 
 		EModel();
@@ -46,14 +51,18 @@ class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
+		std::vector<Model*> clouds;
 		WorldModel();
 		void setGridShader(int shaderProgram);
 		void setAxesShader(int shaderProgram);
 		void setModelShader(int shaderProgram);
 		void setWaterShader(int shaderProgram);
 		void setSphereShader(int shaderProgram);
+		void setCloudsShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
 		void generateForest();
+		void generateClouds();
+		void addCloud();
 		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;
 };

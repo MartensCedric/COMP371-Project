@@ -11,7 +11,32 @@
 
 #define OS_Windows 1
 #include "../FastNoise.h"
+#include <time.h>
 #endif
+
+CloudModel::CloudModel() {
+	setupAttribPointer();
+	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
+	srand(time(0));
+	SimpleModel* cloudCenter = new UnitCubeModel();
+	double cloudCenterX = rand() % (6 - 4 + 1) + 4;
+	double cloudCenterZ = rand() % (7 - 5 + 1) + 5;
+
+	cloudCenter->scale(cloudCenterX, 1, cloudCenterZ);
+	cloudCenter->translate(0, 70, 0);
+
+	SimpleModel* cloudBottom = new UnitCubeModel(0.5f);
+	double cloudBottomX = rand() % (3 - 2 + 1) + 2;
+	double cloudBottomZ = rand() %  (4 - 3 + 1) + 3;
+
+	cloudBottom->scale(cloudBottomX, 1, cloudBottomZ);
+	cloudBottom->translate(0,69, 0);
+	cloudCenter->setTexture(cloudTextureID);
+	addChild(cloudBottom);
+
+	addChild(cloudCenter);
+
+};
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -322,6 +347,14 @@ void WorldModel::setSphereShader(int shaderProgram)
 	}
 }
 
+void WorldModel::setCloudsShader(int shaderProgram)
+{
+	for (auto it = clouds.begin(); it != clouds.end(); it++)
+	{
+		(*it)->setShader(shaderProgram);
+	}
+}
+
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
@@ -346,6 +379,34 @@ void WorldModel::generateForest()
 		}
 	}
 }
+
+void WorldModel::generateClouds()
+{
+	for (int i = 0; i < 150; i++)
+	{
+		srand(time(0));
+		double randomX = rand() % 31 + (-15);
+		double randomY = rand() % 9 + (-4);
+		double randomZ = rand() % 31 + (-15);
+		CloudModel* cloud = new CloudModel();
+		cloud->translate(randomX, 0, randomZ);
+		addChild(cloud);
+		clouds.push_back(cloud);
+	}
+}
+
+void WorldModel::addCloud()
+{
+	srand(time(0));
+		double randomX = rand() % 26 + (-25);
+		double randomY = rand() % 9 + (-4);
+		CloudModel* cloud = new CloudModel();		
+		cloud->translate(randomX, 0, -25);
+		addChild(cloud);
+		clouds.push_back(cloud);
+}
+
+
 
 WorldModel::WorldModel() {
 	// Load textures
@@ -507,4 +568,16 @@ WorldModel::WorldModel() {
 	//models.push_back(D8);
 
 	generateForest();
+	generateClouds();
+
+	for (auto it = models.begin(); it != models.end(); it++)
+	{
+		addChild(*it);
+	}
+
+	for (auto it = clouds.begin(); it != clouds.end(); it++)
+	{
+		addChild(*it);
+	}
+	 
 };

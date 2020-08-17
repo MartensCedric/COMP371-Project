@@ -133,6 +133,7 @@
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
     <ClCompile Include="..\Source\WorldModel.cpp" />
     <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
+    <ClCompile Include="Cloud.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />

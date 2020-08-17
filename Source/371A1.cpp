@@ -25,7 +25,7 @@
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
 #include "../Source/includes/Skybox.hpp"
-
+#include <ctime>
 #endif
 
 // Include GLEW - OpenGL Extension Wrangler
@@ -42,7 +42,6 @@
 #include <algorithm>
 
 WorldModel* world = nullptr;
-
 double currentYPos;
 double previousYPos = -1;
 int randomX;
@@ -446,6 +445,8 @@ int main(int argc, char*argv[])
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
 	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
 	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
+	
+	clock_t begin = clock();
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -505,7 +506,11 @@ int main(int argc, char*argv[])
 		{
 			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
 		}
-	
+		for (auto it = world->clouds.begin(); it != world->clouds.end(); it++)
+		{
+			(*it)->setShader(modelShader);
+		}
+
 		world->draw();
 
         // End frame
@@ -581,31 +586,31 @@ int main(int argc, char*argv[])
 			}
 		}
 		
-		// Rotate model about left about Y
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
-			!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-			!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-			!glfwGetKey(window, GLFW_KEY_ENTER) &&
-			glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->rotate(0, 1, 0, 5);
-			}
-		}
+		//// Rotate model about left about Y
+		//if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		//	!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		//	!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		//	!glfwGetKey(window, GLFW_KEY_ENTER) &&
+		//	glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		//{
+		//	for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		//	{
+		//		(*it)->rotate(0, 1, 0, 5);
+		//	}
+		//}
 
-		// Rotate model about left about Y
-		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
-			!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-			!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-			!glfwGetKey(window, GLFW_KEY_ENTER) &&
-			glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->rotate(0, 1, 0, -5);
-			}
-		}
+		//// Rotate model about left about Y
+		//if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		//	!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		//	!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		//	!glfwGetKey(window, GLFW_KEY_ENTER) &&
+		//	glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		//{
+		//	for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+		//	{
+		//		(*it)->rotate(0, 1, 0, -5);
+		//	}
+		//}
 
 		// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
 
@@ -877,6 +882,28 @@ int main(int argc, char*argv[])
 				randomY = rand() % 51 + (-25);
  				(*it)->translate(randomX, 3.5, randomY);
 			}
+		}
+
+		//Cloud addition
+		clock_t end = clock();
+		int elapsed_seconds = (int)(end - begin) / CLOCKS_PER_SEC;
+		if (elapsed_seconds == 5) {
+			//world->addCloud();
+			srand(time(0));
+
+			double randomX = rand() % 26 + (-25);
+			double randomY = rand() % 9 + (-4);
+			CloudModel* cloud = new CloudModel();
+			cloud->translate(randomX, 0, -25);
+			world->clouds.push_back(cloud);
+			world->addChild(cloud);
+		}
+
+		//Move clouds
+		for (std::vector<Model*>::iterator it = world->clouds.begin(); it != world->clouds.end(); it++)
+		{
+			(*it)->translate(0, 0, 0.1);
+			
 		}
     }
     
