@@ -889,14 +889,14 @@ int main(int argc, char*argv[])
 		int elapsed_seconds = (int)(end - begin) / CLOCKS_PER_SEC;
 		if (elapsed_seconds == 5) {
 			//world->addCloud();
-			srand(time(0));
+			//srand(time(0));
 
-			double randomX = rand() % 26 + (-25);
-			double randomY = rand() % 9 + (-4);
-			CloudModel* cloud = new CloudModel();
-			cloud->translate(randomX, 0, -25);
-			world->clouds.push_back(cloud);
-			world->addChild(cloud);
+			//double randomX = rand() % 26 + (-25);
+			//double randomY = rand() % 9 + (-4);
+			//CloudModel* cloud = new CloudModel();
+			//cloud->translate(randomX, 0, -25);
+			//world->clouds.push_back(cloud);
+			//world->addChild(cloud);
 		}
 
 		//Move clouds

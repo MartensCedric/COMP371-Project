@@ -25,7 +25,7 @@ CloudModel::CloudModel() {
 	cloudCenter->scale(cloudCenterX, 1, cloudCenterZ);
 	cloudCenter->translate(0, 70, 0);
 
-	SimpleModel* cloudBottom = new UnitCubeModel(0.5f);
+	SimpleModel* cloudBottom = new UnitCubeModel();
 	double cloudBottomX = rand() % (3 - 2 + 1) + 2;
 	double cloudBottomZ = rand() %  (4 - 3 + 1) + 3;
 
