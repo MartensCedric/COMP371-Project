@@ -14,6 +14,7 @@
 #include "../FastNoise.h"
 #endif
 
+// NOTE: "left" and "right" are from the perspective of the viewer looking at a penguin directly facing them
 PenguinModel::PenguinModel() {
 	setupAttribPointer();
 
@@ -23,10 +24,12 @@ PenguinModel::PenguinModel() {
 	GLuint whiteScleraTextureID = loadTexture("../Assets/Textures/pearl-white.jpg");
 	GLuint orangeTextureID = loadTexture("../Assets/Textures/penguin-orange.jpg");
 	GLuint blackFurTextureID = loadTexture("../Assets/Textures/penguin-black-fur.jpg");
-	//GLuint blackPupilTextureID = loadTexture("../Assets/Texturs/pitch-black.jpg");
+	GLuint blackPupilTextureID = loadTexture("../Assets/Texturs/pitch-black.png");
 
 	SimpleModel* leftFoot = new UnitCubeModel();
+	SimpleModel* leftLeg = new UnitCubeModel();
 	SimpleModel* rightFoot = new UnitCubeModel();
+	SimpleModel* rightLeg = new UnitCubeModel();
 	SimpleModel* body = new UnitCubeModel();
 	SimpleModel* leftWing = new UnitCubeModel();
 	SimpleModel* rightWing = new UnitCubeModel();
@@ -34,36 +37,56 @@ PenguinModel::PenguinModel() {
 	//@TODO: use Cedrics epic cone model instead of unit cube
 	//this->beak = new ConeModel(glm::vec4(1, 1, 0, 1));
 	SimpleModel* beak = new UnitCubeModel();
-	SimpleModel* leftEye = new UnitCubeModel();
-	SimpleModel* rightEye = new UnitCubeModel();
+	SimpleModel* leftEyeSclera = new UnitCubeModel();
+	SimpleModel* rightEyeSclera = new UnitCubeModel();
+	SimpleModel* leftEyePupil = new UnitCubeModel();
+	SimpleModel* rightEyePupil = new UnitCubeModel();
 
 	body->scale(3, 3, 2);
 	body->translate(0, 2, 0.5);
 	//@TODO: change the body to black except white on front side
 	body->setTexture(whiteFurTextureID);
-	leftFoot->scale(1, 1, 1.2);
-	leftFoot->translate(-1, 0, 0.2);
-	leftFoot->setTexture(blackFurTextureID);
-	rightFoot->scale(1, 1, 1.2);
-	rightFoot->translate(1, 0, 0.2);
-	rightFoot->setTexture(blackFurTextureID);
+	
+	leftLeg->scale(0.3, 1, 0.3);
+	rightLeg->scale(0.3, 1, 0.3);
+	leftLeg->translate(-0.65, 0.3, 0.4);
+	rightLeg->translate(0.65, 0.3, 0.4);
+	leftLeg->setTexture(orangeTextureID);
+	rightLeg->setTexture(orangeTextureID);
+
+	leftFoot->scale(0.9, 0.5, 1.2);
+	rightFoot->scale(0.9, 0.5, 1.2);
+	leftFoot->translate(-0.65, 0, 0.6);
+	rightFoot->translate(0.65, 0, 0.6);
+	leftFoot->setTexture(orangeTextureID);
+	rightFoot->setTexture(orangeTextureID);
+	
 	leftWing->scale(0.5, 2, 1.2);
-	leftWing->translate(-1.5, 2, 0.2);
+	leftWing->translate(-1.5, 2, 0.4);
 	leftWing->setTexture(blackFurTextureID);
 	rightWing->scale(0.5, 2, 1.2);
-	rightWing->translate(1.5, 2, 0.2);
+	rightWing->translate(1.5, 2, 0.4);
 	rightWing->setTexture(blackFurTextureID);
-	head->scale(1.5, 1.5, 1.2);
-	head->translate(0, 4.25, 0.2); // z=0.5 will center it
+	
+	head->scale(1.5, 1.5, 1);
+	head->translate(0, 4.25, 0.3); // z=0.5 will center it
 	//@TODO: change to black outline and white front face (or split up into two models?)
 	head->setTexture(blackFurTextureID);
-	leftEye->scale(0.2, 0.2, 0.2);
-	leftEye->translate(-0.5, 4.25, 0.9);
-	leftEye->setTexture(whiteScleraTextureID);
-	rightEye->scale(0.2, 0.2, 0.2);
-	rightEye->translate(0.5, 4.25, 0.9);
+	
+	leftEyeSclera->scale(0.3, 0.3, 0.3);
+	rightEyeSclera->scale(0.3, 0.3, 0.3);
+	leftEyeSclera->translate(-0.5, 4.25, 0.7);
+	rightEyeSclera->translate(0.5, 4.25, 0.7);
+	leftEyeSclera->setTexture(whiteScleraTextureID);
+	rightEyeSclera->setTexture(whiteScleraTextureID);
+	leftEyePupil->scale(0.2, 0.2, 0.2);
+	rightEyePupil->scale(0.2, 0.2, 0.2);
+	leftEyePupil->translate(-0.5, 4.25, 0.8);
+	rightEyePupil->translate(0.5, 4.25, 0.8);
+	leftEyePupil->setTexture(blackPupilTextureID);
+	rightEyePupil->setTexture(blackPupilTextureID);
+
 	//@TODO: create sclera + pupil models
-	rightEye->setTexture(whiteScleraTextureID);
 	beak->scale(0.2, 0.2, 0.7);
 	beak->translate(0, 4, 0.9);
 	beak->setTexture(orangeTextureID);
@@ -71,11 +94,15 @@ PenguinModel::PenguinModel() {
 	addChild(body);
 	addChild(leftFoot);
 	addChild(rightFoot);
+	addChild(leftLeg);
 	addChild(leftWing);
+	addChild(rightLeg);
 	addChild(rightWing);
 	addChild(head);
-	addChild(leftEye);
-	addChild(rightEye);
+	addChild(leftEyeSclera);
+	addChild(leftEyePupil);
+	addChild(rightEyeSclera);
+	addChild(rightEyePupil);
 	addChild(beak);
 }
 
