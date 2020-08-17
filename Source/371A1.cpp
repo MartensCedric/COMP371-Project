@@ -456,6 +456,7 @@ int main(int argc, char*argv[])
 		world->setDeltaTime(dt);
 
 		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
+		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + camera->position;
 
 		int modelShader = passthroughShader;
 
