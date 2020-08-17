@@ -8,7 +8,7 @@ uniform vec3 lightDirection;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
 uniform vec3 eyePosition;
 
-uniform float kAmbient = 0.2;
+uniform float kAmbient = 0.1;
 uniform float kDiffuse = 0.5;
 uniform float kSpecular = 0.5;
 
@@ -52,9 +52,9 @@ void main()
   
    vec3 lightDirectionNorm = normalize(lightDirection);
    float diffuse = max(dot(vertexNormal, lightDirectionNorm), 0.0f);
-   vec3 diffuseColor = diffuse * lightColor;
+   vec3 diffuseColor = diffuse * ambientColor;
    vec3 viewDirection = normalize(eyePosition - fragmentPosition);
-   vec3 lightReflectDirection = reflect(lightDirectionNorm, vertexNormal);
+   vec3 lightReflectDirection = reflect(lightDirectionNorm, normalize(vertexNormal));
    
    // The dot is the cos(theta) because it's normalized
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 
