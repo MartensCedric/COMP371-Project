@@ -48,7 +48,7 @@ void main()
    // The dot is the cos(theta) because it's normalized
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 
    vec3 specularColor = specularComponent * lightColor;
-   float shadowScalar = 1.0f; //shadow_scalar();
+   float shadowScalar = shadow_scalar();
    vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
    
    FragColor = vec4(finalLight.rgb, 1.0f); //This is the actual line we want to have

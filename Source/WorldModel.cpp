@@ -289,10 +289,6 @@ EightModel::EightModel() {
 	//modelsTop.push_back(topDiv);
 };
 
-WaterModel* plane = nullptr;
-GridModel* grid = nullptr;
-AxesModel* axes = nullptr;
-Terrain* terrain = nullptr;
 
 void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
@@ -508,7 +504,7 @@ WorldModel::WorldModel() {
 
 	UnitCubeModel* cube = new UnitCubeModel();
 	cube->scale(10, 10, 10);
-	cube->translate(0, 20, 0);
+	cube->translate(0, 15, 0);
 	cube->setTexture(boxTextureID);
 	addChild(cube);
 	models.push_back(cube);

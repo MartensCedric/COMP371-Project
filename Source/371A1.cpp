@@ -478,6 +478,9 @@ int main(int argc, char*argv[])
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		world->terrain->setShader(shadowShader);
+		world->terrain->draw();
+
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
 			(*it)->setShader(shadowShader);
@@ -496,6 +499,8 @@ int main(int argc, char*argv[])
 		glActiveTexture(GL_TEXTURE0);
 	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		world->terrain->setShader(terrainShader);
 		
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
