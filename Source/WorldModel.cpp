@@ -19,9 +19,11 @@ PenguinModel::PenguinModel() {
 
 	//@TODO: refactor this so it's accessible as class attributes?
 	// Load textures
-	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
-	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
-	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+	GLuint whiteFurTextureID = loadTexture("../Assets/Textures/penguin-white-fur.png");
+	GLuint whiteScleraTextureID = loadTexture("../Assets/Textures/pearl-white.jpg");
+	GLuint orangeTextureID = loadTexture("../Assets/Textures/penguin-orange.jpg");
+	GLuint blackFurTextureID = loadTexture("../Assets/Textures/penguin-black-fur.jpg");
+	//GLuint blackPupilTextureID = loadTexture("../Assets/Texturs/pitch-black.jpg");
 
 	SimpleModel* leftFoot = new UnitCubeModel();
 	SimpleModel* rightFoot = new UnitCubeModel();
@@ -38,35 +40,33 @@ PenguinModel::PenguinModel() {
 	body->scale(3, 3, 2);
 	body->translate(0, 2, 0.5);
 	//@TODO: change the body to black except white on front side
-	body->setTexture(boxTextureID);
+	body->setTexture(whiteFurTextureID);
 	leftFoot->scale(1, 1, 1.2);
 	leftFoot->translate(-1, 0, 0.2);
-	leftFoot->setTexture(goldTextureID);
+	leftFoot->setTexture(blackFurTextureID);
 	rightFoot->scale(1, 1, 1.2);
 	rightFoot->translate(1, 0, 0.2);
-	//@TODO: change the wings to black
-	rightFoot->setTexture(goldTextureID);
+	rightFoot->setTexture(blackFurTextureID);
 	leftWing->scale(0.5, 2, 1.2);
 	leftWing->translate(-1.5, 2, 0.2);
-	leftWing->setTexture(goldTextureID);
+	leftWing->setTexture(blackFurTextureID);
 	rightWing->scale(0.5, 2, 1.2);
 	rightWing->translate(1.5, 2, 0.2);
-	rightWing->setTexture(goldTextureID);
+	rightWing->setTexture(blackFurTextureID);
 	head->scale(1.5, 1.5, 1.2);
 	head->translate(0, 4.25, 0.2); // z=0.5 will center it
 	//@TODO: change to black outline and white front face (or split up into two models?)
-	head->setTexture(goldTextureID);
+	head->setTexture(blackFurTextureID);
 	leftEye->scale(0.2, 0.2, 0.2);
 	leftEye->translate(-0.5, 4.25, 0.9);
-	leftEye->setTexture(grassTextureID);
+	leftEye->setTexture(whiteScleraTextureID);
 	rightEye->scale(0.2, 0.2, 0.2);
 	rightEye->translate(0.5, 4.25, 0.9);
-	//@TODO: change to pitch black (w/ reflection?)
-	rightEye->setTexture(grassTextureID);
+	//@TODO: create sclera + pupil models
+	rightEye->setTexture(whiteScleraTextureID);
 	beak->scale(0.2, 0.2, 0.7);
 	beak->translate(0, 4, 0.9);
-	//@TODO: change to ORANGE
-	//beak->setTexture(grassTextureID);
+	beak->setTexture(orangeTextureID);
 
 	addChild(body);
 	addChild(leftFoot);
