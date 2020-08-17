@@ -502,12 +502,5 @@ WorldModel::WorldModel() {
 	D8->translate(-18, 3.5, 18);
 	//models.push_back(D8);
 
-	UnitCubeModel* cube = new UnitCubeModel();
-	cube->scale(10, 10, 10);
-	cube->translate(0, 15, 0);
-	cube->setTexture(boxTextureID);
-	addChild(cube);
-	models.push_back(cube);
-
 	generateForest();
 };

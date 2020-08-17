@@ -475,7 +475,7 @@ int main(int argc, char*argv[])
 
 		glUseProgram(shadowShader);
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+	/*	glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -494,7 +494,7 @@ int main(int argc, char*argv[])
 		}
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		
+	*/	
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
