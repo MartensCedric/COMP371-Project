@@ -451,13 +451,13 @@ int main(int argc, char*argv[])
     while(!glfwWindowShouldClose(window)) {
 
 	
-		sunTheta += 0.005f;
+		sunTheta += 0.002f;
 		dt += 0.16f; //not accurate
 		world->setDeltaTime(dt);
 
-		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
-		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + camera->position;
-
+		worldLight->direction = glm::vec3(sin(sunTheta), -cos(sunTheta), 0);
+		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + camera->position; 
+		
 		int modelShader = passthroughShader;
 
 		if (showLight && showTexture)
@@ -478,8 +478,14 @@ int main(int argc, char*argv[])
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+		glDisable(GL_CULL_FACE);
+
+		
 		world->terrain->setShader(shadowShader);
 		world->terrain->draw();
+
+		glEnable(GL_CULL_FACE);
 
 		for (std::vector<Model *>::iterator it = world->models.begin(); it != world->models.end(); it++)
 		{
@@ -493,12 +499,17 @@ int main(int argc, char*argv[])
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthMask(GL_FALSE);
+		glUseProgram(skyboxShader);
+		glm::vec3 lightDirection = worldLight->direction;
+		int lightDirectionLocation = glGetUniformLocation(skyboxShader, "lightDirection");
+		glUniform3fv(lightDirectionLocation, 1, &lightDirection[0]);
 		skybox.draw();
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
 	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
 
 		world->terrain->setShader(terrainShader);
 		
@@ -507,10 +518,6 @@ int main(int argc, char*argv[])
 			(*it)->setShader(modelShader);
 		}
 
-		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
-		{
-			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
-		}
 	
 		world->draw();
 

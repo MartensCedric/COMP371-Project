@@ -38,7 +38,6 @@ float shadow_scalar() {
 void main()
 {
    vec3 ambientColor = texture(textureSampler, vertexUV ).rgb;
-  
    vec3 lightDirectionNorm = normalize(lightDirection);
    float diffuse = max(dot(normalize(vertexNormal), lightDirectionNorm), 0.0f);
    vec3 diffuseColor = diffuse * ambientColor;
@@ -49,8 +48,9 @@ void main()
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 
    vec3 specularColor = specularComponent * lightColor;
    float shadowScalar = 1.0f;
+   if(dot(vec3(0.0f,1.0f,0.0f), lightDirectionNorm) >= 0.0)
+       shadowScalar = 1 - dot(vec3(0.0f,1.0f,0.0f), lightDirectionNorm);
    vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
    
    FragColor = vec4(finalLight.rgb, 1.0f); //This is the actual line we want to have
-   //FragColor = vec4(shadow_scalar(), shadow_scalar(), shadow_scalar(), 1.0); //Use this line to debug and see in white/black shadows
 }
