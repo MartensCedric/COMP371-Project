@@ -31,7 +31,7 @@ public:
 
 class TreeModel : public SimpleModel {
 	public:
-		std::vector<Model*> models;
+		//std::vector<Model*> models;
 		TreeModel();
 		std::vector<Model*> texturedElement;
 };

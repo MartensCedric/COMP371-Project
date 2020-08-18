@@ -10,8 +10,7 @@ TreeTrunkModel::TreeTrunkModel() {
 
 	UnitCubeModel* mainTrunk = new UnitCubeModel();
 	mainTrunk->scale(1, 5.5, 1);
-	mainTrunk->translate(0, -1, 0);
-
+	//mainTrunk->translate(0, -1, 0);
 	addChild(mainTrunk);
 };
 
@@ -108,11 +107,7 @@ SquareLeaves::SquareLeaves() {
 
 CubeLeaves::CubeLeaves() {
 	setupAttribPointer();
-
 	UnitCubeModel* base3 = new UnitCubeModel();
-	base3->scale(1, 1, 1);
-	base3->translate(0, 0, 0);
-
 	addChild(base3);
 };
 
@@ -122,10 +117,26 @@ TreeModel::TreeModel() {
 	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
 	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
+
+	//-------------Random changes to the tree-------------
+	srand((unsigned)time(0));
+
+	//choose random number between 1 and 4
+	float randomNum1 = 1 + (rand() % 4);
+	//possible values for horizontal change are: 4/7, 3/7, 2/7 , 1/7
+	float horizontalChange = randomNum1 / 7;
+
+	//Choose another random number between 0 and 3
+	float randomNum2 = (rand() % 4);
+	//possible values for vertical change are: 3/6, 2/6, 1/6, 0/6
+	float verticalChange = randomNum2 / 6;
+
+	//choose random number between 1 and 10
+	float randomNum3 = (rand() % 9);
+	//possible degrees of change in rotation are: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90
+	float rotationalChange = randomNum3 * 10;
+
 	
-
-
-
 	//// --------------------Super low poly tree (2 cubes)--------------------
 
 	//SimpleModel* tree = new SimpleModel();
@@ -151,74 +162,65 @@ TreeModel::TreeModel() {
 
 	//SimpleModel* tree = new SimpleModel();
 
-	//TreeTrunkModel* trunk = new TreeTrunkModel();
-	//trunk->setTexture(trunkTextureID);
-	//texturedElement.push_back(trunk);
-	//trunk->translate(0, 1, 0);
-	//tree->addChild(trunk);
+	UnitCubeModel* trunk = new UnitCubeModel();
+	trunk->scale(1, 5, 1);
+	trunk->setTexture(trunkTextureID);
+	addChild(trunk);
 
-	//CubeLeaves* layer1 = new CubeLeaves();
-	//layer1->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer1);
-	//layer1->scale(5, 1, 5);
-	//layer1->translate(0, 0, 0);
-	//layer1->rotate(0, 1, 0, 0);
-	//tree->addChild(layer1);
+	UnitCubeModel* layer1 = new UnitCubeModel();
+	layer1->setTexture(leavesTextureID);
+	layer1->scale(5, 1, 5);
+	layer1->rotate(0, 1, 0, 0);
+	addChild(layer1);
 
-	//CubeLeaves* layer2 = new CubeLeaves();//square
-	//layer2->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer2);
-	//layer2->scale(3, 1, 3);
-	//layer2->translate(0, 1, 0);
-	//layer2->rotate(0, 1, 0, 0);
-	//tree->addChild(layer2);
+	UnitCubeModel* layer2 = new UnitCubeModel();
+	layer2->setTexture(leavesTextureID);
+	layer2->scale(3, 1, 3);
+	layer2->translate(0, 1, 0);
+	layer2->rotate(0, 1, 0, 0);
+	addChild(layer2);
 
-	//CubeLeaves* layer3 = new CubeLeaves();
-	//layer3->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer3);
-	//layer3->scale(4, 1, 4);
-	//layer3->translate(0, 2, 0);
-	//layer3->rotate(0, 1, 0, 45);
-	//tree->addChild(layer3);
+	UnitCubeModel* layer3 = new UnitCubeModel();
+	layer3->setTexture(leavesTextureID);
+	layer3->scale(4, 1, 4);
+	layer3->translate(0, 2, 0);
+	layer3->rotate(0, 1, 0, 45);
+	addChild(layer3);
 
-	//CubeLeaves* layer4 = new CubeLeaves();//square
-	//layer4->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer4);
-	//layer4->scale(2.5, 1, 2.5);
-	//layer4->translate(0, 3, 0);
-	//layer4->rotate(0, 1, 0, 0);
-	//tree->addChild(layer4);
+	UnitCubeModel* layer4 = new UnitCubeModel();
+	layer4->setTexture(leavesTextureID);
+	layer4->scale(2.5, 1, 2.5);
+	layer4->translate(0, 3, 0);
+	layer4->rotate(0, 1, 0, 0);
+	addChild(layer4);
 
-	//CubeLeaves* layer5 = new CubeLeaves();
-	//layer5->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer5);
-	//layer5->scale(3, 1, 3);
-	//layer5->translate(0, 4, 0);
-	//layer5->rotate(0, 1, 0, 45);
-	//tree->addChild(layer5);
+	UnitCubeModel* layer5 = new UnitCubeModel();
+	layer5->setTexture(leavesTextureID);
+	layer5->scale(3, 1, 3);
+	layer5->translate(0, 4, 0);
+	layer5->rotate(0, 1, 0, 45);
+	addChild(layer5);
 
-	//CubeLeaves* layer6 = new CubeLeaves();//square
-	//layer6->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer6);
-	//layer6->scale(2, 1, 2);
-	//layer6->translate(0, 5, 0);
-	//layer6->rotate(0, 1, 0, 0);
-	//tree->addChild(layer6);
+	UnitCubeModel* layer6 = new UnitCubeModel();
+	layer6->setTexture(leavesTextureID);
+	layer6->scale(2, 1, 2);
+	layer6->translate(0, 5, 0);
+	layer6->rotate(0, 1, 0, 0);
+	addChild(layer6);
 
-	//CubeLeaves* layer7 = new CubeLeaves();//square
-	//layer7->setTexture(leavesTextureID);
-	//texturedElement.push_back(layer7);
-	//layer7->scale(0.80, 0.80, 0.80);
-	//layer7->translate(0, 5.8, 0);
-	//layer7->rotate(0, 1, 0, 45);
-	//tree->addChild(layer7);
+	UnitCubeModel* layer7 = new UnitCubeModel();
+	layer7->setTexture(leavesTextureID);
+	layer7->scale(0.80, 0.80, 0.80);
+	layer7->translate(0, 5.8, 0);
+	layer7->rotate(0, 1, 0, 45);
+	addChild(layer7);
 
 
 
 
 
 	//--------------------Original Tree Model-------------------- (127 cubs with snow) (70 cubes without snow)
-	SimpleModel* tree = new SimpleModel();
+	/*SimpleModel* tree = new SimpleModel();
 
 	TreeTrunkModel* trunk = new TreeTrunkModel();
 	trunk->setTexture(trunkTextureID);
@@ -342,45 +344,11 @@ TreeModel::TreeModel() {
 	snowLayer9->scale(0.5, 0.23, 0.5);
 	snowLayer9->translate(0, 6.15, 0);
 	snowLayer9->rotate(0, 1, 0, 0);
-	tree->addChild(snowLayer9);
-
-
-
-
-	//-------------Random changes to the tree-------------
-	srand((unsigned)time(0));
-
-	//choose random number between 1 and 4
-	float randomNum1 = 1 + (rand() % 4);
-	//possible values for horizontal change are: 4/7, 3/7, 2/7 , 1/7
-	float horizontalChange = randomNum1 / 7;
-
-
-	//Choose another random number between 0 and 3
-	float randomNum2 = (rand() % 4);
-	//possible values for vertical change are: 3/6, 2/6, 1/6, 0/6
-	float verticalChange = randomNum2 / 6;
-
-
-	//choose random number between 1 and 10
-	float randomNum3 = (rand() % 9);
-	//possible degrees of change in rotation are: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90
-	float rotationalChange = randomNum3 * 10;
-
+	tree->addChild(snowLayer9);*/
 
 	//Apply random scale to tree
-	tree->scale(1 - horizontalChange , 1 - verticalChange, 1 - horizontalChange);
+	scale(1 - horizontalChange, 1 - verticalChange, 1 - horizontalChange);
 	//Apply random rotation to tree
-	tree->rotate(0, 1, 0, rotationalChange);
-
-
-	tree->translate(7, 10, 0);
-	models.push_back(tree);
-
-
-
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		addChild(*it);
-	}
+	rotate(0, 1, 0, rotationalChange);
+	translate(0, 1, 0);
 };

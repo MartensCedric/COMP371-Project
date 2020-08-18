@@ -48,9 +48,6 @@ EModel::EModel() {
 
 	addChild(topDiv);
 	addChild(bottomDiv);
-
-	//SimpleModel::modelsTop.push_back(topDiv);
-	//SimpleModel::modelsBottom.push_back(bottomDiv);
 };
 
 FiveModel::FiveModel() {
@@ -88,9 +85,6 @@ FiveModel::FiveModel() {
 
 	addChild(topDiv);
 	addChild(bottomDiv);
-
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
 };
 
 IModel::IModel() {
@@ -123,9 +117,6 @@ IModel::IModel() {
 
 	addChild(topDiv);
 	addChild(bottomDiv);
-
-	//modelsTop.push_back(topDiv);
-	//modelsBottom.push_back(bottomDiv);
 };
 
 ThreeModel::ThreeModel() {
@@ -189,9 +180,6 @@ TModel::TModel() {
 
 	addChild(topDiv);
 	addChild(bottomDiv);
-
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
 };
 
 DModel::DModel() {
@@ -236,9 +224,6 @@ DModel::DModel() {
 
 	addChild(bottomDiv);
 	addChild(topDiv);
-
-	//modelsTop.push_back(topDiv);
-	//modelsBottom.push_back(bottomDiv);
 };
 
 EightModel::EightModel() {
@@ -328,24 +313,22 @@ void WorldModel::generateForest()
 	FastNoise fastNoise;
 	fastNoise.SetSeed(0xdeadbeef);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
-
-
-	for (int i = 0; i < 100; i++)
-	{
-		for (int j = 0; j < 100; j++)
-		{
-			float noiseVal = fastNoise.GetNoise(i , j );
+	
+	for (int i = 0; i < 100; i++) {
+		for (int j = 0; j < 100; j++) {
+			//float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
+			if (terrainHeight >= -0.1 && rand() % 80 == 0 && models.size() < 50)
 			{
 				TreeModel* tree = new TreeModel();
-				tree->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
-				tree->scale(0.1, 0.1, 0.1);
+				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
+				tree->scale(0.5, 0.5, 0.5);
 				addChild(tree);
 				models.push_back(tree);
 			}
 		}
 	}
+	std::cout << models.size() << std::endl;
 }
 
 WorldModel::WorldModel() {
@@ -362,7 +345,7 @@ WorldModel::WorldModel() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid = new GridModel();
-//	addChild(grid);
+	// addChild(grid);
 	
 	plane = new WaterModel();
 	plane->translate(0, -2, 0);
