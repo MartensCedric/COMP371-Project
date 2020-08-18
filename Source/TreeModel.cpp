@@ -125,7 +125,99 @@ TreeModel::TreeModel() {
 	
 
 
-	//Tree Model
+
+	//// --------------------Super low poly tree (2 cubes)--------------------
+
+	//SimpleModel* tree = new SimpleModel();
+
+	//TreeTrunkModel* trunk = new TreeTrunkModel();
+	//trunk->setTexture(trunkTextureID);
+	//texturedElement.push_back(trunk);
+	//trunk->translate(0, 1, 0);
+	//tree->addChild(trunk);
+
+	//CubeLeaves* layer1 = new CubeLeaves();
+	//layer1->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer1);
+	//layer1->scale(3, 5, 3);
+	//layer1->translate(0, 3, 0);
+	//layer1->rotate(0, 1, 0, 0);
+	//tree->addChild(layer1);
+
+
+
+
+	////--------------------Low Poly tree Model (8 cubes)--------------------
+
+	//SimpleModel* tree = new SimpleModel();
+
+	//TreeTrunkModel* trunk = new TreeTrunkModel();
+	//trunk->setTexture(trunkTextureID);
+	//texturedElement.push_back(trunk);
+	//trunk->translate(0, 1, 0);
+	//tree->addChild(trunk);
+
+	//CubeLeaves* layer1 = new CubeLeaves();
+	//layer1->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer1);
+	//layer1->scale(5, 1, 5);
+	//layer1->translate(0, 0, 0);
+	//layer1->rotate(0, 1, 0, 0);
+	//tree->addChild(layer1);
+
+	//CubeLeaves* layer2 = new CubeLeaves();//square
+	//layer2->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer2);
+	//layer2->scale(3, 1, 3);
+	//layer2->translate(0, 1, 0);
+	//layer2->rotate(0, 1, 0, 0);
+	//tree->addChild(layer2);
+
+	//CubeLeaves* layer3 = new CubeLeaves();
+	//layer3->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer3);
+	//layer3->scale(4, 1, 4);
+	//layer3->translate(0, 2, 0);
+	//layer3->rotate(0, 1, 0, 45);
+	//tree->addChild(layer3);
+
+	//CubeLeaves* layer4 = new CubeLeaves();//square
+	//layer4->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer4);
+	//layer4->scale(2.5, 1, 2.5);
+	//layer4->translate(0, 3, 0);
+	//layer4->rotate(0, 1, 0, 0);
+	//tree->addChild(layer4);
+
+	//CubeLeaves* layer5 = new CubeLeaves();
+	//layer5->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer5);
+	//layer5->scale(3, 1, 3);
+	//layer5->translate(0, 4, 0);
+	//layer5->rotate(0, 1, 0, 45);
+	//tree->addChild(layer5);
+
+	//CubeLeaves* layer6 = new CubeLeaves();//square
+	//layer6->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer6);
+	//layer6->scale(2, 1, 2);
+	//layer6->translate(0, 5, 0);
+	//layer6->rotate(0, 1, 0, 0);
+	//tree->addChild(layer6);
+
+	//CubeLeaves* layer7 = new CubeLeaves();//square
+	//layer7->setTexture(leavesTextureID);
+	//texturedElement.push_back(layer7);
+	//layer7->scale(0.80, 0.80, 0.80);
+	//layer7->translate(0, 5.8, 0);
+	//layer7->rotate(0, 1, 0, 45);
+	//tree->addChild(layer7);
+
+
+
+
+
+	//--------------------Original Tree Model-------------------- (127 cubs with snow) (70 cubes without snow)
 	SimpleModel* tree = new SimpleModel();
 
 	TreeTrunkModel* trunk = new TreeTrunkModel();
@@ -251,6 +343,8 @@ TreeModel::TreeModel() {
 	snowLayer9->translate(0, 6.15, 0);
 	snowLayer9->rotate(0, 1, 0, 0);
 	tree->addChild(snowLayer9);
+
+
 
 
 	//-------------Random changes to the tree-------------
