@@ -82,6 +82,7 @@ public:
 	EightSnow();
 };
 
+
 class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;

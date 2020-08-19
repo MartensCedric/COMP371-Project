@@ -81,12 +81,12 @@ void Model::setSkybox(int skybox)
 	}
 }
 
-void Model::setDeltaTime(float dt)
+void Model::setTimePassed(float time_passed)
 {
-	this->dt = dt;
+	this->time_passed = time_passed;
 	for (auto it = children.begin(); it != children.end(); it++)
 	{
-		(*it)->setDeltaTime(dt);
+		(*it)->setTimePassed(time_passed);
 	}
 }
 
@@ -128,8 +128,8 @@ void Model::draw()
 	GLuint eyePositionLocation = glGetUniformLocation(shaderId, "eyePosition");
 	glUniform3fv(eyePositionLocation, 1, &eyePosition[0]);
 
-	GLuint dtLoc = glGetUniformLocation(shaderId, "dt");
-	glUniform1f(dtLoc, dt);
+	GLuint dtLoc = glGetUniformLocation(shaderId, "time_passed");
+	glUniform1f(dtLoc, time_passed);
 
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);

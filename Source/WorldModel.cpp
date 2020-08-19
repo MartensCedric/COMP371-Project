@@ -1,4 +1,5 @@
 #include "includes/WorldModel.hpp"
+#include "../Source/includes/TreeModel.hpp"
 #include "../Source/includes/Terrain.hpp"
 #include <cstdlib>
 
@@ -111,6 +112,7 @@ FiveSnow::FiveSnow() {
 	addChild(top);
 	addChild(middle);
 	addChild(bottom);
+
 };
 
 IModel::IModel() {
@@ -486,21 +488,19 @@ void WorldModel::generateForest()
 	FastNoise fastNoise;
 	fastNoise.SetSeed(0xdeadbeef);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
-
-
-	for (int i = 0; i < 100; i++)
-	{
-		for (int j = 0; j < 100; j++)
-		{
-			float noiseVal = fastNoise.GetNoise(i , j );
+	int treeCount = 0;
+	
+	for (int i = 0; i < 100; i++) {
+		for (int j = 0; j < 100; j++) {
+			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
+			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < 35)
 			{
-				UnitCubeModel* cube = new UnitCubeModel();
-				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
-				cube->scale(0.2, 1, 0.2);
-				addChild(cube);
-				models.push_back(cube);
+				TreeModel* tree = new TreeModel();
+				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
+				tree->scale(0.5, 0.5, 0.5);
+				models.push_back(tree);
+				treeCount++; //not using model.size() because it would conflict with other models.
 			}
 		}
 	}
@@ -511,6 +511,8 @@ WorldModel::WorldModel() {
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
 	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
+	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 
@@ -519,7 +521,7 @@ WorldModel::WorldModel() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid = new GridModel();
-//	addChild(grid);
+	// addChild(grid);
 	
 	plane = new WaterModel();
 	plane->translate(0, -2, 0);
@@ -532,8 +534,6 @@ WorldModel::WorldModel() {
 	terrain = new Terrain();
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
-
-	//Models
 
 	//Letters and Numbers
 	SimpleModel* stoneHenge = new SimpleModel();
@@ -562,7 +562,7 @@ WorldModel::WorldModel() {
 	column->translate(0, -24, 0);
 	column->scale(0.07, 40, 0.07);
 	stoneHenge->addChild(column);
-
+	
 	//Letters and numbers
 
 	EModel* E = new EModel();
@@ -712,6 +712,7 @@ WorldModel::WorldModel() {
 	models.push_back(stoneHenge);
 
 	generateForest();
+
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{

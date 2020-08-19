@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Resource Files\Shaders">
-      <UniqueIdentifier>{d8c6f640-d50d-4388-8a50-90686886c71a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Scenes">
-      <UniqueIdentifier>{66439e2a-f58c-4c2a-aad1-3af2e58e4920}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{88876fa3-1e9f-4223-8d1d-570a59edf1cd}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\Source\371A1.cpp" />
+    <ClCompile Include="..\Source\AxesModel.cpp" />
+    <ClCompile Include="..\Source\Camera.cpp" />
+    <ClCompile Include="..\Source\ConeModel.cpp" />
+    <ClCompile Include="..\Source\DigitalClockSegment.cpp" />
+    <ClCompile Include="..\Source\GridModel.cpp" />
+    <ClCompile Include="..\Source\LoadTexture.cpp" />
+    <ClCompile Include="..\Source\Model.cpp" />
+    <ClCompile Include="..\Source\PlaneModel.cpp" />
+    <ClCompile Include="..\Source\Shader.cpp" />
+    <ClCompile Include="..\Source\SimpleModel.cpp" />
+    <ClCompile Include="..\Source\Skybox.cpp" />
+    <ClCompile Include="..\Source\SphereModel.cpp" />
+    <ClCompile Include="..\Source\Terrain.cpp" />
+    <ClCompile Include="..\Source\UnitCubeModel.cpp" />
+    <ClCompile Include="..\Source\WorldModel.cpp" />
+    <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
+    <ClCompile Include="..\Source\TreeModel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\includes\AxesModel.hpp" />
+    <ClInclude Include="..\Source\includes\Camera.hpp" />
+    <ClInclude Include="..\Source\includes\DirectionalLight.hpp" />
+    <ClInclude Include="..\Source\includes\ConeModel.hpp" />
+    <ClInclude Include="..\Source\includes\DigitalClockSegment.h" />
+    <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <None Include="..\Assets\Shaders\BlueColor.fragmentshader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
@@ -141,9 +148,35 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
+    <ClInclude Include="..\Source\includes\Model.hpp" />
     <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
+    <ClInclude Include="..\Source\includes\Shader.hpp" />
+    <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
+    <ClInclude Include="..\Source\includes\Skybox.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
+    <ClInclude Include="..\Source\includes\Terrain.hpp" />
+    <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
     <ClInclude Include="..\Source\includes\WorldModel.hpp" />
+    <ClInclude Include="..\ThirdParty\FastNoise.h" />
+    <ClInclude Include="..\ThirdParty\stb_image.h" />
+    <ClInclude Include="..\Source\includes\TreeModel.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\Textures\BillboardTest.bmp" />
+    <Image Include="..\Assets\Textures\Particle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Scenes\AnimatedScene.scene" />
+    <None Include="..\Assets\Scenes\AnimatedSceneWithParticles.scene" />
+    <None Include="..\Assets\Scenes\CoordinateSystem.scene" />
+    <None Include="..\Assets\Scenes\StaticScene.scene" />
+    <None Include="..\Assets\Shaders\BlueColor.fragmentshader" />
+    <None Include="..\Assets\Shaders\PathLines.fragmentshader" />
+    <None Include="..\Assets\Shaders\PathLines.vertexshader" />
+    <None Include="..\Assets\Shaders\SolidColor.fragmentshader" />
+    <None Include="..\Assets\Shaders\SolidColor.vertexshader" />
+    <None Include="..\Assets\Shaders\Texture.fragmentshader" />
+    <None Include="..\Assets\Shaders\Texture.vertexshader" />
     <ClInclude Include="..\ThirdParty\stb_image.h">
       <Filter>Source Files</Filter>
     </ClInclude>
