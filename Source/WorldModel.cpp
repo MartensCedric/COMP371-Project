@@ -318,7 +318,7 @@ void WorldModel::generateForest()
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && noiseVal > 0.75 && rand() % 24 == 0 && models.size() < 35)
+			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && models.size() < 35)
 			{
 				TreeModel* tree = new TreeModel();
 				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
@@ -328,7 +328,6 @@ void WorldModel::generateForest()
 			}
 		}
 	}
-	std::cout << models.size() << std::endl;
 }
 
 WorldModel::WorldModel() {
