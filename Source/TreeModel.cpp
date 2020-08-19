@@ -350,5 +350,5 @@ TreeModel::TreeModel() {
 	//scale(1 - horizontalChange, 1 - verticalChange, 1 - horizontalChange);
 	//Apply random rotation to tree
 	rotate(0, 1, 0, rotationalChange);
-	//translate(0, 1, 0);
+	translate(0, 1.5, 0);
 };
