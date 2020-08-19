@@ -490,7 +490,12 @@ int main(int argc, char*argv[])
 	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
+		for (auto it = world->models.begin(); it != world->models.end(); it++)
+			(*it)->setShader(modelShader);
+
 		world->draw();
+
+
 
         // End frame
         glfwSwapBuffers(window);
