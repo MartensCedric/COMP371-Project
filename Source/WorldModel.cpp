@@ -1,6 +1,7 @@
 #include "includes/WorldModel.hpp"
 #include "../Source/includes/TreeModel.hpp"
 #include "../Source/includes/Terrain.hpp"
+#include "../Source/includes/CabinModel.hpp"
 #include <cstdlib>
 
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
@@ -506,6 +507,26 @@ void WorldModel::generateForest()
 	}
 }
 
+void WorldModel::generateHouses()
+{
+	int cabinCount = 0;
+
+	for (int i = 0; i < 100; i++) {
+		for (int j = 0; j < 100; j++) {
+			float terrainHeight = terrain->heightmap[i][j];
+			if (terrainHeight >= -0.1 && rand() % 500 == 0  && cabinCount < 5)
+			{
+				CabinModel* logcabin = new CabinModel();
+				logcabin->translate(i - Terrain::SIZE / 2, terrainHeight+0.5f, j - Terrain::SIZE / 2);
+				logcabin->scale(0.5, 0.5, 0.5);
+				addChild(logcabin);
+				models.push_back(logcabin);
+				cabinCount++;
+			}
+		}
+	}
+}
+
 WorldModel::WorldModel() {
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
@@ -515,6 +536,8 @@ WorldModel::WorldModel() {
 	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
+
+	
 
 	// Enable blending
 	glEnable(GL_BLEND);
@@ -712,7 +735,7 @@ WorldModel::WorldModel() {
 	models.push_back(stoneHenge);
 
 	generateForest();
-
+	generateHouses();
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{

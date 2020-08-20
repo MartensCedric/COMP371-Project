@@ -95,6 +95,7 @@ class WorldModel : public SimpleModel {
 		void setSphereShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
 		void generateForest();
+		void generateHouses();
 		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;
 };
