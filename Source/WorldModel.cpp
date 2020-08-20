@@ -600,12 +600,13 @@ void WorldModel::generateForest()
 	fastNoise.SetSeed(0xdeadbeef);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int treeCount = 0;
+	const int MAX_TREES = 35;
 	
 	for (int i = 0; i < 100; i++) {
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < 35)
+			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < MAX_TREES)
 			{
 				TreeModel* tree = new TreeModel();
 				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
@@ -619,18 +620,23 @@ void WorldModel::generateForest()
 
 void WorldModel::generatePenguins()
 {
+	int penguinCtr = 0;
+	const int MAX_PENGUINS = 10;
+
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
 		{
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && rand() % 3 == 0)
+			if (terrainHeight >= -0.1 && rand() % 3 == 0 && penguinCtr < MAX_PENGUINS)
 			{
 				PenguinModel* penguino = new PenguinModel();
 				penguino->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
+				penguino->rotate(0, 1, 0, rand() % 360);
 				penguino->scale(0.4, 0.4, 0.4);
 				addChild(penguino);
 				models.push_back(penguino);
+				penguinCtr++;
 			}
 		}
 	}

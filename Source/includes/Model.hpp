@@ -41,7 +41,7 @@ public:
 	virtual void setTimePassed(float dt);
 	virtual void draw();
 	void scale(float x, float y, float z);
-	void rotate(float y, float x, float z, float angle);
+	void rotate(float x, float y, float z, float angle);
 	void translate(float x, float y, float z);
 	void addChild(Model* child);
 	glm::mat4 getModelMatrix() const;
