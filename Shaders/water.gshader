@@ -6,14 +6,14 @@ layout (triangle_strip, max_vertices=256) out;
 uniform mat4 worldMatrix;
 uniform mat4 viewMatrix = mat4(1.0);
 uniform mat4 projectionMatrix = mat4(1.0);
-uniform float dt;
+uniform float time_passed;
 
 out vec3 fragmentPosition;
 out vec3 vertexNormal;
 
 float get_wave_height(float x, float y)
 {
-	return 0.2*sin(x + dt/10.0);
+	return 0.2*sin(x + time_passed/10.0);
 }
 
 void main() {

@@ -107,6 +107,9 @@ If the above steps do not result in a new window popping up to render the graphi
 
 - `Esc` --> terminate program
 
+### To run MangoHud
+`MANGOHUD_DLSYM=1 mangohud ./exec`
+
 # Credits
 - learnopengl.com (Light code, shadows, skybox)
 - Noise library FastNoise (MIT)

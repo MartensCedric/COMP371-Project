@@ -8,39 +8,74 @@
 #include "LoadTexture.hpp"
 #include "ConeModel.hpp"
 
+class Stoneplate : public SimpleModel {
+public:
+	Stoneplate();
+};
+
 class EModel : public SimpleModel {
-	public: 
-		EModel();
+public:
+	EModel();
+};
+
+class ESnow : public SimpleModel {
+public:
+	ESnow();
 };
 
 class FiveModel : public SimpleModel {
-    public:
-		FiveModel();
+public:
+	FiveModel();
+};
+
+class FiveSnow : public SimpleModel {
+public:
+	FiveSnow();
 };
 
 class IModel : public SimpleModel {
-	public:
-		IModel();
+public:
+	IModel();
+};
+
+class ISnow : public SimpleModel {
+public:
+	ISnow();
 };
 
 class ThreeModel : public SimpleModel {
-	public:
-		ThreeModel();
+public:
+	ThreeModel();
+};
+
+class ThreeSnow : public SimpleModel {
+public:
+	ThreeSnow();
 };
 
 class TModel : public SimpleModel {
-	public:
-		TModel();
+public:
+	TModel();
+};
+
+class TSnow : public SimpleModel {
+public:
+	TSnow();
 };
 
 class DModel : public SimpleModel {
-	public:
-		DModel();
+public:
+	DModel();
+};
+
+class DSnow : public SimpleModel {
+public:
+	DSnow();
 };
 
 class EightModel : public SimpleModel {
-	public:
-		EightModel();
+public:
+	EightModel();
 };
 
 class PenguinModel : public SimpleModel {
@@ -50,6 +85,12 @@ public:
 
 	ConeModel* beak;
 };
+
+class EightSnow : public SimpleModel {
+public:
+	EightSnow();
+};
+
 
 class WorldModel : public SimpleModel {
 	public:
