@@ -42,9 +42,43 @@ bool Model::collidesWith(Model* otherModel)
 	if (this->collider == nullptr || otherModel->collider == nullptr)
 		return false;
 
-	bool xIntersects = 
+	float thisX = this->objTransMat[0][3];
+	float thisY = this->objTransMat[1][3];
+	float thisZ = this->objTransMat[2][3];
 
-	return xIntersects || yIntersects || zIntersects;
+	float thatX = otherModel->objTransMat[0][3];
+	float thatY = otherModel->objTransMat[1][3];
+	float thatZ = otherModel->objTransMat[2][3];
+
+
+	float xLeft1 = thisX - this->collider->width / 2.0f;
+	float xRight1 = thisX + this->collider->width / 2.0f;
+	
+	float xLeft2 = thatX - otherModel->collider->width / 2.0f;
+	float xRight2 = thatX + otherModel->collider->width / 2.0f;
+
+	bool xIntersects = intersects(xLeft1, xLeft2, xRight2) || intersects(xRight1, xLeft1, xLeft2);
+
+
+	float yLeft1 = thisY - this->collider->height / 2.0f;
+	float yRight1 = thisY + this->collider->height / 2.0f;
+
+	float yLeft2 = thatY - otherModel->collider->height / 2.0f;
+	float yRight2 = thatY + otherModel->collider->height / 2.0f;
+
+	bool yIntersects = intersects(yLeft1, yLeft2, yRight2) || intersects(yRight1, yLeft1, yLeft2);
+
+
+
+	float zLeft1 = thisZ - this->collider->length / 2.0f;
+	float zRight1 = thisZ + this->collider->length / 2.0f;
+
+	float zLeft2 = thatZ - otherModel->collider->length/ 2.0f;
+	float zRight2 = thatZ + otherModel->collider->length / 2.0f;
+
+	bool zIntersects = intersects(zLeft1, zLeft2, zRight2) || intersects(zRight1, zLeft1, zLeft2);
+
+	return xIntersects && yIntersects && zIntersects;
 }
 
 /**
