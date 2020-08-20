@@ -701,14 +701,25 @@ int main(int argc, char*argv[])
 		clock_t end = clock();
 		int elapsed_seconds = (int)(end - begin) / CLOCKS_PER_SEC;
 		if (elapsed_seconds >2 && elapsed_seconds % 3 == 0) {
-			world->addCloud(elapsed_seconds, textureLightShader);
+			world->generateClouds(elapsed_seconds);
 		}
 
 		//Move clouds
 		for (std::vector<Model*>::iterator it = world->clouds.begin(); it != world->clouds.end(); it++)
 		{
-			(*it)->translate(0, 0, 0.1);
+			(*it)->translate(0, 0, 0.06);
+		}
 
+		for (std::vector<Model*>::iterator it = world->clouds.begin(); it != world->clouds.end(); it++)
+		{
+			double randomX = rand() % 201 + (-100);
+			double randomY = rand() % 9 + (-4);
+
+			if ( (*it)->objTransMat[2, 3].z > ((double)(camera->position.z) + 100)) {
+				(*it)->objTransMat[2, 3].z = -100;
+				(*it)->objTransMat[2, 3].x = randomX;
+				(*it)->objTransMat[2, 3].y = randomY;
+			}	
 		}
     }
     

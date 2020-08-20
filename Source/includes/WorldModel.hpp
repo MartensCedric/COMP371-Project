@@ -103,7 +103,7 @@ class WorldModel : public SimpleModel {
 		void setTerrainShader(int shaderProgram);
 		void generateForest();
 		void generateClouds(GLuint TextureID);
-		void addCloud(int elapsed_seconds, int modelShader);
+		void addCloud(int elapsed_seconds);
 		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;
 };

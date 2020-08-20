@@ -30,7 +30,7 @@ CloudModel::CloudModel() {
 	double cloudBottomZ = rand() %  (16 - 8 + 1) + 8;
 
 	cloudBottom->scale(cloudBottomX, 3, cloudBottomZ);
-	cloudBottom->translate(0,65, 0);
+	cloudBottom->translate(0,55, 0);
 	addChild(cloudBottom);
 	addChild(cloudCenter);
 
@@ -537,7 +537,7 @@ void WorldModel::generateForest()
 
 void WorldModel::generateClouds(GLuint TextureID)
 {
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		srand(i*9+3);
 		double randomX = rand() % 201 + (-100);
@@ -550,18 +550,16 @@ void WorldModel::generateClouds(GLuint TextureID)
 	}
 }
 
-void WorldModel::addCloud(int elapsed_seconds, int modelShader)
+void WorldModel::addCloud(int elapsed_seconds)
 {
 	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
 		srand(elapsed_seconds);
 		double randomX = rand() % 201 + (-100);
 		double randomY = rand() % 9 + (-4);
 		CloudModel* cloud = new CloudModel();
-		//cloud->setShader(modelShader);
 		cloud->translate(randomX, 0, -100);
 		cloud->setTexture(cloudTextureID);
 		clouds.push_back(cloud);
-		addChild(cloud);
 }
 
 
@@ -773,9 +771,6 @@ WorldModel::WorldModel() {
 	stoneHenge->translate(0, 13, 0);
 	stoneHenge->scale(0.5, 0.5, 0.5);
 	models.push_back(stoneHenge);
-
-	generateForest();
-
 
 	generateForest();
 	generateClouds(cloudTextureID);
