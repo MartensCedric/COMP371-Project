@@ -16,7 +16,7 @@ class Model
 public:
 	int vaoId;
 	int shaderId;
-	float dt = 0;
+	float time_passed = 0;
 	GLuint textureId;
 	int vertexCount;
 	bool isLetter;
@@ -38,7 +38,7 @@ public:
 	virtual void setCamera(Camera* camera);
 	virtual void setLight(DirectionalLight* light);
 	virtual void setSkybox(int skybox);
-	virtual void setDeltaTime(float dt);
+	virtual void setTimePassed(float dt);
 	virtual void draw();
 	void scale(float x, float y, float z);
 	void rotate(float y, float x, float z, float angle);

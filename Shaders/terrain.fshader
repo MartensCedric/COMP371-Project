@@ -45,7 +45,7 @@ void main()
 		ambientColor = vec3(122.0f/255.0f, 113.0f/255.0f, 109.0f/255.0f);
    }
    
-   if(height < 0)
+   if(height < 0.2)
    {
 		ambientColor = vec3(162.0f/255.0f, 235.0f/255.0f, 193.0f/255.0f);
    }
