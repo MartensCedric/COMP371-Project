@@ -65,6 +65,7 @@ class WorldModel : public SimpleModel {
 		void setTerrainShader(int shaderProgram);
 		//void setPenguinBeaksShader(int shaderProgram);
 		void generateForest();
+		void generatePenguins();
 		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;
 };

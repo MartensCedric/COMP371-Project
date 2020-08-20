@@ -24,7 +24,7 @@ PenguinModel::PenguinModel() {
 	GLuint whiteScleraTextureID = loadTexture("../Assets/Textures/pearl-white.jpg");
 	GLuint orangeTextureID = loadTexture("../Assets/Textures/penguin-orange.jpg");
 	GLuint blackFurTextureID = loadTexture("../Assets/Textures/penguin-black-fur.jpg");
-	GLuint blackPupilTextureID = loadTexture("../Assets/Texturs/pitch-black.png");
+	GLuint blackPupilTextureID = loadTexture("../Assets/Textures/pitch-black.png");
 
 	SimpleModel* leftFoot = new UnitCubeModel();
 	SimpleModel* leftLeg = new UnitCubeModel();
@@ -457,6 +457,25 @@ void WorldModel::generateForest()
 	}
 }
 
+void WorldModel::generatePenguins()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			float terrainHeight = terrain->heightmap[i][j];
+			if (terrainHeight >= -0.1 && rand() % 3 == 0)
+			{
+				PenguinModel* penguino = new PenguinModel();
+				penguino->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
+				penguino->scale(0.4, 0.4, 0.4);
+				addChild(penguino);
+				models.push_back(penguino);
+			}
+		}
+	}
+}
+
 WorldModel::WorldModel() {
 	// Load textures
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
@@ -616,17 +635,6 @@ WorldModel::WorldModel() {
 	D8->translate(-18, 3.5, 18);
 	//models.push_back(D8);
 
-	// place test penguin
-	PenguinModel* penguino = new PenguinModel();
-	texturedElement.push_back(penguino);
-	penguino->translate(0, 11, 0);
-	//penguinos.push_back(penguino);
-	models.push_back(penguino);
-
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		addChild(*it);
-	}
-
     generateForest();
+	generatePenguins();
 };
