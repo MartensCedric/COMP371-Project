@@ -119,7 +119,6 @@ TreeModel::TreeModel() {
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 
 	//-------------Random changes to the tree-------------
-	srand((unsigned)time(0));
 
 	//choose random number between 1 and 4
 	float randomNum1 = 1 + (rand() % 4);

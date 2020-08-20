@@ -32,7 +32,6 @@ CabinModel::CabinModel() {
 
 	//choose random house type
 
-	srand((unsigned)time(0));
 	//choose random number between 1 and 3
 	int randomNum = (rand() % 3) + 1;
 

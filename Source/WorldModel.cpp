@@ -518,7 +518,7 @@ void WorldModel::generateHouses()
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0  && cabinCount < 5)
+			if (terrainHeight >= -0.1 && noiseVal > 0.75 && rand() % 3 == 0  && cabinCount < 5)
 			{
 				CabinModel* logcabin = new CabinModel();
 				logcabin->translate(i - Terrain::SIZE / 2, terrainHeight+0.5f, j - Terrain::SIZE / 2);
