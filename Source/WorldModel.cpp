@@ -1,4 +1,5 @@
 #include "includes/WorldModel.hpp"
+#include "../Source/includes/TreeModel.hpp"
 #include "../Source/includes/Terrain.hpp"
 #include <cstdlib>
 
@@ -38,9 +39,6 @@ CloudModel::CloudModel() {
 EModel::EModel() {
 	setupAttribPointer();
 
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
 	UnitCubeModel* leftTop = new UnitCubeModel();
 	leftTop->scale(1, 3, 1);
 	leftTop->translate(0, 2, 0);
@@ -61,26 +59,36 @@ EModel::EModel() {
 	bottom->scale(3, 1, 1);
 	bottom->translate(1, -3, 0);
 
-	topDiv->addChild(leftTop);
-	topDiv->addChild(top);
-	bottomDiv->addChild(leftBottom);
-	bottomDiv->addChild(middle);
-	bottomDiv->addChild(bottom);
+	addChild(leftTop);
+	addChild(top);
+	addChild(leftBottom);
+	addChild(middle);
+	addChild(bottom);
+};
 
-	addChild(topDiv);
-	addChild(bottomDiv);
+ESnow::ESnow() {
+	setupAttribPointer();
 
-	//SimpleModel::modelsTop.push_back(topDiv);
-	//SimpleModel::modelsBottom.push_back(bottomDiv);
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(3, 0.25, 1);
+	top->translate(1, 3.63, 0);
+
+	UnitCubeModel* middle = new UnitCubeModel();
+	middle->scale(2, 0.25, 1);
+	middle->translate(1.5, 0.63, 0);
+
+	UnitCubeModel* bottom = new UnitCubeModel();
+	bottom->scale(2, 0.25, 1);
+	bottom->translate(1.5, -2.37, 0);
+
+	addChild(top);
+	addChild(middle);
+	addChild(bottom);
 };
 
 FiveModel::FiveModel() {
 	setupAttribPointer();
 
-	// Draw a 5
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
 	UnitCubeModel* left = new UnitCubeModel();
 	left->scale(1, 2.5, 1);
 	left->translate(0, 1.75, 0);
@@ -101,25 +109,37 @@ FiveModel::FiveModel() {
 	bottom->scale(3, 1, 1);
 	bottom->translate(1, -3, 0);
 
-	topDiv->addChild(left);
-	topDiv->addChild(top);
-	bottomDiv->addChild(middle);
-	bottomDiv->addChild(right);
-	bottomDiv->addChild(bottom);
+	addChild(left);
+	addChild(top);
+	addChild(middle);
+	addChild(right);
+	addChild(bottom);
+};
 
-	addChild(topDiv);
-	addChild(bottomDiv);
+FiveSnow::FiveSnow() {
+	setupAttribPointer();
 
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(3, 0.25, 1);
+	top->translate(1, 3.63, 0);
+
+	UnitCubeModel* middle = new UnitCubeModel();
+	middle->scale(2, 0.25, 1);
+	middle->translate(1.5, 0.63, 0);
+
+	UnitCubeModel* bottom = new UnitCubeModel();
+	bottom->scale(2, 0.25, 1);
+	bottom->translate(0.5, -2.37, 0);
+
+	addChild(top);
+	addChild(middle);
+	addChild(bottom);
+
 };
 
 IModel::IModel() {
 	setupAttribPointer();
-	
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
+
 	UnitCubeModel* top = new UnitCubeModel();
 	top->scale(2, 1, 1);
 	top->translate(0, 3, 0);
@@ -136,25 +156,35 @@ IModel::IModel() {
 	bottom->scale(2, 1, 1);
 	bottom->translate(0, -3, 0);
 
-	topDiv->addChild(top);
-	topDiv->addChild(middleTop);
+	addChild(top);
+	addChild(middleTop);
+	addChild(middleBottom);
+	addChild(bottom);
+};
 
-	bottomDiv->addChild(middleBottom);
-	bottomDiv->addChild(bottom);
+ISnow::ISnow() {
+	setupAttribPointer();
 
-	addChild(topDiv);
-	addChild(bottomDiv);
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(2, 0.25, 1);
+	top->translate(0, 3.63, 0);
 
-	//modelsTop.push_back(topDiv);
-	//modelsBottom.push_back(bottomDiv);
+	UnitCubeModel* bottomLeft = new UnitCubeModel();
+	bottomLeft->scale(0.5, 0.25, 1);
+	bottomLeft->translate(-0.75, -2.37, 0);
+
+	UnitCubeModel* bottomRight = new UnitCubeModel();
+	bottomRight->scale(0.5, 0.25, 1);
+	bottomRight->translate(0.75, -2.37, 0);
+
+	addChild(top);
+	addChild(bottomLeft);
+	addChild(bottomRight);
 };
 
 ThreeModel::ThreeModel() {
 	setupAttribPointer();
 
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
 	UnitCubeModel* rightTop = new UnitCubeModel();
 	rightTop->scale(1, 3, 1);
 	rightTop->translate(2, 2, 0);
@@ -175,22 +205,36 @@ ThreeModel::ThreeModel() {
 	bottom->scale(3, 1, 1);
 	bottom->translate(1, -3, 0);
 
-	topDiv->addChild(top);
-	topDiv->addChild(rightTop);
-	bottomDiv->addChild(rightBottom);
-	bottomDiv->addChild(middle);
-	bottomDiv->addChild(bottom);
+	addChild(top);
+	addChild(rightTop);
+	addChild(rightBottom);
+	addChild(middle);
+	addChild(bottom);
+};
 
-	addChild(bottomDiv);
-	addChild(topDiv);
+ThreeSnow::ThreeSnow() {
+	setupAttribPointer();
+
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(3, 0.25, 1);
+	top->translate(1, 3.63, 0);
+
+	UnitCubeModel* middle = new UnitCubeModel();
+	middle->scale(2, 0.25, 1);
+	middle->translate(0.5, 0.63, 0);
+
+	UnitCubeModel* bottom = new UnitCubeModel();
+	bottom->scale(2, 0.25, 1);
+	bottom->translate(0.5, -2.37, 0);
+
+	addChild(top);
+	addChild(middle);
+	addChild(bottom);
 };
 
 TModel::TModel() {
 	setupAttribPointer();
-	
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
+
 	UnitCubeModel* top = new UnitCubeModel();
 	top->scale(4, 1, 1);
 	top->translate(0, 3, 0);
@@ -203,38 +247,37 @@ TModel::TModel() {
 	bottom->scale(1, 4, 1);
 	bottom->translate(0, -1.5, 0);
 
-	topDiv->addChild(top);
-	topDiv->addChild(middle);
+	addChild(top);
+	addChild(middle);
+	addChild(bottom);
+};
 
-	bottomDiv->addChild(bottom);
+TSnow::TSnow() {
+	setupAttribPointer();
 
-	addChild(topDiv);
-	addChild(bottomDiv);
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(4, 0.25, 1);
+	top->translate(0, 3.63, 0);
 
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
+	addChild(top);
 };
 
 DModel::DModel() {
 	setupAttribPointer();
 
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
 	UnitCubeModel* leftTop = new UnitCubeModel();
-	UnitCubeModel* leftBottom = new UnitCubeModel();
-
-	leftBottom->scale(1, 3.55, 1);
-	leftBottom->translate(0, -1.5, 0);
 	leftTop->scale(1, 3.55, 1);
 	leftTop->translate(0, 1.5, 0);
 
-	UnitCubeModel* rightTop = new UnitCubeModel();
-	UnitCubeModel* rightBottom = new UnitCubeModel();
+	UnitCubeModel* leftBottom = new UnitCubeModel();
+	leftBottom->scale(1, 3.55, 1);
+	leftBottom->translate(0, -1.5, 0);
 
+	UnitCubeModel* rightTop = new UnitCubeModel();
 	rightTop->scale(1, 2.75, 1);
 	rightTop->translate(2.3, 1.25, 0);
 
+	UnitCubeModel* rightBottom = new UnitCubeModel();
 	rightBottom->scale(1, 2.75, 1);
 	rightBottom->translate(2.3, -1.25, 0);
 
@@ -248,39 +291,53 @@ DModel::DModel() {
 	bottom->translate(1.2, -2.83, 0);
 	bottom->rotate(0, 0, 1, 11);
 
-	topDiv->addChild(leftTop);
-	topDiv->addChild(top);
-	topDiv->addChild(rightTop);
-	bottomDiv->addChild(bottom);
-	bottomDiv->addChild(rightBottom);
-	bottomDiv->addChild(leftBottom);
+	addChild(leftTop);
+	addChild(top);
+	addChild(rightTop);
+	addChild(bottom);
+	addChild(rightBottom);
+	addChild(leftBottom);
+};
 
-	addChild(bottomDiv);
-	addChild(topDiv);
+DSnow::DSnow() {
+	setupAttribPointer();
 
-	//modelsTop.push_back(topDiv);
-	//modelsBottom.push_back(bottomDiv);
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(3, 0.25, 1);
+	top->translate(1.29, 3.45, 0);
+	top->rotate(0, 0, 1, -11);
+
+	UnitCubeModel* left = new UnitCubeModel();
+	left->scale(0.25, 0.25, 1);
+	left->translate(-0.38, 3.42, 0);
+
+	UnitCubeModel* bottom = new UnitCubeModel();
+	bottom->scale(1.3, 0.25, 1);
+	bottom->translate(1.15, -2.16, 0);
+	bottom->rotate(0, 0, 1, 11);
+
+	addChild(top);
+	addChild(left);
+	addChild(bottom);
+
 };
 
 EightModel::EightModel() {
 	setupAttribPointer();
 
-	// Draw a 8
-	SimpleModel* topDiv = new SimpleModel();
-	SimpleModel* bottomDiv = new SimpleModel();
-	
 	UnitCubeModel* rightTop = new UnitCubeModel();
-	UnitCubeModel* rightBottom = new UnitCubeModel();
-
 	rightTop->scale(1, 2.5, 1);
 	rightTop->translate(2, 1.5, 0);
+
+	UnitCubeModel* rightBottom = new UnitCubeModel();
 	rightBottom->scale(1, 2.5, 1);
 	rightBottom->translate(2, -1.5, 0);
 
 	UnitCubeModel* leftTop = new UnitCubeModel();
-	UnitCubeModel* leftBottom = new UnitCubeModel();
 	leftTop->scale(1, 2.5, 1);
 	leftTop->translate(0, 1.5, 0);
+
+	UnitCubeModel* leftBottom = new UnitCubeModel();
 	leftBottom->scale(1, 2.5, 1);
 	leftBottom->translate(0, -1.5, 0);
 
@@ -296,20 +353,124 @@ EightModel::EightModel() {
 	bottom->scale(3, 1, 1);
 	bottom->translate(1, -3, 0);
 
-	topDiv->addChild(top);
-	topDiv->addChild(rightTop);
-	topDiv->addChild(leftTop);
-	bottomDiv->addChild(middle);
-	bottomDiv->addChild(bottom);
-	bottomDiv->addChild(rightBottom);
-	bottomDiv->addChild(leftBottom);
-
-	addChild(topDiv);
-	addChild(bottomDiv);
-	
-	//modelsBottom.push_back(bottomDiv);
-	//modelsTop.push_back(topDiv);
+	addChild(top);
+	addChild(rightTop);
+	addChild(leftTop);
+	addChild(middle);
+	addChild(bottom);
+	addChild(rightBottom);
+	addChild(leftBottom);
 };
+
+EightSnow::EightSnow() {
+	setupAttribPointer();
+
+	UnitCubeModel* top = new UnitCubeModel();
+	top->scale(3, 0.25, 1);
+	top->translate(1, 3.63, 0);
+
+	UnitCubeModel* middle = new UnitCubeModel();
+	middle->scale(1, 0.25, 1);
+	middle->translate(1, 0.63, 0);
+
+	UnitCubeModel* bottom = new UnitCubeModel();
+	bottom->scale(1, 0.25, 1);
+	bottom->translate(1, -2.37, 0);
+
+	addChild(top);
+	addChild(middle);
+	addChild(bottom);
+};
+
+Stoneplate::Stoneplate() {
+	setupAttribPointer();
+
+	UnitCubeModel* square = new UnitCubeModel();
+	square->scale(21, 1, 21);
+	square->translate(0, 0, 0);
+
+	UnitCubeModel* top1 = new UnitCubeModel();
+	top1->scale(19, 1, 1);
+	top1->translate(0, 0, -11);
+
+	UnitCubeModel* top2 = new UnitCubeModel();
+	top2->scale(17, 1, 1);
+	top2->translate(0, 0, -12);
+
+	UnitCubeModel* top3 = new UnitCubeModel();
+	top3->scale(13, 1, 1);
+	top3->translate(0, 0, -13);
+
+	UnitCubeModel* top4 = new UnitCubeModel();
+	top4->scale(7, 1, 1);
+	top4->translate(0, 0, -14);
+
+	UnitCubeModel* bottom1 = new UnitCubeModel();
+	bottom1->scale(19, 1, 1);
+	bottom1->translate(0, 0, 11);
+
+	UnitCubeModel* bottom2 = new UnitCubeModel();
+	bottom2->scale(17, 1, 1);
+	bottom2->translate(0, 0, 12);
+
+	UnitCubeModel* bottom3 = new UnitCubeModel();
+	bottom3->scale(13, 1, 1);
+	bottom3->translate(0, 0, 13);
+
+	UnitCubeModel* bottom4 = new UnitCubeModel();
+	bottom4->scale(7, 1, 1);
+	bottom4->translate(0, 0, 14);
+
+	UnitCubeModel* left1 = new UnitCubeModel();
+	left1->scale(1, 1, 19);
+	left1->translate(-11, 0, 0);
+
+	UnitCubeModel* left2 = new UnitCubeModel();
+	left2->scale(1, 1, 17);
+	left2->translate(-12, 0, 0);
+
+	UnitCubeModel* left3 = new UnitCubeModel();
+	left3->scale(1, 1, 13);
+	left3->translate(-13, 0, 0);
+
+	UnitCubeModel* left4 = new UnitCubeModel();
+	left4->scale(1, 1, 7);
+	left4->translate(-14, 0, 0);
+
+	UnitCubeModel* right1 = new UnitCubeModel();
+	right1->scale(1, 1, 19);
+	right1->translate(11, 0, 0);
+
+	UnitCubeModel* right2 = new UnitCubeModel();
+	right2->scale(1, 1, 17);
+	right2->translate(12, 0, 0);
+
+	UnitCubeModel* right3 = new UnitCubeModel();
+	right3->scale(1, 1, 13);
+	right3->translate(13, 0, 0);
+
+	UnitCubeModel* right4 = new UnitCubeModel();
+	right4->scale(1, 1, 7);
+	right4->translate(14, 0, 0);
+
+	addChild(square);
+	addChild(top1);
+	addChild(top2);
+	addChild(top3);
+	addChild(top4);
+	addChild(bottom1);
+	addChild(bottom2);
+	addChild(bottom3);
+	addChild(bottom4);
+	addChild(left1);
+	addChild(left2);
+	addChild(left3);
+	addChild(left4);
+	addChild(right1);
+	addChild(right2);
+	addChild(right3);
+	addChild(right4);
+}
 
 WaterModel* plane = nullptr;
 GridModel* grid = nullptr;
@@ -357,21 +518,18 @@ void WorldModel::generateForest()
 	FastNoise fastNoise;
 	fastNoise.SetSeed(0xdeadbeef);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
-
-
-	for (int i = 0; i < 100; i++)
-	{
-		for (int j = 0; j < 100; j++)
-		{
-			float noiseVal = fastNoise.GetNoise(i , j );
+	int treeCount = 0;
+	for (int i = 0; i < 100; i++) {
+		for (int j = 0; j < 100; j++) {
+			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (noiseVal >= 0.8f && terrainHeight >= -0.1 && rand() % 3 == 0)
+			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < 35)
 			{
-				UnitCubeModel* cube = new UnitCubeModel();
-				cube->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
-				cube->scale(0.2, 1, 0.2);
-				addChild(cube);
-				models.push_back(cube);
+				TreeModel* tree = new TreeModel();
+				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
+				tree->scale(0.5, 0.5, 0.5);
+				models.push_back(tree);
+				treeCount++; //not using model.size() because it would conflict with other models.
 			}
 		}
 	}
@@ -416,12 +574,17 @@ WorldModel::WorldModel() {
 	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
 
 	
+	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
+	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
+	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
+	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
+
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid = new GridModel();
-//	addChild(grid);
+	// addChild(grid);
 	
 	plane = new WaterModel();
 	plane->translate(0, -2, 0);
@@ -435,142 +598,184 @@ WorldModel::WorldModel() {
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
-	// Alpha numerical models
-	// Splitting each model in two
-	// strategy: 2/3 assigned to the bottom, the remainder 1/3 to the top
+	//Letters and Numbers
+	SimpleModel* stoneHenge = new SimpleModel();
+
+	//plate for stone henge
+
+	Stoneplate* plate = new Stoneplate();
+	plate->setTexture(rockTextureID);
+	texturedElement.push_back(plate);
+	plate->translate(0, -4, 0);
+	plate->scale(0.65, 0.65, 0.65);
+	stoneHenge->addChild(plate);
+
+	Stoneplate* snowPlate = new Stoneplate();
+	snowPlate->setTexture(snowTextureID);
+	texturedElement.push_back(snowPlate);
+	snowPlate->translate(0, -3.5, 0);
+	snowPlate->scale(0.65, 0.25, 0.65);
+	stoneHenge->addChild(snowPlate);
+
+	//Column for stone henge
+
+	Stoneplate* column = new Stoneplate();
+	column->setTexture(rockTextureID);
+	texturedElement.push_back(column);
+	column->translate(0, -24, 0);
+	column->scale(0.07, 40, 0.07);
+	stoneHenge->addChild(column);
 	
-	/* 
-	 * ----------------------------------------------------
-	 *                          T5
-	 * ---------------------------------------------------- 
-	 */
+	//Letters and numbers
 
-
-
-
-	SimpleModel* T5 = new SimpleModel();
-	
-	TModel* T = new TModel();
-	T->setTexture(boxTextureID);
-	T->translate(-2, 0, 0);
-	T5->addChild(T);
-	
-	FiveModel* five_2 = new FiveModel();
-	five_2->setTexture(goldTextureID);
-	five_2->translate(1.5, 0, 0);
-	T5->addChild(five_2);
-
-	SphereModel* sphere_4 = new SphereModel(6.0f, 36, 18);
-	sphere_4->translate(0, 4, 0);
-	spheres.push_back(sphere_4);
-	T5->addChild(sphere_4);
-
-	T5->translate(-18, 3.5, -18);
-	//models.push_back(T5);
-
-	/* 
-	 * ----------------------------------------------------
-	 *                          I3
-	 * ---------------------------------------------------- 
-	 */
-
-	SimpleModel* I3 = new SimpleModel();
-	
-	IModel* I = new IModel();
-	I->setTexture(boxTextureID);
-	I->translate(-2, 0, 0);
-	I3->addChild(I);
-
-	ThreeModel* three = new ThreeModel();
-	three->setTexture(goldTextureID);
-	three->translate(2, 0, 0);
-	I3->addChild(three);
-
-	SphereModel* sphere_1 = new SphereModel(6.0f, 36, 18);
-	sphere_1->translate(0, 4, 0);
-	spheres.push_back(sphere_1);
-	I3->addChild(sphere_1);
-
-	I3->translate(18, 3.5, -18);
-	//models.push_back(I3);
-
-	/* 
-	 * ----------------------------------------------------
-	 *                          E5
-	 * ---------------------------------------------------- 
-	 */
-
-	SimpleModel* E5 = new SimpleModel();
-	
 	EModel* E = new EModel();
-	E->setTexture(boxTextureID);
-	E->translate(-3.5, 0, 0);
-	E5->addChild(E);
+	E->setTexture(rockTextureID);
+	texturedElement.push_back(E);
+	E->translate(-2, 0, 8);
+	E->rotate(0, 1, 0, 162);
+	stoneHenge->addChild(E);
 
 	FiveModel* five = new FiveModel();
-	five->setTexture(goldTextureID);
-	five->translate(1.5, 0, 0);
-	E5->addChild(five);
+	five->setTexture(rockTextureID);
+	texturedElement.push_back(five);
+	five->translate(-6, 0, 6);
+	five->rotate(0, 1, 0, 126);
+	stoneHenge->addChild(five);
 
-	SphereModel* sphere = new SphereModel(6.0f, 36, 18);
-	sphere->translate(0, 4, 0);
-	spheres.push_back(sphere);
-	E5->addChild(sphere);
+	TModel* T = new TModel();
+	T->setTexture(rockTextureID);
+	texturedElement.push_back(T);
+	T->translate(-8, 0, 0);
+	T->rotate(0, 1, 0, 90);
+	stoneHenge->addChild(T);
 
-	E5->translate(0, 3.5, 0);
-	//models.push_back(E5);
+	FiveModel* five_2 = new FiveModel();
+	five_2->setTexture(rockTextureID);
+	texturedElement.push_back(five_2);
+	five_2->translate(-7, 0, -4);
+	five_2->rotate(0, 1, 0, 54);
+	stoneHenge->addChild(five_2);
 
-	/* 
-	 * ----------------------------------------------------
-	 *                          I3-2
-	 * ---------------------------------------------------- 
-	 */
+	IModel* I = new IModel();
+	I->setTexture(rockTextureID);
+	texturedElement.push_back(I);
+	I->translate(-2, 0, -8);
+	I->rotate(0, 1, 0, 18);
+	stoneHenge->addChild(I);
 
-	SimpleModel* I3_2 = new SimpleModel();
-	
-	IModel* I_2 = new IModel();
-	I_2->setTexture(boxTextureID);
-	I_2->translate(-2, 0, 0);
-	I3_2->addChild(I_2);
+	ThreeModel* three = new ThreeModel();
+	three->setTexture(rockTextureID);
+	texturedElement.push_back(three);
+	three->translate(2, 0, -8);
+	three->rotate(0, 1, 0, -18);
+	stoneHenge->addChild(three);
 
-	ThreeModel* three_2 = new ThreeModel();
-	three_2->setTexture(goldTextureID);
-	three_2->translate(2, 0, 0);
-	I3_2->addChild(three_2);
-
-	SphereModel* sphere_2 = new SphereModel(6.0f, 36, 18);
-	sphere_2->translate(0, 4, 0);
-	spheres.push_back(sphere_2);
-	I3_2->addChild(sphere_2);
-
-	I3_2->translate(18, 3.5, 18);
-	//models.push_back(I3_2);
-
-	/* 
-	 * ----------------------------------------------------
-	 *                          D8
-	 * ---------------------------------------------------- 
-	 */
-
-	SimpleModel* D8 = new SimpleModel();
-	
 	DModel* D = new DModel();
-	D->setTexture(boxTextureID);
-	D->translate(-3.5, 0, 0);
-	D8->addChild(D);
+	D->setTexture(rockTextureID);
+	texturedElement.push_back(D);
+	D->translate(6, 0, -5);
+	D->rotate(0, 1, 0, -54);
+	stoneHenge->addChild(D);
 
 	EightModel* eight = new EightModel();
-	eight->setTexture(goldTextureID);
-	eight->translate(1.5, 0, 0);
-	D8->addChild(eight);
+	eight->setTexture(rockTextureID);
+	texturedElement.push_back(eight);
+	eight->translate(8, 0, 0);
+	eight->rotate(0, 1, 0, -90);
+	stoneHenge->addChild(eight);
 
-	SphereModel* sphere_3 = new SphereModel(6.0f, 36, 18);
-	sphere_3->translate(0, 4, 0);
-	spheres.push_back(sphere_3);	
-	D8->addChild(sphere_3);
+	IModel* I_2 = new IModel();
+	I_2->setTexture(rockTextureID);
+	texturedElement.push_back(I_2);
+	I_2->translate(6, 0, 6);
+	I_2->rotate(0, 1, 0, -126);
+	stoneHenge->addChild(I_2);
 
-	D8->translate(-18, 3.5, 18);
-	//models.push_back(D8);
+	ThreeModel* three_2 = new ThreeModel();
+	three_2->setTexture(rockTextureID);
+	texturedElement.push_back(three_2);
+	three_2->translate(3, 0, 8);
+	three_2->rotate(0, 1, 0, -162);
+	stoneHenge->addChild(three_2);
+
+	//Snow for stonehenge
+
+	ESnow* Esnow = new ESnow();
+	Esnow->setTexture(snowTextureID);
+	texturedElement.push_back(Esnow);
+	Esnow->translate(-2, 0, 8);
+	Esnow->rotate(0, 1, 0, 162);
+	stoneHenge->addChild(Esnow);
+
+	ThreeSnow* three_2snow = new ThreeSnow();
+	three_2snow->setTexture(snowTextureID);
+	texturedElement.push_back(three_2snow);
+	three_2snow->translate(3, 0, 8);
+	three_2snow->rotate(0, 1, 0, -162);
+	stoneHenge->addChild(three_2snow);
+
+	FiveSnow* fivesnow = new FiveSnow();
+	fivesnow->setTexture(snowTextureID);
+	texturedElement.push_back(fivesnow);
+	fivesnow->translate(-6, 0, 6);
+	fivesnow->rotate(0, 1, 0, 126);
+	stoneHenge->addChild(fivesnow);
+
+	TSnow* Tsnow = new TSnow();
+	Tsnow->setTexture(snowTextureID);
+	texturedElement.push_back(Tsnow);
+	Tsnow->translate(-8, 0, 0);
+	Tsnow->rotate(0, 1, 0, 90);
+	stoneHenge->addChild(Tsnow);
+
+	FiveSnow* five_2snow = new FiveSnow();
+	five_2snow->setTexture(snowTextureID);
+	texturedElement.push_back(five_2snow);
+	five_2snow->translate(-7, 0, -4);
+	five_2snow->rotate(0, 1, 0, 54);
+	stoneHenge->addChild(five_2snow);
+
+	ISnow* Isnow = new ISnow();
+	Isnow->setTexture(snowTextureID);
+	texturedElement.push_back(Isnow);
+	Isnow->translate(-2, 0, -8);
+	Isnow->rotate(0, 1, 0, 18);
+	stoneHenge->addChild(Isnow);
+
+	ThreeSnow* threesnow = new ThreeSnow();
+	threesnow->setTexture(snowTextureID);
+	texturedElement.push_back(threesnow);
+	threesnow->translate(2, 0, -8);
+	threesnow->rotate(0, 1, 0, -18);
+	stoneHenge->addChild(threesnow);
+
+	DSnow* Dsnow = new DSnow();
+	Dsnow->setTexture(snowTextureID);
+	texturedElement.push_back(Dsnow);
+	Dsnow->translate(6, 0, -5);
+	Dsnow->rotate(0, 1, 0, -54);
+	stoneHenge->addChild(Dsnow);
+
+	EightSnow* eightsnow = new EightSnow();
+	eightsnow->setTexture(snowTextureID);
+	texturedElement.push_back(eightsnow);
+	eightsnow->translate(8, 0, 0);
+	eightsnow->rotate(0, 1, 0, -90);
+	stoneHenge->addChild(eightsnow);
+
+	ISnow* I_2snow = new ISnow();
+	I_2snow->setTexture(snowTextureID);
+	texturedElement.push_back(I_2snow);
+	I_2snow->translate(6, 0, 6);
+	I_2snow->rotate(0, 1, 0, -126);
+	stoneHenge->addChild(I_2snow);
+
+	stoneHenge->translate(0, 13, 0);
+	stoneHenge->scale(0.5, 0.5, 0.5);
+	models.push_back(stoneHenge);
+
+	generateForest();
+
 
 	generateForest();
 	generateClouds(cloudTextureID);
@@ -585,5 +790,4 @@ WorldModel::WorldModel() {
 	{
 		addChild(*it);
 	}
-	 
 };
