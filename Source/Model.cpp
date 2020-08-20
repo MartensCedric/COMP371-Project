@@ -39,12 +39,12 @@ void Model::setCamera(Camera* camera)
 
 bool Model::collidesWith(glm::vec3 modelPosition, BoxCollider* otherCollider)
 {
-	if (otherCollider == nullptr)
+	if (otherCollider == nullptr || this->collider == nullptr)
 		return false;
 
-	float thisX = this->objTransMat[0][3];
-	float thisY = this->objTransMat[1][3];
-	float thisZ = this->objTransMat[2][3];
+	float thisX = this->objTransMat[3][0];
+	float thisY = this->objTransMat[3][1];
+	float thisZ = this->objTransMat[3][2];
 
 	float thatX = modelPosition.x;
 	float thatY = modelPosition.y;
@@ -56,7 +56,7 @@ bool Model::collidesWith(glm::vec3 modelPosition, BoxCollider* otherCollider)
 	float xLeft2 = thatX - otherCollider->width / 2.0f;
 	float xRight2 = thatX + otherCollider->width / 2.0f;
 
-	bool xIntersects = intersects(xLeft1, xLeft2, xRight2) || intersects(xRight1, xLeft1, xLeft2);
+	bool xIntersects = intersects(xLeft1, xLeft2, xRight2) || intersects(xRight1, xLeft2, xRight2);
 
 
 	float yLeft1 = thisY - this->collider->height / 2.0f;
@@ -65,7 +65,7 @@ bool Model::collidesWith(glm::vec3 modelPosition, BoxCollider* otherCollider)
 	float yLeft2 = thatY - otherCollider->height / 2.0f;
 	float yRight2 = thatY + otherCollider->height / 2.0f;
 
-	bool yIntersects = intersects(yLeft1, yLeft2, yRight2) || intersects(yRight1, yLeft1, yLeft2);
+	bool yIntersects = intersects(yLeft1, yLeft2, yRight2) || intersects(yRight1, yLeft2, yRight2);
 
 
 
@@ -75,7 +75,7 @@ bool Model::collidesWith(glm::vec3 modelPosition, BoxCollider* otherCollider)
 	float zLeft2 = thatZ - otherCollider->length / 2.0f;
 	float zRight2 = thatZ + otherCollider->length / 2.0f;
 
-	bool zIntersects = intersects(zLeft1, zLeft2, zRight2) || intersects(zRight1, zLeft1, zLeft2);
+	bool zIntersects = intersects(zLeft1, zLeft2, zRight2) || intersects(zRight1, zLeft2, zRight2);
 
 	return xIntersects && yIntersects && zIntersects;
 }

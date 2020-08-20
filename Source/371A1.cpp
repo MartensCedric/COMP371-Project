@@ -365,7 +365,7 @@ int main(int argc, char*argv[])
 {
 	cameraCollider.width = 1;
 	cameraCollider.length = 1;
-	cameraCollider.height = 1;
+	cameraCollider.height = 100;
 
     // Initialize GLFW and OpenGL version
     glfwInit();
