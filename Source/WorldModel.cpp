@@ -30,7 +30,8 @@ PenguinModel::PenguinModel() {
 	SimpleModel* leftLeg = new UnitCubeModel();
 	SimpleModel* rightFoot = new UnitCubeModel();
 	SimpleModel* rightLeg = new UnitCubeModel();
-	SimpleModel* body = new UnitCubeModel();
+	SimpleModel* back = new UnitCubeModel();
+	SimpleModel* belly = new UnitCubeModel();
 	SimpleModel* leftWing = new UnitCubeModel();
 	SimpleModel* rightWing = new UnitCubeModel();
 	SimpleModel* head = new UnitCubeModel();
@@ -42,11 +43,13 @@ PenguinModel::PenguinModel() {
 	SimpleModel* leftEyePupil = new UnitCubeModel();
 	SimpleModel* rightEyePupil = new UnitCubeModel();
 
-	body->scale(3, 3, 2);
-	body->translate(0, 2, 0.5);
-	//@TODO: change the body to black except white on front side
-	body->setTexture(whiteFurTextureID);
-	
+	back->scale(3, 3, 1);
+	back->translate(0, 2, 0);
+	back->setTexture(blackFurTextureID);
+	belly->scale(3, 3, 0.75);
+	belly->translate(0, 2, 0.9);
+	belly->setTexture(whiteFurTextureID);
+
 	leftLeg->scale(0.3, 1, 0.3);
 	rightLeg->scale(0.3, 1, 0.3);
 	leftLeg->translate(-0.65, 0.3, 0.4);
@@ -91,7 +94,8 @@ PenguinModel::PenguinModel() {
 	beak->translate(0, 4, 0.9);
 	beak->setTexture(orangeTextureID);
 
-	addChild(body);
+	addChild(back);
+	addChild(belly);
 	addChild(leftFoot);
 	addChild(rightFoot);
 	addChild(leftLeg);
