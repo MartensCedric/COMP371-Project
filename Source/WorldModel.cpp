@@ -509,16 +509,12 @@ void WorldModel::generateForest()
 
 void WorldModel::generateHouses()
 {
-	FastNoise fastNoise;
-	fastNoise.SetSeed(0xdeadbeef);
-	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int cabinCount = 0;
 
 	for (int i = 0; i < 100; i++) {
 		for (int j = 0; j < 100; j++) {
-			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && noiseVal > 0.75 && rand() % 3 == 0  && cabinCount < 5)
+			if (terrainHeight >= -0.1 && rand() % 500 == 0  && cabinCount < 5)
 			{
 				CabinModel* logcabin = new CabinModel();
 				logcabin->translate(i - Terrain::SIZE / 2, terrainHeight+0.5f, j - Terrain::SIZE / 2);
