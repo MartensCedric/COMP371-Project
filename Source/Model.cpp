@@ -37,6 +37,16 @@ void Model::setCamera(Camera* camera)
 	}
 }
 
+bool Model::collidesWith(Model* otherModel)
+{
+	if (this->collider == nullptr || otherModel->collider == nullptr)
+		return false;
+
+	bool xIntersects = 
+
+	return xIntersects || yIntersects || zIntersects;
+}
+
 /**
 * Sets the shader for the model and its children
 */

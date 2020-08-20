@@ -11,6 +11,22 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+
+struct BoxCollider {
+	float width, length, height;
+};
+
+
+inline bool inBetween(float value, float low, float high)
+{
+	return low <= value && high >= value;
+}
+
+inline bool intersects(float value, float lim1, float lim2)
+{
+	return inBetween(value, lim1, lim2) || inBetween(value, lim2, lim1);
+}
+
 class Model
 {
 public:
@@ -20,6 +36,7 @@ public:
 	GLuint textureId;
 	int vertexCount;
 	bool isLetter;
+	BoxCollider* collider = nullptr;
 	glm::mat4 objScaleMat = glm::mat4(1.0f);
 	glm::mat4 objTransMat = glm::mat4(1.0f);
 	glm::mat4 objRotMat = glm::mat4(1.0f);
@@ -40,6 +57,7 @@ public:
 	virtual void setSkybox(int skybox);
 	virtual void setTimePassed(float dt);
 	virtual void draw();
+	virtual bool collidesWith(Model* otherModel);
 	void scale(float x, float y, float z);
 	void rotate(float y, float x, float z, float angle);
 	void translate(float x, float y, float z);
