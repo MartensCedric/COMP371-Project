@@ -50,7 +50,6 @@ bool Model::collidesWith(glm::vec3 modelPosition, BoxCollider* otherCollider)
 	float thatY = modelPosition.y;
 	float thatZ = modelPosition.z;
 
-
 	float xLeft1 = thisX - this->collider->width / 2.0f;
 	float xRight1 = thisX + this->collider->width / 2.0f;
 

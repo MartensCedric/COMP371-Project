@@ -106,10 +106,11 @@ bool models_sort(Model* model1, Model* model2) {
 	return (new_model1_pos.z < new_model2_pos.z);
 }
 
-bool collidesWithModels()
+bool collidesWithModels(glm::vec3 position)
 {
 	for (auto it = world->models.begin(); it != world->models.end(); it++)
-		if((*it)->collidesWith())
+		if ((*it)->collidesWith(position, &cameraCollider))
+			return true;
 	return false;
 }
 
@@ -592,8 +593,14 @@ int main(int argc, char*argv[])
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x + walkSpeed * delta * lookVec.x;
 			float z = camera->position.z + walkSpeed * delta * lookVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 		// move backwards
@@ -602,8 +609,14 @@ int main(int argc, char*argv[])
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x - walkSpeed * delta * lookVec.x;
 			float z = camera->position.z - walkSpeed * delta * lookVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 		// move left
@@ -613,8 +626,13 @@ int main(int argc, char*argv[])
 			glm::vec3 movementVec = glm::normalize(glm::cross(camera->up, lookVec));
 			float x = camera->position.x + walkSpeed * delta * movementVec.x;
 			float z = camera->position.z + walkSpeed * delta * movementVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 		// move right
@@ -624,8 +642,13 @@ int main(int argc, char*argv[])
 			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, camera->up));
 			float x = camera->position.x + walkSpeed * delta * movementVec.x;
 			float z = camera->position.z + walkSpeed * delta * movementVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 
