@@ -30,6 +30,8 @@
 
 #endif
 
+#define GL_GLEXT_PROTOTYPES
+
 // Include GLEW - OpenGL Extension Wrangler
 #include <GL/glew.h>    
 
@@ -68,9 +70,10 @@ float cameraHeightFromTerrain = 5.0f;
 float sunTheta = 0;
 
 bool showTexture = true;
+bool isTextureToggled = false;
+
 bool showLight = true;
 bool isLightToggled = false;
-bool isTextureToggled = false;
 
 bool hasBottomMovedForward = false;
 bool hasBottomMovedBackward = false;
@@ -407,16 +410,28 @@ int main(int argc, char*argv[])
 
     // Initialize GLFW and OpenGL version
     glfwInit();
+	glfwSetTime(0);
 
 	// Set OpenGL version to 3.3
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #if defined(PLATFORM_OSX)	
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+    glfwWindowHint(GLFW_SAMPLES, 0);
+    glfwWindowHint(GLFW_RED_BITS, 8);
+    glfwWindowHint(GLFW_GREEN_BITS, 8);
+    glfwWindowHint(GLFW_BLUE_BITS, 8);
+    glfwWindowHint(GLFW_ALPHA_BITS, 8);
+    glfwWindowHint(GLFW_STENCIL_BITS, 8);
+    glfwWindowHint(GLFW_DEPTH_BITS, 24);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	
     // Create Window and rendering context using GLFW
     GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Comp371 - Final Project", NULL, NULL);
     if (window == NULL) {
@@ -506,9 +521,132 @@ int main(int argc, char*argv[])
 	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
 	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
 
+	// Create a GLFWwindow object
+    GLFWwindow* guiwindow = glfwCreateWindow(314, 363, "GUI", nullptr, nullptr);
+    if (guiwindow == nullptr) {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(guiwindow);
+
+	// Create a nanogui screen and pass the glfw pointer to initialize
+    screen = new nanogui::Screen();
+    screen->initialize(guiwindow, true);
+
+	// Create nanogui gui
+    bool enabled = true;
+
+	enum test_enum {
+    	Item1 = 0,
+    	Item2,
+    	Item3
+	};
+
+	glfwSwapInterval(0);
+    glfwSwapBuffers(guiwindow);
+
+	bool bvar = true;
+	int ivar = 12345678;
+	test_enum enumval = Item2;
+	nanogui::Color colval(0.5f, 0.5f, 0.7f, 1.f);
+
+    nanogui::FormHelper *gui = new nanogui::FormHelper(screen);
+    nanogui::ref<nanogui::Window> nanoguiWindow = gui->add_window(nanogui::Vector2i(10, 10), "Customization");
+    gui->add_group("Basic types");
+    gui->add_variable("bool", bvar);
+    
+    gui->add_group("Validating fields");
+    gui->add_variable("int", ivar)->set_spinnable(true);
+   
+    gui->add_group("Complex types");
+    gui->add_variable("Enumeration", enumval, enabled)->set_items({ "Item 1", "Item 2", "Item 3" });
+    gui->add_variable("Color", colval)
+       ->set_final_callback([](const nanogui::Color &c) {
+             std::cout << "ColorPicker Final Callback: ["
+                       << c.r() << ", "
+                       << c.g() << ", "
+                       << c.b() << ", "
+                       << c.w() << "]" << std::endl;
+         });
+
+    gui->add_group("Other widgets");
+
+	/* Create an empty panel with a horizontal layout */
+	nanogui::Widget *panel = new nanogui::Widget(nanoguiWindow);
+	panel->set_layout(new nanogui::BoxLayout(nanogui::Orientation::Horizontal, nanogui::Alignment::Middle, 0, 20));
+
+	/* Add a slider and set defaults */
+	nanogui::Slider *slider = new nanogui::Slider(panel);
+	slider->set_value(0.5f);
+	slider->set_fixed_width(100);
+
+	/* Add a textbox and set defaults */
+	nanogui::TextBox *tb = new nanogui::TextBox(panel);
+	tb->set_fixed_size(nanogui::Vector2i(65, 25));
+	tb->set_value("50");
+	tb->set_units("%");
+
+	/* Propagate slider changes to the text box */
+	slider->set_callback([tb](float value) {
+		tb->set_value(std::to_string((int) (value * 100)));
+	});
+
+	gui->add_widget("Slider", panel);
+
+    gui->add_button("Reset", []() { std::cout << "Button pressed." << std::endl; });
+
+    screen->set_visible(true);
+	screen->perform_layout();
+    nanoguiWindow->center();
+	screen->clear();
+    
+    glfwSetCursorPosCallback(guiwindow,
+            [](GLFWwindow *, double x, double y) {
+            screen->cursor_pos_callback_event(x, y);
+        }
+    );
+
+    glfwSetMouseButtonCallback(guiwindow,
+        [](GLFWwindow *, int button, int action, int modifiers) {
+            screen->mouse_button_callback_event(button, action, modifiers);
+        }
+    );
+
+    glfwSetKeyCallback(guiwindow,
+        [](GLFWwindow *, int key, int scancode, int action, int mods) {
+            screen->key_callback_event(key, scancode, action, mods);
+        }
+    );
+
+    glfwSetCharCallback(guiwindow,
+        [](GLFWwindow *, unsigned int codepoint) {
+            screen->char_callback_event(codepoint);
+        }
+    );
+
+    glfwSetDropCallback(guiwindow,
+        [](GLFWwindow *, int count, const char **filenames) {
+            screen->drop_callback_event(count, filenames);
+        }
+    );
+
+    glfwSetScrollCallback(guiwindow,
+        [](GLFWwindow *, double x, double y) {
+            screen->scroll_callback_event(x, y);
+       }
+    );
+
+    glfwSetFramebufferSizeCallback(guiwindow,
+        [](GLFWwindow *, int width, int height) {
+            screen->resize_callback_event(width, height);
+        }
+	);
+
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
-
+		glfwMakeContextCurrent(window);
+		
 		double newTime = glfwGetTime();
 		delta = newTime - currentTime;
 		currentTime = newTime;
@@ -537,6 +675,17 @@ int main(int argc, char*argv[])
 		// Each frame, reset color of each pixel to glClearColor and reset the depth-
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		glActiveTexture(GL_TEXTURE0);
+	
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		world->terrain->setShader(terrainShader);
+		
+		for (auto it = world->models.begin(); it != world->models.end(); it++)
+			(*it)->setShader(modelShader);
+
+		
 		glDepthMask(GL_FALSE);
 		glUseProgram(skyboxShader);
 		glm::vec3 lightDirection = worldLight->direction;
@@ -545,20 +694,23 @@ int main(int argc, char*argv[])
 		skybox.draw();
 		glDepthMask(GL_TRUE);
 
-		glActiveTexture(GL_TEXTURE0);
-	
-		glBindTexture(GL_TEXTURE_2D, depthMap);
+		glfwMakeContextCurrent(guiwindow);
+		// Detect inputs
+        glfwPollEvents();
 
+		// Draw nanogui
+        screen->draw_setup();
+		screen->draw_widgets();
 
-		world->terrain->setShader(terrainShader);
-		
-		for (auto it = world->models.begin(); it != world->models.end(); it++)
-			(*it)->setShader(modelShader);
+		glfwMakeContextCurrent(window);
+		// Detect inputs
+        glfwPollEvents();
 
 		world->draw();
-
+			
         // End frame
         glfwSwapBuffers(window);
+		glfwSwapBuffers(guiwindow);
 
 		glfwGetCursorPos(window, &xCursor, &yCursor);
         // Detect inputs
