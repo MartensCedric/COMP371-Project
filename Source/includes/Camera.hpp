@@ -24,5 +24,7 @@ class Camera {
 		void setProjectionMatrix(int shader);
         void setWidth(int width);
         void setHeight(int height);
+		void setPosition(glm::vec3 position);
+		void setLookAtPos(glm::vec3 lookAtPos);
 		float getFOV();
 };

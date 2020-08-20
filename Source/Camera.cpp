@@ -103,3 +103,13 @@ void Camera::setFOV(float fov) {
 float Camera::getFOV() {
 	return this->fov;
 }
+
+void Camera::setPosition(glm::vec3 position)
+{
+	this->position = position;
+}
+
+void Camera::setLookAtPos(glm::vec3 lookAtPos)
+{
+	this->lookAtPos = lookAtPos;
+}
