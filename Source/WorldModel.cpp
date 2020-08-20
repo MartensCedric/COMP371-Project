@@ -24,7 +24,7 @@ PenguinModel::PenguinModel() {
 	GLuint whiteScleraTextureID = loadTexture("../Assets/Textures/pearl-white.jpg");
 	GLuint orangeTextureID = loadTexture("../Assets/Textures/penguin-orange.jpg");
 	GLuint blackFurTextureID = loadTexture("../Assets/Textures/penguin-black-fur.jpg");
-	GLuint blackPupilTextureID = loadTexture("../Assets/Texturs/pitch-black.png");
+	GLuint blackPupilTextureID = loadTexture("../Assets/Textures/pitch-black.png");
 
 	SimpleModel* leftFoot = new UnitCubeModel();
 	SimpleModel* leftLeg = new UnitCubeModel();
@@ -34,9 +34,8 @@ PenguinModel::PenguinModel() {
 	SimpleModel* leftWing = new UnitCubeModel();
 	SimpleModel* rightWing = new UnitCubeModel();
 	SimpleModel* head = new UnitCubeModel();
-	//@TODO: use Cedrics epic cone model instead of unit cube
-	//this->beak = new ConeModel(glm::vec4(1, 1, 0, 1));
-	SimpleModel* beak = new UnitCubeModel();
+	//Using Cedrics epic cone model instead of unit cube
+	this->beak = new ConeModel(glm::vec4(0.5f, 0.25f, 0, 1));
 	SimpleModel* leftEyeSclera = new UnitCubeModel();
 	SimpleModel* rightEyeSclera = new UnitCubeModel();
 	SimpleModel* leftEyePupil = new UnitCubeModel();
@@ -87,8 +86,9 @@ PenguinModel::PenguinModel() {
 	rightEyePupil->setTexture(blackPupilTextureID);
 
 	//@TODO: create sclera + pupil models
-	beak->scale(0.2, 0.2, 0.7);
+	beak->scale(0.15, 1, 0.15);
 	beak->translate(0, 4, 0.9);
+	beak->rotate(1, 0, 0, 90);
 	beak->setTexture(orangeTextureID);
 
 	addChild(body);
@@ -106,11 +106,11 @@ PenguinModel::PenguinModel() {
 	addChild(beak);
 }
 
-/*
+
 void PenguinModel::setBeakShader(int shaderID) {
 	this->beak->setShader(shaderID);
 }
-*/
+
 
 EModel::EModel() {
 	setupAttribPointer();
@@ -397,13 +397,13 @@ void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgra
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
 void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
-//void WorldModel::setPenguinBeaksShader(int shaderProgram)
-/*{ 
+void WorldModel::setPenguinBeaksShader(int shaderProgram)
+{ 
 	for (auto it = penguinos.begin(); it != penguinos.end(); it++)
 	{
 		(*it)->setBeakShader(shaderProgram);
 	}
-}*/
+}
 
 float WorldModel::getTerrainHeight(float x, float z) 
 {
@@ -616,7 +616,7 @@ WorldModel::WorldModel() {
 	PenguinModel* penguino = new PenguinModel();
 	texturedElement.push_back(penguino);
 	penguino->translate(0, 11, 0);
-	//penguinos.push_back(penguino);
+	penguinos.push_back(penguino);
 	models.push_back(penguino);
 
 	for (auto it = models.begin(); it != models.end(); it++)
