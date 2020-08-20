@@ -43,6 +43,8 @@
 #include <string>
 #include <algorithm>
 
+extern struct BoxCollider;
+
 WorldModel* world = nullptr;
 
 double currentYPos;
@@ -52,6 +54,7 @@ int randomY;
 double currentVariation = 0;
 bool leftMouseClick = false;
 Camera* camera = nullptr;
+BoxCollider cameraCollider;
 int windowWidth = 1024;
 int windowHeight = 768;
 
@@ -101,6 +104,13 @@ bool models_sort(Model* model1, Model* model2) {
 	glm::vec4 new_model2_pos = model2->getModelMatrix() * glm::vec4(0, 0, 0, 1);
 	
 	return (new_model1_pos.z < new_model2_pos.z);
+}
+
+bool collidesWithModels()
+{
+	for (auto it = world->models.begin(); it != world->models.end(); it++)
+		if((*it)->collidesWith())
+	return false;
 }
 
 // Callbacks for keys
@@ -352,6 +362,10 @@ void setWorldMatrix(int shaderProgram, glm::mat4 worldMatrix)
 
 int main(int argc, char*argv[])
 {
+	cameraCollider.width = 1;
+	cameraCollider.length = 1;
+	cameraCollider.height = 1;
+
     // Initialize GLFW and OpenGL version
     glfwInit();
 

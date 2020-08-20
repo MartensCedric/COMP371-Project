@@ -57,6 +57,7 @@ public:
 	virtual void setSkybox(int skybox);
 	virtual void setTimePassed(float dt);
 	virtual void draw();
+	virtual bool collidesWith(glm::vec3 modelPosition, BoxCollider* collider);
 	virtual bool collidesWith(Model* otherModel);
 	void scale(float x, float y, float z);
 	void rotate(float y, float x, float z, float angle);
