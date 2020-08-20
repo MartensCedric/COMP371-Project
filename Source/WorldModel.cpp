@@ -16,24 +16,21 @@
 
 CloudModel::CloudModel() {
 	setupAttribPointer();
-	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
 	srand(time(0));
 	SimpleModel* cloudCenter = new UnitCubeModel();
-	double cloudCenterX = rand() % (6 - 4 + 1) + 4;
-	double cloudCenterZ = rand() % (7 - 5 + 1) + 5;
+	double cloudCenterX = rand() % (36 - 15 + 1) + 15;
+	double cloudCenterZ = rand() % (42 - 18 + 1) + 18;
 
-	cloudCenter->scale(cloudCenterX, 1, cloudCenterZ);
+	cloudCenter->scale(cloudCenterX, 5, cloudCenterZ);
 	cloudCenter->translate(0, 70, 0);
 
 	SimpleModel* cloudBottom = new UnitCubeModel();
-	double cloudBottomX = rand() % (3 - 2 + 1) + 2;
-	double cloudBottomZ = rand() %  (4 - 3 + 1) + 3;
+	double cloudBottomX = rand() % (12 - 5 + 1) + 5;
+	double cloudBottomZ = rand() %  (16 - 8 + 1) + 8;
 
-	cloudBottom->scale(cloudBottomX, 1, cloudBottomZ);
-	cloudBottom->translate(0,69, 0);
-	cloudCenter->setTexture(cloudTextureID);
+	cloudBottom->scale(cloudBottomX, 3, cloudBottomZ);
+	cloudBottom->translate(0,65, 0);
 	addChild(cloudBottom);
-
 	addChild(cloudCenter);
 
 };
@@ -380,30 +377,33 @@ void WorldModel::generateForest()
 	}
 }
 
-void WorldModel::generateClouds()
+void WorldModel::generateClouds(GLuint TextureID)
 {
-	for (int i = 0; i < 150; i++)
+	for (int i = 0; i < 7; i++)
 	{
-		srand(time(0));
-		double randomX = rand() % 31 + (-15);
+		srand(i*9+3);
+		double randomX = rand() % 201 + (-100);
 		double randomY = rand() % 9 + (-4);
-		double randomZ = rand() % 31 + (-15);
+		double randomZ = rand() % 201 + (-100);
 		CloudModel* cloud = new CloudModel();
 		cloud->translate(randomX, 0, randomZ);
-		addChild(cloud);
+		cloud->setTexture(TextureID);
 		clouds.push_back(cloud);
 	}
 }
 
-void WorldModel::addCloud()
+void WorldModel::addCloud(int elapsed_seconds, int modelShader)
 {
-	srand(time(0));
-		double randomX = rand() % 26 + (-25);
+	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
+		srand(elapsed_seconds);
+		double randomX = rand() % 201 + (-100);
 		double randomY = rand() % 9 + (-4);
-		CloudModel* cloud = new CloudModel();		
-		cloud->translate(randomX, 0, -25);
-		addChild(cloud);
+		CloudModel* cloud = new CloudModel();
+		//cloud->setShader(modelShader);
+		cloud->translate(randomX, 0, -100);
+		cloud->setTexture(cloudTextureID);
 		clouds.push_back(cloud);
+		addChild(cloud);
 }
 
 
@@ -413,6 +413,8 @@ WorldModel::WorldModel() {
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
 	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
+
 	
 	// Enable blending
 	glEnable(GL_BLEND);
@@ -442,6 +444,9 @@ WorldModel::WorldModel() {
 	 *                          T5
 	 * ---------------------------------------------------- 
 	 */
+
+
+
 
 	SimpleModel* T5 = new SimpleModel();
 	
@@ -568,7 +573,8 @@ WorldModel::WorldModel() {
 	//models.push_back(D8);
 
 	generateForest();
-	generateClouds();
+	generateClouds(cloudTextureID);
+	
 
 	for (auto it = models.begin(); it != models.end(); it++)
 	{

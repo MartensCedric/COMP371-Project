@@ -508,9 +508,9 @@ int main(int argc, char*argv[])
 		}
 		for (auto it = world->clouds.begin(); it != world->clouds.end(); it++)
 		{
-			(*it)->setShader(modelShader);
+			(*it)->setShader(textureLightShader);
 		}
-
+ 
 		world->draw();
 
         // End frame
@@ -586,31 +586,31 @@ int main(int argc, char*argv[])
 			}
 		}
 		
-		//// Rotate model about left about Y
-		//if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
-		//	!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		//	!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		//	!glfwGetKey(window, GLFW_KEY_ENTER) &&
-		//	glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		//{
-		//	for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-		//	{
-		//		(*it)->rotate(0, 1, 0, 5);
-		//	}
-		//}
+		// Rotate model about left about Y
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+			!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->rotate(0, 1, 0, 5);
+			}
+		}
 
-		//// Rotate model about left about Y
-		//if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
-		//	!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
-		//	!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		//	!glfwGetKey(window, GLFW_KEY_ENTER) &&
-		//	glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		//{
-		//	for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-		//	{
-		//		(*it)->rotate(0, 1, 0, -5);
-		//	}
-		//}
+		// Rotate model about left about Y
+		if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+			!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+			!glfwGetKey(window, GLFW_KEY_ENTER) &&
+			glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
+			{
+				(*it)->rotate(0, 1, 0, -5);
+			}
+		}
 
 		// ------------------------------------------------ BOTTOM HALF CONTROLS -------------------------------------------------
 
@@ -887,23 +887,15 @@ int main(int argc, char*argv[])
 		//Cloud addition
 		clock_t end = clock();
 		int elapsed_seconds = (int)(end - begin) / CLOCKS_PER_SEC;
-		if (elapsed_seconds == 5) {
-			//world->addCloud();
-			//srand(time(0));
-
-			//double randomX = rand() % 26 + (-25);
-			//double randomY = rand() % 9 + (-4);
-			//CloudModel* cloud = new CloudModel();
-			//cloud->translate(randomX, 0, -25);
-			//world->clouds.push_back(cloud);
-			//world->addChild(cloud);
+		if (elapsed_seconds >2 && elapsed_seconds % 3 == 0) {
+			world->addCloud(elapsed_seconds, textureLightShader);
 		}
 
 		//Move clouds
 		for (std::vector<Model*>::iterator it = world->clouds.begin(); it != world->clouds.end(); it++)
 		{
 			(*it)->translate(0, 0, 0.1);
-			
+
 		}
     }
     
