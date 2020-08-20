@@ -462,8 +462,9 @@ int main(int argc, char*argv[])
 		time_passed += delta;
 		world->setTimePassed(time_passed);
 
-		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
-
+		worldLight->direction = glm::vec3(sin(sunTheta), -cos(sunTheta), 0);
+		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + camera->position; 
+		
 		int modelShader = passthroughShader;
 
 		if (showLight && showTexture)
@@ -483,12 +484,19 @@ int main(int argc, char*argv[])
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthMask(GL_FALSE);
+		glUseProgram(skyboxShader);
+		glm::vec3 lightDirection = worldLight->direction;
+		int lightDirectionLocation = glGetUniformLocation(skyboxShader, "lightDirection");
+		glUniform3fv(lightDirectionLocation, 1, &lightDirection[0]);
 		skybox.draw();
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
 	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+
+		world->terrain->setShader(terrainShader);
 		
 		for (auto it = world->models.begin(); it != world->models.end(); it++)
 			(*it)->setShader(modelShader);

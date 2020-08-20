@@ -113,7 +113,7 @@ void Model::draw()
 		-100.f, 100.f, -100.f, 100.f,
 		0.01f, 800.f
 	);         // near and far (near > 0)
-	glm::mat4 lightView = glm::lookAt(glm::vec3(-light->direction * 30.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
+	glm::mat4 lightView = glm::lookAt(glm::vec3(light->position), camera->position, glm::vec3(0, 1, 0));
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
 	int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");

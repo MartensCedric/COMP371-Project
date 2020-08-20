@@ -24,6 +24,7 @@ void Skybox::draw()
 	glBindVertexArray(vaoId);
 	this->camera->setProjectionMatrix(shaderId);
 	this->camera->setSkyboxViewMatrix(shaderId);
+
 	drawFunction(vertexCount, shaderId, this->getModelMatrix(), this->camera);
 
 	for (std::vector<Model*>::iterator it = children.begin(); it != children.end(); it++)
