@@ -37,6 +37,62 @@ void Model::setCamera(Camera* camera)
 	}
 }
 
+bool Model::collidesWith(glm::vec3 modelPosition, BoxCollider* otherCollider)
+{
+	if (otherCollider == nullptr || this->collider == nullptr)
+		return false;
+
+	float thisX = this->objTransMat[3][0];
+	float thisY = this->objTransMat[3][1];
+	float thisZ = this->objTransMat[3][2];
+
+	float thatX = modelPosition.x;
+	float thatY = modelPosition.y;
+	float thatZ = modelPosition.z;
+
+	float xLeft1 = thisX - this->collider->width / 2.0f;
+	float xRight1 = thisX + this->collider->width / 2.0f;
+
+	float xLeft2 = thatX - otherCollider->width / 2.0f;
+	float xRight2 = thatX + otherCollider->width / 2.0f;
+
+	bool xIntersects = intersects(xLeft1, xLeft2, xRight2) || intersects(xRight1, xLeft2, xRight2);
+
+
+	float yLeft1 = thisY - this->collider->height / 2.0f;
+	float yRight1 = thisY + this->collider->height / 2.0f;
+
+	float yLeft2 = thatY - otherCollider->height / 2.0f;
+	float yRight2 = thatY + otherCollider->height / 2.0f;
+
+	bool yIntersects = intersects(yLeft1, yLeft2, yRight2) || intersects(yRight1, yLeft2, yRight2);
+
+
+
+	float zLeft1 = thisZ - this->collider->length / 2.0f;
+	float zRight1 = thisZ + this->collider->length / 2.0f;
+
+	float zLeft2 = thatZ - otherCollider->length / 2.0f;
+	float zRight2 = thatZ + otherCollider->length / 2.0f;
+
+	bool zIntersects = intersects(zLeft1, zLeft2, zRight2) || intersects(zRight1, zLeft2, zRight2);
+
+	return xIntersects && yIntersects && zIntersects;
+}
+
+bool Model::collidesWith(Model* otherModel)
+{
+	if (this->collider == nullptr || otherModel->collider == nullptr)
+		return false;
+
+	float thisX = otherModel->objTransMat[3][0];
+	float thisY = otherModel->objTransMat[3][1];
+	float thisZ = otherModel->objTransMat[3][2];
+	glm::vec3 position(thisX, thisY, thisZ);
+
+	return collidesWith(position, otherModel->collider);
+}
+
 /**
 * Sets the shader for the model and its children
 */
@@ -113,7 +169,7 @@ void Model::draw()
 		-100.f, 100.f, -100.f, 100.f,
 		0.01f, 800.f
 	);         // near and far (near > 0)
-	glm::mat4 lightView = glm::lookAt(glm::vec3(-light->direction * 30.f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 1, 0));
+	glm::mat4 lightView = glm::lookAt(glm::vec3(light->position), camera->position, glm::vec3(0, 1, 0));
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView * getModelMatrix();
 	int lightSpaceLocationShadow = glGetUniformLocation(shaderId, "light_proj_view_matrix");

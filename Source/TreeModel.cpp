@@ -118,8 +118,12 @@ TreeModel::TreeModel() {
 	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 
+	collider = new BoxCollider();
+	collider->width = 5.f;
+	collider->length = 5.f;
+	collider->height = 20.f;
+
 	//-------------Random changes to the tree-------------
-	srand((unsigned)time(0));
 
 	//choose random number between 1 and 4
 	float randomNum1 = 1 + (rand() % 4);

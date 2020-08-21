@@ -15,12 +15,16 @@ in vec3 vertexNormal;
 in vec3 fragmentPosition;
 uniform float specularExponent = 32;
 
+uniform float night_weight = 0.2;
+
 void main()
 {
    vec4 water_color  = vec4(124.0/255.0, 183.0/255.0, 247.0/255.0, 1.0);
    vec3 frag_to_eye = normalize(fragmentPosition - eyePosition);
    vec3 look_at_reflection = reflect(frag_to_eye, normalize(vertexNormal));
    vec3 skybox_env_color = texture(skybox, look_at_reflection).rgb;
+   float skylight = max(dot(vec3(0,1,0), normalize(-lightDirection)), 0.0);
+   skybox_env_color = skybox_env_color * night_weight + skybox_env_color * (1-night_weight) * skylight;
   
    vec3 lightDirectionNorm = normalize(lightDirection);
    float diffuse = max(dot(vertexNormal, lightDirectionNorm), 0.0f);

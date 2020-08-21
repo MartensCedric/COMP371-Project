@@ -10,16 +10,16 @@
     <ClCompile Include="..\Source\LoadTexture.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
     <ClCompile Include="..\Source\WaterModel.cpp" />
-    <ClCompile Include="..\Source\PlaneModel.cpp" />
     <ClCompile Include="..\Source\Shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
     <ClCompile Include="..\Source\Skybox.cpp" />
     <ClCompile Include="..\Source\SphereModel.cpp" />
     <ClCompile Include="..\Source\Terrain.cpp" />
+    <ClCompile Include="..\Source\TreeModel.cpp" />
     <ClCompile Include="..\Source\UnitCubeModel.cpp" />
     <ClCompile Include="..\Source\WorldModel.cpp" />
     <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
-    <ClCompile Include="..\Source\TreeModel.cpp" />
+    <ClCompile Include="..\Source\CabinModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />
@@ -36,91 +36,12 @@
     <ClInclude Include="..\Source\includes\Skybox.hpp" />
     <ClInclude Include="..\Source\includes\SphereModel.hpp" />
     <ClInclude Include="..\Source\includes\Terrain.hpp" />
-    <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
-    <ClInclude Include="..\Source\includes\WorldModel.hpp" />
-    <ClInclude Include="..\ThirdParty\FastNoise.h" />
-    <ClInclude Include="..\ThirdParty\stb_image.h" />
-    <None Include="..\Assets\Shaders\BlueColor.fragmentshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="..\Assets\Shaders\PathLines.fragmentshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="..\Assets\Shaders\PathLines.vertexshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="..\Assets\Shaders\SolidColor.fragmentshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="..\Assets\Shaders\SolidColor.vertexshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="..\Assets\Scenes\CoordinateSystem.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-    <None Include="..\Assets\Scenes\StaticScene.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-    <None Include="..\Assets\Scenes\AnimatedScene.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-    <None Include="..\Assets\Scenes\AnimatedSceneWithParticles.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-    <None Include="..\Assets\Shaders\Texture.fragmentshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="..\Assets\Shaders\Texture.vertexshader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Assets\Textures\BillboardTest.bmp">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
-    <Image Include="..\Assets\Textures\Particle.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Assets\Textures\BillboardTest.bmp" />
-    <Image Include="..\Assets\Textures\Particle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Source\includes\Model.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\SimpleModel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\Camera.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\GridModel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\Shader.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\UnitCubeModel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\AxesModel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
-    <ClInclude Include="..\Source\includes\Model.hpp" />
-    <ClInclude Include="..\Source\includes\PlaneModel.hpp" />
-    <ClInclude Include="..\Source\includes\Shader.hpp" />
-    <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
-    <ClInclude Include="..\Source\includes\Skybox.hpp" />
-    <ClInclude Include="..\Source\includes\SphereModel.hpp" />
-    <ClInclude Include="..\Source\includes\Terrain.hpp" />
-    <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
-    <ClInclude Include="..\Source\includes\WorldModel.hpp" />
-    <ClInclude Include="..\ThirdParty\FastNoise.h" />
-    <ClInclude Include="..\ThirdParty\stb_image.h" />
     <ClInclude Include="..\Source\includes\TreeModel.hpp" />
+    <ClInclude Include="..\Source\includes\UnitCubeModel.hpp" />
+    <ClInclude Include="..\Source\includes\WorldModel.hpp" />
+    <ClInclude Include="..\ThirdParty\FastNoise.h" />
+    <ClInclude Include="..\ThirdParty\stb_image.h" />
+    <ClInclude Include="..\Source\includes\CabinModel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
@@ -138,28 +59,5 @@
     <None Include="..\Assets\Shaders\SolidColor.vertexshader" />
     <None Include="..\Assets\Shaders\Texture.fragmentshader" />
     <None Include="..\Assets\Shaders\Texture.vertexshader" />
-    <ClInclude Include="..\ThirdParty\stb_image.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\Skybox.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ThirdParty\FastNoise.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\Terrain.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\DirectionalLight.hpp">
-    <ClInclude Include="..\Source\includes\ConeModel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\DigitalClockSegment.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\DirectionalLight.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\includes\WaterModel.hpp" />
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "AxesModel.hpp"
 #include "SphereModel.hpp"
 #include "WaterModel.hpp"
+#include "Terrain.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
 
@@ -93,6 +94,12 @@ class WorldModel : public SimpleModel {
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
 		std::vector<Model*> clouds;
+
+		WaterModel* plane = nullptr;
+		GridModel* grid = nullptr;
+		AxesModel* axes = nullptr;
+		Terrain* terrain = nullptr;
+
 		WorldModel();
 		void setGridShader(int shaderProgram);
 		void setAxesShader(int shaderProgram);
@@ -104,6 +111,7 @@ class WorldModel : public SimpleModel {
 		void generateForest();
 		void generateClouds(GLuint TextureID);
 		void addCloud(int elapsed_seconds);
+		void generateHouses();
 		float getTerrainHeight(float x, float y);
 		std::vector<Model*> texturedElement;
 };

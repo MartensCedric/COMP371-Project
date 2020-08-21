@@ -4,7 +4,7 @@
 * A subclass for an easy implementation of a 1x1x1 unit cube.
 */
 UnitCubeModel::UnitCubeModel() {
-    glm::vec4 color = glm::vec4(0.5, 0.5, 0.5, 1);
+    glm::vec4 color = glm::vec4(1.0, 0.0, 0.0, 1);
     
     std::vector<Vertex> vertices = {
 		//Left face

@@ -8,9 +8,9 @@ uniform vec3 lightDirection;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
 uniform vec3 eyePosition;
 
-uniform float kAmbient = 0.4;
-uniform float kDiffuse = 0.4;
-uniform float kSpecular = 0.5;
+uniform float kAmbient = 0.2;
+uniform float kDiffuse = 0.6;
+uniform float kSpecular = 0.3;
 
 uniform float specularExponent = 32;
 
@@ -38,17 +38,18 @@ float shadow_scalar() {
 void main()
 {
    vec3 ambientColor = texture(textureSampler, vertexUV ).rgb;
-  
    vec3 lightDirectionNorm = normalize(lightDirection);
-   float diffuse = max(dot(vertexNormal, lightDirectionNorm), 0.0f);
-   vec3 diffuseColor = diffuse * lightColor;
+   float diffuse = max(dot(normalize(vertexNormal), lightDirectionNorm), 0.0f);
+   vec3 diffuseColor = diffuse * ambientColor;
    vec3 viewDirection = normalize(eyePosition - fragmentPosition);
-   vec3 lightReflectDirection = reflect(lightDirectionNorm, vertexNormal);
+   vec3 lightReflectDirection = reflect(lightDirectionNorm, normalize(vertexNormal));
    
    // The dot is the cos(theta) because it's normalized
    float specularComponent = pow(max(dot(viewDirection, lightReflectDirection), 0.0f), specularExponent); 
    vec3 specularColor = specularComponent * lightColor;
-   float shadowScalar = shadow_scalar();
+   float shadowScalar = 1.0f;
+   if(dot(vec3(0.0f,1.0f,0.0f), lightDirectionNorm) >= 0.0)
+       shadowScalar = 1 - dot(vec3(0.0f,1.0f,0.0f), lightDirectionNorm);
    vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
    
    FragColor = vec4(finalLight.rgb, 0.55f); //This is the actual line we want to have
