@@ -592,14 +592,14 @@ int main(int argc, char*argv[])
 			mainCameraAllowed = true;
 
 			//save current camera position
-			savedLookVec = glm::normalize(camera->lookAtPos);
+			savedLookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x + walkSpeed * delta * savedLookVec.x;
 			float z = camera->position.z + walkSpeed * delta * savedLookVec.z;
 			savedPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
 
 			//change camera to show overview
 			camera->setPosition(glm::vec3(0.0f, 40.0f, 60.0f));
-			camera->setLookAtPos(glm::vec3(0.0f, 0.0f, 10.0f));
+			camera->lookAtPos = (glm::vec3(0.0f, 0.0f, 10.0f));
 		}
 
 		//Return to player camera position
@@ -609,7 +609,7 @@ int main(int argc, char*argv[])
 			mainCameraAllowed = false; //if main camera is being used, then must use top camera before using main camera again
 
 			camera->setPosition(savedPosition);
-			camera->setLookAtPos(savedLookVec);
+			camera->lookAtPos = savedLookVec;
 
 		}
 		
