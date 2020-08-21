@@ -7,6 +7,8 @@
 // - https://learnopengl.com/Getting-started/Hello-Window
 // - https://learnopengl.com/Getting-started/Hefllo-Triangle
 
+// Include GLEW - OpenGL Extension Wrangler
+#include <GL/glew.h>
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 
@@ -31,9 +33,6 @@
 #endif
 
 #define GL_GLEXT_PROTOTYPES
-
-// Include GLEW - OpenGL Extension Wrangler
-#include <GL/glew.h>    
 
 // GLFW provides a cross-platform interface for creating a graphical context,
 // initializing OpenGL and binding inputs
