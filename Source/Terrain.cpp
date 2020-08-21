@@ -60,11 +60,11 @@ std::vector<Vertex> getCubeVertices(float x, float y, float z) {
 		Vertex(glm::vec3(x, y, z) + glm::vec3(-0.5f, 0.5f, -0.5f), color, glm::vec3(0, 1, 0), glm::vec2(0.0f, 0.0f)),
 	};
 }
-
-Terrain::Terrain()
+ 
+Terrain::Terrain(Parameters* parameters)
 {
 	FastNoise noise;
-	noise.SetSeed(1337);
+	noise.SetSeed(parameters->seed);
 	noise.SetNoiseType(FastNoise::Simplex);
 
 	std::vector<Vertex> vertices;
@@ -76,7 +76,7 @@ Terrain::Terrain()
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
-			float height = noise.GetNoise(i * 2, j * 2) * 10.0f;
+			float height = noise.GetNoise(i * parameters->terrainSpread, j * parameters->terrainSpread) * parameters->terrainHeight;
 			tempHeightMap[i][j] = height;
 			std::vector<Vertex> v = getCubeVertices(i, height, j);
 			vertices.insert(vertices.end(), v.begin(), v.end());

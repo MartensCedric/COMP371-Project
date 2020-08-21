@@ -115,14 +115,14 @@ void WorldModel::updateParameters()
 	this->children.clear();
 
 	plane = new WaterModel();
-	plane->translate(0, -2, 0);
+	plane->translate(0, parameters.waterHeight, 0);
 	addChild(plane);
 
 	axes = new AxesModel();
 	axes->translate(0, 0.1, 0);
 	addChild(axes);
 
-	terrain = new Terrain();
+	terrain = new Terrain(&parameters);
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
