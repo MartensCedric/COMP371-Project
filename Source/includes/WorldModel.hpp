@@ -83,6 +83,26 @@ public:
 	EightSnow();
 };
 
+struct Parameters
+{
+	// To be honest, I don't see that much value in adding these caps to the GUI.
+	int treeCap = 35;
+	int penguinCap = 10;
+	int cabinCap = 5;
+	int	stonehengeCap = 1;
+
+	int seed = 0xdeadbeef;
+
+	float forestFrequency = 0.75; // [-1,1] Perhaps you can put it as [0,1] and then convert it to [-1,1]
+	int forestDensity = 300; // 1: Always, 300 : Somewhat dense, 1000 : Sparse (This is the modulo value).
+	
+	float terrainHeight = 30.f;
+	float waterHeight = 10.f;
+
+	float penguinFrequency = 0.75f;
+	int penguinDensity = 300;
+};
+
 
 class WorldModel : public SimpleModel {
 	public:
@@ -94,8 +114,9 @@ class WorldModel : public SimpleModel {
 		AxesModel* axes = nullptr;
 		Terrain* terrain = nullptr;
 
+		Parameters parameters;
+
 		WorldModel();
-		void setGridShader(int shaderProgram);
 		void setAxesShader(int shaderProgram);
 		void setModelShader(int shaderProgram);
 		void setWaterShader(int shaderProgram);
@@ -104,5 +125,6 @@ class WorldModel : public SimpleModel {
 		void generateForest();
 		void generateHouses();
 		float getTerrainHeight(float x, float y);
+		void updateParameters();
 		std::vector<Model*> texturedElement;
 };

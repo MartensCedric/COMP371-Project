@@ -433,7 +433,6 @@ int main(int argc, char*argv[])
 	world->setCamera(camera);
 
 	world->setAxesShader(passthroughShader);
-	world->setGridShader(passthroughShader);
 	world->setWaterShader(waterShader);
 	world->setTerrainShader(terrainShader);
 

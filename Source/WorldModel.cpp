@@ -452,11 +452,9 @@ Stoneplate::Stoneplate() {
 }
 
 WaterModel* plane = nullptr;
-GridModel* grid = nullptr;
 AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
 
-void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
 void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
 void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
@@ -487,7 +485,7 @@ void WorldModel::setSphereShader(int shaderProgram)
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(0xdeadbeef);
+	fastNoise.SetSeed(this->parameters.seed);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int treeCount = 0;
 	
@@ -495,7 +493,7 @@ void WorldModel::generateForest()
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i, j);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < 35)
+			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < parameters.treeCap)
 			{
 				TreeModel* tree = new TreeModel();
 				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
@@ -537,26 +535,11 @@ WorldModel::WorldModel() {
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 
-	
-
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	grid = new GridModel();
-	// addChild(grid);
 	
-	plane = new WaterModel();
-	plane->translate(0, -2, 0);
-	addChild(plane);
-
-	axes = new AxesModel();
-	axes->translate(0, 0.1, 0);
-	addChild(axes);
-
-	terrain = new Terrain();
-	terrain->translate(-50, 0, -50);
-	addChild(terrain);
+	updateParameters();
 
 	//Letters and Numbers
 	SimpleModel* stoneHenge = new SimpleModel();
@@ -734,6 +717,31 @@ WorldModel::WorldModel() {
 	stoneHenge->scale(0.5, 0.5, 0.5);
 	models.push_back(stoneHenge);
 
+	for (auto it = models.begin(); it != models.end(); it++)
+	{
+		addChild(*it);
+	}
+};
+
+void WorldModel::updateParameters()
+{
+	for (auto it = children.begin(); it != children.end(); it++)
+		delete *it;
+
+	this->children.clear();
+
+	plane = new WaterModel();
+	plane->translate(0, -2, 0);
+	addChild(plane);
+
+	axes = new AxesModel();
+	axes->translate(0, 0.1, 0);
+	addChild(axes);
+
+	terrain = new Terrain();
+	terrain->translate(-50, 0, -50);
+	addChild(terrain);
+
 	generateForest();
 	generateHouses();
 
@@ -741,4 +749,4 @@ WorldModel::WorldModel() {
 	{
 		addChild(*it);
 	}
-};
+}
