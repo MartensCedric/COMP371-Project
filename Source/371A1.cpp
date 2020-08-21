@@ -25,7 +25,6 @@
 #include "../Source/includes/Camera.hpp"
 #include "../Source/includes/WorldModel.hpp"
 #include "../Source/includes/Skybox.hpp"
-#include <ctime>
 #include "../Source/includes/TreeModel.hpp"
 #endif
 
@@ -462,8 +461,6 @@ int main(int argc, char*argv[])
 	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
 	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
 	
-	clock_t begin = clock();
-
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
@@ -740,13 +737,6 @@ int main(int argc, char*argv[])
 				randomY = rand() % 51 + (-25);
  				(*it)->translate(randomX, 3.5, randomY);
 			}
-		}
-
-		//Cloud addition
-		clock_t end = clock();
-		int elapsed_seconds = (int)(end - begin) / CLOCKS_PER_SEC;
-		if (elapsed_seconds >2 && elapsed_seconds % 3 == 0) {
-			world->generateClouds(elapsed_seconds);
 		}
 
 		//Move clouds

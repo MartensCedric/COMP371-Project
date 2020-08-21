@@ -551,17 +551,7 @@ void WorldModel::generateClouds(GLuint TextureID)
 	}
 }
 
-void WorldModel::addCloud(int elapsed_seconds)
-{
-	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
-		srand(elapsed_seconds);
-		double randomX = rand() % 201 + (-100);
-		double randomY = rand() % 9 + (-4);
-		CloudModel* cloud = new CloudModel();
-		cloud->translate(randomX, 0, -100);
-		cloud->setTexture(cloudTextureID);
-		clouds.push_back(cloud);
-}
+
 
 
 
