@@ -51,7 +51,11 @@ int randomX;
 int randomY;
 double currentVariation = 0;
 bool leftMouseClick = false;
-Camera* camera = nullptr;
+
+Camera* currentCamera = nullptr;
+Camera* playerCamera = nullptr;
+Camera* topCamera = nullptr;
+
 int windowWidth = 1024;
 int windowHeight = 768;
 
@@ -331,7 +335,7 @@ static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos)
 	}
 
 	if (leftMouseClick == true) {
-		camera->setFOV((camera->getFOV())- currentVariation/1000);
+		currentCamera->setFOV((currentCamera->getFOV())- currentVariation/1000);
 	}
 }
 
@@ -429,14 +433,16 @@ int main(int argc, char*argv[])
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//----------Camera setup----------
-	camera = new Camera(windowWidth, windowHeight);
+	currentCamera = new Camera(windowWidth, windowHeight);
+	playerCamera = currentCamera;
+	topCamera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
 
 	Skybox skybox;
 	skybox.setShader(skyboxShader);
-	skybox.setCamera(camera);
+	skybox.setCamera(currentCamera);
 	skybox.setTexture(skyboxCubeMap);
-	world->setCamera(camera);
+	world->setCamera(currentCamera);
 
 	world->setAxesShader(passthroughShader);
 	world->setGridShader(passthroughShader);
@@ -455,12 +461,13 @@ int main(int argc, char*argv[])
 	bool isTilting = false;
 	glm::vec3 panDirection = glm::vec3(1.0f);
 	glm::vec3 tiltDirection = glm::vec3(1.0f);
-	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
-	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
+	float initial_y = world->getTerrainHeight(currentCamera->position.x, currentCamera->position.z) + 5.0f;
+	currentCamera->position = glm::vec3(currentCamera->position.x, initial_y, currentCamera->position.z);
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 
+		world->setCamera(currentCamera);
 		double newTime = glfwGetTime();
 		delta = newTime - currentTime;
 		currentTime = newTime;
@@ -469,7 +476,7 @@ int main(int argc, char*argv[])
 		world->setTimePassed(time_passed);
 
 		worldLight->direction = glm::vec3(sin(sunTheta), -cos(sunTheta), 0);
-		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + camera->position; 
+		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + currentCamera->position; 
 		
 		int modelShader = passthroughShader;
 
@@ -531,15 +538,15 @@ int main(int argc, char*argv[])
 				// If the mouse is paning (left/right) move the camera around the axis -Camera-up 
 				double dx = xCursor - xPanStart;
 				double angleDegrees = (dx/10.f);
-				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), -camera->up);
+				glm::mat4 panRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), -currentCamera->up);
 				glm::vec3 newDirection(glm::normalize(panRotation * glm::vec4(panDirection, 1.0f)) * 1000.0f);
-				glm::vec3 newLookAt = newDirection + camera->position;
-				camera->lookAtPos = newLookAt;
+				glm::vec3 newLookAt = newDirection + currentCamera->position;
+				currentCamera->lookAtPos = newLookAt;
 			}
 			else {
 				isPanning = true;
 				xPanStart = xCursor;
-				panDirection = glm::normalize(camera->lookAtPos - camera->position);
+				panDirection = glm::normalize(currentCamera->lookAtPos - currentCamera->position);
 			}
 		}
 
@@ -560,17 +567,17 @@ int main(int argc, char*argv[])
 				// If the mouse is tilting (up/down) move the camera around the axis LookAt-Direction X Camera-up 
 				double dy = yTiltStart - yCursor;
 				double angleDegrees = (dy * 3.f) * delta;
-				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), glm::cross(tiltDirection, camera->up));
+				glm::mat4 tiltRotation = glm::rotate(glm::mat4(1.0f), (float)glm::radians(angleDegrees), glm::cross(tiltDirection, currentCamera->up));
 
 				glm::vec3 newDirection(glm::normalize(tiltRotation * glm::vec4(tiltDirection, 1.0f)) * 1000.0f);
-				glm::vec3 newLookAt = newDirection + camera->position;
-				camera->lookAtPos = newLookAt;
+				glm::vec3 newLookAt = newDirection + currentCamera->position;
+				currentCamera->lookAtPos = newLookAt;
 
 			}
 			else {
 				isTilting = true;
 				yTiltStart = yCursor;
-				tiltDirection = camera->lookAtPos - camera->position;
+				tiltDirection = currentCamera->lookAtPos - currentCamera->position;
 			}
 		}
 
@@ -590,16 +597,7 @@ int main(int argc, char*argv[])
 			disableWalking = true;
 			topCameraUsed = true;
 			mainCameraAllowed = true;
-
-			//save current camera position
-			savedLookVec = glm::normalize(camera->lookAtPos - camera->position);
-			float x = camera->position.x + walkSpeed * delta * savedLookVec.x;
-			float z = camera->position.z + walkSpeed * delta * savedLookVec.z;
-			savedPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-
-			//change camera to show overview
-			camera->position = (glm::vec3(0.0f, 40.0f, 60.0f));
-			camera->lookAtPos = (glm::vec3(0.0f, 0.0f, 10.0f));
+			currentCamera = topCamera;
 		}
 
 		//Return to player camera position
@@ -608,9 +606,7 @@ int main(int argc, char*argv[])
 			disableWalking = false;
 			mainCameraAllowed = false; //if main camera is being used, then must use top camera before using main camera again
 
-			camera->position = savedPosition;
-			camera->lookAtPos = savedLookVec;
-
+			currentCamera = playerCamera;
 		}
 		
 		//Character controls
@@ -618,43 +614,43 @@ int main(int argc, char*argv[])
 		// move forward
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !disableWalking)
 		{
-			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
-			float x = camera->position.x + walkSpeed * delta * lookVec.x;
-			float z = camera->position.z + walkSpeed * delta * lookVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 lookVec = glm::normalize(currentCamera->lookAtPos - currentCamera->position);
+			float x = currentCamera->position.x + walkSpeed * delta * lookVec.x;
+			float z = currentCamera->position.z + walkSpeed * delta * lookVec.z;
+			currentCamera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			currentCamera->lookAtPos = currentCamera->position + lookVec;
 		}
 
 		// move backwards
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !disableWalking)
 		{
-			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
-			float x = camera->position.x - walkSpeed * delta * lookVec.x;
-			float z = camera->position.z - walkSpeed * delta * lookVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 lookVec = glm::normalize(currentCamera->lookAtPos - currentCamera->position);
+			float x = currentCamera->position.x - walkSpeed * delta * lookVec.x;
+			float z = currentCamera->position.z - walkSpeed * delta * lookVec.z;
+			currentCamera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			currentCamera->lookAtPos = currentCamera->position + lookVec;
 		}
 
 		// move left
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !disableWalking)
 		{
-			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
-			glm::vec3 movementVec = glm::normalize(glm::cross(camera->up, lookVec));
-			float x = camera->position.x + walkSpeed * delta * movementVec.x;
-			float z = camera->position.z + walkSpeed * delta * movementVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 lookVec = glm::normalize(currentCamera->lookAtPos - currentCamera->position);
+			glm::vec3 movementVec = glm::normalize(glm::cross(currentCamera->up, lookVec));
+			float x = currentCamera->position.x + walkSpeed * delta * movementVec.x;
+			float z = currentCamera->position.z + walkSpeed * delta * movementVec.z;
+			currentCamera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			currentCamera->lookAtPos = currentCamera->position + lookVec;
 		}
 
 		// move right
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !disableWalking)
 		{
-			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
-			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, camera->up));
-			float x = camera->position.x + walkSpeed * delta * movementVec.x;
-			float z = camera->position.z + walkSpeed * delta * movementVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 lookVec = glm::normalize(currentCamera->lookAtPos - currentCamera->position);
+			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, currentCamera->up));
+			float x = currentCamera->position.x + walkSpeed * delta * movementVec.x;
+			float z = currentCamera->position.z + walkSpeed * delta * movementVec.z;
+			currentCamera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+			currentCamera->lookAtPos = currentCamera->position + lookVec;
 		}
 
 
