@@ -116,15 +116,15 @@
     <Image Include="..\Assets\Textures\Particle.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\371A1.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
     <ClCompile Include="..\Source\AxesModel.cpp" />
     <ClCompile Include="..\Source\CabinModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\ConeModel.cpp" />
-    <ClCompile Include="..\Source\DigitalClockSegment.cpp" />
     <ClCompile Include="..\Source\GridModel.cpp" />
     <ClCompile Include="..\Source\LoadTexture.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
+    <ClCompile Include="..\Source\StonehengeModel.cpp" />
     <ClCompile Include="..\Source\WaterModel.cpp" />
     <ClCompile Include="..\Source\Shader.cpp" />
     <ClCompile Include="..\Source\SimpleModel.cpp" />
@@ -142,10 +142,10 @@
     <ClInclude Include="..\Source\includes\Camera.hpp" />
     <ClInclude Include="..\Source\includes\DirectionalLight.hpp" />
     <ClInclude Include="..\Source\includes\ConeModel.hpp" />
-    <ClInclude Include="..\Source\includes\DigitalClockSegment.h" />
     <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
+    <ClInclude Include="..\Source\includes\StonehengeModel.hpp" />
     <ClInclude Include="..\Source\includes\WaterModel.hpp" />
     <ClInclude Include="..\Source\includes\Shader.hpp" />
     <ClInclude Include="..\Source\includes\SimpleModel.hpp" />
