@@ -508,6 +508,7 @@ int main(int argc, char*argv[])
 	//----------Camera setup----------
 	currentCamera = new Camera(windowWidth, windowHeight);
 	playerCamera = currentCamera;
+	playerCamera->position = glm::vec3(-12, 0, 15);
 	topCamera = new Camera(windowWidth, windowHeight);
 	world = new WorldModel();
 

@@ -8,7 +8,7 @@ float defaultFOV = 0.785f;
 */
 Camera::Camera(int width, int height) :
 	speed(0.1f),
-	position(0.0f, 50, 25.0f),
+	position(0.0f, 30, 50.0f),
 	lookAtPos(0, 2, 0),
 	up(0.0f, 1.0f, 0.0f),
 	width(width),
