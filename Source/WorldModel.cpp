@@ -20,7 +20,6 @@
 PenguinModel::PenguinModel() {
 	setupAttribPointer();
 
-	//@TODO: refactor this so it's accessible as class attributes?
 	// Load textures
 	GLuint whiteFurTextureID = loadTexture("../Assets/Textures/penguin-white-fur.png");
 	GLuint whiteScleraTextureID = loadTexture("../Assets/Textures/pearl-white.jpg");
@@ -75,7 +74,6 @@ PenguinModel::PenguinModel() {
 	
 	head->scale(1.5, 1.5, 1);
 	head->translate(0, 4.25, 0.3); // z=0.5 will center it
-	//@TODO: change to black outline and white front face (or split up into two models?)
 	head->setTexture(blackFurTextureID);
 	
 	leftEyeSclera->scale(0.3, 0.3, 0.3);
@@ -91,7 +89,6 @@ PenguinModel::PenguinModel() {
 	leftEyePupil->setTexture(blackPupilTextureID);
 	rightEyePupil->setTexture(blackPupilTextureID);
 
-	//@TODO: create sclera + pupil models
 	beak->scale(0.2, 0.2, 0.7);
 	beak->translate(0, 4, 0.9);
 	beak->setTexture(orangeTextureID);
@@ -620,15 +617,19 @@ void WorldModel::generateForest()
 
 void WorldModel::generatePenguins()
 {
+	FastNoise fastNoise;
+	fastNoise.SetSeed(0xbaedeadf);
+	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int penguinCtr = 0;
-	const int MAX_PENGUINS = 10;
+	const int MAX_PENGUINS = 20;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 100; j++)
 		{
+			float noiseVal = fastNoise.GetNoise(i*3, j*3); // skip blocks 
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && rand() % 3 == 0 && penguinCtr < MAX_PENGUINS)
+			if (terrainHeight >= -0.1 && noiseVal > 0.82 && rand() % 6 == 0 && penguinCtr < MAX_PENGUINS)
 			{
 				PenguinModel* penguino = new PenguinModel();
 				penguino->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
