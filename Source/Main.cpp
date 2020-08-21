@@ -528,6 +528,8 @@ int main(int argc, char*argv[])
 	float initial_y = world->getTerrainHeight(camera->position.x, camera->position.z) + 5.0f;
 	camera->position = glm::vec3(camera->position.x, initial_y, camera->position.z);
 
+	#if SHOW_GUI == 1
+	
 	// Create a GLFWwindow object
     GLFWwindow* guiwindow = glfwCreateWindow(314, 363, "GUI", nullptr, nullptr);
     if (guiwindow == nullptr) {
@@ -537,7 +539,6 @@ int main(int argc, char*argv[])
     }
     glfwMakeContextCurrent(guiwindow);
 
-	#if SHOW_GUI == 1
 	// Create a nanogui screen and pass the glfw pointer to initialize
     screen = new nanogui::Screen();
     screen->initialize(guiwindow, true);
