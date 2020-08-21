@@ -43,6 +43,8 @@
 #include <string>
 #include <algorithm>
 
+extern struct BoxCollider;
+
 WorldModel* world = nullptr;
 
 double currentYPos;
@@ -52,6 +54,7 @@ int randomY;
 double currentVariation = 0;
 bool leftMouseClick = false;
 Camera* camera = nullptr;
+BoxCollider cameraCollider;
 int windowWidth = 1024;
 int windowHeight = 768;
 
@@ -101,6 +104,14 @@ bool models_sort(Model* model1, Model* model2) {
 	glm::vec4 new_model2_pos = model2->getModelMatrix() * glm::vec4(0, 0, 0, 1);
 	
 	return (new_model1_pos.z < new_model2_pos.z);
+}
+
+bool collidesWithModels(glm::vec3 position)
+{
+	for (auto it = world->models.begin(); it != world->models.end(); it++)
+		if ((*it)->collidesWith(position, &cameraCollider))
+			return true;
+	return false;
 }
 
 // Callbacks for keys
@@ -390,6 +401,10 @@ void setWorldMatrix(int shaderProgram, glm::mat4 worldMatrix)
 
 int main(int argc, char*argv[])
 {
+	cameraCollider.width = 5;
+	cameraCollider.length = 5;
+	cameraCollider.height = 100;
+
     // Initialize GLFW and OpenGL version
     glfwInit();
 
@@ -501,8 +516,9 @@ int main(int argc, char*argv[])
 		time_passed += delta;
 		world->setTimePassed(time_passed);
 
-		worldLight->direction = glm::vec3(cos(sunTheta), sin(sunTheta), 0);
-
+		worldLight->direction = glm::vec3(sin(sunTheta), -cos(sunTheta), 0);
+		worldLight->position = 30.0f * -glm::normalize(worldLight->direction) + camera->position; 
+		
 		int modelShader = passthroughShader;
 
 		if (showLight && showTexture)
@@ -522,12 +538,19 @@ int main(int argc, char*argv[])
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthMask(GL_FALSE);
+		glUseProgram(skyboxShader);
+		glm::vec3 lightDirection = worldLight->direction;
+		int lightDirectionLocation = glGetUniformLocation(skyboxShader, "lightDirection");
+		glUniform3fv(lightDirectionLocation, 1, &lightDirection[0]);
 		skybox.draw();
 		glDepthMask(GL_TRUE);
 
 		glActiveTexture(GL_TEXTURE0);
 	
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+
+		world->terrain->setShader(terrainShader);
 		
 		for (auto it = world->models.begin(); it != world->models.end(); it++)
 			(*it)->setShader(modelShader);
@@ -615,8 +638,14 @@ int main(int argc, char*argv[])
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x + walkSpeed * delta * lookVec.x;
 			float z = camera->position.z + walkSpeed * delta * lookVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 		// move backwards
@@ -625,8 +654,14 @@ int main(int argc, char*argv[])
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x - walkSpeed * delta * lookVec.x;
 			float z = camera->position.z - walkSpeed * delta * lookVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 		// move left
@@ -636,8 +671,13 @@ int main(int argc, char*argv[])
 			glm::vec3 movementVec = glm::normalize(glm::cross(camera->up, lookVec));
 			float x = camera->position.x + walkSpeed * delta * movementVec.x;
 			float z = camera->position.z + walkSpeed * delta * movementVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 		// move right
@@ -647,8 +687,13 @@ int main(int argc, char*argv[])
 			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, camera->up));
 			float x = camera->position.x + walkSpeed * delta * movementVec.x;
 			float z = camera->position.z + walkSpeed * delta * movementVec.z;
-			camera->position = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
-			camera->lookAtPos = camera->position + lookVec;
+			glm::vec3 nextPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			if (!collidesWithModels(nextPosition))
+			{
+				camera->position = nextPosition;
+				camera->lookAtPos = camera->position + lookVec;
+			}
 		}
 
 
