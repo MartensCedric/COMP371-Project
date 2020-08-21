@@ -27,14 +27,14 @@ CloudModel::CloudModel() {
 	double cloudCenterZ = rand() % (42 - 18 + 1) + 18;
 
 	cloudCenter->scale(cloudCenterX, 5, cloudCenterZ);
-	cloudCenter->translate(0, 23, 0);
+	cloudCenter->translate(0, 17, 0);
 
 	SimpleModel* cloudBottom = new UnitCubeModel();
 	double cloudBottomX = rand() % (12 - 5 + 1) + 5;
 	double cloudBottomZ = rand() %  (16 - 8 + 1) + 8;
 
 	cloudBottom->scale(cloudBottomX, 3, cloudBottomZ);
-	cloudBottom->translate(0,18, 0);
+	cloudBottom->translate(0,12, 0);
 	addChild(cloudBottom);
 	addChild(cloudCenter);
 
