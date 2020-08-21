@@ -116,7 +116,7 @@
     <Image Include="..\Assets\Textures\Particle.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\371A1.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
     <ClCompile Include="..\Source\CabinModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\ConeModel.cpp" />
