@@ -11,11 +11,11 @@ Git Repository for the project
 
 ![img_0](https://i.imgur.com/aBwSKr0.png)
 
-3. Click the `371A1.cpp` inside the `Source` folder.
+3. Click the `Main.cpp` inside the `Source` folder.
 
 4. You should see the `Local Windows Debugger` button at the top, clicking this should build the project and launch the executable. If you don't see this option or it doesn't work, continue with the steps below:
 
-5. Click the dropdown next to the green arrow at the top, make sure it has 'Current Document (371A1.cpp)' selected.
+5. Click the dropdown next to the green arrow at the top, make sure it has 'Current Document (Main.cpp)' selected.
 
 ![img_1](https://i.imgur.com/85hzUmy_d.webp?maxwidth=728&fidelity=grand)
 
@@ -55,6 +55,9 @@ If the above steps do not result in a new window popping up to render the graphi
 - `Left Mouse Click + Move Mouse up/down` --> Zoom out/in
 - `Right Mouse Click + Move Mouse left/right` --> Pan
 - `Middle Mouse Click + Move Mouse up/down` --> Tilt
+
+- `1` --> switch to player camera
+- `2` --> switch to world camera
 
 - `l` --> switch to lines rendering mode
 - `p` --> switch to points rendering mode
