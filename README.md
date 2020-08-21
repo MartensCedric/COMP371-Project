@@ -98,6 +98,9 @@ If the above steps do not result in a new window popping up to render the graphi
 - `Right Mouse Click + Move Mouse left/right` --> Pan
 - `Middle Mouse Click + Move Mouse up/down` --> Tilt
 
+- `1` --> switch to player camera
+- `2` --> switch to world camera
+
 - `l` --> switch to lines rendering mode
 - `p` --> switch to points rendering mode
 - `t` --> switch to triangles rendering mode
