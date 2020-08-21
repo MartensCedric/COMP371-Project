@@ -46,6 +46,11 @@ PenguinModel::PenguinModel() {
 	SimpleModel* leftEyePupil = new UnitCubeModel();
 	SimpleModel* rightEyePupil = new UnitCubeModel();
 
+	collider = new BoxCollider();
+	collider->height = 100.f;
+	collider->length = 3.f;
+	collider->width = 3.f;
+
 	back->scale(3, 3, 1);
 	back->translate(0, 2, 0);
 	back->setTexture(blackFurTextureID);
