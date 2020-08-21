@@ -1,5 +1,6 @@
 #include "includes/WorldModel.hpp"
 #include "includes/ConeModel.hpp"
+#include <time.h>
 #include "../Source/includes/TreeModel.hpp"
 
 #include "../Source/includes/Terrain.hpp"
@@ -217,7 +218,7 @@ void WorldModel::generatePenguins()
 void WorldModel::generateHouses()
 {
 	int cabinCount = 0;
-
+	srand(time(0));
 	for (int i = 0; i < 100; i++) {
 		for (int j = 0; j < 100; j++) {
 			float terrainHeight = terrain->heightmap[i][j];

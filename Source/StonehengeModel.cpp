@@ -456,8 +456,8 @@ StonehengeModel::StonehengeModel() {
 
 	collider = new BoxCollider();
 	collider->height = 100;
-	collider->width = 21;
-	collider->length = 21;
+	collider->width = 50;
+	collider->length = 50;
 
 	//Letters and Numbers
 	SimpleModel* stoneHenge = new SimpleModel();
