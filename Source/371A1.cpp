@@ -19,6 +19,7 @@
 #include "includes/TreeModel.hpp"
 
 #elif defined(_WIN32) || defined(WIN32)     /* _Win32 is usually defined by compilers targeting 32 or   64 bit Windows systems */
+
 #define OS_Windows 1
 #define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL#include "../Source/includes/Shader.hpp"
 
@@ -26,6 +27,7 @@
 #include "../Source/includes/WorldModel.hpp"
 #include "../Source/includes/Skybox.hpp"
 #include "../Source/includes/TreeModel.hpp"
+
 #endif
 
 // Include GLEW - OpenGL Extension Wrangler
@@ -44,6 +46,7 @@
 extern struct BoxCollider;
 
 WorldModel* world = nullptr;
+
 double currentYPos;
 double previousYPos = -1;
 int randomX;
@@ -57,11 +60,14 @@ int windowHeight = 768;
 
 double delta = 0.16;
 float time_passed = 0;
+
 int maxOffset = 2;
 float walkSpeed = 7.f;
 float cameraHeightFromTerrain = 5.0f;
+
 float sunTheta = 0;
 bool showTexture = true;
+
 bool showLight = true;
 bool isLightToggled = false;
 bool isTextureToggled = false;

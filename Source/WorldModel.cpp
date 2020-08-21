@@ -520,6 +520,7 @@ void WorldModel::generateForest()
 	fastNoise.SetSeed(0xdeadbeef);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int treeCount = 0;
+
 	for (int i = 0; i < 100; i++) {
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i, j);
