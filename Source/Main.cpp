@@ -12,6 +12,12 @@
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 
+#define SHOW_GUI 0
+
+#if SHOW_GUI == 1
+#include <nanogui/nanogui.h>
+#endif
+
 #ifdef __unix__                    /* __unix__ is usually defined by compilers targeting Unix systems */
 
 #define OS_Windows 0
@@ -44,9 +50,11 @@
 #include <string>
 #include <algorithm>
 
-extern struct BoxCollider;
-
 WorldModel* world = nullptr;
+
+#if SHOW_GUI == 1
+nanogui::Screen *screen = nullptr;
+#endif
 
 double currentYPos;
 double previousYPos = -1;
@@ -529,6 +537,7 @@ int main(int argc, char*argv[])
     }
     glfwMakeContextCurrent(guiwindow);
 
+	#if SHOW_GUI == 1
 	// Create a nanogui screen and pass the glfw pointer to initialize
     screen = new nanogui::Screen();
     screen->initialize(guiwindow, true);
@@ -641,6 +650,7 @@ int main(int argc, char*argv[])
             screen->resize_callback_event(width, height);
         }
 	);
+	#endif
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
@@ -693,6 +703,7 @@ int main(int argc, char*argv[])
 		skybox.draw();
 		glDepthMask(GL_TRUE);
 
+		#if SHOW_GUI == 1
 		glfwMakeContextCurrent(guiwindow);
 		// Detect inputs
         glfwPollEvents();
@@ -700,6 +711,7 @@ int main(int argc, char*argv[])
 		// Draw nanogui
         screen->draw_setup();
 		screen->draw_widgets();
+		#endif
 
 		glfwMakeContextCurrent(window);
 		// Detect inputs
@@ -709,7 +721,10 @@ int main(int argc, char*argv[])
 			
         // End frame
         glfwSwapBuffers(window);
+
+		#if SHOW_GUI == 1
 		glfwSwapBuffers(guiwindow);
+		#endif
 
 		glfwGetCursorPos(window, &xCursor, &yCursor);
         // Detect inputs
