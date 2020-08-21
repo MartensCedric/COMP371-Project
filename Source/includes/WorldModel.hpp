@@ -14,14 +14,6 @@ public:
 	CloudModel();
 };
 
-class Stoneplate : public SimpleModel {
-public:
-	Stoneplate();
-};
-
-
-
-
 class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
