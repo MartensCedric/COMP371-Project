@@ -410,6 +410,7 @@ int main(int argc, char*argv[])
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
 	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+	int cloudsShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/clouds.fshader");
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
@@ -522,7 +523,7 @@ int main(int argc, char*argv[])
 		}
 		for (auto it = world->clouds.begin(); it != world->clouds.end(); it++)
 		{
-			(*it)->setShader(textureLightShader);
+			(*it)->setShader(cloudsShader);
 		}
  
 		world->draw();
