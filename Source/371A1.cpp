@@ -598,7 +598,7 @@ int main(int argc, char*argv[])
 			savedPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
 
 			//change camera to show overview
-			camera->setPosition(glm::vec3(0.0f, 40.0f, 60.0f));
+			camera->position = (glm::vec3(0.0f, 40.0f, 60.0f));
 			camera->lookAtPos = (glm::vec3(0.0f, 0.0f, 10.0f));
 		}
 
@@ -608,7 +608,7 @@ int main(int argc, char*argv[])
 			disableWalking = false;
 			mainCameraAllowed = false; //if main camera is being used, then must use top camera before using main camera again
 
-			camera->setPosition(savedPosition);
+			camera->position = savedPosition;
 			camera->lookAtPos = savedLookVec;
 
 		}
