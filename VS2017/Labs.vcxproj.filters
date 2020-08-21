@@ -20,6 +20,7 @@
     <ClCompile Include="..\Source\WorldModel.cpp" />
     <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
     <ClCompile Include="..\Source\CabinModel.cpp" />
+    <ClCompile Include="..\Source\StonehengeModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\includes\AxesModel.hpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="..\ThirdParty\FastNoise.h" />
     <ClInclude Include="..\ThirdParty\stb_image.h" />
     <ClInclude Include="..\Source\includes\CabinModel.hpp" />
+    <ClInclude Include="..\Source\includes\StonehengeModel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
