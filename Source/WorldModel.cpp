@@ -111,26 +111,11 @@ PenguinModel::PenguinModel() {
 	addChild(beak);
 }
 
-/*
-void PenguinModel::setBeakShader(int shaderID) {
-	this->beak->setShader(shaderID);
-}
-*/
-
 WaterModel* plane = nullptr;
-AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
 
-void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
 void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
-//void WorldModel::setPenguinBeaksShader(int shaderProgram)
-/*{ 
-	for (auto it = penguinos.begin(); it != penguinos.end(); it++)
-	{
-		(*it)->setBeakShader(shaderProgram);
-	}
-}*/
 
 float WorldModel::getTerrainHeight(float x, float z) 
 {
@@ -237,7 +222,6 @@ WorldModel::WorldModel() {
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
 	updateParameters();
 };
 
@@ -252,9 +236,6 @@ void WorldModel::updateParameters()
 	plane->translate(0, parameters.waterHeight, 0);
 	addChild(plane);
 
-	axes = new AxesModel();
-	axes->translate(0, 0.1, 0);
-	addChild(axes);
 
 	terrain = new Terrain(&parameters);
 	terrain->translate(-50, 0, -50);

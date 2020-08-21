@@ -1,8 +1,6 @@
 #pragma once
 #include "SimpleModel.hpp"
 #include "UnitCubeModel.hpp"
-#include "GridModel.hpp"
-#include "AxesModel.hpp"
 #include "SphereModel.hpp"
 #include "WaterModel.hpp"
 #include "Terrain.hpp"
@@ -27,19 +25,15 @@ class WorldModel : public SimpleModel {
 		std::vector<PenguinModel*> penguinos; // MEMES BY CEDRIC SMARTENS
 
 		WaterModel* plane = nullptr;
-		GridModel* grid = nullptr;
-		AxesModel* axes = nullptr;
 		Terrain* terrain = nullptr;
 
 		Parameters parameters;
 
 		WorldModel();
-		void setAxesShader(int shaderProgram);
 		void setModelShader(int shaderProgram);
 		void setWaterShader(int shaderProgram);
 		void setSphereShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
-		//void setPenguinBeaksShader(int shaderProgram);
 		void generateForest();
 		void generatePenguins();
 		void generateHouses();

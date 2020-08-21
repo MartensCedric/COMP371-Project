@@ -1,9 +1,6 @@
 #pragma once
 #include "SimpleModel.hpp"
 #include "UnitCubeModel.hpp"
-#include "GridModel.hpp"
-#include "AxesModel.hpp"
-#include "SphereModel.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
 
@@ -17,7 +14,8 @@ public:
 class CabinModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
-		CabinModel();
 		std::vector<Model*> texturedElement;
+		CabinModel();
+		~CabinModel();
 };
 

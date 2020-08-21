@@ -101,6 +101,6 @@ Terrain::Terrain(Parameters* parameters)
 
 Terrain::Terrain(Vertex* vertexArray, int vertexCount, float** heightmap, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
 : SimpleModel(vertexArray, vertexCount, drawFunc), heightmap(heightmap)
-{
+{}
 
-}
+Terrain::~Terrain() {}

@@ -2,11 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\Source\371A1.cpp" />
-    <ClCompile Include="..\Source\AxesModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\ConeModel.cpp" />
-    <ClCompile Include="..\Source\DigitalClockSegment.cpp" />
-    <ClCompile Include="..\Source\GridModel.cpp" />
     <ClCompile Include="..\Source\LoadTexture.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
     <ClCompile Include="..\Source\WaterModel.cpp" />
@@ -23,12 +20,9 @@
     <ClCompile Include="..\Source\StonehengeModel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\includes\AxesModel.hpp" />
     <ClInclude Include="..\Source\includes\Camera.hpp" />
     <ClInclude Include="..\Source\includes\DirectionalLight.hpp" />
     <ClInclude Include="..\Source\includes\ConeModel.hpp" />
-    <ClInclude Include="..\Source\includes\DigitalClockSegment.h" />
-    <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
     <ClInclude Include="..\Source\includes\WaterModel.hpp" />

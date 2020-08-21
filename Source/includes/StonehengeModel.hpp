@@ -1,9 +1,6 @@
 #pragma once
 #include "SimpleModel.hpp"
 #include "UnitCubeModel.hpp"
-#include "GridModel.hpp"
-#include "AxesModel.hpp"
-#include "SphereModel.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
 
@@ -88,6 +85,7 @@ class StonehengeModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
 		StonehengeModel();
+		~StonehengeModel();
 		std::vector<Model*> texturedElement;
 };
 

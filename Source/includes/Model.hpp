@@ -16,7 +16,6 @@ struct BoxCollider {
 	float width, length, height;
 };
 
-
 inline bool inBetween(float value, float low, float high)
 {
 	return low <= value && high >= value;

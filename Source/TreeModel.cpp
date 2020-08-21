@@ -356,3 +356,5 @@ TreeModel::TreeModel() {
 	rotate(0, 1, 0, rotationalChange);
 	translate(0, 1.5, 0);
 };
+
+TreeModel::~TreeModel() {}

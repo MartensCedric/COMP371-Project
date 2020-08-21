@@ -442,18 +442,10 @@ Stoneplate::Stoneplate() {
 	addChild(right4);
 }
 
-
-
 StonehengeModel::StonehengeModel() {
 	// Load textures
-	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
-	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
-	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
-	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
-	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
-
 
 	//Letters and Numbers
 	SimpleModel* stoneHenge = new SimpleModel();
@@ -636,3 +628,6 @@ StonehengeModel::StonehengeModel() {
 		addChild(*it);
 	}
 };
+
+StonehengeModel::~StonehengeModel() {
+}
