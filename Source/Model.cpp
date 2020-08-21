@@ -85,9 +85,9 @@ bool Model::collidesWith(Model* otherModel)
 	if (this->collider == nullptr || otherModel->collider == nullptr)
 		return false;
 
-	float thisX = this->objTransMat[0][3];
-	float thisY = this->objTransMat[1][3];
-	float thisZ = this->objTransMat[2][3];
+	float thisX = otherModel->objTransMat[3][0];
+	float thisY = otherModel->objTransMat[3][1];
+	float thisZ = otherModel->objTransMat[3][2];
 	glm::vec3 position(thisX, thisY, thisZ);
 
 	return collidesWith(position, otherModel->collider);

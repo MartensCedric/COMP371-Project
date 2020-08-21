@@ -363,8 +363,8 @@ void setWorldMatrix(int shaderProgram, glm::mat4 worldMatrix)
 
 int main(int argc, char*argv[])
 {
-	cameraCollider.width = 1;
-	cameraCollider.length = 1;
+	cameraCollider.width = 5;
+	cameraCollider.length = 5;
 	cameraCollider.height = 100;
 
     // Initialize GLFW and OpenGL version
