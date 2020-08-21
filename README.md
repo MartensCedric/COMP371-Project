@@ -111,8 +111,8 @@ If the above steps do not result in a new window popping up to render the graphi
 `MANGOHUD_DLSYM=1 mangohud ./exec`
 
 # Credits
-- [learnopengl.com](Light code, shadows, skybox)
-- Noise library FastNoise (MIT)
+- [Light code, shadows, skybox](https://learnopengl.com)
+- [Noise library FastNoise (MIT)](https://github.com/Auburn/FastNoise)
 - [bark texture](https://forums.rpgmakerweb.com/data/avatars/o/106/106252.jpg?1499807823)
 - [box texture](https://www.deviantart.com/dactilardesign/art/Crate-generator-342135330)
 - [wood texture](https://wallpapersafari.com/w/rgL7NY)
