@@ -184,15 +184,14 @@ void WorldModel::generatePenguins()
 	fastNoise.SetSeed(0xbaedeadf);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int penguinCtr = 0;
-	const int MAX_PENGUINS = 20;
-
+	
 	for (int i = 0; i < 100; i++)
 	{
 		for (int j = 0; j < 100; j++)
 		{
-			float noiseVal = fastNoise.GetNoise(i * 3, j * 3); // skip blocks 
+			float noiseVal = fastNoise.GetNoise(i * parameters.penguinSpread, j * parameters.penguinSpread); // skip blocks 
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && noiseVal > 0.82 && rand() % 6 == 0 && penguinCtr < MAX_PENGUINS)
+			if (terrainHeight >= -0.1 && noiseVal > parameters.penguinFrequency && rand() % parameters.penguinDensity == 0 && penguinCtr < parameters.penguinCap)
 			{
 				PenguinModel* penguino = new PenguinModel();
 				penguino->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);

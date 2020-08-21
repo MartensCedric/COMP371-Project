@@ -13,7 +13,7 @@
 class PenguinModel : public SimpleModel {
 public:
 	PenguinModel();
-	void setBeakShader(int shaderID);
+	//void setBeakShader(int shaderID);
 
 	ConeModel* beak;
 };
