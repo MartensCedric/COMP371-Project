@@ -761,17 +761,6 @@ int main(int argc, char*argv[])
 				(*it)->scale(0.95, 0.95, 0.95);
 			}
 		}
-
-		// Reposition models
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->reset();
-				randomX = rand() % 51 + (-25);
-				randomY = rand() % 51 + (-25);
- 				(*it)->translate(randomX, 3.5, randomY);
-			}
-		}
     }
     
     // Shutdown GLFW
