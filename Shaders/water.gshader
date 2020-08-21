@@ -13,7 +13,7 @@ out vec3 vertexNormal;
 
 float get_wave_height(float x, float y)
 {
-	return 0.2*sin(x + time_passed/10.0);
+	return 0.45f*sin(x + time_passed);
 }
 
 void main() {
