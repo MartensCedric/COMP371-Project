@@ -34,64 +34,22 @@ If the above steps do not result in a new window popping up to render the graphi
 ## Linux
 
 ### To compile from the CLI
-`make`
+
+1. `cd COMP371-Project/Source`
+2. `make`
 
 ## Controls
 
 ### Keyboard inputs
 
-- `shift + w` --> move model forward (continuous)
-- `shift + a` --> move model left (continuous)
-- `shift + s` --> move model backward (continuous)
-- `shift + d` --> move model right (continuous)
-
-- `ctrl + w` --> move lower model part forward (continuous)
-- `ctrl + a` --> move lower model part left (continuous)
-- `ctrl + s` --> move lower model part backward (continuous)
-- `ctrl + d` --> move lower model part right (continuous)
-
-- `alt + w` --> move upper model part forward (continuous)
-- `alt + a` --> move upper model part left (continuous)
-- `alt + s` --> move upper model part backward (continuous)
-- `alt + d` --> move upper model part right (continuous)
-
-- `ctrl + ↑` --> move model forward (discrete)
-- `ctrl + ↓` --> move model left (discrete)
-- `ctrl + ←` --> move model backward (discrete)
-- `ctrl + →` --> move model right (discrete)
-
-- `alt + ↑` --> move lower model part forward (discrete)
-- `alt + ↓` --> move lower model part left (discrete)
-- `alt + ←` --> move lower model part backward (discrete)
-- `alt + →` --> move lower model part right (discrete)
-
-- `shift + ↑` --> move upper model part forward (discrete)
-- `shift + ↓` --> move upper model part left (discrete)
-- `shift + ←` --> move upper model part backward (discrete)
-- `shift + →` --> move upper model part right (discrete)
+- `w` --> walk forward
+- `a` --> walk left
+- `s` --> walk backward
+- `d` --> walk right
 
 - `u` --> scale up model
 - `j` --> scale down model
 
-- `shift + q` --> move model up
-- `shift + e` --> move model down
-
-- `a` --> rotate left about Y axis
-- `d` --> rotate right about Y axis
-- `q` --> rotate left about X axis
-- `e` --> rotate right about X axis
-- `z` --> rotate left about Z axis
-- `c` --> rotate right about Z axis
-
-- `enter + a` --> rotate left about Y axis (discrete)
-- `enter + d` --> rotate right about Y axis (discrete)
-
-- `↑` --> rotate world anti-clockwise about y axis
-- `↓` --> rotate world clockwise about y axis
-- `←` --> rotate world clockwise about x axis
-- `→` --> rotate world anti-clockwise about x axis
-- `page up` --> move world forward
-- `page down` --> move world backward
 - `home` --> set world orientation to home position
 
 - `Left Mouse Click + Move Mouse up/down` --> Zoom out/in
