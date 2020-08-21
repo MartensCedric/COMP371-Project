@@ -203,7 +203,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 	}
 
-	// Rotate World Orientation UP
+	// NOTE: clockwise is defined relative to the origin vectors outward direction of corresponding axis
+	// Rotate World Orientation anti-clockwise about Y axis
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		world->rotate(0, 1, 0, -5);
+
+		// Sort the models according to their z position 
+		// For correct blending 
+		sort(world->models.begin(), world->models.end(), &models_sort);
+		sort(world->children.begin(), world->children.end(), &models_sort);
+	}
+
+	// Rotate World Orientation clockwise about Y axis
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
@@ -216,17 +230,41 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		sort(world->children.begin(), world->children.end(), &models_sort);
 	}
 
-	// Rotate World Orientation Down
+	// Rotate World Orientation clockwise about X axis
 	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
 		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
-		glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		world->rotate(0, 1, 0, -5);
+		glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		world->rotate(1, 0, 0, -5);
 
 		// Sort the models according to their z position 
 		// For correct blending 
 		sort(world->models.begin(), world->models.end(), &models_sort);
 		sort(world->children.begin(), world->children.end(), &models_sort);
+	}
+
+	// Rotate World Orientation anti-clockwise about X axis
+	if (!glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) &&
+		!glfwGetKey(window, GLFW_KEY_LEFT_ALT) &&
+		glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		world->rotate(1, 0, 0, 5);
+
+		// Sort the models according to their z position 
+		// For correct blending 
+		sort(world->models.begin(), world->models.end(), &models_sort);
+		sort(world->children.begin(), world->children.end(), &models_sort);
+	}
+
+	// Move world back
+	if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+	{
+		world->translate(0, 0, -1);
+	}
+	// move world forward
+	else if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+	{
+		world->translate(0, 0, 1);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_HOME)) {
@@ -451,6 +489,7 @@ int main(int argc, char*argv[])
 	world->setGridShader(passthroughShader);
 	world->setWaterShader(waterShader);
 	world->setTerrainShader(terrainShader);
+	//world->setPenguinBeaksShader(passthroughShader);
 
 	DirectionalLight* worldLight = new DirectionalLight();
 	world->setLight(worldLight);
@@ -517,8 +556,6 @@ int main(int argc, char*argv[])
 			(*it)->setShader(modelShader);
 
 		world->draw();
-
-
 
         // End frame
         glfwSwapBuffers(window);
@@ -722,17 +759,6 @@ int main(int argc, char*argv[])
 			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
 			{
 				(*it)->scale(0.95, 0.95, 0.95);
-			}
-		}
-
-		// Reposition models
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-			for (std::vector<Model*>::iterator it = world->models.begin(); it != world->models.end(); it++)
-			{
-				(*it)->reset();
-				randomX = rand() % 51 + (-25);
-				randomY = rand() % 51 + (-25);
- 				(*it)->translate(randomX, 3.5, randomY);
 			}
 		}
     }

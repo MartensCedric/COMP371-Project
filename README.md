@@ -90,6 +90,8 @@ If the above steps do not result in a new window popping up to render the graphi
 - `↓` --> rotate world clockwise about y axis
 - `←` --> rotate world clockwise about x axis
 - `→` --> rotate world anti-clockwise about x axis
+- `page up` --> move world forward
+- `page down` --> move world backward
 - `home` --> set world orientation to home position
 
 - `Left Mouse Click + Move Mouse up/down` --> Zoom out/in
