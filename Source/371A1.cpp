@@ -87,6 +87,12 @@ bool hasMovedLeft = false;
 bool hasTurnedRight = false;
 bool hasTurnedLeft = false;
 
+bool disableWalking = false;
+bool topCameraUsed = false;
+bool mainCameraAllowed = false;
+glm::vec3 savedLookVec;
+glm::vec3 savedPosition;
+
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
 	float scaledWidth = windowWidth*scale;
@@ -577,11 +583,40 @@ int main(int argc, char*argv[])
 				tiltDirection = glm::vec3(1.0f);
 			}
 		}
+
+		//World Camera position
+		if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+		{
+			disableWalking = true;
+			topCameraUsed = true;
+			mainCameraAllowed = true;
+
+			//save current camera position
+			savedLookVec = glm::normalize(camera->lookAtPos);
+			float x = camera->position.x + walkSpeed * delta * savedLookVec.x;
+			float z = camera->position.z + walkSpeed * delta * savedLookVec.z;
+			savedPosition = glm::vec3(x, world->getTerrainHeight(x, z) + cameraHeightFromTerrain, z);
+
+			//change camera to show overview
+			camera->setPosition(glm::vec3(0.0f, 40.0f, 60.0f));
+			camera->setLookAtPos(glm::vec3(0.0f, 0.0f, 10.0f));
+		}
+
+		//Return to player camera position
+		if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && topCameraUsed && mainCameraAllowed)
+		{
+			disableWalking = false;
+			mainCameraAllowed = false; //if main camera is being used, then must use top camera before using main camera again
+
+			camera->setPosition(savedPosition);
+			camera->setLookAtPos(savedLookVec);
+
+		}
 		
 		//Character controls
 
 		// move forward
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && !disableWalking)
 		{
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x + walkSpeed * delta * lookVec.x;
@@ -591,7 +626,7 @@ int main(int argc, char*argv[])
 		}
 
 		// move backwards
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && !disableWalking)
 		{
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			float x = camera->position.x - walkSpeed * delta * lookVec.x;
@@ -601,7 +636,7 @@ int main(int argc, char*argv[])
 		}
 
 		// move left
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && !disableWalking)
 		{
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			glm::vec3 movementVec = glm::normalize(glm::cross(camera->up, lookVec));
@@ -612,7 +647,7 @@ int main(int argc, char*argv[])
 		}
 
 		// move right
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && !disableWalking)
 		{
 			glm::vec3 lookVec = glm::normalize(camera->lookAtPos - camera->position);
 			glm::vec3 movementVec = glm::normalize(glm::cross(lookVec, camera->up));
