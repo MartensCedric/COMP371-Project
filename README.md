@@ -1,42 +1,11 @@
 # COMP371-Project
 Git Repository for the project
 
-## Windows
-
-### Building with VisualStudio 2017
-
-0. When installing VS2017, make sure that you include the installation of the Windows SDK version 10.0.16299.0
-1. Start VisualStudio 2017, open the .sln file in `VS2017` folder.
-2. In the 'Solution Explorer' click the 'Solutions and Folders' button so that you can see all the folders/files.
-
-![img_0](https://i.imgur.com/aBwSKr0.png)
-
-3. Click the `Main.cpp` inside the `Source` folder.
-
-4. You should see the `Local Windows Debugger` button at the top, clicking this should build the project and launch the executable. If you don't see this option or it doesn't work, continue with the steps below:
-
-5. Click the dropdown next to the green arrow at the top, make sure it has 'Current Document (Main.cpp)' selected.
-
-![img_1](https://i.imgur.com/85hzUmy_d.webp?maxwidth=728&fidelity=grand)
-
-6. If you already built the project before, delete the executable `COMP371-Project/Bin/Labs-Debug`
-
-![img_3](https://i.imgur.com/n0xEreA_d.webp?maxwidth=728&fidelity=grand)
-
-7. Click the green arrow to build and launch the code.
-
-NOTE: The automatic running of the executable may not work (error message contains: "Unable to start program...").
-
-![img_2](https://i.imgur.com/W1ytNYT_d.webp?maxwidth=728&fidelity=grand)
-
-If the above steps do not result in a new window popping up to render the graphics, then navigate to and run the newly generated executable `COMP371-Project/Bin/Labs-Debug` by double clicking it.
-
 ## Linux
 
-### To compile from the CLI
-
-1. `cd COMP371-Project/Source`
-2. `make`
+This project only builds on Linux and is kind of complicated. If you want to build it on your machine. Please email
+the team, we will provide the steps to build as well as the libraries. You can build on Windows but you must turn the macro
+SHOW_GUI to 0 and you won't be able to show the GUI.
 
 ## Controls
 
