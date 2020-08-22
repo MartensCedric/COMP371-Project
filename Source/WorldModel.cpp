@@ -16,7 +16,29 @@
 
 #define OS_Windows 1
 #include "../FastNoise.h"
+#include <time.h>
 #endif
+
+CloudModel::CloudModel() {
+	setupAttribPointer();
+	srand(time(0));
+	SimpleModel* cloudCenter = new UnitCubeModel();
+	double cloudCenterX = rand() % (36 - 15 + 1) + 15;
+	double cloudCenterZ = rand() % (42 - 18 + 1) + 18;
+
+	cloudCenter->scale(cloudCenterX, 5, cloudCenterZ);
+	cloudCenter->translate(0, 17, 0);
+
+	SimpleModel* cloudBottom = new UnitCubeModel();
+	double cloudBottomX = rand() % (12 - 5 + 1) + 5;
+	double cloudBottomZ = rand() %  (16 - 8 + 1) + 8;
+
+	cloudBottom->scale(cloudBottomX, 3, cloudBottomZ);
+	cloudBottom->translate(0,12, 0);
+	addChild(cloudBottom);
+	addChild(cloudCenter);
+
+};
 
 // NOTE: "left" and "right" are from the perspective of the viewer looking at a penguin directly facing them
 PenguinModel::PenguinModel() {
@@ -157,6 +179,14 @@ void WorldModel::setSphereShader(int shaderProgram)
 	}
 }
 
+void WorldModel::setCloudsShader(int shaderProgram)
+{
+	for (auto it = clouds.begin(); it != clouds.end(); it++)
+	{
+		(*it)->setShader(shaderProgram);
+	}
+}
+
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
@@ -178,6 +208,21 @@ void WorldModel::generateForest()
 				treeCount++; //not using model.size() because it would conflict with other models.
 			}
 		}
+	}
+}
+
+void WorldModel::generateClouds(GLuint TextureID)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		srand(i*9+3);
+		double randomX = rand() % 201 + (-100);
+		double randomY = rand() % 9 + (-4);
+		double randomZ = rand() % 201 + (-100);
+		CloudModel* cloud = new CloudModel();
+		cloud->translate(randomX, 0, randomZ);
+		cloud->setTexture(TextureID);
+		clouds.push_back(cloud);
 	}
 }
 
@@ -242,16 +287,18 @@ WorldModel::WorldModel() {
 	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
 	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
 	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
+	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
+
+	
 	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
 	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 
-	
 
 	// Enable blending
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	grid = new GridModel();
 	// addChild(grid);
@@ -269,6 +316,7 @@ WorldModel::WorldModel() {
 	addChild(terrain);
 
 	generateStonehenge();
+	generateClouds(cloudTextureID);
 	generateHouses();
     generateForest();
 	generatePenguins();
@@ -277,4 +325,10 @@ WorldModel::WorldModel() {
 	{
 		addChild(*it);
 	}
+
+	for (auto it = clouds.begin(); it != clouds.end(); it++)
+	{
+		addChild(*it);
+	}
 };
+

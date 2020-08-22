@@ -77,7 +77,6 @@ float walkSpeed = 7.f;
 float cameraHeightFromTerrain = 5.0f;
 
 float sunTheta = 0;
-
 bool showTexture = true;
 bool isTextureToggled = false;
 
@@ -282,6 +281,7 @@ int main(int argc, char*argv[])
 	int lightAffectedShader = compileAndLinkShaders("../Shaders/phong.vshader", "../Shaders/phong.fshader");
 	int textureShader = compileAndLinkShaders("../Shaders/texture.vshader", "../Shaders/texture.fshader");
 	int textureLightShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/textureLight.fshader");
+	int cloudsShader = compileAndLinkShaders("../Shaders/textureLight.vshader", "../Shaders/clouds.fshader");
 	int passthroughShader = compileAndLinkShaders("../Shaders/passthrough.vshader", "../Shaders/passthrough.fshader");
 	int shadowShader = compileAndLinkShaders("../Shaders/shadow.vshader", "../Shaders/shadow.fshader");
 	int skyboxShader = compileAndLinkShaders("../Shaders/skybox.vshader", "../Shaders/skybox.fshader");
@@ -535,6 +535,15 @@ int main(int argc, char*argv[])
 		// Detect inputs
         glfwPollEvents();
 
+		for (auto it = world->spheres.begin(); it != world->spheres.end(); it++)
+		{
+			(*it)->setShader(showLight ? lightAffectedShader : passthroughShader);
+		}
+		for (auto it = world->clouds.begin(); it != world->clouds.end(); it++)
+		{
+			(*it)->setShader(cloudsShader);
+		}
+ 
 		world->draw();
 			
         // End frame
@@ -699,6 +708,24 @@ int main(int argc, char*argv[])
 				currentCamera->position = nextPosition;
 				currentCamera->lookAtPos = currentCamera->position + lookVec;
 			}
+		}
+
+		//Move clouds
+		for (std::vector<Model*>::iterator it = world->clouds.begin(); it != world->clouds.end(); it++)
+		{
+			(*it)->translate(0, 0, 0.06);
+		}
+
+		for (std::vector<Model*>::iterator it = world->clouds.begin(); it != world->clouds.end(); it++)
+		{
+			double randomX = rand() % 201 + (-100);
+			double randomY = rand() % 9 + (-4);
+
+			if ( (*it)->objTransMat[2, 3].z > ((double)(currentCamera->position.z) + 100)) {
+				(*it)->objTransMat[2, 3].z = -100;
+				(*it)->objTransMat[2, 3].x = randomX;
+				(*it)->objTransMat[2, 3].y = randomY;
+			}	
 		}
     }
     
