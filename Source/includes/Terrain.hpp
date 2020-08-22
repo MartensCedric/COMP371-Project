@@ -13,7 +13,7 @@
 struct Parameters
 {
 	// Parameters for the GUI
-	int seed = 0xdeadbeef;
+	float seed = 50;
 
 	float forestFrequency = 0.75; // [-1,1] Perhaps you can put it as [0,1] and then convert it to [-1,1]
 	float forestDensity = 24; // 1: Always, 300 : Somewhat dense, 1000 : Sparse (This is the modulo value).
@@ -24,7 +24,6 @@ struct Parameters
 	float penguinFrequency = 0.82;
 	float penguinDensity = 6;
 
-
 	// To be honest, I don't see that much value in adding these caps to the GUI.
 	int treeCap = 35;
 	int penguinCap = 20;
@@ -33,9 +32,9 @@ struct Parameters
 
 	//other parameters we might not want in the GUI
 	//These multiple i,j values in the noise to skip values.
-	int terrainSpread = 2;
+	float terrainSpread = 2;
 	int penguinSpread = 3;
-	int forestSpread = 1;
+	float forestSpread = 1;
 };
 
 class Terrain : public SimpleModel {

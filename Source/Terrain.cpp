@@ -64,7 +64,7 @@ std::vector<Vertex> getCubeVertices(float x, float y, float z) {
 Terrain::Terrain(Parameters* parameters)
 {
 	FastNoise noise;
-	noise.SetSeed(parameters->seed);
+	noise.SetSeed((int)parameters->seed);
 	noise.SetNoiseType(FastNoise::Simplex);
 
 	std::vector<Vertex> vertices;

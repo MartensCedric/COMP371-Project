@@ -143,7 +143,7 @@ void WorldModel::setSphereShader(int shaderProgram)
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(this->parameters.seed);
+	fastNoise.SetSeed((int)parameters.seed);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int treeCount = 0;
 
@@ -166,7 +166,7 @@ void WorldModel::generateForest()
 void WorldModel::generatePenguins()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(0xbaedeadf);
+	fastNoise.SetSeed((int)parameters.seed);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int penguinCtr = 0;
 	

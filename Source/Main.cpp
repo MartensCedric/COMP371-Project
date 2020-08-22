@@ -70,6 +70,9 @@ SliderCombo* slider3;
 SliderCombo* slider4;
 SliderCombo* slider5;
 SliderCombo* slider6;
+SliderCombo* slider7;
+SliderCombo* slider8;
+SliderCombo* slider9;
 #endif
 
 double currentYPos;
@@ -474,7 +477,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 
 //The purpose of the cursorPositionCallback is to track the mouse position, determine the variation in Y position, and to set the camera's FOV based on this variation
-static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) 
+void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) 
 {
 	currentYPos = yPos;
 
@@ -628,7 +631,7 @@ int main(int argc, char*argv[])
 	#if SHOW_GUI == 1
 	
 	// Create a GLFWwindow object
-    GLFWwindow* guiwindow = glfwCreateWindow(314, 500, "GUI", nullptr, nullptr);
+    GLFWwindow* guiwindow = glfwCreateWindow(314, 700, "GUI", nullptr, nullptr);
     if (guiwindow == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -663,6 +666,15 @@ int main(int argc, char*argv[])
 
 	gui->add_group("Penguin Density");
 	slider6 = add_slider(&(world->parameters.penguinDensity), 1, 20);
+
+	gui->add_group("Terrain Spread");
+	slider7 = add_slider(&(world->parameters.terrainSpread), 1, 10);
+
+	gui->add_group("Forest Spread");
+	slider8 = add_slider(&(world->parameters.forestSpread), 1, 10);
+
+	gui->add_group("Seed");
+	slider9 = add_slider(&(world->parameters.seed), 0, 100);
 	
     gui->add_button("Reset", reset_sliders);
 	gui->add_button("Confirm", update_parameters);
