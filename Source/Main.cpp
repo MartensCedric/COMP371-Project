@@ -426,7 +426,7 @@ int main(int argc, char*argv[])
 
 	world->setWaterShader(waterShader);
 	world->setTerrainShader(terrainShader);
-	//world->setPenguinBeaksShader(passthroughShader);
+	world->setPenguinBeaksShader(passthroughShader);
 
 	DirectionalLight* worldLight = new DirectionalLight();
 	world->setLight(worldLight);
@@ -607,7 +607,10 @@ int main(int argc, char*argv[])
 		{
 			(*it)->setShader(cloudsShader);
 		}
+		world->plane->setShader(waterShader);
  
+		world->setPenguinBeaksShader(passthroughShader);
+
 		world->draw();
 			
         // End frame

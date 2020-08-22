@@ -16,7 +16,7 @@ class CloudModel : public SimpleModel {
 class PenguinModel : public SimpleModel {
 public:
 	PenguinModel();
-	//void setBeakShader(int shaderID);
+	void setBeakShader(int shaderID);
 
 	ConeModel* beak;
 };
@@ -42,6 +42,7 @@ class WorldModel : public SimpleModel {
 		void setSphereShader(int shaderProgram);
 		void setCloudsShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
+		void setPenguinBeaksShader(int shaderProgram);
 		void generateForest();
 		void generateClouds(GLuint TextureID);
 		void generatePenguins();

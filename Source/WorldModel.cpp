@@ -62,8 +62,8 @@ PenguinModel::PenguinModel() {
 	SimpleModel* rightWing = new UnitCubeModel();
 	SimpleModel* head = new UnitCubeModel();
 	//@TODO: use Cedrics epic cone model instead of unit cube
-	//this->beak = new ConeModel(glm::vec4(1, 1, 0, 1));
-	SimpleModel* beak = new UnitCubeModel();
+	this->beak = new ConeModel(glm::vec4(1, 1, 0, 1));
+	//SimpleModel* beak = new UnitCubeModel();
 	SimpleModel* leftEyeSclera = new UnitCubeModel();
 	SimpleModel* rightEyeSclera = new UnitCubeModel();
 	SimpleModel* leftEyePupil = new UnitCubeModel();
@@ -119,8 +119,9 @@ PenguinModel::PenguinModel() {
 	leftEyePupil->setTexture(blackPupilTextureID);
 	rightEyePupil->setTexture(blackPupilTextureID);
 
-	beak->scale(0.2, 0.2, 0.7);
+	beak->scale(0.2, 1, 0.2);
 	beak->translate(0, 4, 0.9);
+	beak->rotate(1, 0, 0, 90);
 	beak->setTexture(orangeTextureID);
 
 	addChild(back);
@@ -137,6 +138,11 @@ PenguinModel::PenguinModel() {
 	addChild(rightEyeSclera);
 	addChild(rightEyePupil);
 	addChild(beak);
+}
+
+void PenguinModel::setBeakShader(int shaderProgram)
+{
+	this->beak->setShader(shaderProgram);
 }
 
 WaterModel* plane = nullptr;
@@ -213,6 +219,16 @@ void WorldModel::generateClouds(GLuint TextureID)
 		clouds.push_back(cloud);
 	}
 }
+
+void WorldModel::setPenguinBeaksShader(int shaderProgram)
+{
+	for(auto it = penguinos.begin(); it != penguinos.end(); it++)
+	{
+		(*it)->setBeakShader(shaderProgram);
+	}
+
+}
+
 
 void WorldModel::generatePenguins()
 {
