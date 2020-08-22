@@ -34,69 +34,30 @@ If the above steps do not result in a new window popping up to render the graphi
 ## Linux
 
 ### To compile from the CLI
-`make`
+
+1. `cd COMP371-Project/Source`
+2. `make`
 
 ## Controls
 
 ### Keyboard inputs
 
-- `shift + w` --> move model forward (continuous)
-- `shift + a` --> move model left (continuous)
-- `shift + s` --> move model backward (continuous)
-- `shift + d` --> move model right (continuous)
-
-- `ctrl + w` --> move lower model part forward (continuous)
-- `ctrl + a` --> move lower model part left (continuous)
-- `ctrl + s` --> move lower model part backward (continuous)
-- `ctrl + d` --> move lower model part right (continuous)
-
-- `alt + w` --> move upper model part forward (continuous)
-- `alt + a` --> move upper model part left (continuous)
-- `alt + s` --> move upper model part backward (continuous)
-- `alt + d` --> move upper model part right (continuous)
-
-- `ctrl + ↑` --> move model forward (discrete)
-- `ctrl + ↓` --> move model left (discrete)
-- `ctrl + ←` --> move model backward (discrete)
-- `ctrl + →` --> move model right (discrete)
-
-- `alt + ↑` --> move lower model part forward (discrete)
-- `alt + ↓` --> move lower model part left (discrete)
-- `alt + ←` --> move lower model part backward (discrete)
-- `alt + →` --> move lower model part right (discrete)
-
-- `shift + ↑` --> move upper model part forward (discrete)
-- `shift + ↓` --> move upper model part left (discrete)
-- `shift + ←` --> move upper model part backward (discrete)
-- `shift + →` --> move upper model part right (discrete)
+- `w` --> walk forward
+- `a` --> walk left
+- `s` --> walk backward
+- `d` --> walk right
 
 - `u` --> scale up model
 - `j` --> scale down model
 
-- `shift + q` --> move model up
-- `shift + e` --> move model down
-
-- `a` --> rotate left about Y axis
-- `d` --> rotate right about Y axis
-- `q` --> rotate left about X axis
-- `e` --> rotate right about X axis
-- `z` --> rotate left about Z axis
-- `c` --> rotate right about Z axis
-
-- `enter + a` --> rotate left about Y axis (discrete)
-- `enter + d` --> rotate right about Y axis (discrete)
-
-- `↑` --> rotate world anti-clockwise about y axis
-- `↓` --> rotate world clockwise about y axis
-- `←` --> rotate world clockwise about x axis
-- `→` --> rotate world anti-clockwise about x axis
-- `page up` --> move world forward
-- `page down` --> move world backward
 - `home` --> set world orientation to home position
 
 - `Left Mouse Click + Move Mouse up/down` --> Zoom out/in
 - `Right Mouse Click + Move Mouse left/right` --> Pan
 - `Middle Mouse Click + Move Mouse up/down` --> Tilt
+
+- `1` --> switch to player camera
+- `2` --> switch to world camera
 
 - `l` --> switch to lines rendering mode
 - `p` --> switch to points rendering mode
@@ -111,16 +72,22 @@ If the above steps do not result in a new window popping up to render the graphi
 `MANGOHUD_DLSYM=1 mangohud ./exec`
 
 # Credits
-- learnopengl.com (Light code, shadows, skybox)
-- Noise library FastNoise (MIT)
-- bark texture (https://forums.rpgmakerweb.com/data/avatars/o/106/106252.jpg?1499807823)
-- box texture (https://www.deviantart.com/dactilardesign/art/Crate-generator-342135330)
-- wood texture (https://wallpapersafari.com/w/rgL7NY)
-- rock texture (http://textures101.com/view/439/next/Rock/Rock_Seamless)
-- leaves texture (https://www.lanrentuku.com/bg/a/green_4.html)
-- log texture (https://www.wildtextures.com/free-textures/wood/log-cabin-wall-texture/)
-- dark log texture (https://www.dreamstime.com/stock-photo-old-wooded-wall-fragment-logs-background-image77358585)
-- door texture (http://spiralgraphics.biz/packs/building_cottage/index.htm?1)
-- window texture (http://spiralgraphics.biz/packs/building_cottage/index.htm?4#anchor)
-- snow texture (https://www.deviantart.com/aniuk-storage/art/Snow-14-417975512)
-- grass texture (https://www.pinterest.ca/pin/277464027026735524/)
+- [Light code, shadows, skybox](https://learnopengl.com)
+- [Noise library FastNoise (MIT)](https://github.com/Auburn/FastNoise)
+- [bark texture](https://forums.rpgmakerweb.com/data/avatars/o/106/106252.jpg?1499807823)
+- [box texture](https://www.deviantart.com/dactilardesign/art/Crate-generator-342135330)
+- [wood texture](https://wallpapersafari.com/w/rgL7NY)
+- [rock texture](http://textures101.com/view/439/next/Rock/Rock_Seamless)
+- [leaves texture](https://www.lanrentuku.com/bg/a/green_4.html)
+- [log texture](https://www.wildtextures.com/free-textures/wood/log-cabin-wall-texture/)
+- [dark log texture](https://www.dreamstime.com/stock-photo-old-wooded-wall-fragment-logs-background-image77358585)
+- [door texture](http://spiralgraphics.biz/packs/building_cottage/index.htm?1)
+- [window texture](http://spiralgraphics.biz/packs/building_cottage/index.htm?4#anchor)
+- [snow texture](https://www.deviantart.com/aniuk-storage/art/Snow-14-417975512)
+- [grass texture](https://www.pinterest.ca/pin/277464027026735524/)
+- [penguin black fur texture](https://i.pinimg.com/originals/76/cb/5b/76cb5b3cfc95a253b5da5095b3ea85e9.jpg)
+- [penguin white fur texture](https://www.pinterest.ca/pin/827395762770844717/)
+- [penguin orange beak texture](http://blackbirdsycamore.com/wp-content/uploads/2011/09/Hall-Paint.jpg)
+- [penguin pearl white sclera texture](https://www.realmilkpaint.com/wp-content/uploads/Pearl_Edited_2018.jpg)
+- [penguin pitch black pupil texture](https://lh3.googleusercontent.com/WQG2R-GsWuaGHlpSaZTzZhmD2iXJfl-9dI06G9W7nDKiojV4Tgy7uBeMWBg5zlLcN4eSbwgBCuQR3bpa8hf-=s400)
+

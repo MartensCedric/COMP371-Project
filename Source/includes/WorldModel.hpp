@@ -8,6 +8,11 @@
 #include "LoadTexture.hpp"
 #include "ConeModel.hpp"
 
+class CloudModel : public SimpleModel {
+	public:
+		CloudModel();
+};
+
 class PenguinModel : public SimpleModel {
 public:
 	PenguinModel();
@@ -22,6 +27,7 @@ class WorldModel : public SimpleModel {
 	public:
 		std::vector<Model*> models;
 		std::vector<Model*> spheres;
+		std::vector<Model*> clouds;
 		std::vector<PenguinModel*> penguinos; // MEMES BY CEDRIC SMARTENS
 
 		WaterModel* plane = nullptr;
@@ -34,8 +40,10 @@ class WorldModel : public SimpleModel {
 		void setModelShader(int shaderProgram);
 		void setWaterShader(int shaderProgram);
 		void setSphereShader(int shaderProgram);
+		void setCloudsShader(int shaderProgram);
 		void setTerrainShader(int shaderProgram);
 		void generateForest();
+		void generateClouds(GLuint TextureID);
 		void generatePenguins();
 		void generateHouses();
 		void generateStonehenge();

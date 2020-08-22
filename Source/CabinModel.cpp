@@ -26,6 +26,12 @@ CabinModel::CabinModel() {
 	GLuint woodTextureID = loadTexture("../Assets/Textures/wood.jpg");
 
 
+
+	collider = new BoxCollider();
+	collider->height = 100;
+	collider->width = 4;
+	collider->length = 4;
+
 	//choose random house type
 
 	//choose random number between 1 and 3

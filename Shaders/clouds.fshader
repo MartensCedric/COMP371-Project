@@ -52,6 +52,6 @@ void main()
        shadowScalar = 1 - dot(vec3(0.0f,1.0f,0.0f), lightDirectionNorm);
    vec3 finalLight = kAmbient * ambientColor + kDiffuse * shadowScalar * diffuseColor + kSpecular * shadowScalar * specularColor;
    
-   FragColor = vec4(finalLight.rgb, 1.0f); //This is the actual line we want to have
+   FragColor = vec4(finalLight.rgb, 0.3f); //This is the actual line we want to have
    //FragColor = vec4(shadow_scalar(), shadow_scalar(), shadow_scalar(), 1.0); //Use this line to debug and see in white/black shadows
 }
