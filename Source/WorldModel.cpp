@@ -227,11 +227,11 @@ WorldModel::WorldModel() {
 
 void WorldModel::updateParameters()
 {
-	for (auto it = children.begin(); it != children.end(); it++)
+	/*for (auto it = children.begin(); it != children.end(); it++)
 		delete *it;
 	
 	for (auto it = models.begin(); it != models.end(); it++)
-		delete *it;
+		delete *it;*/
 
 	this->models.clear();
 	this->children.clear();

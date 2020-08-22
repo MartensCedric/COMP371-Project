@@ -148,12 +148,15 @@ SliderCombo* add_slider(float* value, float min, float max) {
 		tb->set_value(s);
 
 		*value = v;
-		world->updateParameters();
 	});
 
 	gui->add_widget("Slider", panel);
 
 	return slidercombo;
+}
+
+void update_parameters() {
+	world->updateParameters();
 }
 
 void reset_sliders() {
@@ -662,6 +665,7 @@ int main(int argc, char*argv[])
 	slider6 = add_slider(&(world->parameters.penguinDensity), 1, 20);
 	
     gui->add_button("Reset", reset_sliders);
+	gui->add_button("Confirm", update_parameters);
 
     screen->set_visible(true);
 	screen->perform_layout();
