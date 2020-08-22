@@ -117,11 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Main.cpp" />
-    <ClCompile Include="..\Source\AxesModel.cpp" />
     <ClCompile Include="..\Source\CabinModel.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\ConeModel.cpp" />
-    <ClCompile Include="..\Source\GridModel.cpp" />
     <ClCompile Include="..\Source\LoadTexture.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
     <ClCompile Include="..\Source\StonehengeModel.cpp" />
@@ -137,12 +135,10 @@
     <ClCompile Include="..\ThirdParty\FastNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\includes\AxesModel.hpp" />
     <ClInclude Include="..\Source\includes\CabinModel.hpp" />
     <ClInclude Include="..\Source\includes\Camera.hpp" />
     <ClInclude Include="..\Source\includes\DirectionalLight.hpp" />
     <ClInclude Include="..\Source\includes\ConeModel.hpp" />
-    <ClInclude Include="..\Source\includes\GridModel.hpp" />
     <ClInclude Include="..\Source\includes\LoadTexture.hpp" />
     <ClInclude Include="..\Source\includes\Model.hpp" />
     <ClInclude Include="..\Source\includes\StonehengeModel.hpp" />

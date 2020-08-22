@@ -9,9 +9,38 @@
 #include "../Source/includes/SimpleModel.hpp"
 #endif
 
+
+struct Parameters
+{
+	// Parameters for the GUI
+	float seed = 50;
+
+	float forestFrequency = 0.75; // [-1,1] Perhaps you can put it as [0,1] and then convert it to [-1,1]
+	float forestDensity = 24; // 1: Always, 300 : Somewhat dense, 1000 : Sparse (This is the modulo value).
+
+	float terrainHeight = 10;
+	float waterHeight = -2;
+
+	float penguinFrequency = 0.82;
+	float penguinDensity = 6;
+
+	// To be honest, I don't see that much value in adding these caps to the GUI.
+	int treeCap = 35;
+	int penguinCap = 20;
+	int cabinCap = 5;
+	int	stonehengeCap = 1;
+
+	//other parameters we might not want in the GUI
+	//These multiple i,j values in the noise to skip values.
+	float terrainSpread = 2;
+	int penguinSpread = 3;
+	float forestSpread = 1;
+};
+
 class Terrain : public SimpleModel {
 public:
-	Terrain();
+	Terrain(Parameters* parameters);
+	~Terrain();
 	Terrain(Vertex* vertexArray, int vertexCount, float** heightmap, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera));
 	static const int SIZE = 100;
 	float** heightmap;

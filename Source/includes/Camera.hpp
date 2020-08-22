@@ -14,6 +14,7 @@ class Camera {
         int height;
 
         Camera(int width, int height);
+        ~Camera();
         void moveForward();
         void moveBack();
         void moveLeft();

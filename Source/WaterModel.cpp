@@ -13,7 +13,6 @@ WaterModel::WaterModel() {
 		Vertex(glm::vec3(1, 0, 1), color, normal, glm::vec2(2, 0)),
 	};
 
-
 	*this = WaterModel(&vertices[0], vertices.size(), [](int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera) {
 		GLuint worldMatrixLocation = glGetUniformLocation(shaderProgram, "worldMatrix");
 		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &objRBT[0][0]); //send worldMatrix data to that memory location
@@ -23,7 +22,8 @@ WaterModel::WaterModel() {
 	setupAttribPointer();
 }
 
-
 WaterModel::WaterModel(Vertex* vertexArray, int vertexCount, void(*drawFunc)(int vertexCount, int shaderProgram, glm::mat4 objRBT, Camera* camera))
 	: SimpleModel(vertexArray, vertexCount, drawFunc)
 {}
+
+WaterModel::~WaterModel() {}

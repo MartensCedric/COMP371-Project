@@ -139,28 +139,11 @@ PenguinModel::PenguinModel() {
 	addChild(beak);
 }
 
-/*
-void PenguinModel::setBeakShader(int shaderID) {
-	this->beak->setShader(shaderID);
-}
-*/
-
 WaterModel* plane = nullptr;
-GridModel* grid = nullptr;
-AxesModel* axes = nullptr;
 Terrain* terrain = nullptr;
 
-void WorldModel::setGridShader(int shaderProgram) { grid->setShader(shaderProgram); }
-void WorldModel::setAxesShader(int shaderProgram) { axes->setShader(shaderProgram); }
 void WorldModel::setWaterShader(int shaderProgram) { plane->setShader(shaderProgram); }
 void WorldModel::setTerrainShader(int shaderProgram) { terrain->setShader(shaderProgram); }
-//void WorldModel::setPenguinBeaksShader(int shaderProgram)
-/*{ 
-	for (auto it = penguinos.begin(); it != penguinos.end(); it++)
-	{
-		(*it)->setBeakShader(shaderProgram);
-	}
-}*/
 
 float WorldModel::getTerrainHeight(float x, float z) 
 {
@@ -196,16 +179,15 @@ void WorldModel::setCloudsShader(int shaderProgram)
 void WorldModel::generateForest()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(0xdeadbeef);
+	fastNoise.SetSeed((int)parameters.seed);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int treeCount = 0;
-	const int MAX_TREES = 35;
-	
+
 	for (int i = 0; i < 100; i++) {
 		for (int j = 0; j < 100; j++) {
-			float noiseVal = fastNoise.GetNoise(i, j);
+			float noiseVal = fastNoise.GetNoise(i * parameters.forestSpread, j * parameters.forestSpread);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.175 && noiseVal > 0.75 && rand() % 24 == 0 && treeCount < MAX_TREES)
+			if (terrainHeight >= -0.175 && noiseVal > parameters.forestFrequency && rand() % (int) parameters.forestDensity == 0 && treeCount < parameters.treeCap)
 			{
 				TreeModel* tree = new TreeModel();
 				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
@@ -235,18 +217,17 @@ void WorldModel::generateClouds(GLuint TextureID)
 void WorldModel::generatePenguins()
 {
 	FastNoise fastNoise;
-	fastNoise.SetSeed(0xbaedeadf);
+	fastNoise.SetSeed((int)parameters.seed);
 	fastNoise.SetNoiseType(FastNoise::Simplex);
 	int penguinCtr = 0;
-	const int MAX_PENGUINS = 20;
-
+	
 	for (int i = 0; i < 100; i++)
 	{
 		for (int j = 0; j < 100; j++)
 		{
-			float noiseVal = fastNoise.GetNoise(i * 3, j * 3); // skip blocks 
+			float noiseVal = fastNoise.GetNoise(i * parameters.penguinSpread, j * parameters.penguinSpread); // skip blocks 
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && noiseVal > 0.82 && rand() % 6 == 0 && penguinCtr < MAX_PENGUINS)
+			if (terrainHeight >= -0.1 && noiseVal > parameters.penguinFrequency && rand() % (int) parameters.penguinDensity == 0 && penguinCtr < parameters.penguinCap)
 			{
 				PenguinModel* penguino = new PenguinModel();
 				penguino->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
@@ -267,7 +248,7 @@ void WorldModel::generateHouses()
 	for (int i = 0; i < 100; i++) {
 		for (int j = 0; j < 100; j++) {
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && rand() % 500 == 0  && cabinCount < 5)
+			if (terrainHeight >= -0.1 && rand() % 500 == 0  && cabinCount < parameters.cabinCap)
 			{
 				CabinModel* logcabin = new CabinModel();
 				logcabin->translate(i - Terrain::SIZE / 2, terrainHeight+0.5f, j - Terrain::SIZE / 2);
@@ -283,48 +264,42 @@ void WorldModel::generateHouses()
 void WorldModel::generateStonehenge()
 {
 	StonehengeModel* stonehenge = new StonehengeModel();
-	addChild(stonehenge);
 	models.push_back(stonehenge);
 }
 
 
 WorldModel::WorldModel() {
-	// Load textures
-	GLuint boxTextureID = loadTexture("../Assets/Textures/box.png");
-	GLuint grassTextureID = loadTexture("../Assets/Textures/grass.jpg");
-	GLuint goldTextureID = loadTexture("../Assets/Textures/gold.jpg");
-	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
-
-	
-	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
-	GLuint leavesTextureID = loadTexture("../Assets/Textures/leaves.jpg");
-	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
-	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
-
 
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	grid = new GridModel();
-	// addChild(grid);
-	
+	updateParameters();
+};
+
+void WorldModel::updateParameters()
+{
+	GLuint cloudTextureID = loadTexture("../Assets/Textures/cloud.jpg");
+
+	this->models.clear();
+	this->children.clear();
+	this->penguinos.clear();
+	this->clouds.clear();
+
+	delete plane;
 	plane = new WaterModel();
-	plane->translate(0, -2, 0);
+	plane->translate(0, parameters.waterHeight, 0);
 	addChild(plane);
 
-	axes = new AxesModel();
-	axes->translate(0, 0.1, 0);
-	addChild(axes);
-
-	terrain = new Terrain();
+	delete terrain;
+	terrain = new Terrain(&parameters);
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
 
 	generateStonehenge();
 	generateClouds(cloudTextureID);
 	generateHouses();
-    generateForest();
+	generateForest();
 	generatePenguins();
 
 	for (auto it = models.begin(); it != models.end(); it++)
@@ -337,4 +312,3 @@ WorldModel::WorldModel() {
 		addChild(*it);
 	}
 };
-
