@@ -1,13 +1,8 @@
 #pragma once
 #include "SimpleModel.hpp"
 #include "UnitCubeModel.hpp"
-#include "GridModel.hpp"
-#include "AxesModel.hpp"
-#include "SphereModel.hpp"
 #include "Shader.hpp"
 #include "LoadTexture.hpp"
-
-
 
 class TreeTrunkModel : public SimpleModel {
 public:
@@ -33,6 +28,7 @@ class TreeModel : public SimpleModel {
 	public:
 		//std::vector<Model*> models;
 		TreeModel();
+		~TreeModel();
 		std::vector<Model*> texturedElement;
 };
 

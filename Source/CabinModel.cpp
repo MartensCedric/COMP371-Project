@@ -4,8 +4,6 @@
 #include <cstdlib>
 #include <ctime>
 
-
-
 LogCabinBase::LogCabinBase() {
 	setupAttribPointer();
 
@@ -16,13 +14,11 @@ LogCabinBase::LogCabinBase() {
 	addChild(cabin);
 };
 
-
-
 CabinModel::CabinModel() {
 	// Load textures
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint trunkTextureID = loadTexture("../Assets/Textures/bark.jpg");
-	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
+	//GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 	GLuint logTextureID = loadTexture("../Assets/Textures/log.jpg");
 	GLuint log2TextureID = loadTexture("../Assets/Textures/darklog.jpg");
 	GLuint doorTextureID = loadTexture("../Assets/Textures/door.jpg");
@@ -526,3 +522,5 @@ CabinModel::CabinModel() {
 		addChild(*it);
 	}
 };
+
+CabinModel::~CabinModel() {}
