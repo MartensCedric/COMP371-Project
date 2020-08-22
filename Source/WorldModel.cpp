@@ -187,7 +187,7 @@ void WorldModel::generateForest()
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i * parameters.forestSpread, j * parameters.forestSpread);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.175 && noiseVal > parameters.treeCap && rand() % (int) parameters.forestDensity == 0 && treeCount < parameters.treeCap)
+			if (terrainHeight >= -0.175 && noiseVal > parameters.forestFrequency && rand() % (int) parameters.forestDensity == 0 && treeCount < parameters.treeCap)
 			{
 				TreeModel* tree = new TreeModel();
 				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
