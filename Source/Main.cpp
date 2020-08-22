@@ -49,11 +49,27 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <sstream>
+#include <iomanip> 
 
 WorldModel* world = nullptr;
 
 #if SHOW_GUI == 1
 nanogui::Screen *screen = nullptr;
+nanogui::FormHelper *gui = nullptr;
+nanogui::ref<nanogui::Window> nanoguiWindow = nullptr;
+
+struct SliderCombo {
+	nanogui::Slider *slider;
+	nanogui::TextBox *tb;
+};
+
+SliderCombo* slider1;
+SliderCombo* slider2;
+SliderCombo* slider3;
+SliderCombo* slider4;
+SliderCombo* slider5;
+SliderCombo* slider6;
 #endif
 
 double currentYPos;
@@ -99,6 +115,86 @@ bool hasMovedLeft = false;
 
 bool hasTurnedRight = false;
 bool hasTurnedLeft = false;
+
+#if SHOW_GUI == 1
+SliderCombo* add_slider(float* value, float min, float max) {
+	/* Create an empty panel with a horizontal layout */
+	nanogui::Widget *panel = new nanogui::Widget(nanoguiWindow);
+	panel->set_layout(new nanogui::BoxLayout(nanogui::Orientation::Horizontal, nanogui::Alignment::Middle, 0, 20));
+
+	SliderCombo* slidercombo = new SliderCombo();
+
+	/* Add a slider and set defaults */
+	slidercombo->slider = new nanogui::Slider(panel);
+	slidercombo->slider->set_value(*value);
+	slidercombo->slider->set_range(std::pair<float, float>(min, max));
+	slidercombo->slider->set_fixed_width(100);
+
+	/* Add a textbox and set defaults */
+	slidercombo->tb = new nanogui::TextBox(panel);
+	slidercombo->tb->set_fixed_size(nanogui::Vector2i(65, 25));
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << *value;
+	std::string s = stream.str();
+	slidercombo->tb->set_value(s);
+
+	nanogui::TextBox* tb = slidercombo->tb;
+
+	/* Propagate slider changes to the text box */
+	slidercombo->slider->set_callback([tb, value](float v) {
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(2) << v;
+		std::string s = stream.str();
+		tb->set_value(s);
+
+		*value = v;
+		world->updateParameters();
+	});
+
+	gui->add_widget("Slider", panel);
+
+	return slidercombo;
+}
+
+void reset_sliders() {
+	slider1->slider->set_value(world->default_parameters.terrainHeight);
+	slider2->slider->set_value(world->default_parameters.waterHeight);
+	slider3->slider->set_value(world->default_parameters.forestFrequency);
+	slider4->slider->set_value(world->default_parameters.forestDensity);
+	slider5->slider->set_value(world->default_parameters.penguinFrequency);
+	slider6->slider->set_value(world->default_parameters.penguinDensity);
+
+	std::stringstream stream1;
+	stream1 << std::fixed << std::setprecision(2) << world->default_parameters.terrainHeight;
+	std::string s1 = stream1.str();
+	slider1->tb->set_value(s1);
+
+	std::stringstream stream2;
+	stream2 << std::fixed << std::setprecision(2) << world->default_parameters.waterHeight;
+	std::string s2 = stream2.str();
+	slider2->tb->set_value(s2);
+
+	std::stringstream stream3;
+	stream3 << std::fixed << std::setprecision(2) << world->default_parameters.forestFrequency;
+	std::string s3 = stream3.str();
+	slider3->tb->set_value(s3);
+
+	std::stringstream stream4;
+	stream4 << std::fixed << std::setprecision(2) << world->default_parameters.forestDensity;
+	std::string s4 = stream4.str();
+	slider4->tb->set_value(s4);
+
+	std::stringstream stream5;
+	stream5 << std::fixed << std::setprecision(2) << world->default_parameters.penguinFrequency;
+	std::string s5 = stream5.str();
+	slider5->tb->set_value(s5);
+
+	std::stringstream stream6;
+	stream6 << std::fixed << std::setprecision(2) << world->default_parameters.penguinDensity;
+	std::string s6 = stream6.str();
+	slider6->tb->set_value(s6);
+}
+#endif
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
 	float scale = std::min(((float)width)/windowWidth, ((float)height)/windowHeight);
@@ -529,7 +625,7 @@ int main(int argc, char*argv[])
 	#if SHOW_GUI == 1
 	
 	// Create a GLFWwindow object
-    GLFWwindow* guiwindow = glfwCreateWindow(314, 363, "GUI", nullptr, nullptr);
+    GLFWwindow* guiwindow = glfwCreateWindow(314, 500, "GUI", nullptr, nullptr);
     if (guiwindow == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -541,120 +637,74 @@ int main(int argc, char*argv[])
     screen = new nanogui::Screen();
     screen->initialize(guiwindow, true);
 
-	// Create nanogui gui
-    bool enabled = true;
-
-	enum test_enum {
-    	Item1 = 0,
-    	Item2,
-    	Item3
-	};
-
 	glfwSwapInterval(0);
     glfwSwapBuffers(guiwindow);
-
-	bool bvar = true;
-	int ivar = 12345678;
-	test_enum enumval = Item2;
-	nanogui::Color colval(0.5f, 0.5f, 0.7f, 1.f);
-
-    nanogui::FormHelper *gui = new nanogui::FormHelper(screen);
-    nanogui::ref<nanogui::Window> nanoguiWindow = gui->add_window(nanogui::Vector2i(10, 10), "Customization");
-    gui->add_group("Basic types");
-    gui->add_variable("bool", bvar);
+	
+    gui = new nanogui::FormHelper(screen);
+    nanoguiWindow = gui->add_window(nanogui::Vector2i(10, 10), "Customization");
     
-    gui->add_group("Validating fields");
-    gui->add_variable("int", ivar)->set_spinnable(true);
-   
-    gui->add_group("Complex types");
-    gui->add_variable("Enumeration", enumval, enabled)->set_items({ "Item 1", "Item 2", "Item 3" });
-    gui->add_variable("Color", colval)
-       ->set_final_callback([](const nanogui::Color &c) {
-             std::cout << "ColorPicker Final Callback: ["
-                       << c.r() << ", "
-                       << c.g() << ", "
-                       << c.b() << ", "
-                       << c.w() << "]" << std::endl;
-         });
+	gui->add_group("Terrain Height");
+	slider1 = add_slider(&(world->parameters.terrainHeight), 1, 20);
 
-    gui->add_group("Other widgets");
+	gui->add_group("Water Height");
+	slider2 = add_slider(&(world->parameters.waterHeight), -5, 0);
 
-	/* Create an empty panel with a horizontal layout */
-	nanogui::Widget *panel = new nanogui::Widget(nanoguiWindow);
-	panel->set_layout(new nanogui::BoxLayout(nanogui::Orientation::Horizontal, nanogui::Alignment::Middle, 0, 20));
+	gui->add_group("Forest Frequency");
+	slider3 = add_slider(&(world->parameters.forestFrequency), -1, 1);
 
-	/* Add a slider and set defaults */
-	nanogui::Slider *slider = new nanogui::Slider(panel);
-	slider->set_value(0.5f);
-	slider->set_fixed_width(100);
+	gui->add_group("Forest Density");
+	slider4 = add_slider(&(world->parameters.forestDensity), 1, 1000);
 
-	/* Add a textbox and set defaults */
-	nanogui::TextBox *tb = new nanogui::TextBox(panel);
-	tb->set_fixed_size(nanogui::Vector2i(65, 25));
-	tb->set_value("50");
-	tb->set_units("%");
+	gui->add_group("Penguin Frequency");
+	slider5 = add_slider(&(world->parameters.penguinFrequency), 0, 1);
 
-	/* Propagate slider changes to the text box */
-	slider->set_callback([tb](float value) {
-		tb->set_value(std::to_string((int) (value * 100)));
-	});
-
-	gui->add_widget("Slider", panel);
-
-    gui->add_button("Reset", []() { std::cout << "Button pressed." << std::endl; });
+	gui->add_group("Penguin Density");
+	slider6 = add_slider(&(world->parameters.penguinDensity), 1, 20);
+	
+    gui->add_button("Reset", reset_sliders);
 
     screen->set_visible(true);
 	screen->perform_layout();
     nanoguiWindow->center();
 	screen->clear();
     
-    glfwSetCursorPosCallback(guiwindow,
-            [](GLFWwindow *, double x, double y) {
-            screen->cursor_pos_callback_event(x, y);
-        }
-    );
+    glfwSetCursorPosCallback(guiwindow, [](GLFWwindow *, double x, double y) {
+        screen->cursor_pos_callback_event(x, y);
+    });
 
-    glfwSetMouseButtonCallback(guiwindow,
-        [](GLFWwindow *, int button, int action, int modifiers) {
-            screen->mouse_button_callback_event(button, action, modifiers);
-        }
-    );
+    glfwSetMouseButtonCallback(guiwindow, [](GLFWwindow *, int button, int action, int modifiers) {
+        screen->mouse_button_callback_event(button, action, modifiers);
+    });
 
-    glfwSetKeyCallback(guiwindow,
-        [](GLFWwindow *, int key, int scancode, int action, int mods) {
-            screen->key_callback_event(key, scancode, action, mods);
-        }
-    );
+    glfwSetKeyCallback(guiwindow, [](GLFWwindow *, int key, int scancode, int action, int mods) {
+        screen->key_callback_event(key, scancode, action, mods);
+	});
 
-    glfwSetCharCallback(guiwindow,
-        [](GLFWwindow *, unsigned int codepoint) {
-            screen->char_callback_event(codepoint);
-        }
-    );
+    glfwSetCharCallback(guiwindow, [](GLFWwindow *, unsigned int codepoint) {
+        screen->char_callback_event(codepoint);
+    });
 
-    glfwSetDropCallback(guiwindow,
-        [](GLFWwindow *, int count, const char **filenames) {
-            screen->drop_callback_event(count, filenames);
-        }
-    );
+    glfwSetDropCallback(guiwindow, [](GLFWwindow *, int count, const char **filenames) {
+        screen->drop_callback_event(count, filenames);
+    });
 
-    glfwSetScrollCallback(guiwindow,
-        [](GLFWwindow *, double x, double y) {
-            screen->scroll_callback_event(x, y);
-       }
-    );
+    glfwSetScrollCallback(guiwindow, [](GLFWwindow *, double x, double y) {
+        screen->scroll_callback_event(x, y);
+	});
 
-    glfwSetFramebufferSizeCallback(guiwindow,
-        [](GLFWwindow *, int width, int height) {
-            screen->resize_callback_event(width, height);
-        }
-	);
+    glfwSetFramebufferSizeCallback(guiwindow, [](GLFWwindow *, int width, int height) {
+        screen->resize_callback_event(width, height);
+    });
+
 	#endif
 
     // Entering Main Loop (this loop runs every frame)
     while(!glfwWindowShouldClose(window)) {
 		glfwMakeContextCurrent(window);
 		
+		world->setCamera(camera);
+		world->setLight(worldLight);
+
 		double newTime = glfwGetTime();
 		delta = newTime - currentTime;
 		currentTime = newTime;

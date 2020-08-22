@@ -28,6 +28,7 @@ class WorldModel : public SimpleModel {
 		Terrain* terrain = nullptr;
 
 		Parameters parameters;
+		Parameters default_parameters;
 
 		WorldModel();
 		void setModelShader(int shaderProgram);

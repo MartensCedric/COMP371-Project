@@ -16,13 +16,13 @@ struct Parameters
 	int seed = 0xdeadbeef;
 
 	float forestFrequency = 0.75; // [-1,1] Perhaps you can put it as [0,1] and then convert it to [-1,1]
-	int forestDensity = 24; // 1: Always, 300 : Somewhat dense, 1000 : Sparse (This is the modulo value).
+	float forestDensity = 24; // 1: Always, 300 : Somewhat dense, 1000 : Sparse (This is the modulo value).
 
-	float terrainHeight = 10.0f;
-	float waterHeight = -2.f;
+	float terrainHeight = 10;
+	float waterHeight = -2;
 
-	float penguinFrequency = 0.82f;
-	int penguinDensity = 6;
+	float penguinFrequency = 0.82;
+	float penguinDensity = 6;
 
 
 	// To be honest, I don't see that much value in adding these caps to the GUI.

@@ -151,7 +151,7 @@ void WorldModel::generateForest()
 		for (int j = 0; j < 100; j++) {
 			float noiseVal = fastNoise.GetNoise(i * parameters.forestSpread, j * parameters.forestSpread);
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.175 && noiseVal > parameters.treeCap && rand() % parameters.forestDensity == 0 && treeCount < parameters.treeCap)
+			if (terrainHeight >= -0.175 && noiseVal > parameters.treeCap && rand() % (int) parameters.forestDensity == 0 && treeCount < parameters.treeCap)
 			{
 				TreeModel* tree = new TreeModel();
 				tree->translate(i - Terrain::SIZE / 2, terrainHeight, j - Terrain::SIZE / 2);
@@ -176,7 +176,7 @@ void WorldModel::generatePenguins()
 		{
 			float noiseVal = fastNoise.GetNoise(i * parameters.penguinSpread, j * parameters.penguinSpread); // skip blocks 
 			float terrainHeight = terrain->heightmap[i][j];
-			if (terrainHeight >= -0.1 && noiseVal > parameters.penguinFrequency && rand() % parameters.penguinDensity == 0 && penguinCtr < parameters.penguinCap)
+			if (terrainHeight >= -0.1 && noiseVal > parameters.penguinFrequency && rand() % (int) parameters.penguinDensity == 0 && penguinCtr < parameters.penguinCap)
 			{
 				PenguinModel* penguino = new PenguinModel();
 				penguino->translate(i - Terrain::SIZE / 2, terrainHeight + 0.5f, j - Terrain::SIZE / 2);
@@ -229,14 +229,20 @@ void WorldModel::updateParameters()
 {
 	for (auto it = children.begin(); it != children.end(); it++)
 		delete *it;
+	
+	for (auto it = models.begin(); it != models.end(); it++)
+		delete *it;
 
+	this->models.clear();
 	this->children.clear();
+	this->penguinos.clear();
 
+	delete plane;
 	plane = new WaterModel();
 	plane->translate(0, parameters.waterHeight, 0);
 	addChild(plane);
 
-
+	delete terrain;
 	terrain = new Terrain(&parameters);
 	terrain->translate(-50, 0, -50);
 	addChild(terrain);
