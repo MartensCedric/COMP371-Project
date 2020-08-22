@@ -454,10 +454,6 @@ StonehengeModel::StonehengeModel() {
 	GLuint rockTextureID = loadTexture("../Assets/Textures/rock.jpg");
 	GLuint snowTextureID = loadTexture("../Assets/Textures/snow.jpg");
 
-	collider = new BoxCollider();
-	collider->height = 100;
-	collider->width = 50;
-	collider->length = 50;
 
 	//Letters and Numbers
 	SimpleModel* stoneHenge = new SimpleModel();
