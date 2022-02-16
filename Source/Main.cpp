@@ -12,7 +12,7 @@
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // needed for transformation of matrices
 
-#define SHOW_GUI 1
+#define SHOW_GUI 0
 
 #if SHOW_GUI == 1
 #include <nanogui/nanogui.h>
