@@ -3,6 +3,13 @@ Git Repository for the project
 
 ## Linux
 
+```
+cp ThirdParty/stb_image.h /usr/local/include/stb_image.h
+cd Source/
+make
+```
+
+
 This project only builds on Linux and is kind of complicated. If you want to build it on your machine. Please email
 the team, we will provide the steps to build as well as the libraries. You can build on Windows but you must turn the macro
 SHOW_GUI to 0 and you won't be able to show the GUI.
